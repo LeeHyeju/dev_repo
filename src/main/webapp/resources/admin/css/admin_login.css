@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* ------------------------------------------
+* Filename: admin_login.css
+* Description: admin login style
+* Author: Fu:z
+------------------------------------------ */
+
+/* font
+------------------------------------------ */
+@font-face{
+	font-family:'Nanum Gothic'; src:url('../../font/NanumGothic.eot');src:local('?'),url('../../font/NanumGothic.woff') format('woff'),url('../../font/NanumGothic.ttf') format('truetype')}
+@font-face{
+	font-family: 'nanum_b'; src:url('../../font/NanumGothicBold.eot');src:local('?'),url('../../font/NanumGothicBold.woff') format('woff'),url('../../font/NanumGothicBold.ttf') format('truetype')}
+
+
+/* reset 
+------------------------------------------ */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+button{cursor:pointer}
+h1,h2,h3,h4,h5,h6,strong{font-weight:normal}
+/* HTML5 display-role reset for older browsers */
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+html,body{height:100%}
+ol,ul{list-style:none}
+blockquote,q{quotes:'none'}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:'none'}
+table{border-collapse:collapse;border-spacing:0; empty-cells:show; table-layout:fixed}
+caption{visibility:hidden;font-size:0;line-height:0;text-indent:-5000px}
+a{color:#606060;text-decoration:none}
+a:hover{text-decoration:underline}
+body, select[class*='sel_type_'], input[class*='input_type_'], textarea[class*='textarea_']{color:#606060; font-family:'나눔고딕','Nanum Gothic','돋움',Dotum,Helvetica,Sans-serif;}
+body{min-width:1070px;font-size:14px;line-height:normal}
+.blind, legend{width:0; height:0; position:absolute; top:-9999em; left:-9999em; visibility:hidden}
+img{vertical-align:middle}
+
+
+/* admin login */
+#admin_login_wrap{position:absolute; top:50%; left:50%; margin:-153px 0 0 -380px; width:760px; height:306px}
+#admin_login_wrap .msg{margin:10px 0 15px; color:#222; font-size:14px; font-family: 'nanum_b'}
+#admin_login_wrap .msg span{color:#009696}
+#admin_login_wrap .login_box{padding:10px; background:url('../img/common/bg_repeat_01.gif') 0 0 repeat}
+#admin_login_wrap .login_box > .inner{background-color:#fff}
+
+.login_box .login_field{position:relative; margin:0 auto; padding:60px 0 50px; width:337px; font-size:13px}
+.login_box .login_field [class^='input_type_']{margin-bottom:10px; border:1px solid #d9d9d9; padding:0 5px; height:32px; line-height:32px; vertical-align:middle; width:196px}
+.login_box .login_field .input_type_id{background:url('../img/common/txt_id.gif') 5px 50% no-repeat}
+.login_box .login_field .input_type_pw{background:url('../img/common/txt_pw.gif') 5px 50% no-repeat}
+.login_box .login_field input.focus{background-image:none}
+.login_box .login_field .btn_login{position:absolute; top:60px; right:0; font-family:'nanum_b'; width:120px; height:78px; line-height:78px; font-size:20px; color:#fff; text-align:center; background-color:#009696}
+.login_box .login_field a:hover{text-decoration:none}

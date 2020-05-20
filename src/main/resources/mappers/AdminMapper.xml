@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.dev.mapper.AdminMapper">
+
+	<select id="getList"  resultType="Admin">
+		SELECT
+				admId
+			    ,pw
+			    ,nm
+				,admGroCd
+			    ,tel
+			    ,email
+			    ,regId
+			    ,regDt
+			    ,delYn
+			    ,useYn
+		FROM
+		  	 	tb_admin 
+		ORDER BY 
+				regDt desc 
+	</select>
+
+</mapper>
