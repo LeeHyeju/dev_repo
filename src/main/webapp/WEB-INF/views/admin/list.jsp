@@ -14,7 +14,6 @@
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/board/"><span>게시판관리</span></a><span>게시물관리</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
-	
 	<div class="subcontent_wrap">
 		<div class="subcontent_inner">
 			<div class="subcontent">
@@ -46,20 +45,21 @@
 						<colgroup>
 							<col style="width:8%" />
 							<col style="width:8%" />
+							<col style="width:10%" />
+							<col style="width:10%" />
 							<col style="width:8%" />
 							<col style="width:8%" />
 							<col style="width:8%" />
-							<col style="width:8%" />
-							<col style="width:8%" />
-							<col style="width:20%" />
-							<col style="width:12%" />
+							<col style="width:10%" />
+							<col style="width:7%" />
+							<col style="width:7%" />
 						</colgroup>
 						<thead>
 						<tr>
-							<th>관리자아이디</th>
-							<th>관리자 비번</th>
-							<th>관리자 이름</th>
-							<th>관리자그룹코드</th>
+							<th>아이디</th>
+							<th>비밀번호</th>
+							<th>이름</th>
+							<th>그룹코드</th>
 							<th>연락처</th>
 							<th>이메일</th>
 							<th>등록자</th>
@@ -71,9 +71,9 @@
 						<tbody>
 						<c:forEach var="admin" items="${list}">
 						<tr>
-								<td>${admin.admId}</td>
+								<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
 								<td>${admin.pw}</td>
-								<td class="list_title">${admin.nm}</td>
+								<td>${admin.nm}</td>
 								<td>${admin.admGroCd}</td>
 								<td>${admin.tel}</td>
 								<td>${admin.email}</td>
@@ -83,9 +83,11 @@
 								<td>${admin.useYn}</td>
 							</tr>
 				     	</c:forEach>
+				     	<c:if test="${empty list}">
 						<tr>
 							<td colspan="10" class="no-data">게시물이 없습니다.</td>
 						</tr>
+						</c:if>
 						</tbody>
 					</table> <!-- //boardType01_tblList -->
 					

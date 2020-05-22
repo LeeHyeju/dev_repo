@@ -21,5 +21,84 @@
 		ORDER BY 
 				regDt desc 
 	</select>
-
+	
+	<select id="view"  resultType="Admin">
+		SELECT
+				admId
+			    ,pw
+			    ,nm
+				,admGroCd
+			    ,tel
+			    ,email
+			    ,regId
+			    ,regDt
+			    ,delYn
+			    ,useYn
+		FROM
+		  	 	tb_admin 
+		WHERE  
+				admId = #{admId} 
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO 
+			tb_admin
+				(
+				admId
+				,pw
+				,nm
+				,admGroCd
+				,tel
+				,email
+				,regId
+			    ,regDt
+			    ,delYn
+			    ,useYn
+				 )
+		VALUES
+				(
+				#{admId}
+				,#{pw}
+				,#{nm}
+				,#{admGroCd}
+				,#{tel}
+				,#{email}
+				,#{regId}
+				,now()
+				)
+	</insert>
+	
+	<update id="update" parameterType="Admin">
+		UPDATE 
+			tb_admin
+		SET	
+			pw = #{pw}
+			,nm = #{nm}
+			,admGroCd = #{admGroCd}
+			,tel = #{tel}
+			,email = #{email}
+		WHERE 
+			admId = #{admId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE 
+		FROM 
+			tb_admin
+		WHERE 
+			admId = #{admId}
+	</delete>
+	
+	
+	<select id="login"  resultType="Admin">
+		SELECT
+				admId
+			    ,nm
+		FROM
+		  	 	tb_admin 
+		WHERE admId = #{admId}  
+			AND pw = #{pw}	 	
+	</select>
+	
+	
 </mapper>
