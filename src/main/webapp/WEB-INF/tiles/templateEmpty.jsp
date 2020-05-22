@@ -1,20 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>제목</title>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-<body>
-    <div id="main"><tiles:insertAttribute name="body" /></div>
-        
-    <script type="text/javascript">
-        $(function() {
-                  
-        });     
-    </script>    
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />	
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 관리</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/css/master.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/css/admin_login.css" type="text/css" media="screen, projection">
+		<!--[if IE]>
+		<link rel="stylesheet" href="resources/css/ie.css" 
+			type="text/css" media="screen, projection">
+		<![endif]-->
+
+		<style>
+	
+		</style>
+		<script>
+		
+		</script>
+	</head>
+<body class="empty">
+	<div id="container">
+		<tiles:insertAttribute name="body" />
+	</div>
 </body>
 </html>

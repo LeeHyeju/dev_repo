@@ -18,6 +18,23 @@ public class AdminService {
 		return mapper.getList();
 	}
 
+	public Admin view(String admId) {
+		return mapper.view(admId);
+	}
+	
+	public String insert(Admin admin) {
+		return mapper.insert(admin);
+	}
+	
+	public String update(Admin admin) {
+		return mapper.update(admin);
+	}
 
-
+	public String delete(String admId) {
+		return mapper.delete(admId);
+	}	
+	
+	public Admin login(Admin admin) {
+		return mapper.login(admin);
+	}
 }

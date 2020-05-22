@@ -8,15 +8,22 @@
 		
 		<div class="topmenu">
 			<ul class="utility clearfix">
-				<li><a href="${pageContext.request.contextPath}/manage/writ">이혜주 님</a></li>
+				<li><a href="${pageContext.request.contextPath}/manage/writ">${sessionScope.admin.nm } 님</a></li>
 				<li class="bar">|</li>
-				<li><a href="${pageContext.request.contextPath}/login/logout/">로그아웃</a></li>
+				<c:choose>
+					<c:when test="${sessionScope.admin.nm ne null }">
+						<li><a href="${pageContext.request.contextPath}/admin/logout">로그아웃</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${pageContext.request.contextPath}/admin/login/">로그인</a></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div> <!-- //topmenu -->
 		
 		<div id="nav"> 
 			<ul class="gnb clearfix">
-				<li><a href="${pageContext.request.contextPath}/member/">관리자관리</a></li>
+				<li><a href="${pageContext.request.contextPath}/admin/list">관리자관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">공통관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">게시판관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">컨텐츠관리</a></li>

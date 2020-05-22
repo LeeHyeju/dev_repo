@@ -10,5 +10,15 @@ import com.spring.dev.domain.Admin;
 public interface AdminMapper {
 	
 	public List<Admin> getList();
+	
+	public Admin view(String admId);
+
+	public String insert(Admin admin);
+	
+	public String update(Admin admin);
+
+	public String delete(String admId);
+
+	public Admin login(Admin admin);
 
 }
