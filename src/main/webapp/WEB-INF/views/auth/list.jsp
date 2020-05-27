@@ -19,7 +19,7 @@
 			<div class="subcontent">
 				
 				<div class="subcontent_title_wrap">
-					<h3 class="subcontent_title">관 리 자 관 리</h3>
+					<h3 class="subcontent_title">권 한 관 리</h3>
 					<p class="subcontent_desc">.</p>
 				</div> <!-- //subcontent_title_wrap -->
 						
@@ -56,31 +56,19 @@
 						</colgroup>
 						<thead>
 						<tr>
-							<th>아이디</th>
-							<th>비밀번호</th>
-							<th>이름</th>
-							<th>그룹코드</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>등록자</th>
-							<th>등록일</th>
-							<th>삭제유무</th>
-							<th>사용유무</th>
+							<th>권한코드</th>
+							<th>권한이름</th>
+							<th>작성자</th>
+							<th>작성일</th>
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="admin" items="${list}">
+						<c:forEach var="auth" items="${list}">
 						<tr>
-								<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
-								<td>${admin.pw}</td>
-								<td>${admin.nm}</td>
-								<td>${admin.authCd}</td>
-								<td>${admin.tel}</td>
-								<td>${admin.email}</td>
-								<td class="t-gray">${admin.regId}</td>
-								<td><fmt:formatDate value="${admin.regDt}" pattern="yyyy.MM.dd"/></td>
-								<td>${admin.delYn}</td>
-								<td>${admin.useYn}</td>
+								<td><a href="/auth/view?admId=${auth.authCd}">${auth.authCd}</a></td>
+								<td>${auth.authNm}</td>
+								<td class="t-gray">${auth.regId}</td>
+								<td><fmt:formatDate value="${auth.regDt}" pattern="yyyy.MM.dd"/></td>
 							</tr>
 				     	</c:forEach>
 				     	<c:if test="${empty list}">

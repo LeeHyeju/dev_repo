@@ -34,14 +34,20 @@ public class AdminController {
     
     @RequestMapping(value = {"/view"})
 	public String view(HttpServletRequest request,  String admId, Model model) {
-
+    	logger.info("AdminController_ view");
     	model.addAttribute("view", service.view(admId));
 		return "admin/view.page";
 	}
     
-    @RequestMapping(value = {"/insert"})
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
 	public String insert(HttpServletRequest request, Admin admin, Model model) {
-    	
+    	logger.info("AdminController_ insert");
+		return "/admin/insert.page";
+	}
+    
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
+	public String insertProcess(HttpServletRequest request, Admin admin, Model model) {
+    	logger.info("AdminController_ insertProcess");
 		return service.insert(admin);
 	}
 

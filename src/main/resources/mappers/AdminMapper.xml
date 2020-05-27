@@ -9,7 +9,7 @@
 				admId
 			    ,pw
 			    ,nm
-				,admGroCd
+				,authCd
 			    ,tel
 			    ,email
 			    ,regId
@@ -27,7 +27,7 @@
 				admId
 			    ,pw
 			    ,nm
-				,admGroCd
+				,authCd
 			    ,tel
 			    ,email
 			    ,regId
@@ -47,20 +47,18 @@
 				admId
 				,pw
 				,nm
-				,admGroCd
+				,authCd
 				,tel
 				,email
 				,regId
 			    ,regDt
-			    ,delYn
-			    ,useYn
 				 )
 		VALUES
 				(
 				#{admId}
 				,#{pw}
 				,#{nm}
-				,#{admGroCd}
+				,#{authCd}
 				,#{tel}
 				,#{email}
 				,#{regId}
@@ -74,7 +72,7 @@
 		SET	
 			pw = #{pw}
 			,nm = #{nm}
-			,admGroCd = #{admGroCd}
+			,authCd = #{authCd}
 			,tel = #{tel}
 			,email = #{email}
 		WHERE 

@@ -23,7 +23,7 @@ public class ErrorController {
     public ModelAndView error(HttpServletRequest request, @PathVariable String error_code) {
         ModelAndView mv = new ModelAndView("/error");
         String msg = (String) request.getAttribute("javax.servlet.error.message"); 
-        logger.info("ddddddddddddddddddddddddddddddddddddddddddddddd");
+        logger.info("에러가 났습니다!! 빨리 에러 확인ㄱㄱ!!!");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("STATUS_CODE", request.getAttribute("javax.servlet.error.status_code"));
         map.put("REQUEST_URI", request.getAttribute("javax.servlet.error.request_uri"));

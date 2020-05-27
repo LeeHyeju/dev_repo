@@ -10,7 +10,7 @@ public class Admin implements Serializable {
 	private String admId;
 	private String pw;
 	private String nm;
-	private String admGroCd;
+	private String authCd;
 	private String tel;
 	private String email;
 	private String regId;
@@ -37,11 +37,11 @@ public class Admin implements Serializable {
 	public void setNm(String nm) {
 		this.nm = nm;
 	}
-	public String getAdmGroCd() {
-		return admGroCd;
+	public String getauthCd() {
+		return authCd;
 	}
-	public void setAdmGroCd(String admGroCd) {
-		this.admGroCd = admGroCd;
+	public void setauthCd(String authCd) {
+		this.authCd = authCd;
 	}
 	public String getTel() {
 		return tel;
@@ -85,7 +85,7 @@ public class Admin implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Admin [admId=" + admId + ", pw=" + pw + ", nm=" + nm + ", admGroCd=" + admGroCd + ", tel=" + tel
+		return "Admin [admId=" + admId + ", pw=" + pw + ", nm=" + nm + ", authCd=" + authCd + ", tel=" + tel
 				+ ", email=" + email + ", regId=" + regId + ", regDt=" + regDt + ", delYn=" + delYn + ", useYn=" + useYn
 				+ "]";
 	}

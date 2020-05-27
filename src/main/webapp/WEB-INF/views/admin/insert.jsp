@@ -24,7 +24,7 @@
 					<form name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
-							<caption class="boardType01_cpt"><span class="t-hidden"> 등록</span></caption>
+							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;" />
 								<col />
@@ -39,7 +39,8 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.admId }
+											<input type="text" name="admId" id="admId" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<button type="button" id="btn_overlap" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
 										</div>
 									</td>
 								</tr>
@@ -52,7 +53,20 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.pw }
+											<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">비밀번호확인</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
 										</div>
 									</td>
 								</tr>
@@ -65,7 +79,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.nm }
+											<input type="text" name="nm" id="nm" class="input_textN" style="width:200px;" maxlength="10" value="" />
 										</div>
 									</td>
 								</tr>
@@ -136,31 +150,7 @@
 											<fmt:formatDate value="${view.regDt}" pattern="yyyy.MM.dd"/>
 										</div>
 									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											수정여부
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											${view.delYn }
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											삭제여부
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											${view.useYn }
-										</div>
-									</td>
-								</tr>
+								</tr>	
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->

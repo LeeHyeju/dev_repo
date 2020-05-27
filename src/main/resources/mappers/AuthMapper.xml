@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.dev.mapper.AuthMapper">
+
+	<select id="getAuth" resultType="Auth">
+		SELECT
+				authCd
+			    ,authNm
+			    ,regId
+			    ,regDt
+		FROM
+		  	 	tb_auth 
+		ORDER BY 
+				regDt desc 
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO 
+			tb_auth
+				(
+				authCd
+			    ,authNm
+			    ,regId
+			    ,regDt
+				 )
+		VALUES
+				(
+				#{authCd}
+				,#{authNm}
+				,#{regId}
+				,now()
+				)
+	</insert>
+</mapper>

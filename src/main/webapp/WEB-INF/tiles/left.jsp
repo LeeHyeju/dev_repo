@@ -10,7 +10,7 @@
 	<h2 class="lnb_title"><span>관리자관리</span></h2>
 		<ul id="lnb">
 			<li  class="current opened"><a href="${pageContext.request.contextPath}/admin/list">관리자정보관리</a></li>
-			<li  class="current"><a href="${pageContext.request.contextPath}/member/info">권한관리</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/auth/list">권한관리</a></li>
 		</ul>
 	<h2 class="lnb_title"><span>공통관리</span></h2>
 		<ul id="lnb">

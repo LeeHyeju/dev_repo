@@ -5,8 +5,11 @@
 <configuration>
 	 <typeAliases>
             <typeAlias type="com.spring.dev.domain.Admin" alias="Admin"/>
-        </typeAliases>
+            <typeAlias type="com.spring.dev.domain.Auth" alias="Auth"/>
+            <typeAlias type="com.spring.dev.domain.AuthMenu" alias="AuthMenu"/>
+     </typeAliases>
 </configuration> 
+
 
 
 
