@@ -43,16 +43,16 @@
 					<table id="boardTable" class="boardType01_tblList" cellspacing="0">
 						<caption><span class="t-hidden">X 게시판</span></caption>
 						<colgroup>
-							<col style="width:8%" />
-							<col style="width:8%" />
-							<col style="width:10%" />
-							<col style="width:10%" />
-							<col style="width:8%" />
-							<col style="width:8%" />
-							<col style="width:8%" />
-							<col style="width:10%" />
 							<col style="width:7%" />
 							<col style="width:7%" />
+							<col style="width:7%" />
+							<col style="width:8%" />
+							<col style="width:15%" />
+							<col style="width:15%" />
+							<col style="width:8%" />
+							<col style="width:10%" />
+							<col style="width:8%" />
+							<col style="width:8%" />
 						</colgroup>
 						<thead>
 						<tr>

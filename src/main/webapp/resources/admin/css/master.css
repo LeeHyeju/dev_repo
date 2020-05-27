@@ -423,6 +423,8 @@ a.btnTxt_dark:link, a.btnTxt_dark:visited, a.btnTxt_dark:active, a.btnTxt_dark:h
 .sub .boardType01_tbl .termN {overflow-y:scroll; border:1px solid #dbdbdb; height:106px; line-height:18px; padding:10px; color:#999;}
 .sub .boardType01_tbl .termN_check {margin-top:10px;}
 
+.sub .boardType01_tbl .boardType01_cpt {margin:0 !important;padding:0 !important;}
+
 .sub .boardType01_innerTbl {width:100%; table-layout:fixed;}
 .sub .boardType01_innerTbl th,
 .sub .boardType01_innerTbl td {padding-top:11px; padding-bottom:10px; border-bottom:1px solid #dbdbdb;}
