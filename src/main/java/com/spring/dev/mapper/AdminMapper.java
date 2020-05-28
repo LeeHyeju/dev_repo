@@ -13,7 +13,7 @@ public interface AdminMapper {
 	
 	public Admin view(String admId);
 
-	public String insert(Admin admin);
+	public int insert(Admin admin);
 	
 	public String update(Admin admin);
 

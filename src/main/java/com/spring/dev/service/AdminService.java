@@ -22,7 +22,7 @@ public class AdminService {
 		return mapper.view(admId);
 	}
 	
-	public String insert(Admin admin) {
+	public int insert(Admin admin) {
 		return mapper.insert(admin);
 	}
 	

@@ -16,6 +16,18 @@
 				regDt desc 
 	</select>
 	
+	<select id="view"  resultType="Auth">
+		SELECT
+				authCd
+			    ,authNm
+			    ,regId
+			    ,regDt
+		FROM
+		  	 	tb_auth 
+		WHERE  
+				authCd = #{authCd} 
+	</select>
+	
 	<insert id="insert" >
 		INSERT INTO 
 			tb_auth
@@ -33,4 +45,25 @@
 				,now()
 				)
 	</insert>
+	
+	<update id="update" parameterType="Auth">
+		UPDATE 
+			tb_auth
+		SET	
+			pw = #{pw}
+			,nm = #{nm}
+			,authCd = #{authCd}
+			,tel = #{tel}
+			,email = #{email}
+		WHERE 
+			admId = #{admId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE 
+		FROM 
+			tb_auth
+		WHERE 
+			authCd = #{authCd}
+	</delete>
 </mapper>

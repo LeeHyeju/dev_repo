@@ -42,13 +42,14 @@ public class AdminController {
     @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
 	public String insert(HttpServletRequest request, Admin admin, Model model) {
     	logger.info("AdminController_ insert");
-		return "/admin/insert.page";
+		return "admin/insert.page";
 	}
     
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
 	public String insertProcess(HttpServletRequest request, Admin admin, Model model) {
     	logger.info("AdminController_ insertProcess");
-		return service.insert(admin);
+		service.insert(admin);
+		return "redirect:/admin/list";
 	}
 
     @RequestMapping(value = {"/update"})

@@ -48,11 +48,6 @@
 							<col style="width:7%" />
 							<col style="width:8%" />
 							<col style="width:15%" />
-							<col style="width:15%" />
-							<col style="width:8%" />
-							<col style="width:10%" />
-							<col style="width:8%" />
-							<col style="width:8%" />
 						</colgroup>
 						<thead>
 						<tr>
@@ -97,7 +92,7 @@
 					</div>
 		
 					<div class="boardType01_list_btn">
-						<a href="${pageContext.request.contextPath}/admin/insert" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/auth/insert" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

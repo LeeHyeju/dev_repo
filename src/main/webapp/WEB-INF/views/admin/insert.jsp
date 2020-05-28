@@ -109,7 +109,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.tel }
+											<input type="text" name="tel" id="tel" class="input_textN" style="width:200px;" maxlength="11" value="" />
 										</div>
 									</td>
 								</tr>
@@ -121,7 +121,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.email }
+											<input type="text" name="email" id="email" class="input_textN" style="width:200px;" maxlength="50" value="" />
 										</div>
 									</td>
 								</tr>
@@ -134,23 +134,10 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.regId }
+											${sessionScope.admin.nm } ( ${sessionScope.admin.admId } )
 										</div>
 									</td>
 								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">작성일</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<fmt:formatDate value="${view.regDt}" pattern="yyyy.MM.dd"/>
-										</div>
-									</td>
-								</tr>	
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
