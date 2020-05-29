@@ -8,14 +8,14 @@
 function fn_update(){
 	    var form = document.getElementById("viewFrm");
 	    form.method = "post";
-	    form.action = "<c:url value='/auth/delete'/>";
+	    form.action = "<c:url value='/auth/update'/>";
 	    form.submit();
 }
 
 /*삭제*/
 function fn_delete(){
     var form = document.getElementById("viewFrm");
-    form.method = "get";
+    form.method = "post";
     form.action = "<c:url value='/auth/delete'/>";
     form.submit();
 }
@@ -107,8 +107,8 @@ function fn_delete(){
 					</form>
 						
 					<div class="boardType01_write_btn">
-						<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray"><span>수정</span></button>
-						<button type="submit" onClick='fn_delete()' id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray" onClick='fn_update()' ><span>수정</span></button>
+						<button type="submit" id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray" onClick='fn_delete()'><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/auth/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->

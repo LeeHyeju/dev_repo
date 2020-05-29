@@ -26,12 +26,12 @@ public class AuthService {
 		return mapper.insert(auth);
 	}
 	
-	public String update(Auth auth) {
-		return mapper.update(auth);
+	public void update(Auth auth) {
+		mapper.update(auth);
 	}
 
-	public int delete(String authCd) {
-		return mapper.delete(authCd);
+	public void delete(String authCd) {
+		mapper.delete(authCd);
 	}	
 	
 }

@@ -61,10 +61,9 @@ public class AuthController {
 		return "redirect:/auth/list";
 	}
 
-    @RequestMapping(value = {"/delete"})
+    @RequestMapping(value = {"/delete"} , method = RequestMethod.POST)
 	public String delete(HttpServletRequest request, String authCd,  Model model) {
-    	logger.info("AuthController delete" + authCd);
-    	
+    	logger.info("AuthController delete _ authCd : " + authCd);
     	service.delete(authCd);
 		return "redirect:/auth/list";
 	}

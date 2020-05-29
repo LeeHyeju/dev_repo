@@ -50,16 +50,12 @@
 		UPDATE 
 			tb_auth
 		SET	
-			pw = #{pw}
-			,nm = #{nm}
-			,authCd = #{authCd}
-			,tel = #{tel}
-			,email = #{email}
+			authNm = #{authNm}
 		WHERE 
-			admId = #{admId}
+			authCd = #{authCd}
 	</update>
 	
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="String">
 		DELETE 
 		FROM 
 			tb_auth
