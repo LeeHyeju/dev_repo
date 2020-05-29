@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dev.mapper.CmnCdMapper">
+	<select id="getCmnCd" resultType="CmnCd">
+		SELECT
+				 groCd
+			    ,groNm
+			    ,cmnCd
+			    ,cmnNm
+			    ,regId
+			    ,regDt
+			    ,useYn
+		FROM
+		  	 	tb_cmn_cd
+		ORDER BY 
+				regDt desc 
+	</select>
+</mapper>

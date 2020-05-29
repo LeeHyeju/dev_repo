@@ -7,6 +7,8 @@
             <typeAlias type="com.spring.dev.domain.Admin" alias="Admin"/>
             <typeAlias type="com.spring.dev.domain.Auth" alias="Auth"/>
             <typeAlias type="com.spring.dev.domain.AuthMenu" alias="AuthMenu"/>
+            <typeAlias type="com.spring.dev.domain.CmnCd" alias="CmnCd"/>
+            <typeAlias type="com.spring.dev.domain.IntrBrd" alias="IntrBrd"/>
      </typeAliases>
 </configuration> 
 

@@ -14,10 +14,13 @@
 		</ul>
 	<h2 class="lnb_title"><span>공통관리</span></h2>
 		<ul id="lnb">
-			<li  class="current"><a href="${pageContext.request.contextPath}/member/info">코드관리</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/cmnCd/cmn_cd">코드관리</a></li>
 		</ul>
 	<h2 class="lnb_title"><span>게시판관리</span></h2>
 		<ul id="lnb">
-			<li  class="current"><a href="${pageContext.request.contextPath}/member/info">통합게시판관리</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/info">통합게시판관리</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd">통합게시판(게시판형)</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_qna">통합게시판(질문형)</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal">통합게시판(갤러리형)</a></li>
 		</ul>
 </div> <!-- //aside -->
