@@ -46,6 +46,26 @@
 	    FROM tb_cmn_cd
 	</select>
 	
+	<select id="listCount2" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_cmn_cd
+	    	WHERE 	groCd LIKE '%${groCd}%' 
+			 		AND groNm LIKE '%${groNm}%'
+			 		AND cmnCd LIKE '%${cmnCd}%'
+			   		AND cmnNm LIKE '%${cmnNm}%'
+				 	AND useYn LIKE '%${useYn}%'
+	</select>
+	
+	<select id="search" resultType="CmnCd" parameterType="CmnCd">
+	  	  SELECT *
+	  	  FROM tb_cmn_cd
+ 			WHERE 	groCd LIKE '%${groCd}%' 
+			 		AND groNm LIKE '%${groNm}%'
+			 		AND cmnCd LIKE '%${cmnCd}%'
+			   		AND cmnNm LIKE '%${cmnNm}%'
+				 	AND useYn LIKE '%${useYn}%'
+	</select>
+	
 	<insert id="insert" >
 		INSERT INTO 
 			tb_cmn_cd (

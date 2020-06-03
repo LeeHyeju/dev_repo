@@ -16,7 +16,7 @@ function fn_reset(){
 function fn_srch(){
 	var form = document.getElementById("viewFrm");
     form.method = "get";
-    form.action = "<c:url value='/cmnCd/cmn_cd'/>";
+    form.action = "<c:url value='/cmnCd/search'/>";
     form.submit();
 }
 </script>
@@ -134,15 +134,15 @@ function fn_srch(){
 						<div class="pagination">
 						  <ul>
 						    <c:if test="${pageMaker.prev}">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
 						    </c:if> 
 						
 						    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeQuery(idx)}">${idx}</a></li>
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
 						    </c:forEach>
 						
 						    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
 						    </c:if> 
 						  </ul>
 						</div>

@@ -17,4 +17,10 @@ public interface CmnCdMapper {
 	
 	// 게시물 총 갯수
 	public int listCount();
+	
+	// 게시물 총 갯수
+	public int listCount2();
+	
+	// 게시물 검색
+	public List<CmnCd> search(CmnCd cmnCd);
 }

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.dev.domain.CmnCd;
-import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.PageMaker;
+import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.service.CmnCdService;
 
 @Controller
@@ -47,12 +47,23 @@ public class CmnCdController {
 	}
     
 	@RequestMapping(value = "/cmn_cd", method = RequestMethod.GET)
-	public String list(Model model, Criteria cri) throws Exception{
+	public String list(Model model, SearchCriteria scri) throws Exception{
 		logger.info("list");
-		model.addAttribute("list", service.getCmnCd(cri));
+		model.addAttribute("list", service.getCmnCd(scri));
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
+		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		return "cmnCd/cmn_cd.page";
+	}
+	
+    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+	public String search(HttpServletRequest request, CmnCd cmnCd, Model model, SearchCriteria scri) {
+    	logger.info("AuthController update");
+    	model.addAttribute("list", service.search(cmnCd));
+    	PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount2());
 		model.addAttribute("pageMaker", pageMaker);
 		return "cmnCd/cmn_cd.page";
 	}
