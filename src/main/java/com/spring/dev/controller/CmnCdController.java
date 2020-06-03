@@ -1,5 +1,7 @@
 package com.spring.dev.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.spring.dev.domain.Admin;
+import com.spring.dev.domain.CmnCd;
+import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.PageMaker;
 import com.spring.dev.service.CmnCdService;
 
 @Controller
@@ -21,16 +25,35 @@ public class CmnCdController {
 	@Autowired
 	CmnCdService service;
 	
-    @RequestMapping(value = {"/cmn_cd"})
-	public String getCmnCd(HttpServletRequest request,  Model model) {
-    	logger.info("CmnController list");
-    	model.addAttribute("list", service.getCmnCd());
-		return "cmnCd/cmn_cd.page";
-	}
+//    @RequestMapping(value = {"/cmn_cd"})
+//	public String getCmnCd(HttpServletRequest request,  Model model, Criteria cri) {
+//    	logger.info("CmnController list");
+//    	model.addAttribute("list", service.getCmnCd(cri));
+//		return "cmnCd/cmn_cd.page";
+//	}
     
     @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
-	public String insert(HttpServletRequest request, Model model) {
+	public String insert(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
+    	request.setCharacterEncoding("UTF-8");
     	logger.info("CmnCdController insert");
-		return "/cmnCd/insert.page";
+		return "cmnCd/insert.page";
+	}
+    
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
+	public String insertProcess(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
+    	logger.info("CmnCdController insert");
+    	model.addAttribute("insert", service.insert(cmnCd));
+    	return "redirect:/cmnCd/cmn_cd";
+	}
+    
+	@RequestMapping(value = "/cmn_cd", method = RequestMethod.GET)
+	public String list(Model model, Criteria cri) throws Exception{
+		logger.info("list");
+		model.addAttribute("list", service.getCmnCd(cri));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		return "cmnCd/cmn_cd.page";
 	}
 }

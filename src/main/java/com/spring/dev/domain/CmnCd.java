@@ -13,6 +13,7 @@ public class CmnCd {
 	private String regId;
 	private Date regDt;
 	private String useYn;
+	private int arayOrde;
 	
 	public String getGroCd() {
 		return groCd;
@@ -56,12 +57,18 @@ public class CmnCd {
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
+	public int getArayOrde() {
+		return arayOrde;
+	}
+	public void setArayOrde(int arayOrde) {
+		this.arayOrde = arayOrde;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	@Override
 	public String toString() {
 		return "CmnCd [groCd=" + groCd + ", groNm=" + groNm + ", cmnCd=" + cmnCd + ", cmnNm=" + cmnNm + ", regId="
-				+ regId + ", regDt=" + regDt + ", useYn=" + useYn + "]";
+				+ regId + ", regDt=" + regDt + ", useYn=" + useYn + ", arayOrde=" + arayOrde + "]";
 	}
 }

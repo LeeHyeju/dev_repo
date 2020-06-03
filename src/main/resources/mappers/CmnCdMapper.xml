@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.CmnCdMapper">
-	<select id="getCmnCd" resultType="CmnCd">
-		SELECT
-				 groCd
+	<select id="getCmnCd" resultType="CmnCd" parameterType="com.spring.dev.domain.Criteria">
+		SELECT   groCd
 			    ,groNm
 			    ,cmnCd
 			    ,cmnNm
 			    ,regId
 			    ,regDt
 			    ,useYn
-		FROM
-		  	 	tb_cmn_cd
-		ORDER BY 
-				regDt desc 
+			    ,arayOrde
+		 FROM ( 
+		        SELECT   groCd
+					    ,groNm
+					    ,cmnCd
+					    ,cmnNm
+					    ,regId
+					    ,regDt
+					    ,useYn
+					    ,arayOrde 
+		                ,ROW_NUMBER() OVER(ORDER BY groCd ASC) AS rNum
+		         FROM tb_cmn_cd 
+		                       ) cmnCd
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY groCd ASC
 	</select>
+	
+<!-- 	<select id="getCmnCd"> -->
+<!-- 		SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, p.* -->
+<!-- 		FROM( -->
+<!-- 			SELECT * FROM tb_cmn_cd -->
+<!-- 		) -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="listCount" resultType="int"> -->
+<!-- 	<![CDATA[ -->
+<!-- 		SELECT COUNT(groCd) -->
+<!-- 		  FROM tb_cmn_cd -->
+<!-- 		 WHERE groCd > 0 -->
+<!-- 	]]> -->
+<!-- 	</select> -->
+
+	<select id="listCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_cmn_cd
+	</select>
+	
+	<insert id="insert" >
+		INSERT INTO 
+			tb_cmn_cd (
+					 groCd
+				    ,groNm
+				    ,cmnCd
+				    ,cmnNm
+				    ,regId
+				    ,regDt
+				    ,useYn
+				    ,arayOrde
+			)
+		VALUES (
+				 #{groCd}
+				,#{groNm}
+				,#{cmnCd}
+				,#{cmnNm}
+				,#{regId}
+				,now()
+				,#{useYn}
+				,#{arayOrde}
+		)
+	</insert>
 </mapper>
