@@ -15,6 +15,14 @@ public class CmnCd {
 	private String useYn;
 	private int arayOrde;
 	
+	private String rNum;
+	public String getrNum() {
+		return rNum;
+	}
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
+	
 	public String getGroCd() {
 		return groCd;
 	}
@@ -69,6 +77,6 @@ public class CmnCd {
 	@Override
 	public String toString() {
 		return "CmnCd [groCd=" + groCd + ", groNm=" + groNm + ", cmnCd=" + cmnCd + ", cmnNm=" + cmnNm + ", regId="
-				+ regId + ", regDt=" + regDt + ", useYn=" + useYn + ", arayOrde=" + arayOrde + "]";
+				+ regId + ", regDt=" + regDt + ", useYn=" + useYn + ", arayOrde=" + arayOrde + ", rNum=" + rNum + "]";
 	}
 }

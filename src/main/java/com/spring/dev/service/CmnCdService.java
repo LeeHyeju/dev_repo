@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.dev.domain.CmnCd;
+import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.CmnCdMapper;
 
@@ -22,15 +23,19 @@ public class CmnCdService {
 		return mapper.listCount();
 	}
 	
-	public int listCount2() {
-		return mapper.listCount2();
+	public int listCount2(CmnCd cmnCd) {
+		return mapper.listCount2(cmnCd);
 	}
 
 	public int insert(CmnCd cmnCd) {
 		return mapper.insert(cmnCd);
 	}
 	
-	public List<CmnCd> search(CmnCd cmnCd) {
-		return mapper.search(cmnCd);
+	public List<CmnCd> search(CmnCd cmnCd, Criteria cri) {
+		return mapper.search(cmnCd, cri);
+	}
+	
+	public List<CmnCd> click(String groCd, Criteria cri) {
+		return mapper.click(groCd, cri);
 	}
 }

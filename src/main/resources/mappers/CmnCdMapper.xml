@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.CmnCdMapper">
-	<select id="getCmnCd" resultType="CmnCd" parameterType="com.spring.dev.domain.Criteria">
-		SELECT   groCd
-			    ,groNm
-			    ,cmnCd
-			    ,cmnNm
-			    ,regId
-			    ,regDt
-			    ,useYn
-			    ,arayOrde
-		 FROM ( 
-		        SELECT   groCd
-					    ,groNm
-					    ,cmnCd
-					    ,cmnNm
-					    ,regId
-					    ,regDt
-					    ,useYn
-					    ,arayOrde 
-		                ,ROW_NUMBER() OVER(ORDER BY groCd ASC) AS rNum
-		         FROM tb_cmn_cd 
-		                       ) cmnCd
-		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY groCd ASC
-	</select>
+<!-- 	<select id="getCmnCd" resultType="CmnCd" parameterType="com.spring.dev.domain.Criteria"> -->
+<!-- 		SELECT   groCd -->
+<!-- 			    ,cmnCd -->
+<!-- 			    ,groNm -->
+<!-- 			    ,cmnNm -->
+<!-- 			    ,regId -->
+<!-- 			    ,regDt -->
+<!-- 			    ,useYn -->
+<!-- 			    ,arayOrde -->
+<!-- 			    ,rNum -->
+<!-- 		 FROM (  -->
+<!-- 		        SELECT   groCd -->
+<!-- 					    ,cmnCd -->
+<!-- 					    ,groNm -->
+<!-- 					    ,cmnNm -->
+<!-- 					    ,regId -->
+<!-- 					    ,regDt -->
+<!-- 					    ,useYn -->
+<!-- 					    ,arayOrde  -->
+<!-- 		                ,ROW_NUMBER() OVER(ORDER BY groCd ASC) AS rNum -->
+<!-- 		         FROM tb_cmn_cd  -->
+<!-- 		                       ) cmnCd -->
+<!-- 		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd} -->
+<!-- 		ORDER BY groCd ASC -->
+<!-- 	</select> -->
 	
 <!-- 	<select id="getCmnCd"> -->
 <!-- 		SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, p.* -->
@@ -41,37 +42,81 @@
 <!-- 	]]> -->
 <!-- 	</select> -->
 
+	<select id="getCmnCd" resultType="CmnCd" parameterType="com.spring.dev.domain.Criteria">
+		SELECT   cmnCd.*
+		FROM(
+			SELECT   cmnCd.*
+   				,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
+			FROM (SELECT DISTINCT groCd,groNm FROM tb_cmn_cd
+			) cmnCd
+		) cmnCd
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY cmnCd.groCd ASC
+	</select>
+
 	<select id="listCount" resultType="int">
 	    SELECT COUNT(*)
 	    FROM tb_cmn_cd
 	</select>
 	
-	<select id="listCount2" resultType="int">
+	<select id="listCount2" resultType="int" parameterType="CmnCd">
 	    SELECT COUNT(*)
 	    FROM tb_cmn_cd
 	    	WHERE 	groCd LIKE '%${groCd}%' 
-			 		AND groNm LIKE '%${groNm}%'
 			 		AND cmnCd LIKE '%${cmnCd}%'
+			 		AND groNm LIKE '%${groNm}%'
 			   		AND cmnNm LIKE '%${cmnNm}%'
 				 	AND useYn LIKE '%${useYn}%'
 	</select>
 	
-	<select id="search" resultType="CmnCd" parameterType="CmnCd">
-	  	  SELECT *
-	  	  FROM tb_cmn_cd
- 			WHERE 	groCd LIKE '%${groCd}%' 
-			 		AND groNm LIKE '%${groNm}%'
-			 		AND cmnCd LIKE '%${cmnCd}%'
-			   		AND cmnNm LIKE '%${cmnNm}%'
-				 	AND useYn LIKE '%${useYn}%'
+<!-- 	<select id="search" resultType="CmnCd" parameterType="CmnCd"> -->
+<!-- 	  	  SELECT DISTINCT groCd,groNm -->
+<!-- 	  	  FROM tb_cmn_cd -->
+<!--  			WHERE 	groCd LIKE '%${groCd}%'  -->
+<!-- 			 		AND cmnCd LIKE '%${cmnCd}%' -->
+<!-- 			 		AND groNm LIKE '%${groNm}%' -->
+<!-- 			   		AND cmnNm LIKE '%${cmnNm}%' -->
+<!-- 				 	AND useYn LIKE '%${useYn}%' -->
+<!-- 	</select> -->
+		
+	<select id="search" resultType="CmnCd" parameterType="CmnCd">		 	
+		SELECT   cmnCd.*
+  		FROM(
+ 				SELECT   cmnCd.*
+		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
+ 				FROM (	SELECT DISTINCT groCd,groNm
+	  	  				FROM tb_cmn_cd
+			 			WHERE 	groCd LIKE '%${cmnCd.groCd}%' 
+						 		AND cmnCd LIKE '%${cmnCd.cmnCd}%'
+						 		AND groNm LIKE '%${cmnCd.groNm}%'
+						   		AND cmnNm LIKE '%${cmnCd.cmnNm}%'
+							 	AND useYn LIKE '%${cmnCd.useYn}%'
+				) cmnCd
+		) cmnCd
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+		ORDER BY cmnCd.groCd ASC
+	</select>
+	
+	<select id="click" resultType="CmnCd" parameterType="CmnCd">		 	
+		SELECT	cmnCd.*
+  		FROM(
+				SELECT   cmnCd.*
+		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.cmnCd ASC) AS rNum
+ 				FROM (	SELECT cmnCd, cmnNm, arayOrde, useYn
+	  	  				FROM tb_cmn_cd
+ 						WHERE 	groCd LIKE '%${groCd}%'
+ 				) cmnCd
+ 		) cmnCd
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+		ORDER BY cmnCd.cmnCd ASC
 	</select>
 	
 	<insert id="insert" >
 		INSERT INTO 
 			tb_cmn_cd (
 					 groCd
-				    ,groNm
 				    ,cmnCd
+				    ,groNm
 				    ,cmnNm
 				    ,regId
 				    ,regDt
@@ -80,8 +125,8 @@
 			)
 		VALUES (
 				 #{groCd}
-				,#{groNm}
 				,#{cmnCd}
+				,#{groNm}
 				,#{cmnNm}
 				,#{regId}
 				,now()

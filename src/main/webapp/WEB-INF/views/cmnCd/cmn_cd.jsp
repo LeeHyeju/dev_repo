@@ -16,13 +16,38 @@ function fn_reset(){
 function fn_srch(){
 	var form = document.getElementById("viewFrm");
     form.method = "get";
+//     var form1 = form.getElementById("boardTable2");
+//     var form2 = form1.getElementById("groCd2");
+//     form2.innerHTML = "1231";
     form.action = "<c:url value='/cmnCd/search'/>";
+    form.submit();
+}
+/*그룹코드 행 클릭*/
+function fn_click(){
+	var form = document.getElementById("viewFrm");
+    form.method = "get";
+    var x = document.getElementById("groCd2");
+//     document.getElementById("viewFrm").elements.namedItem("groCd").innerHTML = "123";
+//     var x = document.getElementById("viewFrm").elements.namedItem("groCd").innerHTML;
+    alert(x.innerHTML);
+    
+//     document.getElementsByTagName("viewFrm").elements["groCd"].innerHTML = "2222";
+//     var x = document.getElementsByTagName("viewFrm")["groCd"];
+//  var x = document.getElementsByTagName("viewFrm").namedItem("groCd");
+//     alert(x);
+//     var form1 = form.getElementById("boardTable2");
+//     var form2 = form1.getElementById("groCd2");
+//     form2.innerHTML = "1231";
+//     document.getElementById("viewFrm").find("#groCd");
+// 	document.getElementById("groCd").innerHTML = '321';
+    form.action = "<c:url value='/cmnCd/click'/>";
     form.submit();
 }
 </script>
 
 <style type="text/css">
 	.li1 {list-style: none; float: left; padding: 6px;}
+	.hover:hover {background-color:#f5f5f5;}
 </style>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -37,19 +62,18 @@ function fn_srch(){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">공 통 코 드 관 리</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<form name="viewFrm" id="viewFrm">
 				<div class="boardType01_wrap">
-					<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span>
 					<table id="boardTable1" class="boardType01_tblList" cellspacing="0">
 						<caption><span class="t-hidden">검색</span></caption>
 						<colgroup>
-							<col style="width:10%" />
-							<col style="width:10%" />
-							<col style="width:10%" />
-							<col style="width:10%" />
+							<col style="width:10%"/>
+							<col style="width:10%"/>
+							<col style="width:10%"/>
+							<col style="width:10%"/>
 						</colgroup>
 						<tbody>
 						<tr>
@@ -83,7 +107,9 @@ function fn_srch(){
 						<button type="submit" onClick='fn_srch()' id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 					</div>
 					<div style="float:left; padding:5px 0px 15px 0px;">
-						<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span>
+						<span class="boardType01_info_top" >
+							총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
+						</span>
 						
 						<table id="boardTable2" class="boardType01_tblList" style="width:250px; height:450px">
 							<caption><span class="t-hidden">그룹코드</span></caption>
@@ -101,9 +127,9 @@ function fn_srch(){
 							</thead>
 							<tbody>
 							<c:forEach var="cmnCd" items="${list}">
-							<tr>
-									<td>1</td>
-									<td>${cmnCd.groCd}</td>
+							<tr class="hover" onClick='fn_click()'>
+									<td>${cmnCd.rNum}</td>
+									<td id="groCd2">${cmnCd.groCd}</td>
 									<td>${cmnCd.groNm}</td>
 							</tr>
 					     	</c:forEach>
@@ -115,22 +141,6 @@ function fn_srch(){
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
 						
-<!-- 						<div class="pagination"> -->
-<!-- 							<a href="#" class="first">시작</a> -->
-<!-- 							<a href="#" class="prev">다음</a> -->
-<!-- 							<a href="#" class="on">1</a> -->
-<!-- 							<a href="#">2</a> -->
-<!-- 							<a href="#">3</a> -->
-<!-- 							<a href="#">4</a> -->
-<!-- 							<a href="#">5</a> -->
-<!-- 							<a href="#">6</a> -->
-<!-- 							<a href="#">7</a> -->
-<!-- 							<a href="#">8</a> -->
-<!-- 							<a href="#">9</a> -->
-<!-- 							<a href="#">10</a> -->
-<!-- 							<a href="#" class="next">다음</a> -->
-<!-- 							<a href="#" class="last">마지막</a> -->
-<!-- 						</div> -->
 						<div class="pagination">
 						  <ul>
 						    <c:if test="${pageMaker.prev}">
@@ -149,7 +159,9 @@ function fn_srch(){
 					</div>
 					
 					<div style="float:right; padding:5px 0px 15px 0px;">
-						<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span>
+						<span class="boardType01_info_top">
+							총 <strong><c:out value="${subCount}"></c:out></strong>개의 게시물이 있습니다.
+						</span>
 						<table id="boardTable3" class="boardType01_tblList" style="width:480px; height:450px">
 							<caption><span class="t-hidden">코드</span></caption>
 							<colgroup>
@@ -171,9 +183,9 @@ function fn_srch(){
 							</tr>
 							</thead>
 							<tbody>
-							<c:forEach var="cmnCd" items="${list}">
+							<c:forEach var="cmnCd" items="${subList}">
 							<tr>
-									<td>1</td>
+									<td>${cmnCd.rNum}</td>
 									<td>${cmnCd.cmnCd}</td>
 									<td>${cmnCd.cmnNm}</td>
 									<td>${cmnCd.arayOrde}</td>
@@ -181,7 +193,7 @@ function fn_srch(){
 									<td>편집</td>
 							</tr>
 					     	</c:forEach>
-					     	<c:if test="${empty list}">
+					     	<c:if test="${empty subList}">
 							<tr>
 								<td colspan="10" class="no-data">게시물이 없습니다.</td>
 							</tr>
