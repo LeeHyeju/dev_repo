@@ -12,6 +12,15 @@ public class IntrBrd {
 	private String regId;
 	private Date regDt;
 	private String useYn;
+	
+	private String rNum;
+	public String getrNum() {
+		return rNum;
+	}
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
+	
 	public String getBoardIdx() {
 		return boardIdx;
 	}
@@ -60,6 +69,7 @@ public class IntrBrd {
 	@Override
 	public String toString() {
 		return "IntrBrd [boardIdx=" + boardIdx + ", boardCd=" + boardCd + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + boardContent + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + "]";
+				+ ", boardContent=" + boardContent + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn
+				+ ", rNum=" + rNum + "]";
 	}
 }

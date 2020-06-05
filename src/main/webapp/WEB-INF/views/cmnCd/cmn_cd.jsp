@@ -6,41 +6,23 @@
 
 <script>
 /*초기화*/
-function fn_reset(){
-    var form = document.getElementById("viewFrm");
-    form.method = "get";
-    form.action = "<c:url value='/cmnCd/cmn_cd'/>";
-    form.submit();
+function fnReset(){
+	 submit('cmn_cd');
 }
 /*검색*/
-function fn_srch(){
-	var form = document.getElementById("viewFrm");
-    form.method = "get";
-//     var form1 = form.getElementById("boardTable2");
-//     var form2 = form1.getElementById("groCd2");
-//     form2.innerHTML = "1231";
-    form.action = "<c:url value='/cmnCd/search'/>";
-    form.submit();
+function fnSrch(){
+	 submit('search');
 }
 /*그룹코드 행 클릭*/
-function fn_click(){
+function fnClick(groCd){
+    document.getElementById("groCd").value = groCd; 
+    submit('click');
+}
+
+function submit(service){
 	var form = document.getElementById("viewFrm");
     form.method = "get";
-    var x = document.getElementById("groCd2");
-//     document.getElementById("viewFrm").elements.namedItem("groCd").innerHTML = "123";
-//     var x = document.getElementById("viewFrm").elements.namedItem("groCd").innerHTML;
-    alert(x.innerHTML);
-    
-//     document.getElementsByTagName("viewFrm").elements["groCd"].innerHTML = "2222";
-//     var x = document.getElementsByTagName("viewFrm")["groCd"];
-//  var x = document.getElementsByTagName("viewFrm").namedItem("groCd");
-//     alert(x);
-//     var form1 = form.getElementById("boardTable2");
-//     var form2 = form1.getElementById("groCd2");
-//     form2.innerHTML = "1231";
-//     document.getElementById("viewFrm").find("#groCd");
-// 	document.getElementById("groCd").innerHTML = '321';
-    form.action = "<c:url value='/cmnCd/click'/>";
+    form.action = "<c:url value='/cmnCd/" + service + "'/>";
     form.submit();
 }
 </script>
@@ -103,15 +85,15 @@ function fn_click(){
 					</table> <!-- //boardType01_tblList -->
 					
 					<div class="boardType01_write_btn">
-						<button type="button" onClick='fn_reset()' id="btn_reset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
-						<button type="submit" onClick='fn_srch()' id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
+						<button type="button" onClick='fnReset()' id="btnReset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
+						<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 					</div>
 					<div style="float:left; padding:5px 0px 15px 0px;">
 						<span class="boardType01_info_top" >
 							총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
 						</span>
 						
-						<table id="boardTable2" class="boardType01_tblList" style="width:250px; height:450px">
+						<table id="boardTable2" class="boardType01_tblList" style="width:250px; height:450px;">
 							<caption><span class="t-hidden">그룹코드</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
@@ -127,9 +109,9 @@ function fn_click(){
 							</thead>
 							<tbody>
 							<c:forEach var="cmnCd" items="${list}">
-							<tr class="hover" onClick='fn_click()'>
+							<tr class="hover" onClick='fnClick("${cmnCd.groCd}")'>
 									<td>${cmnCd.rNum}</td>
-									<td id="groCd2">${cmnCd.groCd}</td>
+									<td>${cmnCd.groCd}</td>
 									<td>${cmnCd.groNm}</td>
 							</tr>
 					     	</c:forEach>
@@ -162,7 +144,7 @@ function fn_click(){
 						<span class="boardType01_info_top">
 							총 <strong><c:out value="${subCount}"></c:out></strong>개의 게시물이 있습니다.
 						</span>
-						<table id="boardTable3" class="boardType01_tblList" style="width:480px; height:450px">
+						<table id="boardTable3" class="boardType01_tblList" style="width:480px; height:450px;">
 							<caption><span class="t-hidden">코드</span></caption>
 							<colgroup>
 								<col style="width:2%"/>

@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
-	<select id="getBrd" resultType="IntrBrd">
-		SELECT
-				 boardIdx
-			    ,boardCd
-			    ,boardTitle
-			    ,boardContent
-			    ,regId
-			    ,regDt
-			    ,useYn
-		FROM
-		  	 	tb_board
+	<select id="getBrd" resultType="IntrBrd" parameterType="com.spring.dev.domain.Criteria">
+		SELECT   tb_board.*
+		FROM(
+			SELECT   tb_board.*
+   				,ROW_NUMBER() OVER(ORDER BY tb_board.boardCd ASC) AS rNum
+			FROM tb_board
+		) tb_board
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY tb_board.boardCd ASC
+	</select>
+	
+	<select id="listCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_board
+	</select>
+	<select id="search" resultType="CmnCd" parameterType="CmnCd">		 	
+		SELECT   brd.*
+	  		FROM(
+	 				SELECT   brd.*
+			    			,ROW_NUMBER() OVER(ORDER BY brd.boardCd ASC) AS rNum
+	 				FROM (	SELECT *
+			 					IF srch = 't' THEN boardTitle LIKE '%2%'
+			 					ELSEIF srch = 'c' THEN boardContent LIKE '%%'
+			 					ELSEIF srch = 'tc' THEN boardTitle LIKE '%%' AND boardContent LIKE '%%'
+			 					ELSEIF srch = 'w' THEN regId LIKE '%%'
+			 					END IF
+		  	  				FROM tb_board
+					) brd
+			) brd
+			WHERE rNum BETWEEN 1 AND 10
+			ORDER BY brd.boardCd ASC
 	</select>
 </mapper>

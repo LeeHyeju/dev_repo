@@ -26,13 +26,6 @@ public class CmnCdController {
 	@Autowired
 	CmnCdService service;
 	
-//    @RequestMapping(value = {"/cmn_cd"})
-//	public String getCmnCd(HttpServletRequest request,  Model model, Criteria cri) {
-//    	logger.info("CmnController list");
-//    	model.addAttribute("list", service.getCmnCd(cri));
-//		return "cmnCd/cmn_cd.page";
-//	}
-    
     @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
 	public String insert(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
@@ -74,11 +67,11 @@ public class CmnCdController {
     @RequestMapping(value = {"/click"}, method = RequestMethod.GET)
 	public String click(HttpServletRequest request, CmnCd cmnCd, Model model, SearchCriteria scri, Criteria cri) {
     	logger.info("CmnCdController click");
-    	model.addAttribute("list", service.search(cmnCd, cri));
-    	PageMaker pageMaker = new PageMaker();
+    	model.addAttribute("list", service.getCmnCd(scri));
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount2(cmnCd));
-		model.addAttribute("count", service.listCount2(cmnCd));
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("count", service.listCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
 		logger.info("CmnCdController click");

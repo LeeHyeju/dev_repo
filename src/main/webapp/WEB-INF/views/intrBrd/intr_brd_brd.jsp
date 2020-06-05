@@ -5,9 +5,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
-	$(document).ready(function() {
+/*검색*/
+function fnSrch(){
+	 submit('intr_brd_brd_search');
+}
+/*등록*/
+function fnReg(){
+	 submit('intr_brd_brd_reg');
+}
 
-	});
+function submit(service){
+	var form = document.getElementById("viewFrm");
+    form.method = "get";
+    form.action = "<c:url value='/cmnCd/" + service + "'/>";
+    form.submit();
+}
 </script>
 
 <div id="contentarea" class="l-content">
@@ -22,35 +34,53 @@
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (게시판형)</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
-					<table id="boardTable1" class="boardType01_tblList" cellspacing="0">
-						<caption><span class="t-hidden">검색</span></caption>
-						<colgroup>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
-						</colgroup>
-						<tbody>
-						<tr>
-							<th>제목</th>
-							<td><input type="text" id="title" name="title"></td>
-						</tr>
-						</tbody>
-					</table>
+					<form id="searchFrm" action="" method="get">
+						<fieldset>
+							<legend>게시판 검색폼</legend>
+							<div class="boardType01_search">
+								<select name="srch" id="srch" class="boardType01_search_select">
+									<option value="t">제목</option>
+									<option value="c">내용</option>
+									<option value="tc">제목+내용</option>
+									<option value="w">작성자</option>
+								</select>
+								<input type="hidden" name="boardCode" id="boardCode" value=" "/>
+								<input type="text" name="sKeyword" id="sKeyword" class="boardType01_search_input" value="" /><button type="submit" onClick='fnSrch()'><img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
+							</div> <!-- //boardType01_search -->
+						</fieldset>
+					</form>
 					
-					<div class="boardType01_write_btn">
-						<button type="button" id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
-					</div>
+					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
+					
+<!-- 					<table id="boardTable1" class="boardType01_tblList" cellspacing="0"> -->
+<%-- 						<caption><span class="t-hidden">검색<span></caption> --%>
+<%-- 						<colgroup> --%>
+<%-- 							<col style="width:10%"/> --%>
+<%-- 							<col style="width:10%"/> --%>
+<%-- 						</colgroup> --%>
+<!-- 						<tbody> -->
+<!-- 						<tr> -->
+<!-- 							<th>제목</th> -->
+<!-- 							<td><input type="text" id="title" name="title"></td> -->
+<!-- 						</tr> -->
+<!-- 						</tbody> -->
+<!-- 					</table> -->
+					
+<!-- 					<div class="boardType01_write_btn"> -->
+<!-- 						<button type="button" id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button> -->
+<!-- 					</div> -->
 
-					<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span>
+<!-- 					<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span> -->
 					
 					<c:set var="cols" value="5"/>
 					<table id="boardTable2" class="boardType01_tblList" cellspacing="0">
 						<caption><span class="t-hidden">게시판형</span></caption>
 						<colgroup>
-							<col style="width:2%" />
+							<col style="width:1%" />
 							<col style="width:7%" />
 							<col style="width:7%" />
 							<col style="width:7%" />
@@ -61,20 +91,20 @@
 						<thead>
 						<tr>
 							<th></th>
-							<th>게시판제목</th>
-							<th>시작일</th>
-							<th>종료일</th>
-							<th>등록일</th>
-							<th>등록자아이디</th>
+							<th>제목</th>
+							<th>내용</th>
+							<th>.</th>
+							<th>작성일</th>
+							<th>작성자</th>
 						</tr>
 						</thead>
 						<tbody>
 						<c:forEach var="brd" items="${list}">
 						<tr>
-								<td>1</td>
+								<td>${brd.rNum}</td>
 								<td><a href="/intrBrd/intr_brd_brd_dtl?boardTitle=${brd.boardTitle}">${brd.boardTitle}</a></td>
-								<td>시작일</td>
-								<td>종료일</td>
+								<td>${brd.boardContent}</td>
+								<td>.</td>
 								<td><fmt:formatDate value="${brd.regDt}" pattern="yyyy.MM.dd"/></td>
 								<td class="t-gray">${brd.regId}</td>
 						</tr>
