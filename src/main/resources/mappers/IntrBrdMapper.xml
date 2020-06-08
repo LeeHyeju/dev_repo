@@ -16,21 +16,81 @@
 	    SELECT COUNT(*)
 	    FROM tb_board
 	</select>
-	<select id="search" resultType="CmnCd" parameterType="CmnCd">		 	
+	
+	<select id="listCount2" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_board
+	</select>
+	
+	<select id="search" resultType="IntrBrd" parameterType="IntrBrd">		 	
 		SELECT   brd.*
 	  		FROM(
 	 				SELECT   brd.*
 			    			,ROW_NUMBER() OVER(ORDER BY brd.boardCd ASC) AS rNum
-	 				FROM (	SELECT *
-			 					IF srch = 't' THEN boardTitle LIKE '%2%'
-			 					ELSEIF srch = 'c' THEN boardContent LIKE '%%'
-			 					ELSEIF srch = 'tc' THEN boardTitle LIKE '%%' AND boardContent LIKE '%%'
-			 					ELSEIF srch = 'w' THEN regId LIKE '%%'
-			 					END IF
-		  	  				FROM tb_board
+	 				FROM (	
+	 					SELECT * FROM tb_board 
+						WHERE (CASE 
+							WHEN #{intrBrd.srchKey} = 't' || #{intrBrd.srchKey} = 'c' THEN boardTitle
+							WHEN #{intrBrd.srchKey} = 'tc' THEN boardTitle
+							WHEN #{intrBrd.srchKey} = 'w'  THEN regId
+							ELSE NULL
+						END) LIKE '%${intrBrd.srch}%'
+						|| (CASE 
+							WHEN #{intrBrd.srchKey} = 'c' THEN boardContent
+							ELSE NULL
+						END) LIKE '%${intrBrd.srch}%'
 					) brd
 			) brd
-			WHERE rNum BETWEEN 1 AND 10
+			WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
 			ORDER BY brd.boardCd ASC
 	</select>
+	
+	<select id="dtl" resultType="IntrBrd" parameterType="String">
+	    SELECT *
+	    FROM tb_board
+	    WHERE boardCd = #{boardCd}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO 
+			tb_board (
+				 boardCd
+				,boardTitle
+				,boardContent
+				,regId
+				,regDt
+				,fileYn
+				,ancmOptnYn
+			)
+		VALUES (
+				 #{boardCd}
+				,#{boardTitle}
+				,#{boardContent}
+				,#{regId}
+				,now()
+				,#{fileYn}
+				,#{ancmOptnYn}
+		)
+	</insert>
+	
+	<select id="boardCdMax" resultType="int">
+		SELECT MAX(boardCd) FROM tb_board
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE 
+		FROM tb_board
+		WHERE boardCd = #{boardCd}
+	</delete>
+	
+	<update id="update" parameterType="IntrBrd">
+		UPDATE tb_board
+		SET	
+			 boardCd = #{boardCd}
+			,boardTitle = #{boardTitle}
+			,boardContent = #{boardContent}
+			,fileYn = #{fileYn}
+			,ancmOptnYn = #{ancmOptnYn}
+		WHERE boardCd = #{boardCd}
+	</update>
 </mapper>

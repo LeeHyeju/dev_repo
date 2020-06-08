@@ -6,13 +6,15 @@ import java.util.Date;
 public class IntrBrd {
 	private static final long serialVersionUID = 1L;
 	private String boardIdx;
-	private String boardCd;
+	private int boardCd;
 	private String boardTitle;
 	private String boardContent;
 	private String regId;
 	private Date regDt;
 	private String useYn;
-	
+	private String fileYn;
+	private String ancmOptnYn;
+
 	private String rNum;
 	public String getrNum() {
 		return rNum;
@@ -21,16 +23,31 @@ public class IntrBrd {
 		this.rNum = rNum;
 	}
 	
+	private String srchKey;
+	private String srch;
+	public String getSrchKey() {
+		return srchKey;
+	}
+	public void setSrchKey(String srchKey) {
+		this.srchKey = srchKey;
+	}
+	public String getSrch() {
+		return srch;
+	}
+	public void setSrch(String srch) {
+		this.srch = srch;
+	}
+	
 	public String getBoardIdx() {
 		return boardIdx;
 	}
 	public void setBoardIdx(String boardIdx) {
 		this.boardIdx = boardIdx;
 	}
-	public String getBoardCd() {
+	public int getBoardCd() {
 		return boardCd;
 	}
-	public void setBoardCd(String boardCd) {
+	public void setBoardCd(int boardCd) {
 		this.boardCd = boardCd;
 	}
 	public String getBoardTitle() {
@@ -63,6 +80,18 @@ public class IntrBrd {
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
+	public String getFileYn() {
+		return fileYn;
+	}
+	public void setFileYn(String fileYn) {
+		this.fileYn = fileYn;
+	}
+	public String getAncmOptnYn() {
+		return ancmOptnYn;
+	}
+	public void setAncmOptnYn(String ancmOptnYn) {
+		this.ancmOptnYn = ancmOptnYn;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -70,6 +99,7 @@ public class IntrBrd {
 	public String toString() {
 		return "IntrBrd [boardIdx=" + boardIdx + ", boardCd=" + boardCd + ", boardTitle=" + boardTitle
 				+ ", boardContent=" + boardContent + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn
-				+ ", rNum=" + rNum + "]";
+				+ ", fileYn=" + fileYn + ", ancmOptnYn=" + ancmOptnYn + ", rNum=" + rNum + ", srchKey=" + srchKey
+				+ ", srch=" + srch + "]";
 	}
 }
