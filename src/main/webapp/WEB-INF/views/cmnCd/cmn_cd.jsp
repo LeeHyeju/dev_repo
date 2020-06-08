@@ -49,145 +49,154 @@ function submit(service){
 						
 				<form name="viewFrm" id="viewFrm">
 				<div class="boardType01_wrap">
-					<table id="boardTable1" class="boardType01_tblList" cellspacing="0">
-						<caption><span class="t-hidden">검색</span></caption>
-						<colgroup>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
-						</colgroup>
-						<tbody>
-						<tr>
-							<th>그룹명</th>
-							<td><input type="text" id="groNm" name="groNm"></td>
-							<th>그룹코드</th>
-							<td><input type="text" id="groCd" name="groCd"></td>
-						</tr>
-						<tr>
-							<th>코드명</th>
-							<td><input type="text" id="cmnNm" name="cmnNm"></td>
-							<th>코드</th>
-							<td><input type="text" id="cmnCd" name="cmnCd"></td>
-						</tr>
-						<tr>
-							<th>사용여부</th>
-							<td>
-								<select id="useYn" name="useYn">
-								    <option value="Y">사용</option>
-								    <option value="N">미사용</option>
-								</select>
-							</td>
-							<th></th>
-							<td></td>
-						</tr>
-						</tbody>
-					</table> <!-- //boardType01_tblList -->
-					
-					<div class="boardType01_write_btn">
-						<button type="button" onClick='fnReset()' id="btnReset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
-						<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
-					</div>
-					<div style="float:left; padding:5px 0px 15px 0px;">
-						<span class="boardType01_info_top" >
-							총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
-						</span>
-						
-						<table id="boardTable2" class="boardType01_tblList" style="width:250px; height:450px;">
-							<caption><span class="t-hidden">그룹코드</span></caption>
+					<div>
+						<table id="boardTable1" class="boardType01_tblList" cellspacing="0">
+							<caption><span class="t-hidden">검색</span></caption>
 							<colgroup>
-								<col style="width:2%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
+								<col style="width:10%"/>
+								<col style="width:10%"/>
+								<col style="width:10%"/>
+								<col style="width:10%"/>
 							</colgroup>
-							<thead>
+							<tbody>
 							<tr>
-								<th></th>
-								<th>그룹코드</th>
 								<th>그룹명</th>
+								<td><input type="text" id="groNm" name="groNm"></td>
+								<th>그룹코드</th>
+								<td><input type="text" id="groCd" name="groCd"></td>
 							</tr>
-							</thead>
-							<tbody>
-							<c:forEach var="cmnCd" items="${list}">
-							<tr class="hover" onClick='fnClick("${cmnCd.groCd}")'>
-									<td>${cmnCd.rNum}</td>
-									<td>${cmnCd.groCd}</td>
-									<td>${cmnCd.groNm}</td>
-							</tr>
-					     	</c:forEach>
-					     	<c:if test="${empty list}">
 							<tr>
-								<td colspan="10" class="no-data">게시물이 없습니다.</td>
+								<th>코드명</th>
+								<td><input type="text" id="cmnNm" name="cmnNm"></td>
+								<th>코드</th>
+								<td><input type="text" id="cmnCd" name="cmnCd"></td>
 							</tr>
-							</c:if>
+							<tr>
+								<th>사용여부</th>
+								<td>
+									<select id="useYn" name="useYn">
+									    <option value="Y">사용</option>
+									    <option value="N">미사용</option>
+									</select>
+								</td>
+								<th></th>
+								<td></td>
+							</tr>
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
 						
-						<div class="pagination">
-						  <ul>
-						    <c:if test="${pageMaker.prev}">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
-						    </c:if> 
-						
-						    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
-						    </c:forEach>
-						
-						    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
-						    </c:if> 
-						  </ul>
+						<div class="boardType01_write_btn">
+							<button type="button" onClick='fnReset()' id="btnReset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
+							<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 						</div>
+						
+					</div>
+
+					<div style="padding:5px 0px 15px 0px;">
+						<div style="float:left; height:490px;">
+							<div style="height:440px">
+								<span class="boardType01_info_top">
+									총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
+								</span>
+								
+								<table id="boardTable2" class="boardType01_tblList" style="width:250px;">
+									<caption><span class="t-hidden">그룹코드</span></caption>
+									<colgroup>
+										<col style="width:2%"/>
+										<col style="width:7%"/>
+										<col style="width:7%"/>
+									</colgroup>
+									<thead>
+									<tr>
+										<th></th>
+										<th>그룹코드</th>
+										<th>그룹명</th>
+									</tr>
+									</thead>
+									<tbody>
+									<c:forEach var="cmnCd" items="${list}">
+									<tr class="hover" onClick='fnClick("${cmnCd.groCd}")'>
+											<td>${cmnCd.rNum}</td>
+											<td>${cmnCd.groCd}</td>
+											<td>${cmnCd.groNm}</td>
+									</tr>
+							     	</c:forEach>
+							     	<c:if test="${empty list}">
+									<tr>
+										<td colspan="10" class="no-data">게시물이 없습니다.</td>
+									</tr>
+									</c:if>
+									</tbody>
+								</table> <!-- //boardType01_tblList -->
+							</div>
+						
+							<div class="pagination">
+							  <ul>
+							    <c:if test="${pageMaker.prev}">
+							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+							    </c:if> 
+							
+							    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+							    </c:forEach>
+							
+							    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+							    </c:if> 
+							  </ul>
+							</div>
+							
+						</div>
+						<div style="float:right;width:480px; height:490px;">
+							<span class="boardType01_info_top">
+								총 <strong><c:out value="${subCount}"></c:out></strong>개의 게시물이 있습니다.
+							</span>
+							<table id="boardTable3" class="boardType01_tblList">
+								<caption><span class="t-hidden">코드</span></caption>
+								<colgroup>
+									<col style="width:2%"/>
+									<col style="width:7%"/>
+									<col style="width:7%"/>
+									<col style="width:7%"/>
+									<col style="width:7%"/>
+									<col style="width:7%"/>
+								</colgroup>
+								<thead>
+								<tr>
+									<th></th>
+									<th>코드</th>
+									<th>코드명</th>
+									<th>정렬순서</th>
+									<th>사용여부</th>
+									<th>편집</th>
+								</tr>
+								</thead>
+								<tbody>
+								<c:forEach var="cmnCd" items="${subList}">
+								<tr>
+										<td>${cmnCd.rNum}</td>
+										<td>${cmnCd.cmnCd}</td>
+										<td>${cmnCd.cmnNm}</td>
+										<td>${cmnCd.arayOrde}</td>
+										<td>${cmnCd.useYn}</td>
+										<td>편집</td>
+								</tr>
+						     	</c:forEach>
+						     	<c:if test="${empty subList}">
+								<tr>
+									<td colspan="10" class="no-data">게시물이 없습니다.</td>
+								</tr>
+								</c:if>
+								</tbody>
+							</table> <!-- //boardType01_tblList -->
+						</div>		
 					</div>
 					
-					<div style="float:right; padding:5px 0px 15px 0px;">
-						<span class="boardType01_info_top">
-							총 <strong><c:out value="${subCount}"></c:out></strong>개의 게시물이 있습니다.
-						</span>
-						<table id="boardTable3" class="boardType01_tblList" style="width:480px; height:450px;">
-							<caption><span class="t-hidden">코드</span></caption>
-							<colgroup>
-								<col style="width:2%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-							</colgroup>
-							<thead>
-							<tr>
-								<th></th>
-								<th>코드</th>
-								<th>코드명</th>
-								<th>정렬순서</th>
-								<th>사용여부</th>
-								<th>편집</th>
-							</tr>
-							</thead>
-							<tbody>
-							<c:forEach var="cmnCd" items="${subList}">
-							<tr>
-									<td>${cmnCd.rNum}</td>
-									<td>${cmnCd.cmnCd}</td>
-									<td>${cmnCd.cmnNm}</td>
-									<td>${cmnCd.arayOrde}</td>
-									<td>${cmnCd.useYn}</td>
-									<td>편집</td>
-							</tr>
-					     	</c:forEach>
-					     	<c:if test="${empty subList}">
-							<tr>
-								<td colspan="10" class="no-data">게시물이 없습니다.</td>
-							</tr>
-							</c:if>
-							</tbody>
-						</table> <!-- //boardType01_tblList -->
-					</div>			
-		
-					<div class="boardType01_write_btn">
+					<div class="boardType01_write_btn" style="clear:both">
 						<a href="${pageContext.request.contextPath}/cmnCd/insert" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
-					</div> <!-- //boardType01_list_btn -->
+					</div> <!-- //boardType01_list_btn -->	
 				</div> <!-- //boardType01_wrap -->
+		
 				</form>
 				
 			</div> <!-- //subcontent -->
