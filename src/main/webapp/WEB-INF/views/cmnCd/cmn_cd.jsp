@@ -94,7 +94,7 @@ function submit(service){
 
 					<div style="padding:5px 0px 15px 0px;">
 						<div style="float:left; height:490px;">
-							<div style="height:440px">
+							<div style="height:480px;">
 								<span class="boardType01_info_top">
 									총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
 								</span>
