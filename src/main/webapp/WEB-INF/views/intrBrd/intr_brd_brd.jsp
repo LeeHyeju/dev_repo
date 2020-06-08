@@ -15,9 +15,9 @@ function fnReg(){
 }
 
 function submit(service){
-	var form = document.getElementById("viewFrm");
+	var form = document.getElementById("searchFrm");
     form.method = "get";
-    form.action = "<c:url value='/cmnCd/" + service + "'/>";
+    form.action = "<c:url value='/intrBrd/" + service + "'/>";
     form.submit();
 }
 </script>
@@ -42,39 +42,19 @@ function submit(service){
 						<fieldset>
 							<legend>게시판 검색폼</legend>
 							<div class="boardType01_search">
-								<select name="srch" id="srch" class="boardType01_search_select">
+								<select name="srchKey" id="srchKey" class="boardType01_search_select">
 									<option value="t">제목</option>
 									<option value="c">내용</option>
 									<option value="tc">제목+내용</option>
 									<option value="w">작성자</option>
 								</select>
-								<input type="hidden" name="boardCode" id="boardCode" value=" "/>
-								<input type="text" name="sKeyword" id="sKeyword" class="boardType01_search_input" value="" /><button type="submit" onClick='fnSrch()'><img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
+								<input type="text" name="srch" id="srch" class="boardType01_search_input"/>
+								<button type="submit" onClick='fnSrch()'><img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
 							</div> <!-- //boardType01_search -->
 						</fieldset>
 					</form>
 					
 					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
-					
-<!-- 					<table id="boardTable1" class="boardType01_tblList" cellspacing="0"> -->
-<%-- 						<caption><span class="t-hidden">검색<span></caption> --%>
-<%-- 						<colgroup> --%>
-<%-- 							<col style="width:10%"/> --%>
-<%-- 							<col style="width:10%"/> --%>
-<%-- 						</colgroup> --%>
-<!-- 						<tbody> -->
-<!-- 						<tr> -->
-<!-- 							<th>제목</th> -->
-<!-- 							<td><input type="text" id="title" name="title"></td> -->
-<!-- 						</tr> -->
-<!-- 						</tbody> -->
-<!-- 					</table> -->
-					
-<!-- 					<div class="boardType01_write_btn"> -->
-<!-- 						<button type="button" id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button> -->
-<!-- 					</div> -->
-
-<!-- 					<span class="boardType01_info_top">총 <strong>1</strong>개의 게시물이 있습니다.</span> -->
 					
 					<c:set var="cols" value="5"/>
 					<table id="boardTable2" class="boardType01_tblList" cellspacing="0">
@@ -86,14 +66,13 @@ function submit(service){
 							<col style="width:7%" />
 							<col style="width:7%" />
 							<col style="width:7%" />
-							<col style="width:7%" />
 						</colgroup>
 						<thead>
 						<tr>
 							<th></th>
 							<th>제목</th>
 							<th>내용</th>
-							<th>.</th>
+							<th>공지옵션</th>
 							<th>작성일</th>
 							<th>작성자</th>
 						</tr>
@@ -102,9 +81,9 @@ function submit(service){
 						<c:forEach var="brd" items="${list}">
 						<tr>
 								<td>${brd.rNum}</td>
-								<td><a href="/intrBrd/intr_brd_brd_dtl?boardTitle=${brd.boardTitle}">${brd.boardTitle}</a></td>
+								<td><a href="/intrBrd/intr_brd_brd_dtl?boardCd=${brd.boardCd}">${brd.boardTitle}</a></td>
 								<td>${brd.boardContent}</td>
-								<td>.</td>
+								<td>${brd.ancmOptnYn}</td>
 								<td><fmt:formatDate value="${brd.regDt}" pattern="yyyy.MM.dd"/></td>
 								<td class="t-gray">${brd.regId}</td>
 						</tr>
@@ -118,22 +97,21 @@ function submit(service){
 					</table> <!-- //boardType01_tblList -->
 					
 					<div class="pagination">
-						<a href="#" class="first">시작</a>
-						<a href="#" class="prev">다음</a>
-						<a href="#" class="on">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">6</a>
-						<a href="#">7</a>
-						<a href="#">8</a>
-						<a href="#">9</a>
-						<a href="#">10</a>
-						<a href="#" class="next">다음</a>
-						<a href="#" class="last">마지막</a>
+					  <ul>
+					    <c:if test="${pageMaker.prev}">
+					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+					    </c:if> 
+					
+					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					    </c:forEach>
+					
+					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+					    </c:if> 
+					  </ul>
 					</div>
-		
+	
 					<div class="boardType01_list_btn">
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->

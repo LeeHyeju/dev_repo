@@ -24,7 +24,27 @@ public class IntrBrdService {
 		return mapper.listCount();
 	}
 	
-	public List<IntrBrd> search(String srch, Criteria cri) {
-		return mapper.search(srch, cri);
+	public int listCount2(IntrBrd intrBrd) {
+		return mapper.listCount2(intrBrd);
+	}
+	
+	public List<IntrBrd> search(IntrBrd intrBrd, Criteria cri) {
+		return mapper.search(intrBrd, cri);
+	}
+	
+	public IntrBrd dtl(String boardCd) {
+		return mapper.dtl(boardCd);
+	}
+	
+	public void insert(IntrBrd intrBrd) {
+		mapper.insert(intrBrd);
+	}
+	
+	public int boardCdMax() {
+		return mapper.boardCdMax();
+	}
+	
+	public void delete(int boardCd) {
+		mapper.delete(boardCd);
 	}
 }

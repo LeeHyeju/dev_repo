@@ -43,22 +43,44 @@ public class IntrBrdController {
 	}
 	
 	@RequestMapping(value = {"/intr_brd_brd_search"})
-	public String search(HttpServletRequest request, Model model, SearchCriteria scri, Criteria cri) {
-//		logger.info("IntrBrdController search");
-//    	model.addAttribute("list", service.search(srch, cri));
-//    	PageMaker pageMaker = new PageMaker();
-//		pageMaker.setCri(scri);
-//		pageMaker.setTotalCount(service.listCount2(srch));
-//		model.addAttribute("count", service.listCount2(srch));
-//		model.addAttribute("pageMaker", pageMaker);
+	public String search(HttpServletRequest request, Model model, IntrBrd intrBrd, SearchCriteria scri, Criteria cri) {
+		logger.info("IntrBrdController search");
+    	model.addAttribute("list", service.search(intrBrd, cri));
+    	PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount2(intrBrd));
+		model.addAttribute("count", service.listCount2(intrBrd));
+		model.addAttribute("pageMaker", pageMaker);
 		return "intrBrd/intr_brd_brd.page";
 	}
     
     @RequestMapping(value = {"/intr_brd_brd_dtl"})
-	public String getBrdDtl(HttpServletRequest request,  Model model) {
-    	logger.info("IntrBrdController getBrdDtl");
+	public String view(HttpServletRequest request, String boardCd, Model model) {
+    	logger.info("IntrBrdController intr_brd_brd_dtl");
+    	model.addAttribute("dtl", service.dtl(boardCd));
 		return "intrBrd/intr_brd_brd_dtl.page";
 	}
+    
+    @RequestMapping(value = {"/intr_brd_brd_reg"})
+	public String reg(HttpServletRequest request, Model model, IntrBrd intrBrd) {
+    	logger.info("IntrBrdController intr_brd_brd_reg");
+		return "intrBrd/intr_brd_brd_reg.page";
+	}
+    
+    @RequestMapping(value = {"/intr_brd_brd_insert"})
+	public String insert(HttpServletRequest request, Model model, IntrBrd intrBrd) {
+    	logger.info("IntrBrdController intr_brd_brd_insert");
+    	intrBrd.setBoardCd(service.boardCdMax()+1);
+    	service.insert(intrBrd);
+		return "redirect:/intrBrd/intr_brd_brd";
+	}
+    
+    @RequestMapping(value = {"/intr_brd_brd_del"})
+   	public String delete(HttpServletRequest request, Model model, int boardCd) {
+       	logger.info("IntrBrdController intr_brd_brd_del");
+       	service.delete(boardCd);
+   		return "redirect:/intrBrd/intr_brd_brd";
+   	}
     
     @RequestMapping(value = {"/intr_brd_qna"})
 	public String getQna(HttpServletRequest request,  Model model) {

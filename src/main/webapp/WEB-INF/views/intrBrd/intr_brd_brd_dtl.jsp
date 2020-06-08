@@ -3,6 +3,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<script>
+/*저장*/
+function fnSave(){
+	 submit('intr_brd_brd_save');
+}
+/*삭제*/
+function fnDel(){
+	 submit('intr_brd_brd_del');
+}
+
+function submit(service){
+	var form = document.getElementById("writeFrm");
+    form.method = "get";
+    form.action = "<c:url value='/intrBrd/" + service + "'/>";
+    form.submit();
+}
+</script>
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -24,11 +41,12 @@
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
 					<form name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="boardCd" id="boardCd" value="${dtl.boardCd}"/>
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
-								<col style="width:20%;" />
+								<col style="width:20%;"/>
 							</colgroup>
 							<tbody>
 								<tr> 
@@ -40,7 +58,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="boardTitle" id="boardTitle" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardTitle}"/>
 										</div>
 									</td>
 								</tr>
@@ -109,7 +127,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="fileYn" id="fileYn" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<input type="text" name="fileYn" id="fileYn" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.fileYn}" />
 										</div>
 									</td>
 								</tr>
@@ -122,7 +140,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<input type="text" name="boardContent" id="boardContent" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardContent}" />
 										</div>
 									</td>
 								</tr>
@@ -132,8 +150,8 @@
 					</form>
 						
 					<div class="boardType01_write_btn">
-						<button id="btn_save" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="btn_del" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<button id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->
