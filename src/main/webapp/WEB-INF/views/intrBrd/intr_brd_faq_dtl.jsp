@@ -3,6 +3,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<script>
+/*저장*/
+function fnSave(){
+	 submit('intr_brd_faq_save');
+}
+/*삭제*/
+function fnDel(){
+	 submit('intr_brd_faq_del');
+}
+
+function submit(service){
+	var form = document.getElementById("writeFrm");
+    form.method = "get";
+    form.action = "<c:url value='/intrBrd/" + service + "'/>";
+    form.submit();
+}
+</script>
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -23,7 +40,8 @@
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
+					<form name="writeFrm" id="writeFrm" method="post">
+					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
@@ -31,20 +49,20 @@
 								<col style="width:20%;" />
 							</colgroup>
 							<tbody>
-								<tr> 
+									<tr> 
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">분류</label>
+											<label for="">문의유형</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="slctGroCd" id="slctGroCd" class="input_selectN" style="width:200px;" maxlength="50" value="">
-											</select>
+											<input type="text" name="brdType" id="brdType" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdType}"/>
 										</div>
 									</td>
 								</tr>
+								<tr>
 								<tr> 
 									<th>
 										<span class="th_wrap">
@@ -54,24 +72,11 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdTl}"/>
 										</div>
 									</td>
 								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">게시기간</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<input type="text" name="ntcPerdYn" id="ntcPerdYn" class="input_textN" style="width:200px;" maxlength="50" value="" />
-										</div>
-									</td>
-								</tr>
-								<tr> 
+								<tr>
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
@@ -80,7 +85,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdCont}"/>
 										</div>
 									</td>
 								</tr>
@@ -90,9 +95,9 @@
 					</form>
 						
 					<div class="boardType01_write_btn">
-						<button id="btn_save" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="btn_del" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
+						<button id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

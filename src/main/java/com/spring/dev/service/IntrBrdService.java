@@ -33,6 +33,10 @@ public class IntrBrdService {
 		return mapper.listCount2(intrBrd);
 	}
 	
+	public int listCount3() {
+		return mapper.listCount3();
+	}
+	
 	public List<IntrBrd> search(IntrBrd intrBrd, Criteria cri) {
 		return mapper.search(intrBrd, cri);
 	}
@@ -41,12 +45,24 @@ public class IntrBrdService {
 		return mapper.dtl(boardCd);
 	}
 	
+	public IntrFaq dtl2(String brdCd) {
+		return mapper.dtl2(brdCd);
+	}
+	
 	public void insert(IntrBrd intrBrd) {
 		mapper.insert(intrBrd);
 	}
 	
+	public void insert2(IntrFaq intrFaq) {
+		mapper.insert2(intrFaq);
+	}
+	
 	public int boardCdMax() {
 		return mapper.boardCdMax();
+	}
+	
+	public int brdCdMax() {
+		return mapper.brdCdMax();
 	}
 	
 	public void delete(int boardCd) {
@@ -55,5 +71,13 @@ public class IntrBrdService {
 	
 	public void update(IntrBrd intrBrd) {
 		mapper.update(intrBrd);
+	}
+	
+	public void delete2(int brdCd) {
+		mapper.delete2(brdCd);
+	}
+	
+	public void update2(IntrFaq intrFaq) {
+		mapper.update2(intrFaq);
 	}
 }

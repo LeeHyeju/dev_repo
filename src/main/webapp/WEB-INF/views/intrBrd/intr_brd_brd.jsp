@@ -21,7 +21,9 @@ function submit(service){
     form.submit();
 }
 </script>
-
+<style type="text/css">
+	.li1 {list-style: none; float: left; padding: 6px;}
+</style>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>

@@ -11,6 +11,14 @@ public class IntrFaq {
 	private Date regDt;
 	private String useYn;
 	
+	private String rNum;
+	public String getrNum() {
+		return rNum;
+	}
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
+	
 	public int getBrdCd() {
 		return brdCd;
 	}
@@ -56,6 +64,6 @@ public class IntrFaq {
 	@Override
 	public String toString() {
 		return "IntrFaq [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTl=" + brdTl + ", brdCont=" + brdCont
-				+ ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + "]";
+				+ ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", rNum=" + rNum + "]";
 	}
 }

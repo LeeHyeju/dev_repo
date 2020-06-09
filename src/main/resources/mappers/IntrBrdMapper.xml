@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
-	<select id="getBrd" resultType="IntrBrd" parameterType="com.spring.dev.domain.Criteria">
+	<select id="getBrd" resultType="IntrBrd" parameterType="Criteria">
 		SELECT   tb_board_notice.*
 		FROM(
 			SELECT   tb_board_notice.*
@@ -20,6 +20,11 @@
 	<select id="listCount2" resultType="int">
 	    SELECT COUNT(*)
 	    FROM tb_board_notice
+	</select>
+	
+	<select id="listCount3" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_board_faq
 	</select>
 	
 	<select id="search" resultType="IntrBrd" parameterType="IntrBrd">		 	
@@ -51,6 +56,12 @@
 	    WHERE boardCd = #{boardCd}
 	</select>
 	
+	<select id="dtl2" resultType="IntrFaq" parameterType="String">
+	    SELECT *
+	    FROM tb_board_faq
+	    WHERE brdCd = #{brdCd}
+	</select>
+	
 	<insert id="insert">
 		INSERT INTO 
 			tb_board_notice (
@@ -73,6 +84,32 @@
 		)
 	</insert>
 	
+	<insert id="insert2">
+		INSERT INTO 
+			tb_board_faq (
+				 brdCd
+				,brdType
+				,brdTl
+				,brdCont
+				,regId
+				,regDt
+				,useYn
+			)
+		VALUES (
+				 #{brdCd}
+				,#{brdType}
+				,#{brdTl}
+				,#{brdCont}
+				,#{regId}
+				,now()
+				,#{useYn}
+		)
+	</insert>
+	
+	<select id="brdCdMax" resultType="int">
+		SELECT MAX(brdCd) FROM tb_board_faq
+	</select>
+	
 	<select id="boardCdMax" resultType="int">
 		SELECT MAX(boardCd) FROM tb_board_notice
 	</select>
@@ -92,4 +129,31 @@
 			,ancmOptnYn = #{ancmOptnYn}
 		WHERE boardCd = #{boardCd}
 	</update>
+	
+	<delete id="delete2" parameterType="int">
+		DELETE 
+		FROM tb_board_faq
+		WHERE brdCd = #{brdCd}
+	</delete>
+	
+	<update id="update2" parameterType="IntrFaq">
+		UPDATE tb_board_faq
+		SET	
+			 brdType = #{brdType}
+			,brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,useYn = #{useYn}
+		WHERE brdCd = #{brdCd}
+	</update>
+	
+	<select id="getFaq" resultType="IntrFaq" parameterType="Criteria">
+		SELECT   faq.*
+		FROM(
+			SELECT   tb_board_faq.*
+   				,ROW_NUMBER() OVER(ORDER BY tb_board_faq.brdCd ASC) AS rNum
+			FROM tb_board_faq
+		) faq
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY faq.brdCd ASC
+	</select>
 </mapper>
