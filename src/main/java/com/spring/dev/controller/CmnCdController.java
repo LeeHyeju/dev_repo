@@ -48,6 +48,7 @@ public class CmnCdController {
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount());
 		model.addAttribute("count", service.listCount());
+		model.addAttribute("subCount", 0);
 		model.addAttribute("pageMaker", pageMaker);
 		return "cmnCd/cmn_cd.page";
 	}
@@ -60,6 +61,7 @@ public class CmnCdController {
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount2(cmnCd));
 		model.addAttribute("count", service.listCount2(cmnCd));
+		model.addAttribute("subCount", 0);
 		model.addAttribute("pageMaker", pageMaker);
 		return "cmnCd/cmn_cd.page";
 	}
