@@ -62,7 +62,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="qna" items="${list}">
+						<c:forEach var="faq" items="${list}">
 						<tr>
 								<td>1</td>
 						</tr>

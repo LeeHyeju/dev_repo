@@ -7,7 +7,7 @@
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_qna"><span>게시판관리</span></a><span>통합게시판(질문형)</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq"><span>게시판관리</span></a><span>통합게시판(질문형)</span>
 		<span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	

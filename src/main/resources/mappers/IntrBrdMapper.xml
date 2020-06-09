@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
 	<select id="getBrd" resultType="IntrBrd" parameterType="com.spring.dev.domain.Criteria">
-		SELECT   tb_board.*
+		SELECT   tb_board_notice.*
 		FROM(
-			SELECT   tb_board.*
-   				,ROW_NUMBER() OVER(ORDER BY tb_board.boardCd ASC) AS rNum
-			FROM tb_board
-		) tb_board
+			SELECT   tb_board_notice.*
+   				,ROW_NUMBER() OVER(ORDER BY tb_board_notice.boardCd ASC) AS rNum
+			FROM tb_board_notice
+		) tb_board_notice
 		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY tb_board.boardCd ASC
+		ORDER BY tb_board_notice.boardCd ASC
 	</select>
 	
 	<select id="listCount" resultType="int">
 	    SELECT COUNT(*)
-	    FROM tb_board
+	    FROM tb_board_notice
 	</select>
 	
 	<select id="listCount2" resultType="int">
 	    SELECT COUNT(*)
-	    FROM tb_board
+	    FROM tb_board_notice
 	</select>
 	
 	<select id="search" resultType="IntrBrd" parameterType="IntrBrd">		 	
@@ -28,7 +28,7 @@
 	 				SELECT   brd.*
 			    			,ROW_NUMBER() OVER(ORDER BY brd.boardCd ASC) AS rNum
 	 				FROM (	
-	 					SELECT * FROM tb_board 
+	 					SELECT * FROM tb_board_notice 
 						WHERE (CASE 
 							WHEN #{intrBrd.srchKey} = 't' || #{intrBrd.srchKey} = 'c' THEN boardTitle
 							WHEN #{intrBrd.srchKey} = 'tc' THEN boardTitle
@@ -47,13 +47,13 @@
 	
 	<select id="dtl" resultType="IntrBrd" parameterType="String">
 	    SELECT *
-	    FROM tb_board
+	    FROM tb_board_notice
 	    WHERE boardCd = #{boardCd}
 	</select>
 	
 	<insert id="insert">
 		INSERT INTO 
-			tb_board (
+			tb_board_notice (
 				 boardCd
 				,boardTitle
 				,boardContent
@@ -74,20 +74,19 @@
 	</insert>
 	
 	<select id="boardCdMax" resultType="int">
-		SELECT MAX(boardCd) FROM tb_board
+		SELECT MAX(boardCd) FROM tb_board_notice
 	</select>
 	
 	<delete id="delete" parameterType="int">
 		DELETE 
-		FROM tb_board
+		FROM tb_board_notice
 		WHERE boardCd = #{boardCd}
 	</delete>
 	
 	<update id="update" parameterType="IntrBrd">
-		UPDATE tb_board
+		UPDATE tb_board_notice
 		SET	
-			 boardCd = #{boardCd}
-			,boardTitle = #{boardTitle}
+			 boardTitle = #{boardTitle}
 			,boardContent = #{boardContent}
 			,fileYn = #{fileYn}
 			,ancmOptnYn = #{ancmOptnYn}

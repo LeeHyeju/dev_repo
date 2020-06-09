@@ -5,15 +5,18 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
+import com.spring.dev.domain.IntrFaq;
 
 @Repository(value = "IntrBrdMapper")
 public interface IntrBrdMapper {
 
 	// 게시물 목록 조회
 	public List<IntrBrd> getBrd(Criteria cri);
+	
+	// 게시물 목록 조회
+	public List<IntrFaq> getFaq(Criteria cri);
 	
 	// 게시물 총 갯수
 	public int listCount();
@@ -35,4 +38,7 @@ public interface IntrBrdMapper {
 	
 	// 게시물 삭제
 	public void delete(int boardCd);
+	
+	// 게시물 업데이트
+	public void update(IntrBrd intrBrd);
 }

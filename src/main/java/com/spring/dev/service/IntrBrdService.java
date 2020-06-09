@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
+import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.IntrBrdMapper;
 
@@ -18,6 +19,10 @@ public class IntrBrdService {
 	
 	public List<IntrBrd> getBrd(SearchCriteria scri) {
 		return mapper.getBrd(scri);
+	}
+	
+	public List<IntrFaq> getFaq(SearchCriteria scri) {
+		return mapper.getFaq(scri);
 	}
 	
 	public int listCount() {
@@ -46,5 +51,9 @@ public class IntrBrdService {
 	
 	public void delete(int boardCd) {
 		mapper.delete(boardCd);
+	}
+	
+	public void update(IntrBrd intrBrd) {
+		mapper.update(intrBrd);
 	}
 }

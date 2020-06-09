@@ -20,7 +20,7 @@
 		<ul id="lnb">
 			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/info">통합게시판관리</a></li>
 			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd">통합게시판(게시판형)</a></li>
-			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_qna">통합게시판(질문형)</a></li>
+			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq">통합게시판(질문형)</a></li>
 			<li  class="current"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal">통합게시판(갤러리형)</a></li>
 		</ul>
 </div> <!-- //aside -->

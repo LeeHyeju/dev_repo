@@ -82,10 +82,29 @@ public class IntrBrdController {
    		return "redirect:/intrBrd/intr_brd_brd";
    	}
     
-    @RequestMapping(value = {"/intr_brd_qna"})
-	public String getQna(HttpServletRequest request,  Model model) {
-    	logger.info("IntrBrdController getQna");
-		return "intrBrd/intr_brd_qna.page";
+    @RequestMapping(value = {"/intr_brd_brd_save"})
+   	public String update(HttpServletRequest request, Model model, IntrBrd intrBrd) {
+       	logger.info("IntrBrdController intr_brd_brd_save");
+       	service.update(intrBrd);
+   		return "redirect:/intrBrd/intr_brd_brd";
+   	}
+    
+    @RequestMapping(value = {"/intr_brd_faq"})
+	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {
+    	logger.info("IntrBrdController getFaq");
+    	model.addAttribute("list", service.getBrd(scri));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("count", service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
+		return "intrBrd/intr_brd_faq.page";
+	}
+    
+    @RequestMapping(value = {"/intr_brd_faq_reg"})
+	public String reg(HttpServletRequest request,  Model model) {
+    	logger.info("IntrBrdController intr_brd_faq_reg");
+		return "intrBrd/intr_brd_faq.page";
 	}
     
     @RequestMapping(value = {"/intr_brd_gal"})
