@@ -38,4 +38,8 @@ public class CmnCdService {
 	public List<CmnCd> click(String groCd, Criteria cri) {
 		return mapper.click(groCd, cri);
 	}
+	
+	public void update(CmnCd cmnCd) {
+		mapper.update(cmnCd);
+	}
 }

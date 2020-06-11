@@ -27,4 +27,7 @@ public interface CmnCdMapper {
 	
 	// 게시물 행 선택
 	public List<CmnCd> click(@Param("groCd")String groCd, @Param("cri")Criteria cri);
+	
+	// 게시물 편집
+	public void update(CmnCd cmnCd);
 }

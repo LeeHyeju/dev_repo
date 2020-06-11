@@ -36,10 +36,17 @@ public class CmnCdController {
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
 	public String insertProcess(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
     	logger.info("CmnCdController insert");
-    	model.addAttribute("insert", service.insert(cmnCd));
+    	service.insert(cmnCd);
     	return "redirect:/cmnCd/cmn_cd";
 	}
     
+    @RequestMapping(value = {"/editSave"}, method = RequestMethod.POST)
+   	public String editSave(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
+       	logger.info("CmnCdController editSave");
+       	service.update(cmnCd);
+       	return "redirect:/cmnCd/cmn_cd";
+   	}
+       
 	@RequestMapping(value = "/cmn_cd", method = RequestMethod.GET)
 	public String list(Model model, SearchCriteria scri) throws Exception{
 		logger.info("list>>>{}", service.getCmnCd(scri));

@@ -13,8 +13,28 @@ function fnReset(){
 function fnSrch(){
 	 submit('search');
 }
+/*편집*/
+function fnEdit(edit, rNum){
+	var editN = document.getElementById("editN["+rNum+"]");
+	var editY = document.getElementById("editY["+rNum+"]");
+	editN.style.display = 'none';
+	editY.style.display = 'none';
+	
+	if(edit == 'N') {
+		// 편집
+		document.getElementById("editY["+rNum+"]").style.display = 'contents';
+	} else {
+		// 저장
+		editN.style.display = 'contents';
+// 		edit.cells[1].innerHTML;
+// 		submit('editSave');
+	}
+}
 /*그룹코드 행 클릭*/
 function fnClick(groCd){
+	var x = request.getParameter("groCd");
+// 	var y = jQuery.url.param("param_in_url");
+// 	alert(y);
     document.getElementById("groCd").value = groCd; 
     submit('click');
 }
@@ -30,6 +50,7 @@ function submit(service){
 <style type="text/css">
 	.li1 {list-style: none; float: left; padding: 6px;}
 	.hover:hover {background-color:#f5f5f5;}
+	.border {border-style: hidden};
 </style>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -50,7 +71,7 @@ function submit(service){
 				<form name="viewFrm" id="viewFrm">
 				<div class="boardType01_wrap">
 					<div>
-						<table id="boardTable1" class="boardType01_tblList" cellspacing="0">
+						<table id="boardTable1" class="boardType01_tblList">
 							<caption><span class="t-hidden">검색</span></caption>
 							<colgroup>
 								<col style="width:10%"/>
@@ -173,13 +194,21 @@ function submit(service){
 								</thead>
 								<tbody>
 								<c:forEach var="cmnCd" items="${subList}">
-								<tr>
+								<tr id="editN[${cmnCd.rNum}]">
 										<td>${cmnCd.rNum}</td>
 										<td>${cmnCd.cmnCd}</td>
 										<td>${cmnCd.cmnNm}</td>
 										<td>${cmnCd.arayOrde}</td>
 										<td>${cmnCd.useYn}</td>
-										<td>편집</td>
+										<td><button type="button" onClick='fnEdit("N",${cmnCd.rNum})' id="btnEditN" class="btnTxt btnTxt_small btnTxt_gray">편집</button></td>
+								</tr>
+								<tr id="editY[${cmnCd.rNum}]" style="display:none;">
+										<td>${cmnCd.rNum}</td>
+										<td><input type="text" style="width:80px;" id="cmnCd" value="${cmnCd.cmnCd}"/></td>
+										<td><input type="text" style="width:80px;" id="cmnNm" value="${cmnCd.cmnNm}"/></td>
+										<td><input type="text" style="width:80px;" id="arayOrde" value="${cmnCd.arayOrde}"/></td>
+										<td><input type="text" style="width:80px;" id="useYn" value="${cmnCd.useYn}"/></td>
+										<td><button type="button" onClick='fnEdit("Y",${cmnCd.rNum})' id="btnEditY" class="btnTxt btnTxt_small btnTxt_gray">저장</button></td>
 								</tr>
 						     	</c:forEach>
 						     	<c:if test="${empty subList}">

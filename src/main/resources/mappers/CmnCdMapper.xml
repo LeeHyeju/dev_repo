@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="listCount2" resultType="int" parameterType="CmnCd">
-	    SELECT COUNT(*)
+	    SELECT COUNT(DISTINCT groCd)
 	    FROM tb_cmn_cd
 	    	WHERE 	groCd LIKE '%${groCd}%' 
 			 		AND cmnCd LIKE '%${cmnCd}%'
@@ -84,4 +84,18 @@
 				,#{arayOrde}
 		)
 	</insert>
+	
+	<update id="update" parameterType="CmnCd">
+		UPDATE 
+			tb_cmn_cd
+		SET	
+			 groCd = #{groCd}
+			,cmnCd = #{cmnCd}
+			,groNm = #{groNm}
+			,cmnNm = #{cmnNm}
+			,useYn = #{useYn}
+			,arayOrde = #{arayOrde}
+		WHERE 
+			groCd = #{groCd}
+	</update>
 </mapper>
