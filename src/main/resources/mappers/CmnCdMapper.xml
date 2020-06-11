@@ -2,31 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.CmnCdMapper">
 
-	<select id="getCmnCd" resultType="CmnCd" parameterType="Criteria">
+<!-- 	<select id="getCmnCd" resultType="CmnCd" parameterType="Criteria"> -->
+<!-- 		SELECT   cmnCd.* -->
+<!-- 		FROM( -->
+<!-- 			SELECT   cmnCd.* -->
+<!--    				,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum -->
+<!-- 			FROM (SELECT DISTINCT groCd,groNm FROM tb_cmn_cd -->
+<!-- 			) cmnCd -->
+<!-- 		) cmnCd -->
+<!-- 		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd} -->
+<!-- 		ORDER BY cmnCd.groCd ASC -->
+<!-- 	</select> -->
+	<select id="getCmnCd" resultType="CmnCd" parameterType="Criteria">		 	
 		SELECT   cmnCd.*
-		FROM(
-			SELECT   cmnCd.*
-   				,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
-			FROM (SELECT DISTINCT groCd,groNm FROM tb_cmn_cd
-			) cmnCd
+  		FROM(
+ 				SELECT   cmnCd.*
+		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
+ 				FROM (	SELECT DISTINCT groCd,groNm
+	  	  				FROM tb_cmn_cd
+			 			WHERE 	groCd LIKE '%${cmnCd.groCd}%' 
+						 		AND cmnCd LIKE '%${cmnCd.cmnCd}%'
+						 		AND groNm LIKE '%${cmnCd.groNm}%'
+						   		AND cmnNm LIKE '%${cmnCd.cmnNm}%'
+							 	AND useYn LIKE '%${cmnCd.useYn}%'
+				) cmnCd
 		) cmnCd
-		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
 		ORDER BY cmnCd.groCd ASC
-	</select>
-
-	<select id="listCount" resultType="int">
-	    SELECT COUNT(*)
-	    FROM tb_cmn_cd
-	</select>
-	
-	<select id="listCount2" resultType="int" parameterType="CmnCd">
-	    SELECT COUNT(DISTINCT groCd)
-	    FROM tb_cmn_cd
-	    	WHERE 	groCd LIKE '%${groCd}%' 
-			 		AND cmnCd LIKE '%${cmnCd}%'
-			 		AND groNm LIKE '%${groNm}%'
-			   		AND cmnNm LIKE '%${cmnNm}%'
-				 	AND useYn LIKE '%${useYn}%'
 	</select>
 
 	<select id="search" resultType="CmnCd" parameterType="CmnCd">		 	
@@ -45,6 +47,21 @@
 		) cmnCd
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
 		ORDER BY cmnCd.groCd ASC
+	</select>
+	
+	<select id="listCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_cmn_cd
+	</select>
+	
+	<select id="listCount2" resultType="int" parameterType="CmnCd">
+	    SELECT COUNT(DISTINCT groCd)
+	    FROM tb_cmn_cd
+	    	WHERE 	groCd LIKE '%${groCd}%' 
+			 		AND cmnCd LIKE '%${cmnCd}%'
+			 		AND groNm LIKE '%${groNm}%'
+			   		AND cmnNm LIKE '%${cmnNm}%'
+				 	AND useYn LIKE '%${useYn}%'
 	</select>
 	
 	<select id="click" resultType="CmnCd" parameterType="CmnCd">		 	
@@ -89,12 +106,9 @@
 		UPDATE 
 			tb_cmn_cd
 		SET	
-			 groCd = #{groCd}
-			,cmnCd = #{cmnCd}
-			,groNm = #{groNm}
+			 cmnCd = #{cmnCd}
 			,cmnNm = #{cmnNm}
 			,useYn = #{useYn}
-			,arayOrde = #{arayOrde}
 		WHERE 
 			groCd = #{groCd}
 	</update>

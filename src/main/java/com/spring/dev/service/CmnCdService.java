@@ -15,8 +15,8 @@ public class CmnCdService {
 	@Autowired
 	CmnCdMapper mapper;
 	
-	public List<CmnCd> getCmnCd(SearchCriteria scri) {
-		return mapper.getCmnCd(scri);
+	public List<CmnCd> getCmnCd(CmnCd cmnCd, SearchCriteria scri) {
+		return mapper.getCmnCd(cmnCd, scri);
 	}
 	
 	public int listCount() {

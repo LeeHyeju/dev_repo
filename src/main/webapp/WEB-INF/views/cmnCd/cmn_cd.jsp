@@ -11,10 +11,23 @@ function fnReset(){
 }
 /*검색*/
 function fnSrch(){
-	 submit('search');
+	var srchKey = 
+		  document.getElementById("groCd").value
+		+ ',' + document.getElementById("groNm").value
+		+ ',' + document.getElementById("cmnCd").value
+		+ ',' + document.getElementById("cmnNm").value
+		+ ',' + document.getElementById("useYn").value
+	document.getElementById("srchKey").value = srchKey;
+	
+	submit('search');
 }
 /*편집*/
 function fnEdit(edit, rNum){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const param = urlParams.get('groCd');
+    document.getElementById("groCd").value = param;
+         
 	var editN = document.getElementById("editN["+rNum+"]");
 	var editY = document.getElementById("editY["+rNum+"]");
 	editN.style.display = 'none';
@@ -26,16 +39,24 @@ function fnEdit(edit, rNum){
 	} else {
 		// 저장
 		editN.style.display = 'contents';
+		
+		document.getElementById("cmnCd").value = document.getElementById("cmnCd2").value;
+	    document.getElementById("cmnNm").value = document.getElementById("cmnNm2").value;
+// 	    document.getElementById("arayOrde").value = document.getElementById("arayOrde2").value;
+	    document.getElementById("useYn").value = document.getElementById("useYn2").value;
+		   
+		submit('editSave');
 // 		edit.cells[1].innerHTML;
-// 		submit('editSave');
 	}
 }
 /*그룹코드 행 클릭*/
 function fnClick(groCd){
-	var x = request.getParameter("groCd");
-// 	var y = jQuery.url.param("param_in_url");
-// 	alert(y);
-    document.getElementById("groCd").value = groCd; 
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const param = urlParams.get('srchKey');
+    document.getElementById("srchKey").value = param;
+    
+    document.getElementById("groCd").value = groCd;
     submit('click');
 }
 
@@ -70,10 +91,12 @@ function submit(service){
 						
 				<form name="viewFrm" id="viewFrm">
 				<div class="boardType01_wrap">
+				<input type="hidden" name="srchKey" id="srchKey"/>
 					<div>
 						<table id="boardTable1" class="boardType01_tblList">
 							<caption><span class="t-hidden">검색</span></caption>
 							<colgroup>
+								<col style="width:10%"/>
 								<col style="width:10%"/>
 								<col style="width:10%"/>
 								<col style="width:10%"/>
@@ -100,8 +123,11 @@ function submit(service){
 									    <option value="N">미사용</option>
 									</select>
 								</td>
+<!-- 								<th>정렬순서</th> -->
+<!-- 								<td><input type="text" id="arayOrde" name="arayOrde"></td> -->
 								<th></th>
 								<td></td>
+							
 							</tr>
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
@@ -110,7 +136,6 @@ function submit(service){
 							<button type="button" onClick='fnReset()' id="btnReset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
 							<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 						</div>
-						
 					</div>
 
 					<div style="padding:5px 0px 15px 0px;">
@@ -204,10 +229,10 @@ function submit(service){
 								</tr>
 								<tr id="editY[${cmnCd.rNum}]" style="display:none;">
 										<td>${cmnCd.rNum}</td>
-										<td><input type="text" style="width:80px;" id="cmnCd" value="${cmnCd.cmnCd}"/></td>
-										<td><input type="text" style="width:80px;" id="cmnNm" value="${cmnCd.cmnNm}"/></td>
-										<td><input type="text" style="width:80px;" id="arayOrde" value="${cmnCd.arayOrde}"/></td>
-										<td><input type="text" style="width:80px;" id="useYn" value="${cmnCd.useYn}"/></td>
+										<td><input type="text" style="width:80px;" id="cmnCd2" value="${cmnCd.cmnCd}"/></td>
+										<td><input type="text" style="width:80px;" id="cmnNm2" value="${cmnCd.cmnNm}"/></td>
+										<td><input type="text" style="width:80px;" id="arayOrde2" value="${cmnCd.arayOrde}"/></td>
+										<td><input type="text" style="width:80px;" id="useYn2" value="${cmnCd.useYn}"/></td>
 										<td><button type="button" onClick='fnEdit("Y",${cmnCd.rNum})' id="btnEditY" class="btnTxt btnTxt_small btnTxt_gray">저장</button></td>
 								</tr>
 						     	</c:forEach>

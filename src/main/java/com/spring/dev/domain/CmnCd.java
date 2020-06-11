@@ -1,6 +1,5 @@
 package com.spring.dev.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class CmnCd {
@@ -21,6 +20,14 @@ public class CmnCd {
 	}
 	public void setrNum(String rNum) {
 		this.rNum = rNum;
+	}
+	
+	private String srchKey;
+	public String getSrchKey() {
+		return srchKey;
+	}
+	public void setSrchKey(String srchKey) {
+		this.srchKey = srchKey;
 	}
 	
 	public String getGroCd() {

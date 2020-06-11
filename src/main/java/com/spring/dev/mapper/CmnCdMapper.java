@@ -11,7 +11,7 @@ import com.spring.dev.domain.Criteria;
 @Repository(value = "CmnCdMapper")
 public interface CmnCdMapper {
 	// 게시물 목록 조회
-	public List<CmnCd> getCmnCd(Criteria cri);
+	public List<CmnCd> getCmnCd(@Param("cmnCd")CmnCd cmnCd, @Param("cri")Criteria cri);
 	
 	// 게시물 등록
 	public int insert(CmnCd cmnCd);

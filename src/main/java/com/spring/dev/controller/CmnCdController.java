@@ -40,7 +40,7 @@ public class CmnCdController {
     	return "redirect:/cmnCd/cmn_cd";
 	}
     
-    @RequestMapping(value = {"/editSave"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/editSave"}, method = RequestMethod.GET)
    	public String editSave(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
        	logger.info("CmnCdController editSave");
        	service.update(cmnCd);
@@ -48,9 +48,9 @@ public class CmnCdController {
    	}
        
 	@RequestMapping(value = "/cmn_cd", method = RequestMethod.GET)
-	public String list(Model model, SearchCriteria scri) throws Exception{
-		logger.info("list>>>{}", service.getCmnCd(scri));
-		model.addAttribute("list", service.getCmnCd(scri));
+	public String list(Model model, SearchCriteria scri, CmnCd cmnCd) throws Exception{
+		logger.info("list>>>{}", service.getCmnCd(cmnCd, scri));
+		model.addAttribute("list", service.getCmnCd(cmnCd, scri));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount());
@@ -75,17 +75,36 @@ public class CmnCdController {
     
     @RequestMapping(value = {"/click"}, method = RequestMethod.GET)
 	public String click(HttpServletRequest request, CmnCd cmnCd, Model model, SearchCriteria scri, Criteria cri) {
-    	logger.info("CmnCdController click");
-    	model.addAttribute("list", service.getCmnCd(scri));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount());
-		model.addAttribute("count", service.listCount());
-		model.addAttribute("pageMaker", pageMaker);
-		
-		logger.info("CmnCdController click");
+    	logger.info("CmnCdController click {}",scri);
     	model.addAttribute("subList", service.click(cmnCd.getGroCd(), cri));
 		model.addAttribute("subCount", service.listCount2(cmnCd));
+		model.addAttribute("list", service.getCmnCd(cmnCd, scri));
+		
+		String srchKey = cmnCd.getSrchKey();
+		logger.info("srchKey>>>>> {}", srchKey);
+		if(!srchKey.equals("")) {
+			String[] keyArray = srchKey.split(",");
+			if(keyArray.length != 1 || keyArray.length != 0) {
+				cmnCd.setGroCd(keyArray[0]);
+				cmnCd.setGroNm(keyArray[1]);
+				cmnCd.setCmnCd(keyArray[2]);
+				cmnCd.setCmnNm(keyArray[3]);
+				cmnCd.setUseYn(keyArray[4]);
+			}
+			model.addAttribute("list", service.getCmnCd(cmnCd, scri));
+			model.addAttribute("count", service.listCount2(cmnCd));
+		} else {
+			cmnCd.setGroCd("");
+			cmnCd.setUseYn("");
+			model.addAttribute("list", service.getCmnCd(cmnCd, scri));
+			model.addAttribute("count", service.listCount());
+		}
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount2(cmnCd));
+		model.addAttribute("pageMaker", pageMaker);
+    	
 		return "cmnCd/cmn_cd.page";
 	}
 }
