@@ -94,6 +94,9 @@ public class IntrBrdController {
 	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {
     	logger.info("IntrBrdController getFaq");
     	model.addAttribute("list", service.getFaq(scri));
+    	
+    	model.addAttribute("list1", service.top10(scri));
+    	
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
 		pageMaker.setTotalCount(service.listCount3());
@@ -117,9 +120,9 @@ public class IntrBrdController {
 	}
     
     @RequestMapping(value = {"/intr_brd_faq_dtl"})
-	public String view2(HttpServletRequest request, String brdCd, Model model) {
+	public String view2(HttpServletRequest request, String brdCd, Model model, int hit) {
     	logger.info("IntrBrdController intr_brd_faq_dtl");
-    	model.addAttribute("dtl", service.dtl2(brdCd));
+    	model.addAttribute("dtl", service.dtl2(brdCd, hit));
 		return "intrBrd/intr_brd_faq_dtl.page";
 	}
     

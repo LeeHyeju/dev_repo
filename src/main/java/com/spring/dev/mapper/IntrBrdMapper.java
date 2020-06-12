@@ -16,6 +16,9 @@ public interface IntrBrdMapper {
 	public List<IntrBrd> getBrd(Criteria cri);
 	
 	// 게시물 목록 조회
+		public List<IntrBrd> top10(Criteria cri);
+	
+	// 게시물 목록 조회
 	public List<IntrFaq> getFaq(Criteria cri);
 	
 	// 게시물 총 갯수
@@ -59,4 +62,7 @@ public interface IntrBrdMapper {
 	
 	// 게시물 업데이트
 	public void update2(IntrFaq intrFaq);
+	
+	// 게시물 조회수
+	public void boardHit(@Param("brdCd")String brdCd, @Param("hit")int hit);
 }

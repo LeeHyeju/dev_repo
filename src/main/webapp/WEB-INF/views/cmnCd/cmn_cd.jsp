@@ -19,6 +19,8 @@ function fnSrch(){
 		+ ',' + document.getElementById("useYn").value
 	document.getElementById("srchKey").value = srchKey;
 	
+// 	self.location = "cmn_cd" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+	
 	submit('search');
 }
 /*편집*/
@@ -43,7 +45,8 @@ function fnEdit(edit, rNum){
 		document.getElementById("cmnCd").value = document.getElementById("cmnCd2").value;
 	    document.getElementById("cmnNm").value = document.getElementById("cmnNm2").value;
 // 	    document.getElementById("arayOrde").value = document.getElementById("arayOrde2").value;
-	    document.getElementById("useYn").value = document.getElementById("useYn2").value;
+ 		var useYn = document.getElementById("useYn2").value;
+	    document.getElementById("useYn").value = (useYn != "" ? useYn : "");
 		   
 		submit('editSave');
 // 		edit.cells[1].innerHTML;
@@ -61,7 +64,7 @@ function fnClick(groCd){
 }
 
 function submit(service){
-	var form = document.getElementById("viewFrm");
+	var form = document.getElementById("viewForm");
     form.method = "get";
     form.action = "<c:url value='/cmnCd/" + service + "'/>";
     form.submit();
@@ -89,7 +92,7 @@ function submit(service){
 					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
-				<form name="viewFrm" id="viewFrm">
+				<form name="viewForm" id="viewForm">
 				<div class="boardType01_wrap">
 				<input type="hidden" name="srchKey" id="srchKey"/>
 					<div>
@@ -119,6 +122,7 @@ function submit(service){
 								<th>사용여부</th>
 								<td>
 									<select id="useYn" name="useYn">
+										<option value="">전체</option>
 									    <option value="Y">사용</option>
 									    <option value="N">미사용</option>
 									</select>
@@ -247,7 +251,7 @@ function submit(service){
 					</div>
 					
 					<div class="boardType01_write_btn" style="clear:both">
-						<a href="${pageContext.request.contextPath}/cmnCd/insert" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/cmnCd/reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->	
 				</div> <!-- //boardType01_wrap -->
 		

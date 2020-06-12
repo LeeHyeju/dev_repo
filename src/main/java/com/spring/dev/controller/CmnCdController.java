@@ -26,11 +26,27 @@ public class CmnCdController {
 	@Autowired
 	CmnCdService service;
 	
-    @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
-	public String insert(HttpServletRequest request, CmnCd cmnCd, Model model) throws UnsupportedEncodingException {
-    	request.setCharacterEncoding("UTF-8");
-    	logger.info("CmnCdController insert");
-		return "cmnCd/insert.page";
+	/*타일즈 적용 시 page*/
+	
+	@RequestMapping(value = {"/cmn_cd"}, method = RequestMethod.GET)
+	public String list(Model model, SearchCriteria scri, Criteria cri, CmnCd cmnCd) throws Exception{
+		model.addAttribute("list", service.getCmnCd(cmnCd, scri));
+		
+		logger.info("cri>>>{}", scri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("count", service.listCount());
+		model.addAttribute("subCount", 0);
+		model.addAttribute("pageMaker", pageMaker);
+		return "cmnCd/cmn_cd.page";
+	}
+	
+    @RequestMapping(value = {"/reg"}, method = RequestMethod.GET)
+	public String insert(HttpServletRequest request) throws UnsupportedEncodingException {
+//    	request.setCharacterEncoding("UTF-8");
+    	logger.info("CmnCdController reg");
+		return "cmnCd/reg.page";
 	}
     
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
@@ -47,22 +63,9 @@ public class CmnCdController {
        	return "redirect:/cmnCd/cmn_cd";
    	}
        
-	@RequestMapping(value = "/cmn_cd", method = RequestMethod.GET)
-	public String list(Model model, SearchCriteria scri, CmnCd cmnCd) throws Exception{
-		logger.info("list>>>{}", service.getCmnCd(cmnCd, scri));
-		model.addAttribute("list", service.getCmnCd(cmnCd, scri));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount());
-		model.addAttribute("count", service.listCount());
-		model.addAttribute("subCount", 0);
-		model.addAttribute("pageMaker", pageMaker);
-		return "cmnCd/cmn_cd.page";
-	}
-	
     @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
 	public String search(HttpServletRequest request, CmnCd cmnCd, Model model, SearchCriteria scri, Criteria cri) {
-    	logger.info("CmnCdController search");
+    	logger.info("CmnCdController search>>>>{}",scri);
     	model.addAttribute("list", service.search(cmnCd, cri));
     	PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(scri);
@@ -84,12 +87,15 @@ public class CmnCdController {
 		logger.info("srchKey>>>>> {}", srchKey);
 		if(!srchKey.equals("")) {
 			String[] keyArray = srchKey.split(",");
-			if(keyArray.length != 1 || keyArray.length != 0) {
-				cmnCd.setGroCd(keyArray[0]);
-				cmnCd.setGroNm(keyArray[1]);
-				cmnCd.setCmnCd(keyArray[2]);
-				cmnCd.setCmnNm(keyArray[3]);
-				cmnCd.setUseYn(keyArray[4]);
+			logger.info("srchKey>>>>> {}", keyArray.length);
+			if(keyArray.length != 1 && keyArray.length != 0 && keyArray.length != 2) {
+				if(keyArray[2] != "") {
+					cmnCd.setGroCd(keyArray[0]);
+					cmnCd.setGroNm(keyArray[1]);
+					cmnCd.setCmnCd(keyArray[2]);
+					cmnCd.setCmnNm(keyArray[3]);
+					cmnCd.setUseYn(keyArray[4]);
+				}
 			}
 			model.addAttribute("list", service.getCmnCd(cmnCd, scri));
 			model.addAttribute("count", service.listCount2(cmnCd));

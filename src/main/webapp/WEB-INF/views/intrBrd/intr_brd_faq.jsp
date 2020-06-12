@@ -83,7 +83,63 @@ function submit(service){
 					</ul>
 					
 					<div id="tab-1" class="tab-content current">
-						TOP10
+						<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
+						
+						<c:set var="cols" value="5"/>
+						<table id="boardTable2" class="boardType01_tblList">
+							<caption><span class="t-hidden">질문형</span></caption>
+							<colgroup>
+								<col style="width:2%"/>
+								<col style="width:7%"/>
+								<col style="width:7%"/>
+								<col style="width:7%"/>
+								<col style="width:7%"/>
+								<col style="width:7%"/>
+							</colgroup>
+							<thead>
+							<tr>
+								<th></th>
+								<th>문의유형</th>
+								<th>제목</th>
+								<th>작성날짜</th>
+								<th>작성자</th>
+								<th>조회수</th>
+							</tr>
+							</thead>
+							<tbody>
+							<c:forEach var="faq" items="${list1}">
+							<tr>
+									<td>${faq.rNum}</td>
+									<td>${faq.brdType}</td>
+									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${faq.brdCd}&hit=${faq.hit}">${faq.brdTl}</a></td>
+									<td><fmt:formatDate value="${faq.regDt}" pattern="yyyy.MM.dd"/></td>
+									<td class="t-gray">${faq.regId}</td>
+									<td>${faq.hit}</td>
+							</tr>
+					     	</c:forEach>
+					     	<c:if test="${empty list1}">
+							<tr>
+								<td colspan="10" class="no-data">게시물이 없습니다.</td>
+							</tr>
+							</c:if>
+							</tbody>
+						</table> <!-- //boardType01_tblList -->
+						
+						<div class="pagination">
+						  <ul>
+						    <c:if test="${pageMaker.prev}">
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+						    </c:if> 
+						
+						    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+						    </c:forEach>
+						
+						    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+						    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+						    </c:if> 
+						  </ul>
+						</div>
 					</div>
 					
 					<div id="tab-2" class="tab-content">
@@ -98,6 +154,7 @@ function submit(service){
 								<col style="width:7%"/>
 								<col style="width:7%"/>
 								<col style="width:7%"/>
+								<col style="width:7%"/>
 							</colgroup>
 							<thead>
 							<tr>
@@ -106,6 +163,7 @@ function submit(service){
 								<th>제목</th>
 								<th>작성날짜</th>
 								<th>작성자</th>
+								<th>조회수</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -113,9 +171,10 @@ function submit(service){
 							<tr>
 									<td>${faq.rNum}</td>
 									<td>${faq.brdType}</td>
-									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${faq.brdCd}">${faq.brdTl}</a></td>
+									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${faq.brdCd}&hit=${faq.hit}">${faq.brdTl}</a></td>
 									<td><fmt:formatDate value="${faq.regDt}" pattern="yyyy.MM.dd"/></td>
 									<td class="t-gray">${faq.regId}</td>
+									<td>${faq.hit}</td>
 							</tr>
 					     	</c:forEach>
 					     	<c:if test="${empty list}">

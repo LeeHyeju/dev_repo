@@ -10,6 +10,7 @@ public class IntrFaq {
 	private String regId;
 	private Date regDt;
 	private String useYn;
+	private int hit;
 	
 	private String rNum;
 	public String getrNum() {
@@ -61,9 +62,16 @@ public class IntrFaq {
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
+	public int getHit() {
+		return hit;
+	}
+	public void setHit(int hit) {
+		this.hit = hit;
+	}
 	@Override
 	public String toString() {
 		return "IntrFaq [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTl=" + brdTl + ", brdCont=" + brdCont
-				+ ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", rNum=" + rNum + "]";
+				+ ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", hit=" + hit + ", rNum=" + rNum
+				+ "]";
 	}
 }

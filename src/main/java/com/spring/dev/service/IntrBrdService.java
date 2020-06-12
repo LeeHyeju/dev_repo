@@ -21,6 +21,10 @@ public class IntrBrdService {
 		return mapper.getBrd(scri);
 	}
 	
+	public List<IntrBrd> top10(SearchCriteria scri) {
+		return mapper.top10(scri);
+	}
+	
 	public List<IntrFaq> getFaq(SearchCriteria scri) {
 		return mapper.getFaq(scri);
 	}
@@ -45,7 +49,8 @@ public class IntrBrdService {
 		return mapper.dtl(boardCd);
 	}
 	
-	public IntrFaq dtl2(String brdCd) {
+	public IntrFaq dtl2(String brdCd, int hit) {
+		mapper.boardHit(brdCd, hit);
 		return mapper.dtl2(brdCd);
 	}
 	
@@ -79,5 +84,9 @@ public class IntrBrdService {
 	
 	public void update2(IntrFaq intrFaq) {
 		mapper.update2(intrFaq);
+	}
+	
+	public void boardHit(String brdCd, int hit) {
+		mapper.boardHit(brdCd, hit);
 	}
 }

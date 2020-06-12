@@ -12,6 +12,17 @@
 		ORDER BY tb_board_notice.boardCd ASC
 	</select>
 	
+	<select id="top10" resultType="IntrBrd" parameterType="Criteria">
+			SELECT   tb_board_notice.*
+		FROM(
+			SELECT   tb_board_notice.*
+   				,ROW_NUMBER() OVER(ORDER BY tb_board_notice.boardCd ASC) AS rNum
+			FROM tb_board_notice
+		) tb_board_notice
+		WHERE (rNum BETWEEN 1 AND 10)  AND hit > 0
+		ORDER BY tb_board_notice.hit DESC
+	</select>
+	
 	<select id="listCount" resultType="int">
 	    SELECT COUNT(*)
 	    FROM tb_board_notice
@@ -156,4 +167,13 @@
 		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY faq.brdCd ASC
 	</select>
+		
+	<!-- 게시판 조회수 -->
+    <update id="boardHit" parameterType="int">
+    	UPDATE 
+			tb_board_faq
+		SET	
+    		hit = ${hit}+1
+    	WHERE brdCd = ${brdCd}
+    </update>
 </mapper>
