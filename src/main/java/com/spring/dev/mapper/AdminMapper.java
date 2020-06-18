@@ -15,10 +15,12 @@ public interface AdminMapper {
 
 	public int insert(Admin admin);
 	
-	public String update(Admin admin);
+	public void update(Admin admin);
 
-	public String delete(String admId);
+	public void delete(String admId);
 
 	public Admin login(Admin admin);
+
+	public int idCheck(String admId);
 
 }

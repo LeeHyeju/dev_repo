@@ -26,15 +26,19 @@ public class AdminService {
 		return mapper.insert(admin);
 	}
 	
-	public String update(Admin admin) {
-		return mapper.update(admin);
+	public void update(Admin admin) {
+		mapper.update(admin);
 	}
 
-	public String delete(String admId) {
-		return mapper.delete(admId);
+	public void delete(String admId) {
+		mapper.delete(admId);
 	}	
 	
 	public Admin login(Admin admin) {
 		return mapper.login(admin);
+	}
+	
+	public int idCheck(String admId) {
+		return mapper.idCheck(admId);
 	}
 }
