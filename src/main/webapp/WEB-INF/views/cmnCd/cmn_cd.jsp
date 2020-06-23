@@ -7,29 +7,57 @@
 <script>
 /*초기화*/
 function fnReset(){
-	 submit('cmn_cd');
+	document.getElementById("keyGroCd").value = "";
+	document.getElementById("keyGroNm").value = "";
+	document.getElementById("keyCmnCd").value = "";
+	document.getElementById("keyCmnNm").value = "";
+	document.getElementById("keyUseYn").value = "";
 }
 /*검색*/
 function fnSrch(){
-	var srchKey = 
-		  document.getElementById("groCd").value
-		+ ',' + document.getElementById("groNm").value
-		+ ',' + document.getElementById("cmnCd").value
-		+ ',' + document.getElementById("cmnNm").value
-		+ ',' + document.getElementById("useYn").value
-	document.getElementById("srchKey").value = srchKey;
-	
-// 	self.location = "cmn_cd" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
-	
-	submit('search');
+	submit('cmn_cd');
+}
+/*그룹코드 선택*/
+function fnClick(groCd){
+	document.getElementById("groCd").value = groCd;
+	getParams();
+	submit('click');
+}
+function getParams() {
+	// 현재 URL
+    var url = document.location.href;
+    // 파라미터가 담길 배열
+    var param = new Array();
+    
+    if(url.indexOf('?') != -1){
+	    // url에서 '?' 문자 이후의 파라미터 문자열까지 자르기
+	    var params = url.substring(url.indexOf('?')+1, url.length);
+	    // 파라미터 구분자("&") 로 분리
+	    params = params.split("&");
+	    // params 배열을 다시 "=" 구분자로 분리하여 param 배열에 key = value 로 담는다.
+	    var key, value;
+	    for(var i=0 ; i < params.length-1 ; i++) {
+	        key = params[i].split("=")[0];
+	        value = params[i].split("=")[1];
+
+	        if(key == 'page'){
+	        	document.getElementById(key).value = "${page}";
+	        }
+	        
+	        if(key != 'perPageNum' && key != 'page'){
+	        	document.getElementById(key).value = value;
+	        }
+	    }
+    }
+    return param;
 }
 /*편집*/
 function fnEdit(edit, rNum){
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	const param = urlParams.get('groCd');
-    document.getElementById("groCd").value = param;
-         
+    document.getElementById("keyGroCd").value = param;
+
 	var editN = document.getElementById("editN["+rNum+"]");
 	var editY = document.getElementById("editY["+rNum+"]");
 	editN.style.display = 'none';
@@ -37,32 +65,20 @@ function fnEdit(edit, rNum){
 	
 	if(edit == 'N') {
 		// 편집
-		document.getElementById("editY["+rNum+"]").style.display = 'contents';
+		editY.style.display = 'contents';
 	} else {
 		// 저장
 		editN.style.display = 'contents';
 		
-		document.getElementById("cmnCd").value = document.getElementById("cmnCd2").value;
-	    document.getElementById("cmnNm").value = document.getElementById("cmnNm2").value;
-// 	    document.getElementById("arayOrde").value = document.getElementById("arayOrde2").value;
- 		var useYn = document.getElementById("useYn2").value;
-	    document.getElementById("useYn").value = (useYn != "" ? useYn : "");
+		document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
+	    document.getElementById("keyCmnNm").value = document.getElementById("cmnNm["+rNum+"]").value;
+	    document.getElementById("keyArayOrde").value = document.getElementById("arayOrde["+rNum+"]").value;
+	    document.getElementById("keyUseYn").value = document.getElementById("useYn["+rNum+"]").value;
 		   
 		submit('editSave');
-// 		edit.cells[1].innerHTML;
 	}
 }
-/*그룹코드 행 클릭*/
-function fnClick(groCd){
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const param = urlParams.get('srchKey');
-    document.getElementById("srchKey").value = param;
-    
-    document.getElementById("groCd").value = groCd;
-    submit('click');
-}
-
+/*submit*/
 function submit(service){
 	var form = document.getElementById("viewForm");
     form.method = "get";
@@ -72,7 +88,7 @@ function submit(service){
 </script>
 
 <style type="text/css">
-	.li1 {list-style: none; float: left; padding: 6px;}
+	.li {list-style: none; float: left; padding: 6px;}
 	.hover:hover {background-color:#f5f5f5;}
 	.border {border-style: hidden};
 </style>
@@ -94,7 +110,6 @@ function submit(service){
 						
 				<form name="viewForm" id="viewForm">
 				<div class="boardType01_wrap">
-				<input type="hidden" name="srchKey" id="srchKey"/>
 					<div>
 						<table id="boardTable1" class="boardType01_tblList">
 							<caption><span class="t-hidden">검색</span></caption>
@@ -108,30 +123,27 @@ function submit(service){
 							<tbody>
 							<tr>
 								<th>그룹명</th>
-								<td><input type="text" id="groNm" name="groNm"></td>
+								<td><input type="text" id="keyGroNm" name="keyGroNm"></td>
 								<th>그룹코드</th>
-								<td><input type="text" id="groCd" name="groCd"></td>
+								<td><input type="text" id="keyGroCd" name="keyGroCd"></td>
 							</tr>
 							<tr>
 								<th>코드명</th>
-								<td><input type="text" id="cmnNm" name="cmnNm"></td>
+								<td><input type="text" id="keyCmnNm" name="keyCmnNm"></td>
 								<th>코드</th>
-								<td><input type="text" id="cmnCd" name="cmnCd"></td>
+								<td><input type="text" id="keyCmnCd" name="keyCmnCd"></td>
 							</tr>
 							<tr>
 								<th>사용여부</th>
 								<td>
-									<select id="useYn" name="useYn">
+									<select id="keyUseYn" name="keyUseYn">
 										<option value="">전체</option>
 									    <option value="Y">사용</option>
 									    <option value="N">미사용</option>
 									</select>
 								</td>
-<!-- 								<th>정렬순서</th> -->
-<!-- 								<td><input type="text" id="arayOrde" name="arayOrde"></td> -->
 								<th></th>
 								<td></td>
-							
 							</tr>
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
@@ -149,6 +161,9 @@ function submit(service){
 									총 <strong><c:out value="${count}"></c:out></strong>개의 게시물이 있습니다.
 								</span>
 								
+								<input type="hidden" name="keyArayOrde" id="keyArayOrde"/>
+								<input type="hidden" name="page" id="page" value="1"/>
+								<input type="hidden" name="groCd" id="groCd"/>
 								<table id="boardTable2" class="boardType01_tblList" style="width:250px;">
 									<caption><span class="t-hidden">그룹코드</span></caption>
 									<colgroup>
@@ -183,15 +198,15 @@ function submit(service){
 							<div class="pagination">
 							  <ul>
 							    <c:if test="${pageMaker.prev}">
-							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+							    	<li class="li"><a href="cmn_cd${pageMaker.makeQuery(pageMaker.startPage - 1)}&<%=  request.getQueryString() %>">이전</a></li>
 							    </c:if> 
 							
 							    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+							    	<li class="li"><a href="cmn_cd${pageMaker.makeQuery(idx)}&<%=  request.getQueryString() %>">${idx}</a></li>
 							    </c:forEach>
 							
 							    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-							    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+							    	<li class="li"><a href="cmn_cd${pageMaker.makeQuery(pageMaker.endPage + 1)}&<%=  request.getQueryString() %>">다음</a></li>
 							    </c:if> 
 							  </ul>
 							</div>
@@ -233,10 +248,10 @@ function submit(service){
 								</tr>
 								<tr id="editY[${cmnCd.rNum}]" style="display:none;">
 										<td>${cmnCd.rNum}</td>
-										<td><input type="text" style="width:80px;" id="cmnCd2" value="${cmnCd.cmnCd}"/></td>
-										<td><input type="text" style="width:80px;" id="cmnNm2" value="${cmnCd.cmnNm}"/></td>
-										<td><input type="text" style="width:80px;" id="arayOrde2" value="${cmnCd.arayOrde}"/></td>
-										<td><input type="text" style="width:80px;" id="useYn2" value="${cmnCd.useYn}"/></td>
+										<td><input type="text" style="width:80px;" id="cmnCd[${cmnCd.rNum}]" value="${cmnCd.cmnCd}" readonly/></td>
+										<td><input type="text" style="width:80px;" id="cmnNm[${cmnCd.rNum}]" value="${cmnCd.cmnNm}"/></td>
+										<td><input type="text" style="width:80px;" id="arayOrde[${cmnCd.rNum}]" value="${cmnCd.arayOrde}"/></td>
+										<td><input type="text" style="width:80px;" id="useYn[${cmnCd.rNum}]" value="${cmnCd.useYn}"/></td>
 										<td><button type="button" onClick='fnEdit("Y",${cmnCd.rNum})' id="btnEditY" class="btnTxt btnTxt_small btnTxt_gray">저장</button></td>
 								</tr>
 						     	</c:forEach>

@@ -11,6 +11,7 @@
             <typeAlias type="com.spring.dev.domain.IntrBrd" alias="IntrBrd"/>
             <typeAlias type="com.spring.dev.domain.IntrFaq" alias="IntrFaq"/>
             <typeAlias type="com.spring.dev.domain.Criteria" alias="Criteria"/>
+            <typeAlias type="com.spring.dev.domain.SearchKey" alias="SearchKey"/>
      </typeAliases>
 </configuration> 
 

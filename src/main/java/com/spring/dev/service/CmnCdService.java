@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
-import com.spring.dev.domain.SearchCriteria;
+import com.spring.dev.domain.SearchKey;
 import com.spring.dev.mapper.CmnCdMapper;
 
 @Service
@@ -15,31 +15,27 @@ public class CmnCdService {
 	@Autowired
 	CmnCdMapper mapper;
 	
-	public List<CmnCd> getCmnCd(CmnCd cmnCd, SearchCriteria scri) {
-		return mapper.getCmnCd(cmnCd, scri);
+	public List<CmnCd> list(SearchKey searchKey, Criteria cri) {
+		return mapper.list(searchKey, cri);
 	}
 	
-	public int listCount() {
-		return mapper.listCount();
-	}
-	
-	public int listCount2(CmnCd cmnCd) {
-		return mapper.listCount2(cmnCd);
+	public int listCount(SearchKey searchKey) {
+		return mapper.listCount(searchKey);
 	}
 
-	public int insert(CmnCd cmnCd) {
-		return mapper.insert(cmnCd);
+	public List<CmnCd> subList(String groCd) {
+		return mapper.subList(groCd);
 	}
 	
-	public List<CmnCd> search(CmnCd cmnCd, Criteria cri) {
-		return mapper.search(cmnCd, cri);
+	public int subCount(String groCd) {
+		return mapper.subCount(groCd);
 	}
 	
-	public List<CmnCd> click(String groCd, Criteria cri) {
-		return mapper.click(groCd, cri);
+	public void insert(CmnCd cmnCd) {
+		mapper.insert(cmnCd);
 	}
 	
-	public void update(CmnCd cmnCd) {
-		mapper.update(cmnCd);
+	public void update(SearchKey searchKey) {
+		mapper.update(searchKey);
 	}
 }

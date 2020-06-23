@@ -1,84 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.CmnCdMapper">
-
-<!-- 	<select id="getCmnCd" resultType="CmnCd" parameterType="Criteria"> -->
-<!-- 		SELECT   cmnCd.* -->
-<!-- 		FROM( -->
-<!-- 			SELECT   cmnCd.* -->
-<!--    				,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum -->
-<!-- 			FROM (SELECT DISTINCT groCd,groNm FROM tb_cmn_cd -->
-<!-- 			) cmnCd -->
-<!-- 		) cmnCd -->
-<!-- 		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd} -->
-<!-- 		ORDER BY cmnCd.groCd ASC -->
-<!-- 	</select> -->
-	<select id="getCmnCd" resultType="CmnCd" parameterType="Criteria">		 	
-		SELECT   cmnCd.*
-  		FROM(
- 				SELECT   cmnCd.*
-		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
- 				FROM (	SELECT DISTINCT groCd,groNm
-	  	  				FROM tb_cmn_cd
-			 			WHERE 	groCd LIKE '%${cmnCd.groCd}%' 
-						 		AND cmnCd LIKE '%${cmnCd.cmnCd}%'
-						 		AND groNm LIKE '%${cmnCd.groNm}%'
-						   		AND cmnNm LIKE '%${cmnCd.cmnNm}%'
-							 	AND useYn LIKE '%${cmnCd.useYn}%'
-				) cmnCd
+	<select id="list" resultType="CmnCd">
+		SELECT	cmnCd.*
+		FROM(
+			SELECT	 cmnCd.*
+   					,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
+			FROM (SELECT DISTINCT groCd, groNm FROM tb_cmn_cd
+				  WHERE		groCd LIKE '%${searchKey.keyGroCd}%' 
+				 		AND cmnCd LIKE '%${searchKey.keyCmnCd}%'
+				 		AND groNm LIKE '%${searchKey.keyGroNm}%'
+				   		AND cmnNm LIKE '%${searchKey.keyCmnNm}%'
+					 	AND useYn LIKE '%${searchKey.keyUseYn}%'
+			) cmnCd
 		) cmnCd
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-		ORDER BY cmnCd.groCd ASC
+		ORDER BY rNum ASC
 	</select>
-
-	<select id="search" resultType="CmnCd" parameterType="CmnCd">		 	
-		SELECT   cmnCd.*
-  		FROM(
- 				SELECT   cmnCd.*
-		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.groCd ASC) AS rNum
- 				FROM (	SELECT DISTINCT groCd,groNm
-	  	  				FROM tb_cmn_cd
-			 			WHERE 	groCd LIKE '%${cmnCd.groCd}%' 
-						 		AND cmnCd LIKE '%${cmnCd.cmnCd}%'
-						 		AND groNm LIKE '%${cmnCd.groNm}%'
-						   		AND cmnNm LIKE '%${cmnCd.cmnNm}%'
-							 	AND useYn LIKE '%${cmnCd.useYn}%'
-				) cmnCd
-		) cmnCd
-		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-		ORDER BY cmnCd.groCd ASC
+		
+	<select id="listCount" resultType="int" parameterType="SearchKey">
+	   	SELECT COUNT(DISTINCT groCd)
+	   	FROM tb_cmn_cd
+	    	WHERE 	groCd LIKE '%${keyGroCd}%' 
+		 		AND cmnCd LIKE '%${keyCmnCd}%'
+		 		AND groNm LIKE '%${keyGroNm}%'
+		   		AND cmnNm LIKE '%${keyCmnNm}%'
+			 	AND useYn LIKE '%${keyUseYn}%'
 	</select>
 	
-	<select id="listCount" resultType="int">
+	<select id="subList" resultType="CmnCd" parameterType="String">		 	
+		SELECT 	 cmnCd.*
+				,ROW_NUMBER() OVER(ORDER BY cmnCd.cmnCd ASC) AS rNum
+		FROM (SELECT cmnCd, cmnNm, arayOrde, useYn FROM tb_cmn_cd
+			  WHERE groCd LIKE '%${groCd}%'
+		) cmnCd
+		ORDER BY rNum ASC
+	</select>
+	
+	<select id="subCount" resultType="int" parameterType="String">
 	    SELECT COUNT(*)
 	    FROM tb_cmn_cd
+	    WHERE groCd LIKE '%${groCd}%'
 	</select>
 	
-	<select id="listCount2" resultType="int" parameterType="CmnCd">
-	    SELECT COUNT(DISTINCT groCd)
-	    FROM tb_cmn_cd
-	    	WHERE 	groCd LIKE '%${groCd}%' 
-			 		AND cmnCd LIKE '%${cmnCd}%'
-			 		AND groNm LIKE '%${groNm}%'
-			   		AND cmnNm LIKE '%${cmnNm}%'
-				 	AND useYn LIKE '%${useYn}%'
-	</select>
-	
-	<select id="click" resultType="CmnCd" parameterType="CmnCd">		 	
-		SELECT	cmnCd.*
-  		FROM(
-				SELECT   cmnCd.*
-		    			,ROW_NUMBER() OVER(ORDER BY cmnCd.cmnCd ASC) AS rNum
- 				FROM (	SELECT cmnCd, cmnNm, arayOrde, useYn
-	  	  				FROM tb_cmn_cd
- 						WHERE 	groCd LIKE '%${groCd}%'
- 				) cmnCd
- 		) cmnCd
-		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-		ORDER BY cmnCd.cmnCd ASC
-	</select>
-	
-	<insert id="insert" >
+	<insert id="insert" parameterType="CmnCd">
 		INSERT INTO 
 			tb_cmn_cd (
 					 groCd
@@ -102,14 +67,15 @@
 		)
 	</insert>
 	
-	<update id="update" parameterType="CmnCd">
+	<update id="update" parameterType="SearchKey">
 		UPDATE 
 			tb_cmn_cd
 		SET	
-			 cmnCd = #{cmnCd}
-			,cmnNm = #{cmnNm}
-			,useYn = #{useYn}
+			 cmnCd = #{keyCmnCd}
+			,cmnNm = #{keyCmnNm}
+			,useYn = #{keyUseYn}
+			,arayOrde = #{keyArayOrde}
 		WHERE 
-			groCd = #{groCd}
+			groCd = #{keyGroCd} AND cmnCd = #{keyCmnCd}
 	</update>
 </mapper>

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
-	<select id="getBrd" resultType="IntrBrd" parameterType="Criteria">
-		SELECT   tb_board_notice.*
+	<select id="list" resultType="IntrBrd">
+		SELECT   tblNm.*
 		FROM(
-			SELECT   tb_board_notice.*
-   				,ROW_NUMBER() OVER(ORDER BY tb_board_notice.boardCd ASC) AS rNum
-			FROM tb_board_notice
-		) tb_board_notice
-		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY tb_board_notice.boardCd ASC
+			SELECT   ${tblNm}.*
+   					,ROW_NUMBER() OVER(ORDER BY #{tblNm}.boardCd ASC) AS rNum
+			FROM ${tblNm}
+		) tblNm
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+		ORDER BY tblNm.boardCd ASC
+	</select>
+	
+	<select id="listCount" resultType="int" parameterType="String">
+	    SELECT COUNT(*)
+	    FROM ${tblNm}
 	</select>
 	
 	<select id="top10" resultType="IntrBrd" parameterType="Criteria">
@@ -23,10 +28,7 @@
 		ORDER BY tb_board_notice.hit DESC
 	</select>
 	
-	<select id="listCount" resultType="int">
-	    SELECT COUNT(*)
-	    FROM tb_board_notice
-	</select>
+
 	
 	<select id="listCount2" resultType="int">
 	    SELECT COUNT(*)

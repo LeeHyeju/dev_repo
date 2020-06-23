@@ -12,17 +12,22 @@ import com.spring.dev.domain.IntrFaq;
 @Repository(value = "IntrBrdMapper")
 public interface IntrBrdMapper {
 
-	// 게시물 목록 조회
-	public List<IntrBrd> getBrd(Criteria cri);
+	// 게시물 List 조회
+	public List<IntrBrd> list(@Param("tblNm")String tblNm, @Param("cri")Criteria cri);
 	
-	// 게시물 목록 조회
-		public List<IntrBrd> top10(Criteria cri);
+	// 게시물 List 개수
+	public int listCount(@Param("tblNm")String tblNm);
+	
+	// 게시물 List top10 조회
+	public List<IntrBrd> top10(Criteria cri);
+	
+	
+	
 	
 	// 게시물 목록 조회
 	public List<IntrFaq> getFaq(Criteria cri);
 	
-	// 게시물 총 갯수
-	public int listCount();
+	
 	
 	// 게시물 총 갯수
 	public int listCount2(IntrBrd intrBrd);

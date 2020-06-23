@@ -22,14 +22,6 @@ public class CmnCd {
 		this.rNum = rNum;
 	}
 	
-	private String srchKey;
-	public String getSrchKey() {
-		return srchKey;
-	}
-	public void setSrchKey(String srchKey) {
-		this.srchKey = srchKey;
-	}
-	
 	public String getGroCd() {
 		return groCd;
 	}

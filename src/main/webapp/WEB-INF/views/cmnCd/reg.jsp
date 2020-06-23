@@ -6,10 +6,27 @@
 
 <script>
 /*저장*/
-function fn_insert(){
-    var form = document.getElementById("writeFrm");
-    form.method = "post";
-    form.action = "<c:url value='/cmnCd/insert'/>";
+function fnInsert(){
+	if(document.getElementById("groCd").value == ""
+	|| document.getElementById("groNm").value == ""
+	|| document.getElementById("cmnCd").value == ""
+	|| document.getElementById("cmnNm").value == ""
+	|| document.getElementById("arayOrde").value == ""
+	|| (document.getElementById("useYnY").checked == false && document.getElementById("useYnN").checked == false)){
+		alert("필수값을 입력하세요");
+	}else{
+		submit('insert');
+	}
+}
+/*목록*/
+function fnList(){
+   	submit('cmn_cd');
+}
+/*submit*/
+function submit(service){
+	var form = document.getElementById("writeFrm");
+    form.method = "get";
+    form.action = "<c:url value='/cmnCd/" + service + "'/>";
     form.submit();
 }
 </script>
@@ -27,7 +44,7 @@ function fn_insert(){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">공 통 코 드 관 리</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 				
 				<div class="boardType01_wrap">
@@ -36,7 +53,7 @@ function fn_insert(){
 					<form name="writeFrm" id="writeFrm">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}" />
 					<div class="boardType01_write">
-						<table cellspacing="0" class="boardType01_tbl">
+						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;" />
@@ -51,7 +68,7 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -64,7 +81,7 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -77,7 +94,7 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="cmnCd" id="cmnCd" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="cmnCd" id="cmnCd" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -90,7 +107,7 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="cmnNm" id="cmnNm" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="cmnNm" id="cmnNm" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -103,7 +120,7 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="arayOrde" id="arayOrde" class="input_textN" style="width:200px;" maxlength="50" value=""/>
+											<input type="text" name="arayOrde" id="arayOrde" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -116,9 +133,9 @@ function fn_insert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="radio" name="useYn" id="useYn" class="input_group" style="width:200px;" maxlength="50" value="Y">
+											<input type="radio" name="useYn" id="useYnY" class="input_group" style="width:200px;" value="Y">
 											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="useYn" id="useYn" class="input_group" style="width:200px;" maxlength="50" value="N">
+											<input type="radio" name="useYn" id="useYnN" class="input_group" style="width:200px;" value="N">
 											<label for="ancmOptnYn">미사용</label>
 										</div>
 									</td>
@@ -129,9 +146,11 @@ function fn_insert(){
 					</form>
 						
 					<div class="boardType01_write_btn">
-						<button id="btn_save" onClick='fn_insert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="btn_del" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
+						<button id="btnSave" onClick='fnInsert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button id="btnList" onClick='fnList()' class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></button>
+<!-- 						<div class="boardType01_write_btn" style="clear:both"> -->
+<%-- 							<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd" class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></a> --%>
+<!-- 						</div> -->
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

@@ -13,7 +13,7 @@ function fnSrch(){
 function fnReg(){
 	 submit('intr_brd_brd_reg');
 }
-
+/*submit*/
 function submit(service){
 	var form = document.getElementById("searchFrm");
     form.method = "get";
@@ -22,7 +22,7 @@ function submit(service){
 }
 </script>
 <style type="text/css">
-	.li1 {list-style: none; float: left; padding: 6px;}
+	.li {list-style: none; float: left; padding: 6px;}
 </style>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -58,16 +58,16 @@ function submit(service){
 					
 					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
 					
-					<c:set var="cols" value="5"/>
-					<table id="boardTable2" class="boardType01_tblList" cellspacing="0">
+					<c:set var="cols" value="6"/>
+					<table id="boardTable2" class="boardType01_tblList">
 						<caption><span class="t-hidden">게시판형</span></caption>
 						<colgroup>
-							<col style="width:1%" />
-							<col style="width:7%" />
-							<col style="width:7%" />
-							<col style="width:7%" />
-							<col style="width:7%" />
-							<col style="width:7%" />
+							<col style="width:1%"/>
+							<col style="width:7%"/>
+							<col style="width:7%"/>
+							<col style="width:7%"/>
+							<col style="width:7%"/>
+							<col style="width:7%"/>
 						</colgroup>
 						<thead>
 						<tr>
@@ -101,15 +101,15 @@ function submit(service){
 					<div class="pagination">
 					  <ul>
 					    <c:if test="${pageMaker.prev}">
-					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
 					    </c:if> 
 					
 					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
 					    </c:forEach>
 					
 					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-					    	<li class="li1"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
 					    </c:if> 
 					  </ul>
 					</div>

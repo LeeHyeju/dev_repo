@@ -2,6 +2,7 @@ package com.spring.dev.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.PageMaker;
-import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.service.IntrBrdService;
 
 @Controller
@@ -25,35 +25,42 @@ public class IntrBrdController {
 	IntrBrdService service;
 	
 	/**************************** 공 통 게 시 판 ************************************************/
-    @RequestMapping(value = {"/info"})
-	public String getInfo(HttpServletRequest request,  Model model) {
-    	logger.info("IntrBrdController list");
-		return "intrBrd/info.page";
+    @RequestMapping(value = {"/intr_brd"})
+	public String getInfo() {
+    	logger.info("IntrBrdController intr_brd");
+		return "intrBrd/intr_brd.page";
 	}
     /**************************** 공 통 게 시 판 (공지)*******************************************/
+    // 공통게시판 List
     @RequestMapping(value = {"/intr_brd_brd"})
-	public String getBrd(HttpServletRequest request,  Model model, SearchCriteria scri) {
-    	logger.info("IntrBrdController getBrd");
-    	model.addAttribute("list", service.getBrd(scri));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount());
-		model.addAttribute("count", service.listCount());
-		model.addAttribute("pageMaker", pageMaker);
-		return "intrBrd/intr_brd_brd.page";
-	}
-	
-	@RequestMapping(value = {"/intr_brd_brd_search"})
-	public String search(HttpServletRequest request, Model model, IntrBrd intrBrd, SearchCriteria scri, Criteria cri) {
-		logger.info("IntrBrdController search");
-    	model.addAttribute("list", service.search(intrBrd, cri));
+	public String getBrd(Model model, Criteria cri) {
+    	logger.info("IntrBrdController list");
+    	String tblNm = "tb_board_notice";
+    	int count = service.listCount(tblNm);
+    	
+    	// List 세팅
+    	model.addAttribute("list", service.list(tblNm, cri));
+    	model.addAttribute("count", count);
+		
     	PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount2(intrBrd));
-		model.addAttribute("count", service.listCount2(intrBrd));
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
 		model.addAttribute("pageMaker", pageMaker);
+		
 		return "intrBrd/intr_brd_brd.page";
 	}
+//	
+//	@RequestMapping(value = {"/intr_brd_brd_search"})
+//	public String search(HttpServletRequest request, Model model, IntrBrd intrBrd, SearchCriteria scri, Criteria cri) {
+//		logger.info("IntrBrdController search");
+//    	model.addAttribute("list", service.search(intrBrd, cri));
+//    	PageMaker pageMaker = new PageMaker();
+//		pageMaker.setCri(scri);
+//		pageMaker.setTotalCount(service.listCount2(intrBrd));
+//		model.addAttribute("count", service.listCount2(intrBrd));
+//		model.addAttribute("pageMaker", pageMaker);
+//		return "intrBrd/intr_brd_brd.page";
+//	}
     
     @RequestMapping(value = {"/intr_brd_brd_dtl"})
 	public String view(HttpServletRequest request, String boardCd, Model model) {
@@ -90,20 +97,20 @@ public class IntrBrdController {
    		return "redirect:/intrBrd/intr_brd_brd";
    	}
     /**************************** 공 통 게 시 판 (FAQ)*******************************************/
-    @RequestMapping(value = {"/intr_brd_faq"})
-	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {
-    	logger.info("IntrBrdController getFaq");
-    	model.addAttribute("list", service.getFaq(scri));
-    	
-    	model.addAttribute("list1", service.top10(scri));
-    	
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(scri);
-		pageMaker.setTotalCount(service.listCount3());
-		model.addAttribute("count", service.listCount3());
-		model.addAttribute("pageMaker", pageMaker);
-		return "intrBrd/intr_brd_faq.page";
-	}
+//    @RequestMapping(value = {"/intr_brd_faq"})
+//	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {
+//    	logger.info("IntrBrdController getFaq");
+//    	model.addAttribute("list", service.getFaq(scri));
+//    	
+//    	model.addAttribute("list1", service.top10(scri));
+//    	
+//		PageMaker pageMaker = new PageMaker();
+//		pageMaker.setCri(scri);
+//		pageMaker.setTotalCount(service.listCount3());
+//		model.addAttribute("count", service.listCount3());
+//		model.addAttribute("pageMaker", pageMaker);
+//		return "intrBrd/intr_brd_faq.page";
+//	}
     
     @RequestMapping(value = {"/intr_brd_faq_reg"})
 	public String reg(HttpServletRequest request,  Model model) {

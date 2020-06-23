@@ -7,27 +7,25 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.SearchKey;
 
 @Repository(value = "CmnCdMapper")
 public interface CmnCdMapper {
-	// 게시물 목록 조회
-	public List<CmnCd> getCmnCd(@Param("cmnCd")CmnCd cmnCd, @Param("cri")Criteria cri);
+	// 게시물 List 조회
+	public List<CmnCd> list(@Param("searchKey")SearchKey searchKey, @Param("cri")Criteria cri);
+	
+	// 게시물 List 개수
+	public int listCount(SearchKey searchKey);
+	
+	// 선택 게시물 subList 조회
+	public List<CmnCd> subList(@Param("groCd")String groCd);
+	
+	// 선택 게시물 subList 개수
+	public int subCount(@Param("groCd")String groCd);
 	
 	// 게시물 등록
-	public int insert(CmnCd cmnCd);
-	
-	// 게시물 총 갯수
-	public int listCount();
-	
-	// 게시물 총 갯수
-	public int listCount2(CmnCd cmnCd);
-	
-	// 게시물 검색
-	public List<CmnCd> search(@Param("cmnCd")CmnCd cmnCd, @Param("cri")Criteria cri);
-	
-	// 게시물 행 선택
-	public List<CmnCd> click(@Param("groCd")String groCd, @Param("cri")Criteria cri);
-	
+	public void insert(CmnCd cmnCd);
+
 	// 게시물 편집
-	public void update(CmnCd cmnCd);
+	public void update(SearchKey searchKey);
 }
