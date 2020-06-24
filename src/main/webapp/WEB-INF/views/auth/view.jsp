@@ -71,7 +71,6 @@ function fn_delete(){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="authNm" id="authNm" class="input_textN" style="width:200px;" maxlength="50" value="${view.authNm }" />
-										
 										</div>
 									</td>
 								</tr>

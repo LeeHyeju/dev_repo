@@ -3,6 +3,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<script>
+/*수정*/
+function fn_update(){
+	    var form = document.getElementById("viewFrm");
+	    form.method = "post";
+	    form.action = "<c:url value='/admin/update'/>";
+	    form.submit();
+}
+
+/*삭제*/
+function fn_delete(){
+    var form = document.getElementById("viewFrm");
+    form.method = "post";
+    form.action = "<c:url value='/admin/delete'/>";
+    form.submit();
+}
+</script>
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -21,7 +38,8 @@
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
+					<form name="writeFrm" id="viewFrm" method="post">
+					<input type="hidden" name="admId" id="admId" value="${view.admId }" />
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden"> 등록</span></caption>
@@ -47,12 +65,12 @@
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">비밀번호</label>
+											<label for="">비밀번호 확인</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.pw }
+											<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
 										</div>
 									</td>
 								</tr>
@@ -65,7 +83,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.nm }
+											<input type="text" name="nm" id="nm" class="input_textN" style="width:200px;" maxlength="50" value="${view.nm }" />
 										</div>
 									</td>
 								</tr>
@@ -78,12 +96,11 @@
 									</th>
 									<td>
 										<div class="input_adj">
-										${view.authCd }
-											<select name="boardCate" id="boardCate" class="input_selectN" style="width:96px;">
-												<c:forEach var="cate" items="${boardManage.boardCates}">
-													<option value="${cate}" <c:if test="${cate == board.boardCate}">selected="selected"</c:if>>${cate}</option>
-												</c:forEach>
-											</select>
+											<select name="selectBox" id="selectBox" style="width:200px;" class="form-control" onChange="fn_select()">
+											      <c:forEach var="code" items="${codes}" varStatus="i">
+											         <option value="${code.authCd}">${code.authNm}</option>
+											      </c:forEach>
+											   </select>
 										</div>
 									</td>
 								</tr>
@@ -95,7 +112,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.tel }
+											<input type="text" name="tel" id="tel" class="input_textN" style="width:200px;" maxlength="50" value="${view.tel }" />
 										</div>
 									</td>
 								</tr>
@@ -107,7 +124,7 @@
 									</th>
 									<td>
 										<div class="input_adj">
-											${view.email }
+											<input type="text" name="tel" id="tel" class="input_textN" style="width:200px;" maxlength="50" value="${view.email }" />
 										</div>
 									</td>
 								</tr>
@@ -167,8 +184,8 @@
 					</form>
 						
 					<div class="boardType01_write_btn">
-						<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray" onClick="fn_update()"><span>수정</span></button>
+						<button type="submit" id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray" onClick="fn_delete()"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/admin/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->

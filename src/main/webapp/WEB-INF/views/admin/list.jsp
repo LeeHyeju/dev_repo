@@ -46,8 +46,8 @@
 							<col style="width:7%" />
 							<col style="width:7%" />
 							<col style="width:7%" />
-							<col style="width:8%" />
-							<col style="width:15%" />
+							<col style="width:12%" />
+							<col style="width:12%" />
 							<col style="width:15%" />
 							<col style="width:8%" />
 							<col style="width:10%" />
@@ -57,9 +57,8 @@
 						<thead>
 						<tr>
 							<th>아이디</th>
-							<th>비밀번호</th>
 							<th>이름</th>
-							<th>그룹코드</th>
+							<th>권한코드</th>
 							<th>연락처</th>
 							<th>이메일</th>
 							<th>등록자</th>
@@ -72,7 +71,6 @@
 						<c:forEach var="admin" items="${list}">
 						<tr>
 								<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
-								<td>${admin.pw}</td>
 								<td>${admin.nm}</td>
 								<td>${admin.authCd}</td>
 								<td>${admin.tel}</td>
