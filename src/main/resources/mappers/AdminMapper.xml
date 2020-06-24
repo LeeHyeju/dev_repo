@@ -103,9 +103,7 @@
 		FROM 
 			tb_admin
 		WHERE 
-			admId = #{admId};
-
-	 	
+			admId = #{admId};	 	
 	</select>
 	
 </mapper>

@@ -70,8 +70,7 @@ function fn_delete(){
 									</th>
 									<td>
 										<div class="input_adj">
-										<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
-											
+											<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
 										</div>
 									</td>
 								</tr>

@@ -5,12 +5,101 @@
 
 <script>
 
-//연락처 하이픈 자동생성
-$(document).on("keyup", "#tel", function() { 
-	$(this).val( $(this).val().replace(/[^0-9]/g, "")
-			.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
-			.replace("--", "-") ); 
+//validation 체크 
+$(function(){
+    $("#writeFrm").validate({
+        //규칙
+        rules: {
+        	admId: {
+                required : true,
+                user_id : true,
+                minlength : 6
+            },
+            pw: {
+                required : true,
+                minlength : 5
+            },
+            pw2: {
+                required : true,
+                minlength : 5,
+                equalTo : pw
+            },
+            nm: {
+                required : true,
+                minlength : 2
+            },
+            authCd: {
+                required : true
+            },
+            tel: {
+                telnum : true
+            },
+            email: {
+                minlength : 5,
+                email : true
+            }
+        },
+        //규칙체크 실패시 출력될 메시지
+        messages : {
+            admId: {
+                required : "필수로입력하세요",
+                user_id: "영문소문자, 숫자, _ 만 입력 가능합니다",
+                minlength : "최소 {6}글자이상 입력하세요"
+            },
+            pw: {
+                required : "필수로입력하세요",
+                minlength : "최소 {5}글자이상 입력하세요"
+            },
+            pw2: {
+                required : "필수로입력하세요",
+                minlength : "최소 {5}글자이상 입력하세요",
+                equalTo : "비밀번호가 일치하지 않습니다"
+            },
+            nm: {
+                required : "필수로입력하세요",
+                minlength : "최소 {0}글자이상 입력하세요"
+            },
+            authCd: {
+                digits : "그룹코드를 입력하세요"
+            },
+            tel: {
+                telnum : "올바른 형식으로 입력하세요"
+            },
+            email: {
+                minlength : "최소 {5}글자이상이어야 합니다",
+                email : "메일규칙에 어긋납니다"
+            }
+        },
+        //validation이 끝난 이후의 submit 직전 추가 작업할 부분
+        submitHandler: function(form){
+			
+        	// $.ajax();
+
+        	return false;
+        },
+        invalidHandler: function(form, validator) {
+        	// jquery validate 로 사용하기 힘든 validation 체크
+            alert('invalidHandler');
+        }
+    });
 });
+//유효성 체크
+$.validator.addMethod("telnum", function(telnum, element){
+  var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+  if(!pattern.test(telnum)){
+    return this.optional(element)||false;
+  }
+  return true;
+});
+//회원ID 검사
+$.validator.addMethod("user_id", function (alnum_, element) {
+  var pattern = /(^[a-zA-Z0-9\_])/;
+  if (!pattern.test(alnum_)) {
+    return this.optional(element) || false;
+  }
+  return true;
+});
+
 
 //아이디 체크여부 확인 (아이디 중복일 경우 = 0 , 중복이 아닐경우 = 1 )
 var idck = 0;
@@ -19,7 +108,6 @@ $(function() {
     $('#btn_idck').click(function() {
         //userid 를 param.
         var userid = $('#admId').val(); 
-        		
         $.ajax({
             type : 'POST',
             data : userid,
@@ -50,7 +138,40 @@ $(function() {
     });
 });
 
-//비밀번호 일치 여부 확인
+//연락처 하이픈 자동생성
+$(document).on("keyup", "#tel", function() { 
+	$(this).val( $(this).val().replace(/[^0-9]/g, "")
+			.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+			.replace("--", "-") ); 
+});
+
+function selectEmail(ele){ 
+	var $ele = $(ele); 
+	var $email2 = $('input[name=email2]'); // '1'인 경우 직접입력 
+	
+	if($ele.val() == "1"){ 
+		$email2.attr('readonly', false); 
+		$email2.val(''); 
+	} else { 
+		$email2.attr('readonly', true); 
+		$email2.val($ele.val()); 
+	} 
+}
+
+/*데이터 입력
+function fn_insert(){
+    var form = document.getElementById("writeFrm");	// document.writeFrm   DOM
+    form.action = "<c:url value='/admin/insert'/>";
+    form.submit();
+    /*
+    document.getElementById("pw").value
+    form.pw.value
+    $("#pw").val()
+    $("input[name=pw]").val()
+	
+} */
+
+/*비밀번호 일치 여부 확인
 $(function(){ 
 	$("#alert-success").hide(); 
 	$("#alert-danger").hide(); 
@@ -70,34 +191,7 @@ $(function(){
 		} 
 	}); 
 });
-
-/*데이터 입력*/
-function fn_insert(){
-    var form = document.getElementById("writeFrm");	// document.writeFrm   DOM
-    form.action = "<c:url value='/admin/insert'/>";
-    form.submit();
-    /*
-    document.getElementById("pw").value
-    form.pw.value
-    $("#pw").val()
-    $("input[name=pw]").val()
-	*/
-}
-
-function selectEmail(ele){ 
-	var $ele = $(ele); 
-	var $email2 = $('input[name=email2]'); // '1'인 경우 직접입력 
-	
-	if($ele.val() == "1"){ 
-		$email2.attr('readonly', false); 
-		$email2.val(''); 
-	} else { 
-		$email2.attr('readonly', true); 
-		$email2.val($ele.val()); 
-	} 
-}
-
- 
+*/
 </script>
 
 <div id="contentarea" class="l-content">
@@ -117,7 +211,7 @@ function selectEmail(ele){
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post">
+					<form name="writeFrm" id="writeFrm" method="post" action="/admin/insert">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId }" />
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
@@ -136,7 +230,7 @@ function selectEmail(ele){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="admId" id="admId" class="input_textN" style="width:200px;" maxlength="50" value="" autocomplete=”off”/>
+											<input type="text" name="admId" id="admId" class="input_textN required" style="width:200px;" maxlength="50" value="" autocomplete=”off”/> 
 											<button type="button" id="btn_idck" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
 										</div>
 									</td>
@@ -150,9 +244,9 @@ function selectEmail(ele){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="password" name="pw" id="pw" class="input_textN" style="width:200px;" maxlength="50" value="" />
-											<span class="alert alert-success" id="alert-success" style="width:200px;height:5px;" >비밀번호가 일치합니다.</span> 
-											<span class="alert alert-danger" id="alert-danger" style="width:200px;height:5px;">비밀번호가 일치하지 않습니다.</span>	
+											<input type="password" name="pw" id="pw" class="input_textN required" style="width:200px;" maxlength="50" value="" />
+											<!-- <span class="alert alert-success" id="alert-success" style="width:200px;height:5px;" >비밀번호가 일치합니다.</span> 
+											<span class="alert alert-danger" id="alert-danger" style="width:200px;height:5px;">비밀번호가 일치하지 않습니다.</span>	 -->
 										</div>
 									</td>
 								</tr>
@@ -165,7 +259,7 @@ function selectEmail(ele){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="password" name="pw2" id="pw2" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<input type="password" name="pw2" id="pw2" class="input_textN" style="width:200px;" maxlength="50" value="" required="required"/>
 										</div>
 									</td>
 								</tr>
@@ -178,7 +272,7 @@ function selectEmail(ele){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="nm" id="nm" class="input_textN" style="width:200px;" maxlength="10" value="" />
+											<input type="text" name="nm" id="nm" class="input_textN" style="width:200px;" maxlength="10" value="" required="required"/>
 										</div>
 									</td>
 								</tr>
@@ -191,7 +285,7 @@ function selectEmail(ele){
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="authCd" id="authCd" style="width:200px;" class="form-control">
+											<select name="authCd" id="authCd" style="width:200px;" class="form-control" required="required">
 											      <c:forEach var="code" items="${codes}" varStatus="i">
 											         <option value="${code.authCd}">${code.authNm}</option>
 											      </c:forEach>
@@ -245,13 +339,13 @@ function selectEmail(ele){
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
-					</form>
-						
 					<div class="boardType01_write_btn">
-						<button type="submit" id="btn_write" onClick='fn_insert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button type="submit" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/admin/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
+					</form>
+						
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->

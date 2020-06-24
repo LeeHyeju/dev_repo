@@ -109,11 +109,9 @@ public class AdminController {
         logger.info("아이디 체크");
         int count = 0;
         Map<Object, Object> map = new HashMap<Object, Object>();
-        
         count = service.idCheck(admId);
         logger.info("아이디", count);
         map.put("cnt", count);
- 
         return map;
     }
  

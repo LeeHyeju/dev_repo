@@ -12,14 +12,10 @@
 		<link rel="stylesheet" href="resources/css/ie.css" 
 			type="text/css" media="screen, projection">
 		<![endif]-->
-
-		<style>
-		</style>
-		<script>
-		
-		</script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/admin/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/admin/js/additional-methods.min.js"></script>
 	</head>
 <body class="sub">
 	<div id="wrap">
