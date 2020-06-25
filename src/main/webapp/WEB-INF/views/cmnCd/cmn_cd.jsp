@@ -67,16 +67,34 @@ function fnEdit(edit, rNum){
 		// 편집
 		editY.style.display = 'contents';
 	} else {
-		// 저장
-		editN.style.display = 'contents';
-		
-		document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
-	    document.getElementById("keyCmnNm").value = document.getElementById("cmnNm["+rNum+"]").value;
-	    document.getElementById("keyArayOrde").value = document.getElementById("arayOrde["+rNum+"]").value;
-	    document.getElementById("keyUseYn").value = document.getElementById("useYn["+rNum+"]").value;
-		   
-		submit('editSave');
+		if(document.getElementById("cmnNm["+rNum+"]").value == ""
+		|| document.getElementById("arayOrde["+rNum+"]").value == ""
+		|| document.getElementById("useYn["+rNum+"]").value == ""){
+			editY.style.display = 'contents';
+			alert("필수값을 입력하세요");
+		}else{
+			// 저장
+			editN.style.display = 'contents';
+			
+			document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
+		    document.getElementById("keyCmnNm").value = document.getElementById("cmnNm["+rNum+"]").value;
+		    document.getElementById("keyArayOrde").value = document.getElementById("arayOrde["+rNum+"]").value;
+		    document.getElementById("keyUseYn").value = document.getElementById("useYn["+rNum+"]").value;
+			   
+			submit('editSave');
+		}
 	}
+}
+/*삭제*/
+function fnDel(rNum){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const param = urlParams.get('groCd');
+    document.getElementById("keyGroCd").value = param;
+    
+	document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
+	
+	submit('del');
 }
 /*submit*/
 function submit(service){
@@ -251,8 +269,14 @@ function submit(service){
 										<td><input type="text" style="width:80px;" id="cmnCd[${cmnCd.rNum}]" value="${cmnCd.cmnCd}" readonly/></td>
 										<td><input type="text" style="width:80px;" id="cmnNm[${cmnCd.rNum}]" value="${cmnCd.cmnNm}"/></td>
 										<td><input type="text" style="width:80px;" id="arayOrde[${cmnCd.rNum}]" value="${cmnCd.arayOrde}"/></td>
-										<td><input type="text" style="width:80px;" id="useYn[${cmnCd.rNum}]" value="${cmnCd.useYn}"/></td>
-										<td><button type="button" onClick='fnEdit("Y",${cmnCd.rNum})' id="btnEditY" class="btnTxt btnTxt_small btnTxt_gray">저장</button></td>
+										<td><select id="useYn[${cmnCd.rNum}]" style="width:80px;">
+											    <option value="${cmnCd.useYn}">${cmnCd.useYn}</option>
+											    <option value="${cmnCd.useYn=='Y'?'N':'Y'}">${cmnCd.useYn=='Y'?'N':'Y'}</option>
+											</select>
+										</td>
+<%-- 										<td><input type="text" style="width:80px;" id="useYn[${cmnCd.rNum}]" value="${cmnCd.useYn}"/></td> --%>
+										<td><button type="button" onClick='fnEdit("Y",${cmnCd.rNum})' id="btnEditY" class="btnTxt btnTxt_small btnTxt_gray">저장</button>
+										<button type="button" onClick='fnDel(${cmnCd.rNum})' id="btnDel" class="btnTxt btnTxt_small btnTxt_gray">삭제</button></td>
 								</tr>
 						     	</c:forEach>
 						     	<c:if test="${empty subList}">

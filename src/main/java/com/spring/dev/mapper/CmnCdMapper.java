@@ -28,4 +28,7 @@ public interface CmnCdMapper {
 
 	// 게시물 편집
 	public void update(SearchKey searchKey);
+	
+	// 게시물 삭제
+	public void delete(SearchKey searchKey);
 }

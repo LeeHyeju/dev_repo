@@ -90,4 +90,12 @@ public class CmnCdController {
        	service.update(searchKey);
        	return "redirect:/cmnCd/cmn_cd";
    	}
+    
+    // 공통코드 삭제
+    @RequestMapping(value = {"/del"}, method = RequestMethod.GET)
+   	public String del(SearchKey searchKey) {
+       	logger.info("CmnCdController del");
+       	service.delete(searchKey);
+       	return "redirect:/cmnCd/cmn_cd";
+   	}
 }

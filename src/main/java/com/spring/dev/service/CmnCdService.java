@@ -38,4 +38,8 @@ public class CmnCdService {
 	public void update(SearchKey searchKey) {
 		mapper.update(searchKey);
 	}
+	
+	public void delete(SearchKey searchKey) {
+		mapper.delete(searchKey);
+	}
 }
