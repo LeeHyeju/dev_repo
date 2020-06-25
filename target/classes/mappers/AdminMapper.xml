@@ -56,7 +56,7 @@
 		VALUES
 				(
 				#{admId}
-				,#{pw}
+				,password(#{pw})
 				,#{nm}
 				,#{authCd}
 				,#{tel}
@@ -79,14 +79,13 @@
 			admId = #{admId}
 	</update>
 	
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="String">
 		DELETE 
 		FROM 
 			tb_admin
 		WHERE 
 			admId = #{admId}
 	</delete>
-	
 	
 	<select id="login"  resultType="Admin">
 		SELECT
@@ -98,5 +97,13 @@
 			AND pw = #{pw}	 	
 	</select>
 	
+	<select id="idCheck"  parameterType="String" resultType="Integer">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			tb_admin
+		WHERE 
+			admId = #{admId};	 	
+	</select>
 	
 </mapper>

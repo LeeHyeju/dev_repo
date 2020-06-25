@@ -7,6 +7,8 @@ public class SearchKey {
 	private String keyCmnNm;
 	private String keyUseYn;
 	private String keyArayOrde;
+	private String srchKey;
+	private String srchCont;
 	
 	public String getKeyGroCd() {
 		return keyGroCd;
@@ -44,9 +46,23 @@ public class SearchKey {
 	public void setKeyArayOrde(String keyArayOrde) {
 		this.keyArayOrde = keyArayOrde;
 	}
+	public String getSrchKey() {
+		return srchKey;
+	}
+	public void setSrchKey(String srchKey) {
+		this.srchKey = srchKey;
+	}
+	
+	public String getSrchCont() {
+		return srchCont;
+	}
+	public void setSrchCont(String srchCont) {
+		this.srchCont = srchCont;
+	}
 	@Override
 	public String toString() {
 		return "SearchKey [keyGroCd=" + keyGroCd + ", keyGroNm=" + keyGroNm + ", keyCmnCd=" + keyCmnCd + ", keyCmnNm="
-				+ keyCmnNm + ", keyUseYn=" + keyUseYn + ", keyArayOrde=" + keyArayOrde + "]";
+				+ keyCmnNm + ", keyUseYn=" + keyUseYn + ", keyArayOrde=" + keyArayOrde + ", srchKey=" + srchKey
+				+ ", srchCont=" + srchCont + "]";
 	}
 }

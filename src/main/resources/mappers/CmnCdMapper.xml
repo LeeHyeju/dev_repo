@@ -78,4 +78,9 @@
 		WHERE 
 			groCd = #{keyGroCd} AND cmnCd = #{keyCmnCd}
 	</update>
+	
+	<delete id="delete" parameterType="SearchKey">
+		DELETE FROM tb_cmn_cd
+		WHERE groCd = #{keyGroCd} AND cmnCd = #{keyCmnCd}
+	</delete>
 </mapper>

@@ -133,10 +133,10 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="radio" name="useYn" id="useYnY" class="input_group" style="width:200px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="useYn" id="useYnN" class="input_group" style="width:200px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
+											<input type="radio" name="useYn" id="useYnY" class="input_group" style="width:50px;" value="Y">
+											<label for="useYn">사용</label>
+											<input type="radio" name="useYn" id="useYnN" class="input_group" style="width:50px;" value="N">
+											<label for="useYn">미사용</label>
 										</div>
 									</td>
 								</tr>

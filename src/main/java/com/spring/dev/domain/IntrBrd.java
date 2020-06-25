@@ -1,7 +1,5 @@
 package com.spring.dev.domain;
 
-import java.io.Serializable;
-
 import java.util.Date;
 
 public class IntrBrd {
@@ -22,21 +20,6 @@ public class IntrBrd {
 	}
 	public void setrNum(String rNum) {
 		this.rNum = rNum;
-	}
-	
-	private String srchKey;
-	private String srch;
-	public String getSrchKey() {
-		return srchKey;
-	}
-	public void setSrchKey(String srchKey) {
-		this.srchKey = srchKey;
-	}
-	public String getSrch() {
-		return srch;
-	}
-	public void setSrch(String srch) {
-		this.srch = srch;
 	}
 	
 	public String getBoardIdx() {
@@ -100,7 +83,6 @@ public class IntrBrd {
 	public String toString() {
 		return "IntrBrd [boardIdx=" + boardIdx + ", boardCd=" + boardCd + ", boardTitle=" + boardTitle
 				+ ", boardContent=" + boardContent + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn
-				+ ", fileYn=" + fileYn + ", ancmOptnYn=" + ancmOptnYn + ", rNum=" + rNum + ", srchKey=" + srchKey
-				+ ", srch=" + srch + "]";
+				+ ", fileYn=" + fileYn + ", ancmOptnYn=" + ancmOptnYn + ", rNum=" + rNum + "]";
 	}
 }
