@@ -14,6 +14,8 @@ public class Admin implements Serializable {
 	private String authCd;
 	private String tel;
 	private String email;
+	private String emailId;
+	private String emailDomain;
 	private String regId;
 	private Date regDt;
 	private String delYn;
@@ -51,10 +53,31 @@ public class Admin implements Serializable {
 		this.tel = tel;
 	}
 	public String getEmail() {
+		if (email == null && emailId != null) {
+			email = emailId + "@" + emailDomain;
+		}
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}	
+	public String getEmailId() {
+		if (emailId == null && email != null) {
+			emailId = email.split("@")[0];
+		}
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getEmailDomain() {
+		if (emailDomain == null && email != null) {
+			emailDomain = email.split("@")[1];
+		}
+		return emailDomain;
+	}
+	public void setEmailDomain(String emailDomain) {
+		this.emailDomain = emailDomain;
 	}
 	public String getRegId() {
 		return regId;

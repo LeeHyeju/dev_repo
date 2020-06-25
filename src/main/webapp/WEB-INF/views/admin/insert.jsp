@@ -7,6 +7,28 @@
 
 //validation 체크 
 $(function(){
+
+	//유효성 체크
+	$.validator.addMethod("telnum", function(value, element){
+	  var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+	  if(!pattern.test(value)){
+	    return this.optional(element)||false;
+	  }
+	  return true;
+	});
+	//회원ID 검사
+	$.validator.addMethod("user_id", function (value, element) {
+	  var pattern = /(^[a-zA-Z0-9\_])/;
+	  if (!pattern.test(value)) {
+	    return this.optional(element) || false;
+	  }
+	  return true;
+	});
+	//숫자 영어만 사용 
+	$.validator.addMethod("eng_number", function (value, element) {
+		return this.optional(element) || /^[a-zA-Z\d]+$/.test(value);
+	});
+	
     $("#writeFrm").validate({
         //규칙
         rules: {
@@ -34,9 +56,9 @@ $(function(){
             tel: {
                 telnum : true
             },
-            email: {
+            emailId: {
                 minlength : 5,
-                email : true
+                eng_number: true
             }
         },
         //규칙체크 실패시 출력될 메시지
@@ -60,44 +82,27 @@ $(function(){
                 minlength : "최소 {0}글자이상 입력하세요"
             },
             authCd: {
-                digits : "그룹코드를 입력하세요"
+            	required : "필수로입력하세요"
             },
             tel: {
                 telnum : "올바른 형식으로 입력하세요"
             },
-            email: {
+            emailId: {
                 minlength : "최소 {5}글자이상이어야 합니다",
-                email : "메일규칙에 어긋납니다"
+                eng_number: "영문과 숫자만 입력하세요"
             }
         },
         //validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form){
-			
         	// $.ajax();
-
-        	return false;
+        	form.submit();
         },
         invalidHandler: function(form, validator) {
         	// jquery validate 로 사용하기 힘든 validation 체크
-            alert('invalidHandler');
+            //alert('invalidHandler');
         }
     });
-});
-//유효성 체크
-$.validator.addMethod("telnum", function(telnum, element){
-  var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
-  if(!pattern.test(telnum)){
-    return this.optional(element)||false;
-  }
-  return true;
-});
-//회원ID 검사
-$.validator.addMethod("user_id", function (alnum_, element) {
-  var pattern = /(^[a-zA-Z0-9\_])/;
-  if (!pattern.test(alnum_)) {
-    return this.optional(element) || false;
-  }
-  return true;
+
 });
 
 
@@ -107,7 +112,8 @@ $(function() {
     //idck 버튼을 클릭했을 때 
     $('#btn_idck').click(function() {
         //userid 를 param.
-        var userid = $('#admId').val(); 
+        var userid = $('#admId').val();
+        alert(userid);
         $.ajax({
             type : 'POST',
             data : userid,
@@ -147,14 +153,14 @@ $(document).on("keyup", "#tel", function() {
 
 function selectEmail(ele){ 
 	var $ele = $(ele); 
-	var $email2 = $('input[name=email2]'); // '1'인 경우 직접입력 
+	var $emailDomain = $('input[name=emailDomain]'); // '1'인 경우 직접입력 
 	
 	if($ele.val() == "1"){ 
-		$email2.attr('readonly', false); 
-		$email2.val(''); 
+		$emailDomain.attr('readonly', false); 
+		$emailDomain.val(''); 
 	} else { 
-		$email2.attr('readonly', true); 
-		$email2.val($ele.val()); 
+		$emailDomain.attr('readonly', true); 
+		$emailDomain.val($ele.val()); 
 	} 
 }
 
@@ -313,7 +319,7 @@ $(function(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="email" id="email" class="input_textN" style="width:200px;" /> @ <input type="text" name="email2">
+											<input type="text" name="emailId" id="emailId" class="input_textN" style="width:200px;" /> @ <input type="text" name="emailDomain" id="emailDomain" value="">
 											<select name="select_email" onChange="selectEmail(this)"> 
 												<option value="" selected>선택하세요</option> 
 												<option value="naver.com">naver.com</option> 
