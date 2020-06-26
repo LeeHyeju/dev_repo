@@ -89,4 +89,13 @@
 		FROM tb_cmn_cd
 		ORDER BY groCd ASC
 	</select>
+	
+	<select id="codeChk" resultType="Integer">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			tb_cmn_cd
+		WHERE 
+			groCd = #{groCd} AND cmnCd = #{cmnCd};	 	
+	</select>
 </mapper>

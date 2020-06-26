@@ -1,13 +1,18 @@
 package com.spring.dev.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
@@ -99,4 +104,17 @@ public class CmnCdController {
        	service.delete(searchKey);
        	return "redirect:/cmnCd/cmn_cd";
    	}
+    
+    // 코드 중복확인
+    @RequestMapping(value= {"/codeChk"}, method= RequestMethod.POST)
+    @ResponseBody
+    public Map<Object, Object> codeChk(@RequestBody String admId) {
+        logger.info("아이디 체크");
+        int count = 0;
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        count = service.codeChk(admId);
+        logger.info("아이디", count);
+        map.put("cnt", count);
+        return map;
+    }
 }

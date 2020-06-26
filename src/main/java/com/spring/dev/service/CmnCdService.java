@@ -46,4 +46,8 @@ public class CmnCdService {
 	public List<CmnCd> cdList() {
 		return mapper.cdList();
 	}
+	
+	public int codeChk(String cmnCd) {
+		return mapper.codeChk(cmnCd);
+	}
 }
