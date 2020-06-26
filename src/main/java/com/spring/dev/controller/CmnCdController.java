@@ -70,8 +70,9 @@ public class CmnCdController {
 	
 	// 공통코드 등록 페이지
     @RequestMapping(value = {"/reg"}, method = RequestMethod.GET)
-	public String reg() {
+	public String reg(Model model) {
     	logger.info("CmnCdController reg");
+    	model.addAttribute("list", service.cdList());
 		return "cmnCd/reg.page";
 	}
     

@@ -4,7 +4,8 @@
 
 <mapper namespace="com.spring.dev.mapper.AdminMapper">
 
-	<select id="getList"  resultType="Admin">
+	<select id="getList" resultType="Admin">
+		<![CDATA[
 		SELECT
 				admId
 			    ,pw
@@ -17,9 +18,35 @@
 			    ,delYn
 			    ,useYn
 		FROM
-		  	 	tb_admin 
+		  	 	tb_admin
+		WHERE 1=1
+		 ]]>
+		  <if test="cri.searchType != null">
+            <if test="cri.searchType == 'all'.toString()">
+                and ( admId like CONCAT('%', #{cri.keyword}, '%')
+                OR nm like CONCAT('%', #{cri.keyword}, '%')
+                OR authCd like CONCAT('%', #{cri.keyword}, '%') 
+                OR useYn like CONCAT('%', #{cri.keyword}, '%') )
+            </if>
+            <if test="cri.searchType == 'admId'.toString()">
+                and admId like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'nm'.toString()">
+                and nm like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'authCd'.toString()">
+                and authCd like CONCAT('%', #{cri.keyword}, '%') 
+            </if>
+            <if test="cri.searchType == 'useYn'.toString()">
+                and useYn like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+        </if>
+		<!-- <include refid="search" /> -->
+		 <![CDATA[
 		ORDER BY 
 				regDt desc 
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+		  ]]>
 	</select>
 	
 	<select id="view"  resultType="Admin">
@@ -103,7 +130,35 @@
 		FROM 
 			tb_admin
 		WHERE 
-			admId = #{admId};	 	
+			admId = #{admId, jdbcType=VARCHAR};	 	
+	</select>
+	
+	<select id="listCount" resultType="int" >
+		<![CDATA[
+		SELECT COUNT(admId)
+		  FROM tb_admin
+		  WHERE 1=1
+		 ]]> 
+		<if test="searchType != null">
+            <if test="searchType == 'all'.toString()">
+                and ( admId like CONCAT('%', #{keyword}, '%')
+                OR nm like CONCAT('%', #{keyword}, '%')
+                OR authCd like CONCAT('%', #{keyword}, '%') 
+                OR useYn like CONCAT('%', #{keyword}, '%') )
+            </if>
+            <if test="searchType == 'admId'.toString()">
+                and admId like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'nm'.toString()">
+                and nm like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'authCd'.toString()">
+                and authCd like CONCAT('%', #{keyword}, '%') 
+            </if>
+            <if test="searchType == 'useYn'.toString()">
+                and useYn like CONCAT('%', #{keyword}, '%')
+            </if>
+        </if>
 	</select>
 	
 </mapper>

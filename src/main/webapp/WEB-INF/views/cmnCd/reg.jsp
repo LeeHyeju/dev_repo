@@ -17,10 +17,51 @@ function fnInsert(){
 	}else{
 		submit('insert');
 	}
+
+// 	$("#writeFrm").validate({
+//         //규칙
+//         rules: {
+//         	groCd: {
+//                 required : true,
+//                 maxlength : 5
+//             }
+//         },
+//         //규칙체크 실패시 출력될 메시지
+//         messages : {
+//         	groCd: {
+//                 required : "필수로입력하세요",
+//                 maxlength : "최대 {5}글자입니다"
+//             }
+//         }
+// 	});
 }
 /*목록*/
 function fnList(){
-   	submit('cmn_cd');
+//    	submit('cmn_cd');
+   	
+   	var form = document.getElementById("writeFrm");
+    form.method = "get";
+    form.action = "<c:url value='/cmnCd/cmn_cd'/>";
+    form.submit();
+}
+/*groCd 선택*/
+function fnClick() {
+	var keyGroCd = document.getElementById("keyGroCd").value;
+	var groCd = document.getElementById("groCd");
+	var groNm = document.getElementById("groNm");
+	
+	keyGroCd = keyGroCd.split(",");
+	groCd.value = keyGroCd[0];
+	
+	if(keyGroCd[0] == ""){
+		groCd.disabled = false;
+		groNm.disabled = false;
+		groNm.value = "";
+	} else {
+		groCd.disabled = true;
+		groNm.disabled = true;
+		groNm.value = keyGroCd[1];
+	}
 }
 /*submit*/
 function submit(service){
@@ -69,6 +110,12 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50"/>
+											<select id="keyGroCd" name="keyGroCd" onClick="fnClick()">
+									     			<option value="">직접입력</option>
+												<c:forEach var="cmnCd" items="${list}">
+													<option value="${cmnCd.groCd},${cmnCd.groNm}">${cmnCd.groCd}</option>
+									     		</c:forEach>
+											</select>
 										</div>
 									</td>
 								</tr>

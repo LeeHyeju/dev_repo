@@ -83,4 +83,10 @@
 		DELETE FROM tb_cmn_cd
 		WHERE groCd = #{keyGroCd} AND cmnCd = #{keyCmnCd}
 	</delete>
+	
+	<select id="cdList" resultType="CmnCd">
+		SELECT DISTINCT groCd, groNm
+		FROM tb_cmn_cd
+		ORDER BY groCd ASC
+	</select>
 </mapper>
