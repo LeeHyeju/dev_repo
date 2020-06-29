@@ -266,7 +266,7 @@ function submit(service){
 								</tr>
 								<tr id="editY[${cmnCd.rNum}]" style="display:none;">
 										<td>${cmnCd.rNum}</td>
-										<td><input type="text" style="width:80px;" id="cmnCd[${cmnCd.rNum}]" value="${cmnCd.cmnCd}" readonly/></td>
+										<td><input type="text" style="width:80px;" id="cmnCd[${cmnCd.rNum}]" value="${cmnCd.cmnCd}" disabled/></td>
 										<td><input type="text" style="width:80px;" id="cmnNm[${cmnCd.rNum}]" value="${cmnCd.cmnNm}"/></td>
 										<td><input type="text" style="width:80px;" id="arayOrde[${cmnCd.rNum}]" value="${cmnCd.arayOrde}"/></td>
 										<td><select id="useYn[${cmnCd.rNum}]" style="width:80px;">

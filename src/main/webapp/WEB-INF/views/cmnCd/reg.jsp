@@ -18,9 +18,64 @@ function fnInsert(){
 		submit('insert');
 	}
 }
+
 /*목록*/
 function fnList(){
    	submit('cmn_cd');
+}
+/*groCd 선택*/
+function fnClick() {
+	var keyGroCd = document.getElementById("keyGroCd").value;
+	var groCd = document.getElementById("groCd");
+	var groNm = document.getElementById("groNm");
+	
+	keyGroCd = keyGroCd.split(",");
+	groCd.value = keyGroCd[0];
+	
+	if(keyGroCd[0] == ""){
+		groCd.disabled = false;
+		groNm.disabled = false;
+		groNm.value = "";
+	} else {
+		groCd.disabled = true;
+		groNm.disabled = true;
+		groNm.value = keyGroCd[1];
+	}
+}
+/*code 중복확인*/
+function fnCodeChk() {
+	 var cmnCd = $('#cmnCd').val();
+	 
+	 var cdChk = 0;
+	 if(cmnCd != ""){
+		$.ajax({
+		    type : 'POST',
+		    data : cdChk,
+		    url : "codeChk",
+		    dataType : "json",
+		    contentType: "application/json; charset=UTF-8",
+		    success : function(data) {
+		        if (data.cnt > 0) {
+		            alert("코드가 존재합니다");
+		        	$("#cmnCd").addClass("bg-danger");
+		        	$("#cmnCd").removeClass("bg-success");
+		            $("#cmnCd").focus();
+		                           
+		        } else {
+		            alert("사용가능한 코드입니다");
+		        	$("#cmnCd").addClass("bg-success"); 
+		        	$("#cmnCd").removeClass("bg-danger");
+		            $("#cmnNm").focus();
+		            cdChk = 1;
+		        }
+		    },
+		    error : function(error) {
+		        alert("error : " + error);
+		    }
+		});
+	 }else{
+		alert("코드를 입력해주세요");
+	 }
 }
 /*submit*/
 function submit(service){
@@ -56,7 +111,8 @@ function submit(service){
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
-								<col style="width:20%;" />
+								<col style="width:4%"/>
+								<col style="width:20%"/>
 							</colgroup>
 							<tbody>
 								<tr> 
@@ -69,6 +125,12 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50"/>
+											<select id="keyGroCd" name="keyGroCd" onClick="fnClick()">
+									     			<option value="">직접입력</option>
+												<c:forEach var="cmnCd" items="${list}">
+													<option value="${cmnCd.groCd},${cmnCd.groNm}">${cmnCd.groCd}</option>
+									     		</c:forEach>
+											</select>
 										</div>
 									</td>
 								</tr>
@@ -81,7 +143,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50" required="required"/>
 										</div>
 									</td>
 								</tr>
@@ -95,6 +157,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="cmnCd" id="cmnCd" class="input_textN" style="width:200px;" maxlength="50"/>
+											<button type="button" onClick='fnCodeChk()' id="btnCodeChk" class="btnTxt btnTxt_small btnTxt_gray">코드 중복확인</button>
 										</div>
 									</td>
 								</tr>

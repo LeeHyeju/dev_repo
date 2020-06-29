@@ -42,4 +42,12 @@ public class CmnCdService {
 	public void delete(SearchKey searchKey) {
 		mapper.delete(searchKey);
 	}
+	
+	public List<CmnCd> cdList() {
+		return mapper.cdList();
+	}
+	
+	public int codeChk(String cmnCd) {
+		return mapper.codeChk(cmnCd);
+	}
 }

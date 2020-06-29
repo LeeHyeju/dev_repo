@@ -31,4 +31,10 @@ public interface CmnCdMapper {
 	
 	// 게시물 삭제
 	public void delete(SearchKey searchKey);
+	
+	// 게시물 cdList 조회
+	public List<CmnCd> cdList();
+	
+	// 코드 중복확인
+	public int codeChk(String cmnCd);
 }
