@@ -3,7 +3,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.dev.mapper.AdminMapper">
+<!-- 
+	select
+		-> get select
+		-> get  check
+	insert
+	update
+	delete
+	(조건절이 들어갈때)
+	By
+	For
+	To
 
+관리자 ID 로 관리자 검색
+selectById
+
+
+ -->
+ 
+ 
+ 
 	<select id="getList" resultType="Admin">
 		<![CDATA[
 		SELECT
@@ -79,6 +98,8 @@
 				,email
 				,regId
 			    ,regDt
+			    ,useYn
+			    ,delYn
 				 )
 		VALUES
 				(
@@ -90,6 +111,8 @@
 				,#{email}
 				,#{regId}
 				,now()
+				,#{useYn}
+				,#{delYn}
 				)
 	</insert>
 	
@@ -97,11 +120,12 @@
 		UPDATE 
 			tb_admin
 		SET	
-			pw = #{pw}
-			,nm = #{nm}
+			nm = #{nm}
 			,authCd = #{authCd}
 			,tel = #{tel}
 			,email = #{email}
+			,useYn = #{useYn}
+			,delYn = #{delYn}
 		WHERE 
 			admId = #{admId}
 	</update>
@@ -130,15 +154,13 @@
 		FROM 
 			tb_admin
 		WHERE 
-			admId = #{admId, jdbcType=VARCHAR};	 	
+			admId = #{admId, jdbcType=VARCHAR}	 	
 	</select>
 	
-	<select id="listCount" resultType="int" >
-		<![CDATA[
+	<select id="listCount" resultType="int" parameterType="String">
 		SELECT COUNT(admId)
 		  FROM tb_admin
 		  WHERE 1=1
-		 ]]> 
 		<if test="searchType != null">
             <if test="searchType == 'all'.toString()">
                 and ( admId like CONCAT('%', #{keyword}, '%')
@@ -161,4 +183,12 @@
         </if>
 	</select>
 	
+	<select id="checkPw"  resultType="Integer" parameterType="String">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			tb_admin
+		WHERE 											
+			admId = #{admId} AND pw = password(#{pw})
+	</select>
 </mapper>

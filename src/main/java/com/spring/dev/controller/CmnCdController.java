@@ -108,13 +108,22 @@ public class CmnCdController {
     // 코드 중복확인
     @RequestMapping(value= {"/codeChk"}, method= RequestMethod.POST)
     @ResponseBody
-    public Map<Object, Object> codeChk(@RequestBody String admId) {
-        logger.info("아이디 체크");
+    public Map<Object, Object> codeChk(@RequestBody String cd) {
+        logger.info("CmnCdController codeChk");
         int count = 0;
+        String[] code = cd.split(",");
+        count = service.codeChk(code[0], code[1]);
+        
         Map<Object, Object> map = new HashMap<Object, Object>();
-        count = service.codeChk(admId);
-        logger.info("아이디", count);
-        map.put("cnt", count);
+        map.put("count", count);
+        map.put("listCount", service.subCount(code[0])+1);
         return map;
     }
+    
+    // 그룹코드 선택 팝업창
+    @RequestMapping(value = {"/codePopup"}, method = RequestMethod.GET)
+	public String codePopup(Model model) {
+    	logger.info("CmnCdController codePopup");
+		return "cmnCd/codePopup.part";
+	}
 }

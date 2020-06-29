@@ -2,23 +2,128 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%-- <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> --%>
 
 <script>
+var cdChk = 0; // (아이디 중복일 경우 = 0, 중복이 아닐경우 = 1)
+//validation 체크 
+$(function(){
+	// 영어대문자, 숫자
+	$.validator.addMethod("engNum", function(value, element){
+	  var pattern = /^[A-Z0-9]+$/;
+	  if(!pattern.test(value)){
+	    return this.optional(element)||false;
+	  }
+	  return true;
+	});
+	// 한글, 숫자
+	$.validator.addMethod("korNum", function (value, element) {
+	  var pattern = /^[가-힣0-9]+$/;
+	  if (!pattern.test(value)) {
+	    return this.optional(element) || false;
+	  }
+	  return true;
+	});
+	// 숫자
+	$.validator.addMethod("num", function (value, element) {
+	  var pattern = /^[0-9]+$/;
+	  if (!pattern.test(value)) {
+	    return this.optional(element) || false;
+	  }
+	  return true;
+	});
+	
+    $("#writeFrm").validate({
+        //규칙
+        rules: {
+        	groCd: {
+                 required 	: true
+                ,engNum		: true
+                ,maxlength 	: 6
+            }
+    		,groNm: {
+    			required 	: true
+               ,korNum		: true
+               ,maxlength 	: 6
+            }
+    		,cmnCd: {
+    			required 	: true
+               ,num			: true
+               ,maxlength 	: 6
+            }
+    		,cmnNm: {
+    			required 	: true
+               ,korNum		: true
+               ,maxlength 	: 6
+            }
+    		,arayOrde: {
+    			required 	: true
+               ,num			: true
+               ,maxlength 	: 6
+            }
+    		,useYn: {
+    			 required	: true
+    		}
+        },
+        //규칙체크 실패시 출력될 메시지
+        messages : {
+        	groCd: {
+                 required 	: "필수로입력하세요"
+                ,engNum		: "영어대문자와 숫자만 입력하세요"
+                ,maxlength 	: "최대 {6}글자까지 입력하세요"
+            }
+	        ,groNm: {
+	        	required 	: "필수로입력하세요"
+               ,korNum		: "한글과 숫자만 입력하세요"
+               ,maxlength 	: "최대 {6}글자까지 입력하세요"
+	        }
+	        ,cmnCd: {
+	        	required 	: "필수로입력하세요"
+	           ,num			: "숫자만 입력하세요"
+	           ,maxlength 	: "최대 {6}글자까지 입력하세요"
+	        }
+	        ,cmnNm: {
+	        	required 	: "필수로입력하세요"
+	 	       ,korNum		: "한글과 숫자만 입력하세요"
+	 	       ,maxlength 	: "최대 {6}글자까지 입력하세요"
+	        }
+	        ,arayOrde: {
+	        	required 	: "필수로입력하세요"
+	           ,num			: "숫자만 입력하세요"
+	           ,maxlength 	: "최대 {6}글자까지 입력하세요"
+	        }
+	        ,useYn: {
+	        	required 	: "필수로입력하세요"
+	        }
+        },
+        //validation이 끝난 이후의 submit 직전 추가 작업할 부분
+        submitHandler: function(form){
+        	// $.ajax();
+        	submit('insert');
+        },
+       	// jquery validate 로 사용하기 힘든 validation 체크
+        invalidHandler: function(form, validator) {
+        }
+    });
+});
+
 /*저장*/
 function fnInsert(){
-	if(document.getElementById("groCd").value == ""
-	|| document.getElementById("groNm").value == ""
-	|| document.getElementById("cmnCd").value == ""
-	|| document.getElementById("cmnNm").value == ""
-	|| document.getElementById("arayOrde").value == ""
-	|| (document.getElementById("useYnY").checked == false && document.getElementById("useYnN").checked == false)){
-		alert("필수값을 입력하세요");
-	}else{
-		submit('insert');
+// 	if(document.getElementById("groCd").value == ""
+// 	|| document.getElementById("groNm").value == ""
+// 	|| document.getElementById("cmnCd").value == ""
+// 	|| document.getElementById("cmnNm").value == ""
+// 	|| document.getElementById("arayOrde").value == ""
+// 	|| (document.getElementById("useYnY").checked == false && document.getElementById("useYnN").checked == false)){
+// 		alert("필수값을 입력하세요");
+// 	}else{
+// 		submit('insert');
+// 	}
+	
+	if(cdChk == 0){
+		alert("코드중복확인 해주세요");
 	}
 }
-
 /*목록*/
 function fnList(){
    	submit('cmn_cd');
@@ -33,39 +138,48 @@ function fnClick() {
 	groCd.value = keyGroCd[0];
 	
 	if(keyGroCd[0] == ""){
-		groCd.disabled = false;
-		groNm.disabled = false;
+// 		groCd.disabled = false;
+		groCd.readOnly = false;
+		groNm.readOnly = false;
 		groNm.value = "";
 	} else {
-		groCd.disabled = true;
-		groNm.disabled = true;
+		groCd.readOnly = true;
+		groNm.readOnly = true;
 		groNm.value = keyGroCd[1];
 	}
 }
+/*groCd 선택*/
+function fnGroCd() {
+	window.open("codePopup", "_blank", "height=400,width=400,top=200,left=400,status=yes,toolbar=no,menubar=no,location=no");
+} 
 /*code 중복확인*/
 function fnCodeChk() {
+	 var groCd = $('#groCd').val();
 	 var cmnCd = $('#cmnCd').val();
+	 var cd = groCd + "," + cmnCd
 	 
-	 var cdChk = 0;
-	 if(cmnCd != ""){
+	 if(cmnCd != "" && groCd != ""){
 		$.ajax({
 		    type : 'POST',
-		    data : cdChk,
+		    data : cd,
 		    url : "codeChk",
 		    dataType : "json",
 		    contentType: "application/json; charset=UTF-8",
 		    success : function(data) {
-		        if (data.cnt > 0) {
+		        if (data.count > 0) {
 		            alert("코드가 존재합니다");
 		        	$("#cmnCd").addClass("bg-danger");
 		        	$("#cmnCd").removeClass("bg-success");
 		            $("#cmnCd").focus();
+		            cdChk = 0; 
 		                           
 		        } else {
 		            alert("사용가능한 코드입니다");
 		        	$("#cmnCd").addClass("bg-success"); 
 		        	$("#cmnCd").removeClass("bg-danger");
 		            $("#cmnNm").focus();
+		            document.getElementById("arayOrde").value = data.listCount;
+		            document.getElementById("arayOrde").readOnly = true;
 		            cdChk = 1;
 		        }
 		    },
@@ -125,6 +239,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50"/>
+											<button type="button" onClick='fnGroCd()' id="btnGroCd" class="btnTxt btnTxt_small btnTxt_gray">그룹코드 입력</button>
 											<select id="keyGroCd" name="keyGroCd" onClick="fnClick()">
 									     			<option value="">직접입력</option>
 												<c:forEach var="cmnCd" items="${list}">
@@ -143,7 +258,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50" required="required"/>
+											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -206,15 +321,16 @@ function submit(service){
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
-					</form>
+					
 						
 					<div class="boardType01_write_btn">
-						<button id="btnSave" onClick='fnInsert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button type="submit" id="btnSave" onClick='fnInsert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnList" onClick='fnList()' class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></button>
 <!-- 						<div class="boardType01_write_btn" style="clear:both"> -->
 <%-- 							<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd" class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></a> --%>
 <!-- 						</div> -->
-					</div> <!-- //boardType01_write_btn -->
+				</div> <!-- //boardType01_write_btn -->
+				</form>
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->

@@ -30,7 +30,7 @@
 	
 	<select id="subList" resultType="CmnCd" parameterType="String">		 	
 		SELECT 	 cmnCd.*
-				,ROW_NUMBER() OVER(ORDER BY cmnCd.cmnCd ASC) AS rNum
+				,ROW_NUMBER() OVER(ORDER BY cmnCd.arayOrde ASC) AS rNum
 		FROM (SELECT cmnCd, cmnNm, arayOrde, useYn FROM tb_cmn_cd
 			  WHERE groCd LIKE '%${groCd}%'
 		) cmnCd
