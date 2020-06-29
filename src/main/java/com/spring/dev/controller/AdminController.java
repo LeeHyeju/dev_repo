@@ -48,7 +48,6 @@ public class AdminController {
 		pageMaker.setTotalCount(service.listCount(cri.getSearchType(), cri.getKeyword()));
 		
 		List<Admin> list = service.getList(cri);
-		System.out.println("List!!!!!!!!!!!!!" + list);
 	   	int count = service.listCount(cri.getSearchType(), cri.getKeyword());
 
 	   	Map<String, Object> map = new HashMap<String, Object>();
@@ -62,21 +61,22 @@ public class AdminController {
 		mav.addObject("map", map);
 		mav.setViewName("/admin/list.page"); //tiles 레이아웃 적용
 		return mav;
-				
 	}
     
     @RequestMapping(value = {"/view"})
-	public String view(HttpServletRequest request,  String admId, Model model) {
-    	logger.info("AdminController_ view");
+	public String view(HttpServletRequest request,  String admId, Model model, SearchCriteria cri) {
+    	logger.info("AdminController_ view {}", service.view(admId));
+    	
     	model.addAttribute("view", service.view(admId));
-    	model.addAttribute("codes", authService.getAuth());
+    	model.addAttribute("codes", authService.getAuth(cri));
+    	
 		return "admin/view.page";
 	}
     
     @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
-	public String insert(HttpServletRequest request, Model model) {
+	public String insert(HttpServletRequest request, Model model,SearchCriteria cri) {
     	logger.info("AdminController_ insert");
-    	model.addAttribute("codes", authService.getAuth());
+    	model.addAttribute("codes", authService.getAuth(cri));
 		return "admin/insert.page";
 	}
     
@@ -88,11 +88,21 @@ public class AdminController {
 	}
 
     @RequestMapping(value = {"/update"})
-	public String update(HttpServletRequest request, Admin admin,  Model model) {
-    	//비밀번호 비교해서 
-    	
-		service.update(admin);
-		return "redirect:/admin/list";
+	public String update(HttpServletRequest request, @ModelAttribute Admin admin,SearchCriteria cri, String admId, Model model) {
+    	//비밀번호 비교
+    	int result = service.checkPw(admin.getAdmId(), admin.getPw());
+    	System.out.println("컨트롤러 result : "+ result);
+    	if(result == 1) { //비밀번호 일치 시
+    		service.update(admin);
+    		return "redirect:/admin/list";	
+    	} else {
+    		model.addAttribute("view", service.view(admId));
+        	model.addAttribute("codes", authService.getAuth(cri));
+
+    		model.addAttribute("msg","비밀번호 불일치");
+    		
+    		return "admin/view.page";
+    	}
 	}
 
     @RequestMapping(value = {"/delete"}, method = RequestMethod.POST)

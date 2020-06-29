@@ -11,9 +11,23 @@
 			    ,regId
 			    ,regDt
 		FROM
-		  	 	tb_auth 
+		  	 	tb_auth
+		WHERE 1=1
+		<if test="cri.searchType != null">
+            <if test="cri.searchType == 'all'.toString()">
+                and ( authCd like CONCAT('%', #{cri.keyword}, '%')
+                OR authNm like CONCAT('%', #{cri.keyword}, '%') )
+            </if>
+            <if test="cri.searchType == 'authcd'.toString()">
+                and authCd like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'authnm'.toString()">
+                and authNm like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+        </if>  	 	 
 		ORDER BY 
-				regDt desc 
+				regDt desc
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}		 
 	</select>
 	
 	<select id="view"  resultType="Auth">
@@ -62,4 +76,22 @@
 		WHERE 
 			authCd = #{authCd}
 	</delete>
+	
+	<select id="listCount" resultType="int" parameterType="String">
+		SELECT COUNT(authCd)
+		  FROM tb_auth
+		  WHERE 1=1
+		<if test="searchType != null">
+            <if test="searchType == 'all'.toString()">
+                and ( authCd like CONCAT('%', #{keyword}, '%')
+                OR authNm like CONCAT('%', #{keyword}, '%') )
+            </if>
+            <if test="searchType == 'authCd'.toString()">
+                and authCd like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'authNm'.toString()">
+                and authNm like CONCAT('%', #{keyword}, '%')
+            </if>
+        </if>  	 	 
+	</select>
 </mapper>

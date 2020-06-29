@@ -46,4 +46,9 @@ public class AdminService {
 	public int listCount(String searchType, String keyword) {
 		return mapper.listCount(searchType, keyword);
 	}
+	
+	public int checkPw(String admId, String pw) {
+		System.out.println("admin 서비스");
+		return mapper.checkPw(admId, pw);
+	}
 }

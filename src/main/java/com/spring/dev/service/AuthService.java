@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.Auth;
+import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.AuthMapper;
 
 @Service
@@ -15,8 +16,8 @@ public class AuthService {
 	@Autowired
 	AuthMapper mapper;
 	
-	public List<Auth> getAuth() {
-		return mapper.getAuth();
+	public List<Auth> getAuth(SearchCriteria cri) {
+		return mapper.getAuth(cri);
 	}
 	public Auth view(String authCd) {
 		return mapper.view(authCd);
@@ -34,4 +35,7 @@ public class AuthService {
 		mapper.delete(authCd);
 	}	
 	
+	public int listCount(String searchType, String keyword) {
+		return mapper.listCount(searchType, keyword);
+	}
 }

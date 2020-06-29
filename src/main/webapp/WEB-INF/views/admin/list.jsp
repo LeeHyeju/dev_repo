@@ -58,37 +58,37 @@
 							<col style="width:8%" />
 						</colgroup>
 						<thead>
-						<tr>
-							<th>아이디</th>
-							<th>이름</th>
-							<th>권한코드</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>등록자</th>
-							<th>등록일</th>
-							<th>삭제유무</th>
-							<th>사용유무</th>
-						</tr>
+							<tr>
+								<th>아이디</th>
+								<th>이름</th>
+								<th>권한코드</th>
+								<th>연락처</th>
+								<th>이메일</th>
+								<th>등록자</th>
+								<th>등록일</th>
+								<th>사용유무</th>
+								<th>삭제유무</th>
+							</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="admin" items="${map.list}" varStatus="loop">
-							<tr>
-								<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
-								<td>${admin.nm}</td>
-								<td>${admin.authCd}</td>
-								<td>${admin.tel}</td>
-								<td>${admin.email}</td>
-								<td class="t-gray">${admin.regId}</td>
-								<td><fmt:formatDate value="${admin.regDt}" pattern="yyyy.MM.dd"/></td>
-								<td>${admin.delYn}</td>
-								<td>${admin.useYn}</td>
-							</tr>
-				     	</c:forEach>
-				     	<c:if test="${empty map.list}">
-						<tr>
-							<td colspan="11" class="no-data">게시물이 없습니다.</td>
-						</tr>
-						</c:if>
+							<c:forEach var="admin" items="${map.list}" varStatus="loop">
+								<tr>
+									<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
+									<td>${admin.nm}</td>
+									<td>${admin.authCd}</td>
+									<td>${admin.tel}</td>
+									<td>${admin.email}</td>
+									<td class="t-gray">${admin.regId}</td>
+									<td><fmt:formatDate value="${admin.regDt}" pattern="yyyy.MM.dd"/></td>
+									<td>${admin.useYn}</td>
+									<td>${admin.delYn}</td>
+								</tr>
+					     	</c:forEach>
+					     	<c:if test="${empty map.list}">
+								<tr>
+									<td colspan="11" class="no-data">게시물이 없습니다.</td>
+								</tr>
+							</c:if>
 						</tbody>
 					</table> <!-- //boardType01_tblList -->
 					

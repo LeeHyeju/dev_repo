@@ -320,7 +320,7 @@ $(function(){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="emailId" id="emailId" class="input_textN" style="width:200px;" /> @ <input type="text" name="emailDomain" id="emailDomain" value="">
-											<select name="select_email" onChange="selectEmail(this)"> 
+											<select name="select_email" onChange="selectEmail(this)" class="form-control input-sm" style="width:100px;display: inline-block;"> 
 												<option value="" selected>선택하세요</option> 
 												<option value="naver.com">naver.com</option> 
 												<option value="gmail.com">gmail.com</option> 
@@ -340,6 +340,32 @@ $(function(){
 										<div class="input_adj">
 											${sessionScope.admin.nm } ( ${sessionScope.admin.admId } )
 										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											사용여부
+										</span>
+									</th>
+									<td>
+										<input type="radio" name="useYn" id="useYnY" class="input_group" style="width:30px;" value="Y">
+										<label for="useYnY">사용</label>
+										<input type="radio" name="useYn" id="useYnN" class="input_group" style="width:30px;" value="N">
+										<label for="useYnN">미사용</label>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											삭제여부
+										</span>
+									</th>
+									<td>
+										<input type="radio" name="delYn" id="delYnY" class="input_group" style="width:30px;" value="Y">
+										<label for="useYnY">사용</label>
+										<input type="radio" name="delYn" id="delYnN" class="input_group" style="width:30px;" value="N">
+										<label for="useYnN">미사용</label>
 									</td>
 								</tr>
 							</tbody>

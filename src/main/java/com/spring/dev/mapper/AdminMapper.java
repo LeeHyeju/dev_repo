@@ -27,5 +27,7 @@ public interface AdminMapper {
 	public int idCheck(String admId);
 	
 	public int listCount(@Param("searchType")String searchType, @Param("keyword") String keyword);
+	
+	public int checkPw(@Param("admId")String admId, @Param("pw")String pw);
 
 }

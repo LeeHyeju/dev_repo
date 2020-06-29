@@ -60,20 +60,22 @@ public class Admin implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		
+		if (email != null) {
+			String[] m = email.split("@");
+			setEmailId(m[0]);
+			if (m.length > 1) {				
+				setEmailDomain(m[1]);
+			}
+		}
 	}	
 	public String getEmailId() {
-		if (emailId == null && email != null) {
-			emailId = email.split("@")[0];
-		}
 		return emailId;
 	}
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
 	public String getEmailDomain() {
-		if (emailDomain == null && email != null) {
-			emailDomain = email.split("@")[1];
-		}
 		return emailDomain;
 	}
 	public void setEmailDomain(String emailDomain) {
@@ -106,11 +108,11 @@ public class Admin implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 	@Override
 	public String toString() {
 		return "Admin [admId=" + admId + ", pw=" + pw + ", nm=" + nm + ", authCd=" + authCd + ", tel=" + tel
-				+ ", email=" + email + ", regId=" + regId + ", regDt=" + regDt + ", delYn=" + delYn + ", useYn=" + useYn
-				+ "]";
+				+ ", email=" + email + ", emailId=" + emailId + ", emailDomain=" + emailDomain + ", regId=" + regId
+				+ ", regDt=" + regDt + ", delYn=" + delYn + ", useYn=" + useYn + "]";
 	}
+	
 }
