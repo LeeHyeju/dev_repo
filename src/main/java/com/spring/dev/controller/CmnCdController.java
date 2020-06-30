@@ -120,10 +120,41 @@ public class CmnCdController {
         return map;
     }
     
-    // 그룹코드 선택 팝업창
+    // 그룹코드 선택 팝업
     @RequestMapping(value = {"/codePopup"}, method = RequestMethod.GET)
-	public String codePopup(Model model) {
+	public String codePopup(Model model, SearchKey searchKey, Criteria cri) {
     	logger.info("CmnCdController codePopup");
+    	int count = service.listCount(searchKey);
+    	
+    	// List 세팅
+		model.addAttribute("list", service.list(searchKey, cri));
+		model.addAttribute("count", count);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		
+		return "cmnCd/codePopup.part";
+	}
+    
+    // 그룹코드 찾기
+    @RequestMapping(value = {"/groCdSrch"}, method = RequestMethod.GET)
+	public String groCdSrch(Model model, SearchKey searchKey, Criteria cri) {
+    	logger.info("CmnCdController groCdSrch");
+    	int count = service.listCount(searchKey);
+    	
+    	// List 세팅
+		model.addAttribute("list", service.list(searchKey, cri));
+		model.addAttribute("count", count);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		
 		return "cmnCd/codePopup.part";
 	}
 }

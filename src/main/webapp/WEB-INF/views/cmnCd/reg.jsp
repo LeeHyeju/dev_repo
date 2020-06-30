@@ -150,7 +150,7 @@ function fnClick() {
 }
 /*groCd 선택*/
 function fnGroCd() {
-	window.open("codePopup", "_blank", "height=400,width=400,top=200,left=400,status=yes,toolbar=no,menubar=no,location=no");
+	window.open("codePopup", "_blank", "top=200,left=400,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
 } 
 /*code 중복확인*/
 function fnCodeChk() {
@@ -238,14 +238,14 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groCd" id="groCd" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="groCd" id="groCd" value="${groCd}" readOnly class="input_textN" style="width:200px;" maxlength="50"/>
 											<button type="button" onClick='fnGroCd()' id="btnGroCd" class="btnTxt btnTxt_small btnTxt_gray">그룹코드 입력</button>
-											<select id="keyGroCd" name="keyGroCd" onClick="fnClick()">
-									     			<option value="">직접입력</option>
-												<c:forEach var="cmnCd" items="${list}">
-													<option value="${cmnCd.groCd},${cmnCd.groNm}">${cmnCd.groCd}</option>
-									     		</c:forEach>
-											</select>
+<!-- 											<select id="keyGroCd" name="keyGroCd" onClick="fnClick()"> -->
+<!-- 									     			<option value="">직접입력</option> -->
+<%-- 												<c:forEach var="cmnCd" items="${list}"> --%>
+<%-- 													<option value="${cmnCd.groCd},${cmnCd.groNm}">${cmnCd.groCd}</option> --%>
+<%-- 									     		</c:forEach> --%>
+<!-- 											</select> -->
 										</div>
 									</td>
 								</tr>
@@ -258,7 +258,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="groNm" id="groNm" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="groNm" id="groNm" value="${groNm}" readOnly class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
