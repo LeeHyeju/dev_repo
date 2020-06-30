@@ -8,7 +8,7 @@
 		
 		<div class="topmenu">
 			<ul class="utility clearfix">
-				<li><a href="${pageContext.request.contextPath}/manage/writ">${sessionScope.admin.nm } 님</a></li>
+				<li><a href="${pageContext.request.contextPath}/admin/list">${sessionScope.admin.nm } 님</a></li>
 				<li class="bar">|</li>
 				<c:choose>
 					<c:when test="${sessionScope.admin.nm ne null }">
@@ -26,7 +26,7 @@
 				<li><a href="${pageContext.request.contextPath}/admin/list">관리자관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">공통관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">게시판관리</a></li>
-				<li><a href="${pageContext.request.contextPath}/member/">컨텐츠관리</a></li>
+				<li><a href="${pageContext.request.contextPath}/contents/list">컨텐츠관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/member/">메뉴관리</a></li>
 			</ul> <!-- //gnb -->
 		</div> <!-- //nav -->
