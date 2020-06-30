@@ -90,7 +90,7 @@
 		ORDER BY groCd ASC
 	</select>
 	
-	<select id="codeChk" resultType="Integer">
+	<select id="cdChk" resultType="Integer">
 		SELECT 
 			COUNT(*) 
 		FROM 

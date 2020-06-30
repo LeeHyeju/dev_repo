@@ -5,7 +5,7 @@
 <script>
 /*검색*/
 function fnGroCdSrch() {
-	submit("groCdSrch");
+	submit("codePopup");
 }
 /*코드 선택*/
 function fnClick(groCd, groNm) {

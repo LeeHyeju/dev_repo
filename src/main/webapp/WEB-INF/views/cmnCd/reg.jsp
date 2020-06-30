@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> --%>
 
 <script>
 var cdChk = 0; // (아이디 중복일 경우 = 0, 중복이 아닐경우 = 1)
@@ -43,7 +42,7 @@ $(function(){
             }
     		,groNm: {
     			required 	: true
-               ,korNum		: true
+//                ,korNum		: true
                ,maxlength 	: 6
             }
     		,cmnCd: {
@@ -74,7 +73,7 @@ $(function(){
             }
 	        ,groNm: {
 	        	required 	: "필수로입력하세요"
-               ,korNum		: "한글과 숫자만 입력하세요"
+//                ,korNum		: "한글과 숫자만 입력하세요"
                ,maxlength 	: "최대 {6}글자까지 입력하세요"
 	        }
 	        ,cmnCd: {
@@ -96,8 +95,16 @@ $(function(){
 	        	required 	: "필수로입력하세요"
 	        }
         },
-        //validation이 끝난 이후의 submit 직전 추가 작업할 부분
-        submitHandler: function(form){
+        // error 표시 위치 변경
+        errorPlacement : function(error, element) {
+        	if(element.is(":radio")) {
+        		element.parent().after(error);
+        	}else{
+        		element.after(error);
+        	}
+        },
+        // validation이 끝난 이후의 submit 직전 추가 작업할 부분
+        submitHandler: function(form) {
         	// $.ajax();
         	submit('insert');
         },
@@ -121,12 +128,8 @@ function fnInsert(){
 // 	}
 	
 	if(cdChk == 0){
-		alert("코드중복확인 해주세요");
+		alert("코드 중복확인 해주세요");
 	}
-}
-/*목록*/
-function fnList(){
-   	submit('cmn_cd');
 }
 /*groCd 선택*/
 function fnClick() {
@@ -153,7 +156,7 @@ function fnGroCd() {
 	window.open("codePopup", "_blank", "top=200,left=400,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
 } 
 /*code 중복확인*/
-function fnCodeChk() {
+function fncdChk() {
 	 var groCd = $('#groCd').val();
 	 var cmnCd = $('#cmnCd').val();
 	 var cd = groCd + "," + cmnCd
@@ -162,7 +165,7 @@ function fnCodeChk() {
 		$.ajax({
 		    type : 'POST',
 		    data : cd,
-		    url : "codeChk",
+		    url : "cdChk",
 		    dataType : "json",
 		    contentType: "application/json; charset=UTF-8",
 		    success : function(data) {
@@ -272,7 +275,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="cmnCd" id="cmnCd" class="input_textN" style="width:200px;" maxlength="50"/>
-											<button type="button" onClick='fnCodeChk()' id="btnCodeChk" class="btnTxt btnTxt_small btnTxt_gray">코드 중복확인</button>
+											<button type="button" onClick='fncdChk()' id="btncdChk" class="btnTxt btnTxt_small btnTxt_gray">코드 중복확인</button>
 										</div>
 									</td>
 								</tr>
@@ -298,7 +301,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="arayOrde" id="arayOrde" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="arayOrde" id="arayOrde" readOnly class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -325,10 +328,7 @@ function submit(service){
 						
 					<div class="boardType01_write_btn">
 						<button type="submit" id="btnSave" onClick='fnInsert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="btnList" onClick='fnList()' class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></button>
-<!-- 						<div class="boardType01_write_btn" style="clear:both"> -->
-<%-- 							<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd" class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></a> --%>
-<!-- 						</div> -->
+						<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd" class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></a>
 				</div> <!-- //boardType01_write_btn -->
 				</form>
 				</div> <!-- //boardType01_wrap -->
@@ -338,7 +338,3 @@ function submit(service){
 	</div> <!-- //subcontent_wrap -->
 	
 </div> <!-- //content -->
-
-
-
-

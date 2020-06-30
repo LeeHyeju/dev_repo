@@ -65,7 +65,7 @@ function fnEdit(edit, rNum){
 	
 	if(edit == 'N') {
 		// 편집
-		editY.style.display = 'contents';
+		editY.style.display = '';
 	} else {
 		if(document.getElementById("cmnNm["+rNum+"]").value == ""
 		|| document.getElementById("arayOrde["+rNum+"]").value == ""
@@ -74,7 +74,7 @@ function fnEdit(edit, rNum){
 			alert("필수값을 입력하세요");
 		}else{
 			// 저장
-			editN.style.display = 'contents';
+			editN.style.display = '';
 			
 			document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
 		    document.getElementById("keyCmnNm").value = document.getElementById("cmnNm["+rNum+"]").value;

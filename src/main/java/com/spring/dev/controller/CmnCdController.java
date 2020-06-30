@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,6 +72,22 @@ public class CmnCdController {
 		return "cmnCd/cmn_cd.page";
 	}
 	
+	// 공통코드 편집
+	@RequestMapping(value = {"/editSave"}, method = RequestMethod.GET)
+	public String editSave(SearchKey searchKey) {
+		logger.info("CmnCdController editSave");
+		service.update(searchKey);
+		return "redirect:/cmnCd/cmn_cd";
+	}
+	
+	// 공통코드 삭제
+	@RequestMapping(value = {"/del"}, method = RequestMethod.GET)
+	public String del(SearchKey searchKey) {
+		logger.info("CmnCdController del");
+		service.delete(searchKey);
+		return "redirect:/cmnCd/cmn_cd";
+	}
+	
 	// 공통코드 등록 페이지
     @RequestMapping(value = {"/reg"}, method = RequestMethod.GET)
 	public String reg(Model model) {
@@ -89,30 +104,14 @@ public class CmnCdController {
     	return "redirect:/cmnCd/cmn_cd";
 	}
     
-    // 공통코드 편집
-    @RequestMapping(value = {"/editSave"}, method = RequestMethod.GET)
-   	public String editSave(SearchKey searchKey) {
-       	logger.info("CmnCdController editSave");
-       	service.update(searchKey);
-       	return "redirect:/cmnCd/cmn_cd";
-   	}
-    
-    // 공통코드 삭제
-    @RequestMapping(value = {"/del"}, method = RequestMethod.GET)
-   	public String del(SearchKey searchKey) {
-       	logger.info("CmnCdController del");
-       	service.delete(searchKey);
-       	return "redirect:/cmnCd/cmn_cd";
-   	}
-    
     // 코드 중복확인
-    @RequestMapping(value= {"/codeChk"}, method= RequestMethod.POST)
+    @RequestMapping(value= {"/cdChk"}, method= RequestMethod.POST)
     @ResponseBody
-    public Map<Object, Object> codeChk(@RequestBody String cd) {
-        logger.info("CmnCdController codeChk");
+    public Map<Object, Object> cdChk(@RequestBody String cd) {
+        logger.info("CmnCdController cdChk");
         int count = 0;
         String[] code = cd.split(",");
-        count = service.codeChk(code[0], code[1]);
+        count = service.cdChk(code[0], code[1]);
         
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("count", count);
@@ -120,29 +119,10 @@ public class CmnCdController {
         return map;
     }
     
-    // 그룹코드 선택 팝업
+    // 그룹코드 선택 팝업 & 그룹코드 검색
     @RequestMapping(value = {"/codePopup"}, method = RequestMethod.GET)
 	public String codePopup(Model model, SearchKey searchKey, Criteria cri) {
     	logger.info("CmnCdController codePopup");
-    	int count = service.listCount(searchKey);
-    	
-    	// List 세팅
-		model.addAttribute("list", service.list(searchKey, cri));
-		model.addAttribute("count", count);
-		
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(count);
-		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("page", cri.getPage());
-		
-		return "cmnCd/codePopup.part";
-	}
-    
-    // 그룹코드 찾기
-    @RequestMapping(value = {"/groCdSrch"}, method = RequestMethod.GET)
-	public String groCdSrch(Model model, SearchKey searchKey, Criteria cri) {
-    	logger.info("CmnCdController groCdSrch");
     	int count = service.listCount(searchKey);
     	
     	// List 세팅
