@@ -237,7 +237,7 @@ $(function(){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="admId" id="admId" class="input_textN required" style="width:200px;" maxlength="50" value="" autocomplete=”off”/> 
-											<button type="button" id="btn_idck" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
+											<button type="button" id="btn_cdck" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
 										</div>
 									</td>
 								</tr>
@@ -373,7 +373,7 @@ $(function(){
 					</div> <!-- //boardType01_write -->
 					<div class="boardType01_write_btn">
 						<button type="submit" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<button type="button" id="btn_cancel" class="btnTxt btnTxt_normal btnTxt_gray" onClick="location.href='javascript:history.back();'"><span>취소</span></button>
 						<a href="${pageContext.request.contextPath}/admin/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 					</form>

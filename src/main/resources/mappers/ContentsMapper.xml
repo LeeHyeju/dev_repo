@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.dev.mapper.ContentsMapper">
+
+	<select id="getContentsByContCd" resultType="Contents">
+	SELECT
+				contIdx
+			    ,contCd
+			    ,contNm
+			    ,contStyle
+			    ,contScript
+			    ,contents
+			    ,regId
+			    ,regDt
+		FROM
+		  	 	tb_contents
+		WHERE 1=1
+		  <if test="cri.searchType != null">
+            <if test="cri.searchType == 'all'.toString()">
+                and ( contCd like CONCAT('%', #{cri.keyword}, '%')
+                OR contNm like CONCAT('%', #{cri.keyword}, '%')
+                OR contents like CONCAT('%', #{cri.keyword}, '%') 
+            </if>
+            <if test="cri.searchType == 'contCd'.toString()">
+                and contCd like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'contNm'.toString()">
+                and contNm like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'contents'.toString()">
+                and contents like CONCAT('%', #{cri.keyword}, '%') 
+            </if>
+          </if>
+		ORDER BY 
+				regDt desc 
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="listCount" resultType="int" parameterType="String">
+		SELECT COUNT(contIdx)
+		  FROM tb_contents
+		  WHERE 1=1
+		<if test="searchType != null">
+            <if test="searchType == 'all'.toString()">
+                and ( contCd like CONCAT('%', #{keyword}, '%')
+                OR contNm like CONCAT('%', #{keyword}, '%')
+                OR contents like CONCAT('%', #{keyword}, '%') 
+            </if>
+            <if test="searchType == 'contCd'.toString()">
+                and contCd like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'contNm'.toString()">
+                and contNm like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'contents'.toString()">
+                and contents like CONCAT('%', #{keyword}, '%') 
+            </if>
+        </if>
+	</select>
+	
+	<select id="viewContents"  resultType="Contents">
+		SELECT
+				contIdx
+			    ,contCd
+			    ,contNm
+			    ,contStyle
+			    ,contScript
+			    ,contents
+			    ,regId
+			    ,regDt
+		FROM
+		  	 	tb_contents 
+		WHERE  
+				contIdx = #{contIdx} 
+	</select>
+	
+	<select id="contCdcheck"  parameterType="String" resultType="Integer">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			tb_contents
+		WHERE 
+			contCd = #{contCd, jdbcType=VARCHAR}	 	
+	</select>
+	
+	<insert id="insertContents" >
+		INSERT INTO 
+			tb_contents
+				(
+			    contCd
+			    ,contNm
+			    ,contStyle
+			    ,contScript
+			    ,contents
+			    ,regId
+			    ,regDt
+				 )
+		VALUES
+				(
+				#{contCd}
+				,#{contNm}
+				,#{contStyle}
+				,#{contScript}
+				,#{contents}
+				,#{regId}
+				,now()
+				)
+	</insert>
+	
+	<update id="contentsUpdate" parameterType="Contents">
+		UPDATE 
+			tb_contents
+		SET	
+		    contNm = #{contNm}
+		    ,contStyle = #{contStyle}
+		    ,contScript = #{contScript}
+		    ,contents = #{contents}
+		WHERE 
+			contIdx = #{contIdx}
+	</update>
+	
+	<delete id="contentsDelete" parameterType="String">
+		DELETE 
+		FROM 
+			tb_contents
+		WHERE 
+			contIdx = #{contIdx}
+	</delete>
+</mapper>
