@@ -108,13 +108,53 @@ public class CmnCdController {
     // 코드 중복확인
     @RequestMapping(value= {"/codeChk"}, method= RequestMethod.POST)
     @ResponseBody
-    public Map<Object, Object> codeChk(@RequestBody String admId) {
-        logger.info("아이디 체크");
+    public Map<Object, Object> codeChk(@RequestBody String cd) {
+        logger.info("CmnCdController codeChk");
         int count = 0;
+        String[] code = cd.split(",");
+        count = service.codeChk(code[0], code[1]);
+        
         Map<Object, Object> map = new HashMap<Object, Object>();
-        count = service.codeChk(admId);
-        logger.info("아이디", count);
-        map.put("cnt", count);
+        map.put("count", count);
+        map.put("listCount", service.subCount(code[0])+1);
         return map;
     }
+    
+    // 그룹코드 선택 팝업
+    @RequestMapping(value = {"/codePopup"}, method = RequestMethod.GET)
+	public String codePopup(Model model, SearchKey searchKey, Criteria cri) {
+    	logger.info("CmnCdController codePopup");
+    	int count = service.listCount(searchKey);
+    	
+    	// List 세팅
+		model.addAttribute("list", service.list(searchKey, cri));
+		model.addAttribute("count", count);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		
+		return "cmnCd/codePopup.part";
+	}
+    
+    // 그룹코드 찾기
+    @RequestMapping(value = {"/groCdSrch"}, method = RequestMethod.GET)
+	public String groCdSrch(Model model, SearchKey searchKey, Criteria cri) {
+    	logger.info("CmnCdController groCdSrch");
+    	int count = service.listCount(searchKey);
+    	
+    	// List 세팅
+		model.addAttribute("list", service.list(searchKey, cri));
+		model.addAttribute("count", count);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		
+		return "cmnCd/codePopup.part";
+	}
 }

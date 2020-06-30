@@ -36,5 +36,5 @@ public interface CmnCdMapper {
 	public List<CmnCd> cdList();
 	
 	// 코드 중복확인
-	public int codeChk(String cmnCd);
+	public int codeChk(@Param("groCd")String groCd, @Param("cmnCd")String cmnCd);
 }
