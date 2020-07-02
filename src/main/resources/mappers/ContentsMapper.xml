@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.dev.mapper.ContentsMapper">
-
+ 
 	<select id="getContentsByContCd" resultType="Contents">
+	<![CDATA[
 	SELECT
 				contIdx
 			    ,contCd
@@ -16,11 +17,12 @@
 		FROM
 		  	 	tb_contents
 		WHERE 1=1
+		 ]]>
 		  <if test="cri.searchType != null">
             <if test="cri.searchType == 'all'.toString()">
                 and ( contCd like CONCAT('%', #{cri.keyword}, '%')
                 OR contNm like CONCAT('%', #{cri.keyword}, '%')
-                OR contents like CONCAT('%', #{cri.keyword}, '%') 
+                OR contents like CONCAT('%', #{cri.keyword}, '%')) 
             </if>
             <if test="cri.searchType == 'contCd'.toString()">
                 and contCd like CONCAT('%', #{cri.keyword}, '%')
@@ -32,20 +34,24 @@
                 and contents like CONCAT('%', #{cri.keyword}, '%') 
             </if>
           </if>
+         <![CDATA[
 		ORDER BY 
 				regDt desc 
 		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+		]]>
 	</select>
 	
 	<select id="listCount" resultType="int" parameterType="String">
+	<![CDATA[
 		SELECT COUNT(contIdx)
 		  FROM tb_contents
 		  WHERE 1=1
+		  ]]>
 		<if test="searchType != null">
             <if test="searchType == 'all'.toString()">
                 and ( contCd like CONCAT('%', #{keyword}, '%')
                 OR contNm like CONCAT('%', #{keyword}, '%')
-                OR contents like CONCAT('%', #{keyword}, '%') 
+                OR contents like CONCAT('%', #{keyword}, '%')) 
             </if>
             <if test="searchType == 'contCd'.toString()">
                 and contCd like CONCAT('%', #{keyword}, '%')
@@ -72,7 +78,7 @@
 		FROM
 		  	 	tb_contents 
 		WHERE  
-				contIdx = #{contIdx} 
+				contIdx = #{contIdx}
 	</select>
 	
 	<select id="contCdcheck"  parameterType="String" resultType="Integer">
@@ -82,6 +88,22 @@
 			tb_contents
 		WHERE 
 			contCd = #{contCd, jdbcType=VARCHAR}	 	
+	</select>
+
+	<select id="getHistoryList" parameterType="String" resultType="History">
+		SELECT
+					historyIdx
+				    ,contCd
+				    ,contNm
+				    ,contStyle
+				    ,contScript
+				    ,contents
+				    ,historyVer
+				    ,regId
+				    ,regDt
+			FROM
+			  	 	tb_contents_history
+			WHERE contCd = #{contCd}
 	</select>
 	
 	<insert id="insertContents" >

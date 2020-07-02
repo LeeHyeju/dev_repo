@@ -60,36 +60,40 @@ $(function(){
 var cdCk = 0;
 $(function() {
     //idck 버튼을 클릭했을 때 
-    $('#btn_cdCk').click(function() {
+	$('#btn_cdCk').click(function() {
         //userid 를 param.
         var contCd = $('#contCd').val();
-        alert(contCd);
-        $.ajax({
-            type : 'POST',
-            data : contCd,
-            url : "contCdcheck",
-            dataType : "json",
-            contentType: "application/json; charset=UTF-8",
-            success : function(data) {
-                if (data.cnt > 0) {
-                    alert("컨텐츠 코드가 존재합니다. 다른 코드번호를 입력해주세요.");
-                	$("#contCd").addClass("bg-danger");
-                	$("#contCd").removeClass("bg-success");
-                    $("#contCd").focus();
-                                    
-                } else {
-                    alert("사용가능한 코드번호입니다.");
-                	$("#contCd").addClass("bg-success"); 
-                	$("#contCd").removeClass("bg-danger");
-                    $("#contNm").focus();
-                    //중복하지 않으면  cdCk= 1 
-                    cdCk = 1;
-                }
-            },
-            error : function(error) {
-                alert("error : " + error);
-            }
-        });
+        
+        if(contCd == "" || contCd == null) {
+           		alert("아이디를 입력해주세요");
+    	} else {
+	        $.ajax({
+	            type : 'POST',
+	            data : contCd,
+	            url : "contCdcheck",
+	            dataType : "json",
+	            contentType: "application/json; charset=UTF-8",
+	            success : function(data) {
+	                if (data.cnt > 0) {
+	                    alert("컨텐츠 코드가 존재합니다. 다른 코드번호를 입력해주세요.");
+	                	$("#contCd").addClass("bg-danger");
+	                	$("#contCd").removeClass("bg-success");
+	                    $("#contCd").focus();
+	                                    
+	                } else {
+	                    alert("사용가능한 코드번호입니다.");
+	                	$("#contCd").addClass("bg-success"); 
+	                	$("#contCd").removeClass("bg-danger");
+	                    $("#contNm").focus();
+	                    //중복하지 않으면  cdCk= 1 
+	                    cdCk = 1;
+	                }
+	            },
+	            error : function(error) {
+	                alert("error : " + error);
+	            }
+	        });
+		}
     });
 });
 
@@ -157,7 +161,7 @@ $(function() {
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contStyle" id="contStyle" class="input_textN" style="width:550px;height:200px;resize: none;" value=""></textarea>
+												<textarea name="contStyle" id="contStyle" class="input_textN" style="width:550px;height:150px;resize: none;" value=""></textarea>
 											</div>
 										</td>
 									</tr>
@@ -169,7 +173,7 @@ $(function() {
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contScript" id="contScript" class="input_textN" style="width:550px;height:200px;resize: none;" value=""></textarea>
+												<textarea name="contScript" id="contScript" class="input_textN" style="width:550px;height:150px;resize: none;" value=""></textarea>
 											</div>
 										</td>
 									</tr>
@@ -182,7 +186,7 @@ $(function() {
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contents" id="contents" class="input_textN" style="width:550px;height:200px;resize: none;" value=""></textarea>
+												<textarea name="contents" id="contents" class="input_textN" style="width:550px;height:100px;resize: none;" value=""></textarea>
 											</div>
 										</td>
 									</tr>

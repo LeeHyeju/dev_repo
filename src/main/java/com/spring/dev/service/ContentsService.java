@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.Contents;
+import com.spring.dev.domain.History;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.ContentsMapper;
 
@@ -42,5 +43,9 @@ public class ContentsService {
 
 	public void contentsDelete(String contIdx) {
 		mapper.contentsDelete(contIdx);
+	}
+
+	public List<History> getHistoryList(String contCd) {
+		return mapper.getHistoryList(contCd);
 	}
 }

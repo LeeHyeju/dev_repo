@@ -55,6 +55,16 @@ $(function(){
         }
     });
 
+    $('#boardTable2 tr td button').click(function() {
+    	var id = $(this).data('id');
+    	var cd = $(this).data('cd');
+    	var ver = $(this).data('version');
+    	if (id == 'view') {
+    		window.open("/history/view?historyVer=" + ver + "&contCd=" + cd, "_blank", "top=200,left=500,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
+    	} else if (id == 'reversion') {
+    		
+    	}
+    });
 });
 /*수정*/
 function fn_update(){
@@ -72,6 +82,10 @@ function fn_delete(){
    	 	form.submit();
 	} 
 }
+  
+function fn_popup() {
+	window.open("/history/view", "_blank", "top=200,left=500,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
+} 
 </script>
 
 <div id="contentarea" class="l-content">
@@ -84,7 +98,7 @@ function fn_delete(){
 			<div class="subcontent">
 				
 				<div class="subcontent_title_wrap">
-					<h3 class="subcontent_title">관리자정보관리</h3>
+					<h3 class="subcontent_title">컨텐츠정보관리</h3>
 					<p class="subcontent_desc">.</p>
 				</div> <!-- //subboard_title_wrap -->
 				
@@ -93,6 +107,7 @@ function fn_delete(){
 					
 					<form name="viewFrm" id="viewFrm" method="post">
 						<input type="hidden" id="contIdx" name="contIdx" value="${view.contIdx }">
+						<input type="hidden" id="contIdx" name="contIdx" value="${view.contCd}">
 						<div class="boardType01_write">
 							<table cellspacing="0" class="boardType01_tbl">
 								<caption class="boardType01_cpt"><span class="t-hidden"> 등록</span></caption>
@@ -147,7 +162,7 @@ function fn_delete(){
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contStyle" id="contStyle" class="input_textN" style="width:550px;height:200px;resize: none;">${view.contStyle }</textarea>
+												<textarea name="contStyle" id="contStyle" class="input_textN" style="width:550px;height:150px;resize: none;">${view.contStyle }</textarea>
 											</div>
 										</td>
 									</tr>
@@ -159,7 +174,7 @@ function fn_delete(){
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contScript" id="contScript" class="input_textN" style="width:550px;height:200px;resize: none;">${view.contScript }</textarea>
+												<textarea name="contScript" id="contScript" class="input_textN" style="width:550px;height:150px;resize: none;">${view.contScript }</textarea>
 											</div>
 										</td>
 									</tr>
@@ -172,7 +187,7 @@ function fn_delete(){
 										</th>
 										<td>
 											<div class="input_adj">
-												<textarea name="contents" id="contents" class="input_textN" style="width:550px;height:200px;resize: none;" >${view.contents }</textarea>
+												<textarea name="contents" id="contents" class="input_textN" style="width:550px;height:100px;resize: none;" >${view.contents }</textarea>
 											</div>
 										</td>
 									</tr>
@@ -213,6 +228,47 @@ function fn_delete(){
 							<a href="${pageContext.request.contextPath}/contents/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 						</div> <!-- //boardType01_write_btn -->
 					</form>
+					
+					<table id="boardTable2" class="boardType01_tblList">
+						<caption><span class="t-hidden">검색</span></caption>
+						<colgroup>
+							<col style="width:5%"/>
+							<col style="width:20%"/>
+							<col style="width:20%"/>
+							<col style="width:20%"/>
+							<col style="width:14%"/>
+							<col style="width:14%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>ver.</th>
+								<th>컨텐츠이름</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>미리보기</th>
+								<th>가져오기</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="history" items="${histories}">
+							<tr class="hover">${history.contCd}//${history.historyVer}
+								<td>${history.historyVer}</td>
+								<td>${history.contNm}</td>
+								<td>${history.regId}</td>
+								<td>${history.regDt}</td>
+								<td><button type="button" data-id="view" data-cd="${history.contCd}" data-version="${history.historyVer}" class="btnTxt btnTxt_normal btnTxt_dark">미리보기</button></td>
+								<td><button type="button" data-id="reversion"  data-version="${history.historyVer}" class="btnTxt btnTxt_normal btnTxt_cyan ">가져오기</button></td>
+							</tr>
+					     	</c:forEach>
+					     	<c:if test="${empty histories}">
+							<tr>
+								<td colspan="6" class="no-data"><strong>이전 히스토리가 존재하지 않습니다.</strong></td>
+							</tr>
+							</c:if>
+					</tbody>
+				</table>
+							
+					
 				</div> <!-- //boardType01_wrap -->
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->
