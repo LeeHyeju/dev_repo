@@ -2,7 +2,6 @@ package com.spring.dev.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.PageMaker;
+import com.spring.dev.domain.SearchKey;
 import com.spring.dev.service.IntrBrdService;
 
 @Controller
@@ -31,43 +31,40 @@ public class IntrBrdController {
 		return "intrBrd/intr_brd.page";
 	}
     /**************************** 공 통 게 시 판 (공지)*******************************************/
-    // 공통게시판 List
-    @RequestMapping(value = {"/intr_brd_brd"})
-	public String getBrd(Model model, Criteria cri) {
-    	logger.info("IntrBrdController list");
-    	String tblNm = "tb_board_notice";
-    	int count = service.listCount(tblNm);
-    	
+    // 게시판 페이지 & 검색 (List 세팅)
+    @RequestMapping(value = {"/intr_brd_noti"})
+	public String list(Model model, SearchKey searchKey, Criteria cri) {
+    	logger.info("IntrBrdController intr_brd_noti");
+    	int count = service.postListCount(searchKey);
+
     	// List 세팅
-    	model.addAttribute("list", service.list(tblNm, cri));
-    	model.addAttribute("count", count);
+    	model.addAttribute("postList", service.postList(searchKey, cri));
+    	model.addAttribute("postListCount", count);
+    	model.addAttribute("notiList", service.notiList());
+    	model.addAttribute("notiChk", searchKey.isNotiChk());
+    	model.addAttribute("perPageNum", cri.getPerPageNum());
 		
     	PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(count);
 		model.addAttribute("pageMaker", pageMaker);
 		
-		return "intrBrd/intr_brd_brd.page";
+		return "intrBrd/intr_brd_noti.page";
 	}
-//	
-//	@RequestMapping(value = {"/intr_brd_brd_search"})
-//	public String search(HttpServletRequest request, Model model, IntrBrd intrBrd, SearchCriteria scri, Criteria cri) {
-//		logger.info("IntrBrdController search");
-//    	model.addAttribute("list", service.search(intrBrd, cri));
-//    	PageMaker pageMaker = new PageMaker();
-//		pageMaker.setCri(scri);
-//		pageMaker.setTotalCount(service.listCount2(intrBrd));
-//		model.addAttribute("count", service.listCount2(intrBrd));
-//		model.addAttribute("pageMaker", pageMaker);
-//		return "intrBrd/intr_brd_brd.page";
-//	}
-    
-    @RequestMapping(value = {"/intr_brd_brd_dtl"})
-	public String view(HttpServletRequest request, String boardCd, Model model) {
-    	logger.info("IntrBrdController intr_brd_brd_dtl");
-    	model.addAttribute("dtl", service.dtl(boardCd));
-		return "intrBrd/intr_brd_brd_dtl.page";
-	}
+	
+    // 게시판 상세 페이지
+    @RequestMapping(value = {"/intr_brd_noti_dtl"})
+    public String view(String brdCd, int hit) {
+    	logger.info("IntrBrdController intr_brd_noti_dtl>>>{}", hit);
+    	String tblNm = "tb_intr_brd_noti";
+    	
+    	service.brdHit(tblNm, brdCd, hit);
+    	
+    	return "intrBrd/intr_brd_noti_dtl.page";
+    }
+	
+	
+	
     
     @RequestMapping(value = {"/intr_brd_brd_reg"})
 	public String reg(HttpServletRequest request, Model model, IntrBrd intrBrd) {
@@ -78,7 +75,7 @@ public class IntrBrdController {
     @RequestMapping(value = {"/intr_brd_brd_insert"})
 	public String insert(HttpServletRequest request, Model model, IntrBrd intrBrd) {
     	logger.info("IntrBrdController intr_brd_brd_insert");
-    	intrBrd.setBoardCd(service.boardCdMax()+1);
+    	intrBrd.setBrdCd(service.boardCdMax()+1);
     	service.insert(intrBrd);
 		return "redirect:/intrBrd/intr_brd_brd";
 	}

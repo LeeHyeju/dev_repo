@@ -34,7 +34,7 @@ function submit(service){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (게시판형)</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subboard_title_wrap -->
 				
 				<div class="boardType01_wrap">
@@ -43,7 +43,7 @@ function submit(service){
 					<form name="writeFrm" id="writeFrm" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="boardCd" id="boardCd" value="${dtl.boardCd}"/>
 					<div class="boardType01_write">
-						<table cellspacing="0" class="boardType01_tbl">
+						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;"/>
@@ -152,7 +152,7 @@ function submit(service){
 					<div class="boardType01_write_btn">
 						<button id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

@@ -5,7 +5,7 @@
 <script>
 /*검색*/
 function fnGroCdSrch() {
-	submit("codePopup");
+	submit("cmn_cd_popup");
 }
 /*코드 선택*/
 function fnClick(groCd, groNm) {
@@ -129,15 +129,15 @@ function submit(service){
 								<div class="pagination">
 								  <ul>
 								    <c:if test="${pageMaker.prev}">
-								    	<li class="li"><a href="codePopup${pageMaker.makeQuery(pageMaker.startPage - 1)}&<%=  request.getQueryString() %>">이전</a></li>
+								    	<li class="li"><a href="cmn_cd_popup${pageMaker.makeQuery(pageMaker.startPage - 1)}&<%=  request.getQueryString() %>">이전</a></li>
 								    </c:if> 
 								
 								    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-								    	<li class="li"><a href="codePopup${pageMaker.makeQuery(idx)}&<%=  request.getQueryString() %>">${idx}</a></li>
+								    	<li class="li"><a href="cmn_cd_popup${pageMaker.makeQuery(idx)}&<%=  request.getQueryString() %>">${idx}</a></li>
 								    </c:forEach>
 								
 								    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-								    	<li class="li"><a href="codePopup${pageMaker.makeQuery(pageMaker.endPage + 1)}&<%=  request.getQueryString() %>">다음</a></li>
+								    	<li class="li"><a href="cmn_cd_popup${pageMaker.makeQuery(pageMaker.endPage + 1)}&<%=  request.getQueryString() %>">다음</a></li>
 								    </c:if> 
 								  </ul>
 								</div>

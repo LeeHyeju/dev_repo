@@ -89,11 +89,11 @@ public class CmnCdController {
 	}
 	
 	// 공통코드 등록 페이지
-    @RequestMapping(value = {"/reg"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/cmn_cd_reg"}, method = RequestMethod.GET)
 	public String reg(Model model) {
-    	logger.info("CmnCdController reg");
+    	logger.info("CmnCdController cmn_cd_reg");
     	model.addAttribute("list", service.cdList());
-		return "cmnCd/reg.page";
+		return "cmnCd/cmn_cd_reg.page";
 	}
     
     // 공통코드 등록
@@ -120,9 +120,9 @@ public class CmnCdController {
     }
     
     // 그룹코드 선택 팝업 & 그룹코드 검색
-    @RequestMapping(value = {"/codePopup"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/cmn_cd_popup"}, method = RequestMethod.GET)
 	public String codePopup(Model model, SearchKey searchKey, Criteria cri) {
-    	logger.info("CmnCdController codePopup");
+    	logger.info("CmnCdController cmn_cd_popup");
     	int count = service.listCount(searchKey);
     	
     	// List 세팅
@@ -135,6 +135,6 @@ public class CmnCdController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("page", cri.getPage());
 		
-		return "cmnCd/codePopup.part";
+		return "cmnCd/cmn_cd_popup.part";
 	}
 }

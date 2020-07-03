@@ -2,20 +2,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
+/* brdType 1:공지, 2:필독, 3:일반게시물 */
+$(document).ready(function() {
+	if(${notiChk} == true) {
+		$("input:checkbox[id='notiChk']").prop("checked", true);
+	}
+	
+	$("#perPageNum").val(${perPageNum}).prop("selected", true);
+});
 /*검색*/
 function fnSrch(){
-	 submit('intr_brd_brd_search');
+	submit('intr_brd_noti');
 }
 /*등록*/
 function fnReg(){
 	 submit('intr_brd_brd_reg');
 }
+/*공지 숨기기 선택*/
+function fnNotiClick(length) {
+	var style;
+	if(document.getElementById("notiChk").checked == true){
+		style = 'none';
+	}else{
+		style = '';
+	}
+	
+	for(i=1;i<=length;i++){
+		document.getElementById("trNoti["+i+"]").style.display = style;
+	}
+}
 /*submit*/
 function submit(service){
-	var form = document.getElementById("searchFrm");
+	var form = document.getElementById("srchForm");
     form.method = "get";
     form.action = "<c:url value='/intrBrd/" + service + "'/>";
     form.submit();
@@ -40,29 +60,48 @@ function submit(service){
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
-					<form id="searchFrm" action="" method="get">
+					<form id="srchForm" name="srchForm">
 						<fieldset>
 							<legend>게시판 검색폼</legend>
 							<div class="boardType01_search">
+								<select name="srchPeriod" id="srchPeriod" class="boardType01_search_select">
+									<option value="0">전체기간</option>
+									<option value="1d">1일</option>
+									<option value="1w">1주</option>
+									<option value="1m">1개월</option>
+									<option value="6m">6개월</option>
+									<option value="1y">1년</option>
+								</select>
 								<select name="srchKey" id="srchKey" class="boardType01_search_select">
 									<option value="t">제목</option>
 									<option value="c">내용</option>
 									<option value="tc">제목+내용</option>
 									<option value="w">작성자</option>
 								</select>
-								<input type="text" name="srch" id="srch" class="boardType01_search_input"/>
+								<input type="text" name="srchCont" id="srchCont" class="boardType01_search_input"/>
 								<button type="submit" onClick='fnSrch()'><img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
 							</div> <!-- //boardType01_search -->
 						</fieldset>
+					
+						<span class="boardType01_info_top">총 <strong>${postListCount}</strong>개의 게시물이 있습니다.</span>
+						
+						<div style="float:right;">
+							<input type="checkbox" name="notiChk" id="notiChk" onClick="fnNotiClick(${fn:length(notiList)})"/>
+	  						<label for="notiChk" style="padding-right: 15px">공지 숨기기</label>
+	  						<select name="perPageNum" id="perPageNum" class="boardType01_search_select">
+								<option value="5">5개씩</option>
+								<option value="10">10개씩</option>
+								<option value="15">15개씩</option>
+								<option value="20">20개씩</option>
+							</select>
+						</div>
 					</form>
-					
-					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
-					
 					<c:set var="cols" value="6"/>
 					<table id="boardTable2" class="boardType01_tblList">
-						<caption><span class="t-hidden">게시판형</span></caption>
+						<caption><span class="t-hidden">필독/공지</span></caption>
 						<colgroup>
-							<col style="width:1%"/>
+							<col style="width:2%"/>
+							<col style="width:15%"/>
 							<col style="width:7%"/>
 							<col style="width:7%"/>
 							<col style="width:7%"/>
@@ -75,22 +114,36 @@ function submit(service){
 							<th>제목</th>
 							<th>내용</th>
 							<th>공지옵션</th>
-							<th>작성일</th>
 							<th>작성자</th>
+							<th>작성일</th>
+							<th>조회</th>
 						</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="brd" items="${list}">
-						<tr>
-								<td>${brd.rNum}</td>
-								<td><a href="/intrBrd/intr_brd_brd_dtl?boardCd=${brd.boardCd}">${brd.boardTitle}</a></td>
-								<td>${brd.boardContent}</td>
-								<td>${brd.ancmOptnYn}</td>
-								<td><fmt:formatDate value="${brd.regDt}" pattern="yyyy.MM.dd"/></td>
-								<td class="t-gray">${brd.regId}</td>
+						<c:forEach var="noti" items="${notiList}">
+						<tr id="trNoti[${noti.rNum}]" style="display: ${notiChk == false ? '' : 'none'}">
+							<td>${noti.brdType == 1 ? '공지' : '필독'}</td>
+							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}">${noti.brdTl}</a></td>
+							<td>${noti.brdCont}</td>
+							<td>${noti.ancmOptnYn}</td>
+							<td class="t-gray">${noti.regId}</td>
+							<td><fmt:formatDate value="${noti.regDt}" pattern="yyyy.MM.dd"/></td>
+							<td>${noti.hit}</td>
 						</tr>
 				     	</c:forEach>
-				     	<c:if test="${empty list}">
+						
+						<c:forEach var="post" items="${postList}">
+						<tr>
+							<td>${post.rNum}</td>
+							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}">${post.brdTl}</a></td>
+							<td>${post.brdCont}</td>
+							<td>${post.ancmOptnYn}</td>
+							<td class="t-gray">${post.regId}</td>
+							<td><fmt:formatDate value="${post.regDt}" pattern="yyyy.MM.dd"/></td>
+							<td>${post.hit}</td>
+						</tr>
+				     	</c:forEach>
+				     	<c:if test="${empty postList}">
 						<tr>
 							<td colspan="10" class="no-data">게시물이 없습니다.</td>
 						</tr>
@@ -101,15 +154,13 @@ function submit(service){
 					<div class="pagination">
 					  <ul>
 					    <c:if test="${pageMaker.prev}">
-					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
+					    	<li class="li"><a href="intr_brd_noti${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
 					    </c:if> 
-					
 					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					    	<li class="li"><a href="intr_brd_noti${pageMaker.makeQuery(idx)}">${idx}</a></li>
 					    </c:forEach>
-					
 					    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-					    	<li class="li"><a href="cmn_cd${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
+					    	<li class="li"><a href="intr_brd_noti${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
 					    </c:if> 
 					  </ul>
 					</div>

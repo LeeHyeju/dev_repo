@@ -1,21 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
-	<select id="list" resultType="IntrBrd">
-		SELECT   tblNm.*
-		FROM(
-			SELECT   ${tblNm}.*
-   					,ROW_NUMBER() OVER(ORDER BY #{tblNm}.boardCd ASC) AS rNum
-			FROM ${tblNm}
-		) tblNm
+	<select id="postList" resultType="IntrBrd">
+		SELECT   noti.*
+  		FROM(
+ 				SELECT   noti.*
+		    			,ROW_NUMBER() OVER(ORDER BY noti.regDt DESC) AS rNum
+ 				FROM (	
+ 					SELECT noti.* 
+ 					FROM (
+ 						SELECT * FROM tb_intr_brd_noti
+						WHERE brdType = '3'
+						AND
+						(CASE 
+				 		 	WHEN #{searchKey.srchPeriod} = '1d'
+				 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 DAY) AND NOW()
+				 		 	WHEN #{searchKey.srchPeriod} = '1w'
+				 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 WEEK) AND NOW()
+				 		 	WHEN #{searchKey.srchPeriod} = '1m'
+				 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 MONTH) AND NOW()
+				 		 	WHEN #{searchKey.srchPeriod} = '6m'
+				 		 			THEN regDt BETWEEN (NOW() + INTERVAL -6 MONTH) AND NOW()
+				 		 	WHEN #{searchKey.srchPeriod} = '1y'
+				 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 YEAR) AND NOW()
+				 		 	ELSE 1=1
+				 		END)	
+ 					) noti 
+					WHERE (CASE 
+						WHEN #{searchKey.srchKey} = 't' OR #{searchKey.srchKey} = 'tc' THEN brdTl
+						WHEN #{searchKey.srchKey} = 'c'  THEN brdCont
+						WHEN #{searchKey.srchKey} = 'w'  THEN regId
+						ELSE brdTl
+					END) LIKE '%${searchKey.srchCont}%'
+					OR (CASE 
+						WHEN #{searchKey.srchKey} = 'tc' THEN brdCont
+						ELSE NULL
+					END) LIKE '%${searchKey.srchCont}%'
+				) noti
+		) noti
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-		ORDER BY tblNm.boardCd ASC
 	</select>
 	
-	<select id="listCount" resultType="int" parameterType="String">
+	<select id="postListCount" resultType="int" parameterType="SearchKey">
 	    SELECT COUNT(*)
-	    FROM ${tblNm}
+	    FROM (
+			SELECT * FROM tb_intr_brd_noti
+			WHERE brdType = '3'
+			AND
+			(CASE 
+	 		 	WHEN #{srchPeriod} = '1d'
+	 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 DAY) AND NOW()
+	 		 	WHEN #{srchPeriod} = '1w'
+	 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 WEEK) AND NOW()
+	 		 	WHEN #{srchPeriod} = '1m'
+	 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 MONTH) AND NOW()
+	 		 	WHEN #{srchPeriod} = '6m'
+	 		 			THEN regDt BETWEEN (NOW() + INTERVAL -6 MONTH) AND NOW()
+	 		 	WHEN #{srchPeriod} = '1y'
+	 		 			THEN regDt BETWEEN (NOW() + INTERVAL -1 YEAR) AND NOW()
+	 		 	ELSE 1=1
+	 		END)
+		) noti 
+    	WHERE (CASE 
+			WHEN #{srchKey} = 't' OR #{srchKey} = 'tc' THEN brdTl
+			WHEN #{srchKey} = 'c'  THEN brdCont
+			WHEN #{srchKey} = 'w'  THEN regId
+			ELSE brdTl
+		END) LIKE '%${srchCont}%'
+		OR (CASE 
+			WHEN #{srchKey} = 'tc' THEN brdCont
+			ELSE NULL
+		END) LIKE '%${srchCont}%'
 	</select>
+	
+	<select id="notiList" resultType="IntrBrd">
+		SELECT  tb_intr_brd_noti.* 
+			   ,ROW_NUMBER() OVER(ORDER BY tb_intr_brd_noti.brdType ASC) AS rNum
+		FROM tb_intr_brd_noti
+ 		WHERE brdType = '1' OR brdType = '2'
+	</select>
+	
+    <update id="brdHit">
+    	UPDATE 
+			${tblNm}
+		SET	
+    		hit = ${hit}+1
+    	WHERE brdCd = ${brdCd}
+    </update>
+
+	
+	
 	
 	<select id="top10" resultType="IntrBrd" parameterType="Criteria">
 			SELECT   tb_board_notice.*
@@ -40,28 +114,6 @@
 	    FROM tb_board_faq
 	</select>
 	
-	<select id="search" resultType="IntrBrd" parameterType="IntrBrd">		 	
-		SELECT   brd.*
-	  		FROM(
-	 				SELECT   brd.*
-			    			,ROW_NUMBER() OVER(ORDER BY brd.boardCd ASC) AS rNum
-	 				FROM (	
-	 					SELECT * FROM tb_board_notice 
-						WHERE (CASE 
-							WHEN #{intrBrd.srchKey} = 't' || #{intrBrd.srchKey} = 'c' THEN boardTitle
-							WHEN #{intrBrd.srchKey} = 'tc' THEN boardTitle
-							WHEN #{intrBrd.srchKey} = 'w'  THEN regId
-							ELSE NULL
-						END) LIKE '%${intrBrd.srch}%'
-						|| (CASE 
-							WHEN #{intrBrd.srchKey} = 'c' THEN boardContent
-							ELSE NULL
-						END) LIKE '%${intrBrd.srch}%'
-					) brd
-			) brd
-			WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-			ORDER BY brd.boardCd ASC
-	</select>
 	
 	<select id="dtl" resultType="IntrBrd" parameterType="String">
 	    SELECT *

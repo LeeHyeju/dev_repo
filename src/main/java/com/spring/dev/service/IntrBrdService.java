@@ -2,14 +2,13 @@ package com.spring.dev.service;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
+import com.spring.dev.domain.SearchKey;
 import com.spring.dev.mapper.IntrBrdMapper;
 
 @Service
@@ -17,15 +16,21 @@ public class IntrBrdService {
 	@Autowired
 	IntrBrdMapper mapper;
 	
-	public List<IntrBrd> list(String tblNm, Criteria cri) {
-		return mapper.list(tblNm, cri);
+	public List<IntrBrd> postList(SearchKey searchKey, Criteria cri) {
+		return mapper.postList(searchKey, cri);
 	}
 	
-	public int listCount(String tblNm) {
-		return mapper.listCount(tblNm);
+	public int postListCount(SearchKey searchKey) {
+		return mapper.postListCount(searchKey);
 	}
 	
+	public List<IntrBrd> notiList() {
+		return mapper.notiList();
+	}
 	
+	public void brdHit(String tblNm, String brdCd, int hit) {
+		mapper.brdHit(tblNm, brdCd, hit);
+	}
 	
 	
 	
@@ -45,9 +50,6 @@ public class IntrBrdService {
 		return mapper.listCount3();
 	}
 	
-	public List<IntrBrd> search(IntrBrd intrBrd, Criteria cri) {
-		return mapper.search(intrBrd, cri);
-	}
 	
 	public IntrBrd dtl(String boardCd) {
 		return mapper.dtl(boardCd);
