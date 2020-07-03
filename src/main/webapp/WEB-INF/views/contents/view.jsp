@@ -59,10 +59,18 @@ $(function(){
     	var id = $(this).data('id');
     	var cd = $(this).data('cd');
     	var ver = $(this).data('version');
+    	var style = $(this).data('style');
+    	var script = $(this).data('script');
+    	var contents = $(this).data('contents');
     	if (id == 'view') {
-    		window.open("/history/view?historyVer=" + ver + "&contCd=" + cd, "_blank", "top=200,left=500,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
+    		window.open("/history/historyPopup?historyVer=" + ver + "&contCd=" + cd, "_blank", "top=200,left=550,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
     	} else if (id == 'reversion') {
-    		
+    		if(confirm("히스토리를 불러오시겠습니까??")) {		 
+				var contStyle = $('#contStyle').val(style);
+				var contScript = $('#contScript').val(script);
+				var contents = $('#contents').val(contents);
+    		  	alert("입력완료.저장하시려면 수정 버튼을 눌러주세요."); 
+    		}
     	}
     });
 });
@@ -83,9 +91,6 @@ function fn_delete(){
 	} 
 }
   
-function fn_popup() {
-	window.open("/history/view", "_blank", "top=200,left=500,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
-} 
 </script>
 
 <div id="contentarea" class="l-content">
@@ -107,7 +112,7 @@ function fn_popup() {
 					
 					<form name="viewFrm" id="viewFrm" method="post">
 						<input type="hidden" id="contIdx" name="contIdx" value="${view.contIdx }">
-						<input type="hidden" id="contIdx" name="contIdx" value="${view.contCd}">
+						<input type="hidden" id="contCd" name="contCd" value="${view.contCd}">
 						<div class="boardType01_write">
 							<table cellspacing="0" class="boardType01_tbl">
 								<caption class="boardType01_cpt"><span class="t-hidden"> 등록</span></caption>
@@ -251,13 +256,13 @@ function fn_popup() {
 						</thead>
 						<tbody>
 							<c:forEach var="history" items="${histories}">
-							<tr class="hover">${history.contCd}//${history.historyVer}
+							<tr class="hover">
 								<td>${history.historyVer}</td>
 								<td>${history.contNm}</td>
 								<td>${history.regId}</td>
 								<td>${history.regDt}</td>
 								<td><button type="button" data-id="view" data-cd="${history.contCd}" data-version="${history.historyVer}" class="btnTxt btnTxt_normal btnTxt_dark">미리보기</button></td>
-								<td><button type="button" data-id="reversion"  data-version="${history.historyVer}" class="btnTxt btnTxt_normal btnTxt_cyan ">가져오기</button></td>
+								<td><button type="button" data-id="reversion" data-version="${history.historyVer}" data-style="${history.contStyle}" data-script="${history.contScript}" data-contents="${history.contents}" class="btnTxt btnTxt_normal btnTxt_cyan ">가져오기</button></td>
 							</tr>
 					     	</c:forEach>
 					     	<c:if test="${empty histories}">

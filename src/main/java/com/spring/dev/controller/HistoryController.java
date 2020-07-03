@@ -33,7 +33,7 @@ public class HistoryController {
 	@Autowired
 	HistoryService service;
 	
-	/*타일즈 적용 시 page*/
+	/*타일즈 적용 시 page
     @RequestMapping(value = {"/historyPopup"})
 	public ModelAndView getList(@ModelAttribute("cri") SearchCriteria cri) {
     	logger.info("HistoryController_ List");
@@ -58,14 +58,14 @@ public class HistoryController {
 		mav.setViewName("/history/historyPopup.part"); //tiles 레이아웃 적용
 		return mav;
 	}
-    
-    @RequestMapping(value = {"/view"})
+    */
+    @RequestMapping(value = {"/historyPopup"})
    	public String view(HttpServletRequest request, History history, Model model) {
-       	logger.info("dddddddddddddddddddd {}", history);
+       	logger.info("히스토리 {}", history);
        	
    		model.addAttribute("view",service.viewHistory(history));
    		
-   		return "/history/view.part";
+   		return "/history/historyPopup.part";
    	}
 	
 }
