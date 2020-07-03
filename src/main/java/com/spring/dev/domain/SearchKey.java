@@ -9,6 +9,8 @@ public class SearchKey {
 	private String keyArayOrde;
 	private String srchKey;
 	private String srchCont;
+	private String srchPeriod = "0";
+	private boolean notiChk;
 	
 	public String getKeyGroCd() {
 		return keyGroCd;
@@ -52,17 +54,28 @@ public class SearchKey {
 	public void setSrchKey(String srchKey) {
 		this.srchKey = srchKey;
 	}
-	
 	public String getSrchCont() {
 		return srchCont;
 	}
 	public void setSrchCont(String srchCont) {
 		this.srchCont = srchCont;
 	}
+	public String getSrchPeriod() {
+		return srchPeriod;
+	}
+	public void setSrchPeriod(String srchPeriod) {
+		this.srchPeriod = srchPeriod;
+	}
+	public boolean isNotiChk() {
+		return notiChk;
+	}
+	public void setNotiChk(boolean notiChk) {
+		this.notiChk = notiChk;
+	}
 	@Override
 	public String toString() {
 		return "SearchKey [keyGroCd=" + keyGroCd + ", keyGroNm=" + keyGroNm + ", keyCmnCd=" + keyCmnCd + ", keyCmnNm="
 				+ keyCmnNm + ", keyUseYn=" + keyUseYn + ", keyArayOrde=" + keyArayOrde + ", srchKey=" + srchKey
-				+ ", srchCont=" + srchCont + "]";
+				+ ", srchCont=" + srchCont + ", srchPeriod=" + srchPeriod + ", notiChk=" + notiChk + "]";
 	}
 }

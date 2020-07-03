@@ -32,7 +32,7 @@ $(function(){
 	  return true;
 	});
 	
-    $("#writeFrm").validate({
+    $("#writeForm").validate({
         //규칙
         rules: {
         	groCd: {
@@ -153,7 +153,7 @@ function fnClick() {
 }
 /*groCd 선택*/
 function fnGroCd() {
-	window.open("codePopup", "_blank", "top=200,left=400,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
+	window.open("cmn_cd_popup", "_blank", "top=200,left=400,height=650, width=520, status=no,toolbar=no,menubar=no,location=no");
 } 
 /*code 중복확인*/
 function fncdChk() {
@@ -196,7 +196,7 @@ function fncdChk() {
 }
 /*submit*/
 function submit(service){
-	var form = document.getElementById("writeFrm");
+	var form = document.getElementById("writeForm");
     form.method = "get";
     form.action = "<c:url value='/cmnCd/" + service + "'/>";
     form.submit();
@@ -222,7 +222,7 @@ function submit(service){
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm">
+					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}" />
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">

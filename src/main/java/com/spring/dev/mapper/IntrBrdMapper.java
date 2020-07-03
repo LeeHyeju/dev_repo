@@ -8,26 +8,31 @@ import org.springframework.stereotype.Repository;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
+import com.spring.dev.domain.SearchKey;
 
 @Repository(value = "IntrBrdMapper")
 public interface IntrBrdMapper {
-
 	// 게시물 List 조회
-	public List<IntrBrd> list(@Param("tblNm")String tblNm, @Param("cri")Criteria cri);
+	public List<IntrBrd> postList(@Param("searchKey")SearchKey searchKey, @Param("cri")Criteria cri);
 	
 	// 게시물 List 개수
-	public int listCount(@Param("tblNm")String tblNm);
+	public int postListCount(SearchKey searchKey);
+	
+	// 공지&필독 게시물 List 조회
+	public List<IntrBrd> notiList();
+	
+	// 게시물 조회수
+	public void brdHit(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd, @Param("hit")int hit);
+	
+	
+	
+	
 	
 	// 게시물 List top10 조회
 	public List<IntrBrd> top10(Criteria cri);
 	
-	
-	
-	
 	// 게시물 목록 조회
 	public List<IntrFaq> getFaq(Criteria cri);
-	
-	
 	
 	// 게시물 총 갯수
 	public int listCount2(IntrBrd intrBrd);

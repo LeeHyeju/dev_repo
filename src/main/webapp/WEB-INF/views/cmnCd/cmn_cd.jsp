@@ -290,7 +290,7 @@ function submit(service){
 					</div>
 					
 					<div class="boardType01_write_btn" style="clear:both">
-						<a href="${pageContext.request.contextPath}/cmnCd/reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->	
 				</div> <!-- //boardType01_wrap -->
 		

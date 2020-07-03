@@ -4,12 +4,15 @@ import java.util.Date;
 
 public class IntrBrd {
 	private static final long serialVersionUID = 1L;
-	private String boardIdx;
-	private int boardCd;
-	private String boardTitle;
-	private String boardContent;
+	private String brdIdx;
+	private int brdCd;
+	private int brdType;
+	private String brdTl;
+	private String brdCont;
 	private String regId;
 	private Date regDt;
+	private int hit;
+	
 	private String useYn;
 	private String fileYn;
 	private String ancmOptnYn;
@@ -22,29 +25,35 @@ public class IntrBrd {
 		this.rNum = rNum;
 	}
 	
-	public String getBoardIdx() {
-		return boardIdx;
+	public String getBrdIdx() {
+		return brdIdx;
 	}
-	public void setBoardIdx(String boardIdx) {
-		this.boardIdx = boardIdx;
+	public void setBrdIdx(String brdIdx) {
+		this.brdIdx = brdIdx;
 	}
-	public int getBoardCd() {
-		return boardCd;
+	public int getBrdCd() {
+		return brdCd;
 	}
-	public void setBoardCd(int boardCd) {
-		this.boardCd = boardCd;
+	public void setBrdCd(int brdCd) {
+		this.brdCd = brdCd;
 	}
-	public String getBoardTitle() {
-		return boardTitle;
+	public int getBrdType() {
+		return brdType;
 	}
-	public void setBoardTitle(String boardTitle) {
-		this.boardTitle = boardTitle;
+	public void setBrdType(int brdType) {
+		this.brdType = brdType;
 	}
-	public String getBoardContent() {
-		return boardContent;
+	public String getBrdTl() {
+		return brdTl;
 	}
-	public void setBoardContent(String boardContent) {
-		this.boardContent = boardContent;
+	public void setBrdTl(String brdTl) {
+		this.brdTl = brdTl;
+	}
+	public String getBrdCont() {
+		return brdCont;
+	}
+	public void setBrdCont(String brdCont) {
+		this.brdCont = brdCont;
 	}
 	public String getRegId() {
 		return regId;
@@ -57,6 +66,12 @@ public class IntrBrd {
 	}
 	public void setRegDt(Date regDt) {
 		this.regDt = regDt;
+	}
+	public int getHit() {
+		return hit;
+	}
+	public void setHit(int hit) {
+		this.hit = hit;
 	}
 	public String getUseYn() {
 		return useYn;
@@ -81,8 +96,8 @@ public class IntrBrd {
 	}
 	@Override
 	public String toString() {
-		return "IntrBrd [boardIdx=" + boardIdx + ", boardCd=" + boardCd + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + boardContent + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn
+		return "IntrBrd [brdIdx=" + brdIdx + ", brdCd=" + brdCd + ", brdType=" + brdType + ", brdTl=" + brdTl
+				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", hit=" + hit + ", useYn=" + useYn
 				+ ", fileYn=" + fileYn + ", ancmOptnYn=" + ancmOptnYn + ", rNum=" + rNum + "]";
 	}
 }
