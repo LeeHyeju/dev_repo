@@ -112,35 +112,38 @@ $(function() {
     //idck 버튼을 클릭했을 때 
     $('#btn_idck').click(function() {
         //userid 를 param.
-        var userid = $('#admId').val();
-        alert(userid);
-        $.ajax({
-            type : 'POST',
-            data : userid,
-            url : "idcheck",
-            dataType : "json",
-            contentType: "application/json; charset=UTF-8",
-            success : function(data) {
-                if (data.cnt > 0) {
-                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
-                	$("#admId").addClass("bg-danger");
-                	$("#admId").removeClass("bg-success");
-                    $("#admId").focus();
-                                    
-                } else {
-                    alert("사용가능한 아이디입니다.");
-                	$("#admId").addClass("bg-success"); 
-                	$("#admId").removeClass("bg-danger");
-                    $("#pw").focus();
-                    //아이디가 중복하지 않으면  idck = 1 
-                    idck = 1;
+		var userid = $('#admId').val();
+
+		if(userid == "" || userid == null) {
+       		alert("아이디를 입력해주세요");
+		} else {
+			$.ajax({
+                type : 'POST',
+                data : userid,
+                url : "idcheck",
+                dataType : "html",
+                contentType: "application/json; charset=UTF-8",
+                success : function(data) {
+                    if (data.cnt > 0) {
+                        alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
+                    	$("#admId").addClass("bg-danger");
+                    	$("#admId").removeClass("bg-success");
+                        $("#admId").focus();
+                                        
+                    } else {
+                        alert("사용가능한 아이디입니다.");
+                    	$("#admId").addClass("bg-success"); 
+                    	$("#admId").removeClass("bg-danger");
+                        $("#pw").focus();
+                        //아이디가 중복하지 않으면  idck = 1 
+                        idck = 1;
+                    }
+                },
+                error : function(error) {
+                    alert("error : " + error);
                 }
-            },
-            error : function(error) {
-                
-                alert("error : " + error);
-            }
-        });
+			});
+    	}
     });
 });
 
@@ -237,7 +240,7 @@ $(function(){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="admId" id="admId" class="input_textN required" style="width:200px;" maxlength="50" value="" autocomplete=”off”/> 
-											<button type="button" id="btn_cdck" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
+											<button type="button" id="btn_idck" class="btnTxt btnTxt_normal btnTxt_cyan" style="width:100px; height:28px;line-height:0;"><span>중복확인</span></button>
 										</div>
 									</td>
 								</tr>

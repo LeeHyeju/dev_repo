@@ -20,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.Contents;
+import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchCriteria;
+import com.spring.dev.domain.SearchKey;
 import com.spring.dev.service.ContentsService;
+import com.spring.dev.service.HistoryService;
 
 @Controller
 @RequestMapping("/contents")
@@ -31,6 +34,9 @@ public class ContentsController {
 
 	@Autowired
 	ContentsService service;
+
+	@Autowired
+	HistoryService historyService;
 	
 	/*타일즈 적용 시 page*/
     @RequestMapping(value = {"/list"})
@@ -55,6 +61,7 @@ public class ContentsController {
 		
 		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("map", map);
+		
 		mav.setViewName("/contents/list.page"); //tiles 레이아웃 적용
 		return mav;
 	}
@@ -63,7 +70,10 @@ public class ContentsController {
    	public String view(HttpServletRequest request,  String contIdx, Model model, SearchCriteria cri) {
        	logger.info("ContentsController_ view {}", service.viewContents(contIdx));
        	
-       	model.addAttribute("view", service.viewContents(contIdx));
+       	Contents contents = service.viewContents(contIdx);
+       	
+       	model.addAttribute("view", contents);
+       	model.addAttribute("histories", service.getHistoryList(contents.getContCd()));
        	
    		return "contents/view.page";
    	}

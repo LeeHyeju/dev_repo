@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.Contents;
+import com.spring.dev.domain.History;
 import com.spring.dev.domain.SearchCriteria;
 
 @Repository(value = "contentsMapper")
@@ -25,4 +26,6 @@ public interface ContentsMapper {
 	public void contentsUpdate(Contents contents);
 
 	public void contentsDelete(String contIdx);
+
+	public List<History> getHistoryList(String contIdx);
 }
