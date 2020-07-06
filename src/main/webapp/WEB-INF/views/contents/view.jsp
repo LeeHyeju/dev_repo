@@ -113,6 +113,7 @@ function fn_delete(){
 					<form name="viewFrm" id="viewFrm" method="post">
 						<input type="hidden" id="contIdx" name="contIdx" value="${view.contIdx }">
 						<input type="hidden" id="contCd" name="contCd" value="${view.contCd}">
+						<input type="hidden" id="regId" name="regId" value="${sessionScope.admin.admId }">
 						<div class="boardType01_write">
 							<table cellspacing="0" class="boardType01_tbl">
 								<caption class="boardType01_cpt"><span class="t-hidden"> 등록</span></caption>
@@ -272,8 +273,6 @@ function fn_delete(){
 							</c:if>
 					</tbody>
 				</table>
-							
-					
 				</div> <!-- //boardType01_wrap -->
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->

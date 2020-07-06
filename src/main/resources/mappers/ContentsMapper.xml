@@ -90,7 +90,7 @@
 			contCd = #{contCd, jdbcType=VARCHAR}	 	
 	</select>
 
-	<select id="getHistoryList" parameterType="String" resultType="History">
+	<select id="getHistoryList" parameterType="String" resultType="com.spring.dev.domain.History">
 		SELECT
 					historyIdx
 				    ,contCd
@@ -130,6 +130,7 @@
 				)
 	</insert>
 	
+	
 	<update id="contentsUpdate" parameterType="Contents">
 		UPDATE 
 			tb_contents
@@ -140,6 +141,7 @@
 		    ,contents = #{contents}
 		WHERE 
 			contIdx = #{contIdx}
+			AND contCd = #{contCd}
 	</update>
 	
 	<delete id="contentsDelete" parameterType="String">

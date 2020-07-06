@@ -17,7 +17,7 @@ public interface ContentsMapper {
 	
 	public int listCount(@Param("searchType")String searchType, @Param("keyword") String keyword);
 
-	public Contents viewContents(String contIdx);
+	public Contents viewContents(int contIdx);
 	
 	public int insertContents(Contents contents);
 	

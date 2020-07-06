@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.Contents;
-import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.History;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchCriteria;
-import com.spring.dev.domain.SearchKey;
 import com.spring.dev.service.ContentsService;
 import com.spring.dev.service.HistoryService;
 
@@ -67,7 +65,7 @@ public class ContentsController {
 	}
     
     @RequestMapping(value = {"/view"})
-   	public String view(HttpServletRequest request,  String contIdx, Model model, SearchCriteria cri) {
+   	public String view(HttpServletRequest request,  int contIdx, Model model, SearchCriteria cri) {
        	logger.info("ContentsController_ view {}", service.viewContents(contIdx));
        	
        	Contents contents = service.viewContents(contIdx);
@@ -104,11 +102,14 @@ public class ContentsController {
     }
     
     @RequestMapping(value = {"/update"})
-   	public String update(HttpServletRequest request, @ModelAttribute Contents contents,SearchCriteria cri, Model model) {
+   	public String update(HttpServletRequest request, @ModelAttribute Contents contents, History history, SearchCriteria cri, Model model, int contIdx) {
     	logger.info("ContentsController_ contentsUpdate");	
     	service.contentsUpdate(contents);
-       		
-       		return "redirect:/contents/list.page";
+    	logger.info("ContentsController_ update 완료");	
+    	//히스토리 insert 
+    	historyService.insertHistory(history);
+    	logger.info("ContentsController_ history 완료");	
+       	return "redirect:/contents/list.page";
        	}
     
     @RequestMapping(value = {"/delete"})

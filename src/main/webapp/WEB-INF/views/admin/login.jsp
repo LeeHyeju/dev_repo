@@ -25,6 +25,6 @@
 			</c:if>
 		</div>
 	</div>
-	<p>${sessionScope.admin.nm } 세션 쿠키 확인용!!!!!!!!!</p>
+	<p></p>
 	<div class="modal"></div>
 </div>

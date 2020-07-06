@@ -85,4 +85,36 @@
 				AND  contCd = #{contCd}
 	</select>
 	
+	<insert id="insertHistory" >
+		<selectKey resultType="int" keyProperty="historyVer" order="BEFORE">
+        SELECT 
+        	NVL(MAX(historyVer)+1,1) 
+        FROM 
+        	tb_contents_history
+        WHERE  contCd = #{contCd}  
+		</selectKey> 
+		INSERT INTO 
+			tb_contents_history
+				(
+			    contCd
+			    ,contNm
+			    ,contStyle
+			    ,contScript
+			    ,contents
+			    ,historyVer
+			    ,regId
+			    ,regDt
+				 )
+		VALUES
+				(
+				#{contCd}
+				,#{contNm}
+				,#{contStyle}
+				,#{contScript}
+				,#{contents}
+				,#{historyVer}
+				,#{regId}
+				,now()
+				)
+	</insert>
 </mapper>

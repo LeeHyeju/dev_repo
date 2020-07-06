@@ -25,7 +25,7 @@ public class ContentsService {
 		return mapper.listCount(searchType, keyword);
 	}
 	
-	public Contents viewContents(String contIdx) {
+	public Contents viewContents(int contIdx) {
 		return mapper.viewContents(contIdx);
 	}
 	

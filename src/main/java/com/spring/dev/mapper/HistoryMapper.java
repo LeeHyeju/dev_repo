@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.spring.dev.domain.Contents;
 import com.spring.dev.domain.History;
 import com.spring.dev.domain.SearchCriteria;
 
@@ -17,4 +16,6 @@ public interface HistoryMapper {
 	public int listCount(@Param("searchType")String searchType, @Param("keyword") String keyword);
 
 	public History viewHistory(History history);
+	
+	public int insertHistory(History history);
 }

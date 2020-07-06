@@ -27,4 +27,8 @@ public class HistoryService {
 	public History viewHistory(History history) {
 		return mapper.viewHistory(history);
 	}
+	
+	public int insertHistory(History history) {
+		return mapper.insertHistory(history);
+	}
 }
