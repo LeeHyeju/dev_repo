@@ -34,29 +34,23 @@ public class AuthController {
 	
 	/*타일즈 적용 시 page*/
     @RequestMapping(value = {"/list"})
-	public ModelAndView getAuth(@ModelAttribute("cri") SearchCriteria cri) {
+	public String getAuth(Model model, @ModelAttribute("cri") SearchCriteria cri) {
     	logger.info("AuthController List");
     	
-    	ModelAndView mav = new ModelAndView();
+    	int count = service.listCount(cri.getSearchType(), cri.getKeyword());
     	
-    	PageMaker pageMaker = new PageMaker();
+		model.addAttribute("list", service.getAuth(cri));
+		model.addAttribute("count", count);
+		
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.listCount(cri.getSearchType(), cri.getKeyword()));
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		model.addAttribute("searchType", cri.getSearchType());
+		model.addAttribute("keyword", cri.getKeyword());
 		
-		List<Auth> list = service.getAuth(cri);
-	   	int count = service.listCount(cri.getSearchType(), cri.getKeyword());
-
-	   	Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("count", count);
-		map.put("searchType", cri.getSearchType());
-		map.put("keyword", cri.getKeyword());
-		map.put("page", cri.getPage());
-		
-		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("map", map);
-		mav.setViewName("/auth/list.page"); //tiles 레이아웃 적용
-		return mav;
+		return "/auth/list.page";
 	}
     
     @RequestMapping(value = {"/view"})

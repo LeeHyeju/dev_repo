@@ -10,7 +10,7 @@
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
-		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/admin/"><span>관리자관리</span></a><span>관리자 리스트</span><span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/admin/list"><span>관리자관리</span></a><span>관리자관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
 		<div class="subcontent_inner">
@@ -40,7 +40,7 @@
 						</fieldset>
 					</form>
 					
-					<span class="boardType01_info_top">총 <strong>${map.count}</strong>개의 게시물이 있습니다.</span>
+					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
 				
 					<c:set var="cols" value="5"/>
 					<table id="boardTable" class="boardType01_tblList" cellspacing="0">
@@ -71,7 +71,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="admin" items="${map.list}" varStatus="loop">
+							<c:forEach var="admin" items="${list}" varStatus="loop">
 								<tr>
 									<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
 									<td>${admin.nm}</td>
@@ -84,7 +84,7 @@
 									<td>${admin.delYn}</td>
 								</tr>
 					     	</c:forEach>
-					     	<c:if test="${empty map.list}">
+					     	<c:if test="${empty list}">
 								<tr>
 									<td colspan="11" class="no-data">게시물이 없습니다.</td>
 								</tr>

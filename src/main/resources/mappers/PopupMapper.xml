@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.dev.mapper.PopupMapper">
+
+<select id="getPopupList" resultType="Popup">
+		<![CDATA[
+		SELECT
+				popIdx
+				,popTp 
+				,popNm 
+				,startDt 
+				,endDt 
+				,popState
+				,popUrl 
+				,useYn 
+				,regId  
+				,regDt 
+		FROM
+		  	 	tb_popup
+		WHERE 1=1
+		 ]]>
+		  <if test="cri.searchType != null">
+            <if test="cri.searchType == 'all'.toString()">
+                and ( popTp like CONCAT('%', #{cri.keyword}, '%')
+                OR popNm like CONCAT('%', #{cri.keyword}, '%')
+                OR popState like CONCAT('%', #{cri.keyword}, '%') )
+            </if>
+            <if test="cri.searchType == 'popTp'.toString()">
+                and popTp like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'popNm'.toString()">
+                and popNm like CONCAT('%', #{cri.keyword}, '%')
+            </if>
+            <if test="cri.searchType == 'popState'.toString()">
+                and popState like CONCAT('%', #{cri.keyword}, '%') 
+            </if>
+        </if>
+		 <![CDATA[
+		ORDER BY 
+				regDt desc 
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
+		  ]]>
+	</select>
+	
+	<select id="listCount" resultType="int" parameterType="String">
+	<![CDATA[
+		SELECT COUNT(popIdx)
+		  FROM tb_popup
+		  WHERE 1=1
+		]]>  
+		<if test="searchType != null">
+            <if test="searchType == 'all'.toString()">
+                and (popTp like CONCAT('%', #{keyword}, '%')
+                OR popNm like CONCAT('%', #{keyword}, '%')
+                OR popState like CONCAT('%', #{keyword}, '%') )
+            </if>
+            <if test="searchType == 'popTp'.toString()">
+                and popTp like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'popNm'.toString()">
+                and popNm like CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'popState'.toString()">
+                and popState like CONCAT('%', #{keyword}, '%') 
+            </if>
+        </if>
+	</select>
+	
+	<select id="popupView"  resultType="Popup">
+		SELECT
+				popIdx
+				,popTp 
+				,popNm 
+				,startDt 
+				,endDt 
+				,popState
+				,popUrl 
+				,useYn 
+				,regId  
+				,regDt 
+		FROM
+		  	 	tb_popup 
+		WHERE  
+				popIdx = #{popIdx} 
+	</select>
+</mapper>

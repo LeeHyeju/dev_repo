@@ -4,7 +4,7 @@
 
 <mapper namespace="com.spring.dev.mapper.HistoryMapper">
 
-	<select id="getHistoryList" resultType="History">
+	<select id="getHistoryList" resultType="com.spring.dev.domain.History">
 	<![CDATA[
 	SELECT
 				historyIdx
@@ -67,7 +67,7 @@
         </if>
 	</select>
 	
-	<select id="viewHistory"  resultType="History" parameterType="History">
+	<select id="viewHistory"  resultType="com.spring.dev.domain.History" parameterType="com.spring.dev.domain.History">
 		SELECT
 				historyIdx
 			    ,contCd

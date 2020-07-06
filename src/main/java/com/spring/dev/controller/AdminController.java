@@ -38,29 +38,23 @@ public class AdminController {
 	
 	/*타일즈 적용 시 page*/
     @RequestMapping(value = {"/list"})
-	public ModelAndView getList(@ModelAttribute("cri") SearchCriteria cri) {
+	public String getList(Model model, @ModelAttribute("cri") SearchCriteria cri) {
     	logger.info("AdminController_ List");
     	
-    	ModelAndView mav = new ModelAndView();
-    	
-    	PageMaker pageMaker = new PageMaker();
+	   	int count = service.listCount(cri.getSearchType(), cri.getKeyword());
+	   	
+	   	model.addAttribute("list", service.getList(cri));
+		model.addAttribute("count", count);
+	   	
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(service.listCount(cri.getSearchType(), cri.getKeyword()));
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("page", cri.getPage());
+		model.addAttribute("searchType", cri.getSearchType());
+		model.addAttribute("keyword", cri.getKeyword());
 		
-		List<Admin> list = service.getList(cri);
-	   	int count = service.listCount(cri.getSearchType(), cri.getKeyword());
-
-	   	Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("count", count);
-		map.put("searchType", cri.getSearchType());
-		map.put("keyword", cri.getKeyword());
-		map.put("page", cri.getPage());
-		
-		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("map", map);
-		mav.setViewName("/admin/list.page"); //tiles 레이아웃 적용
-		return mav;
+		return "/admin/list.page";
 	}
     
     @RequestMapping(value = {"/view"})
