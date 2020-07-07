@@ -12,10 +12,10 @@ public class IntrBrd {
 	private String regId;
 	private Date regDt;
 	private int hit;
+	private String ancmOptnYn;
 	
 	private String useYn;
 	private String fileYn;
-	private String ancmOptnYn;
 
 	private String rNum;
 	public String getrNum() {
@@ -73,6 +73,12 @@ public class IntrBrd {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+	public String getAncmOptnYn() {
+		return ancmOptnYn;
+	}
+	public void setAncmOptnYn(String ancmOptnYn) {
+		this.ancmOptnYn = ancmOptnYn;
+	}
 	public String getUseYn() {
 		return useYn;
 	}
@@ -84,12 +90,6 @@ public class IntrBrd {
 	}
 	public void setFileYn(String fileYn) {
 		this.fileYn = fileYn;
-	}
-	public String getAncmOptnYn() {
-		return ancmOptnYn;
-	}
-	public void setAncmOptnYn(String ancmOptnYn) {
-		this.ancmOptnYn = ancmOptnYn;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

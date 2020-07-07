@@ -87,7 +87,34 @@
     		hit = ${hit}+1
     	WHERE brdCd = ${brdCd}
     </update>
+	
+	<select id="dtl" resultType="IntrBrd" parameterType="String">
+	    SELECT *
+	    FROM tb_intr_brd_noti
+	    WHERE brdCd = #{brdCd}
+	</select>
+		
+	<update id="update" parameterType="IntrBrd">
+		UPDATE tb_intr_brd_noti
+		SET	 brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,ancmOptnYn = #{ancmOptnYn}
+		WHERE brdCd = #{brdCd}
+	</update>
 
+	<delete id="delete" parameterType="String">
+		DELETE 
+		FROM tb_intr_brd_noti
+		WHERE brdCd = #{brdCd}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -112,13 +139,6 @@
 	<select id="listCount3" resultType="int">
 	    SELECT COUNT(*)
 	    FROM tb_board_faq
-	</select>
-	
-	
-	<select id="dtl" resultType="IntrBrd" parameterType="String">
-	    SELECT *
-	    FROM tb_board_notice
-	    WHERE boardCd = #{boardCd}
 	</select>
 	
 	<select id="dtl2" resultType="IntrFaq" parameterType="String">
@@ -178,22 +198,6 @@
 	<select id="boardCdMax" resultType="int">
 		SELECT MAX(boardCd) FROM tb_board_notice
 	</select>
-	
-	<delete id="delete" parameterType="int">
-		DELETE 
-		FROM tb_board_notice
-		WHERE boardCd = #{boardCd}
-	</delete>
-	
-	<update id="update" parameterType="IntrBrd">
-		UPDATE tb_board_notice
-		SET	
-			 boardTitle = #{boardTitle}
-			,boardContent = #{boardContent}
-			,fileYn = #{fileYn}
-			,ancmOptnYn = #{ancmOptnYn}
-		WHERE boardCd = #{boardCd}
-	</update>
 	
 	<delete id="delete2" parameterType="int">
 		DELETE 

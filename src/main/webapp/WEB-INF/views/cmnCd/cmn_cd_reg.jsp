@@ -106,29 +106,31 @@ $(function(){
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
         	// $.ajax();
-        	submit('insert');
+        	if(cdChk == 0){
+        		alert("코드 중복확인 해주세요");
+        	}else{
+        		if(confirm("등록하시겠습니까?") == true){
+	        		// 등록
+		        	submit('insert');
+        		}
+        	}
         },
        	// jquery validate 로 사용하기 힘든 validation 체크
         invalidHandler: function(form, validator) {
         }
     });
 });
-
-/*저장*/
+/*등록*/
 function fnInsert(){
-// 	if(document.getElementById("groCd").value == ""
-// 	|| document.getElementById("groNm").value == ""
-// 	|| document.getElementById("cmnCd").value == ""
-// 	|| document.getElementById("cmnNm").value == ""
-// 	|| document.getElementById("arayOrde").value == ""
-// 	|| (document.getElementById("useYnY").checked == false && document.getElementById("useYnN").checked == false)){
-// 		alert("필수값을 입력하세요");
-// 	}else{
-// 		submit('insert');
-// 	}
-	
-	if(cdChk == 0){
-		alert("코드 중복확인 해주세요");
+	if(document.getElementById("groCd").value == ""
+	|| document.getElementById("groNm").value == ""
+	|| document.getElementById("cmnCd").value == ""
+	|| document.getElementById("cmnNm").value == ""
+	|| document.getElementById("arayOrde").value == ""
+	|| (document.getElementById("useYnY").checked == false && document.getElementById("useYnN").checked == false)){
+		alert("필수값을 입력하세요");
+	}else{
+		submit('insert');
 	}
 }
 /*groCd 선택*/
@@ -327,7 +329,7 @@ function submit(service){
 					
 						
 					<div class="boardType01_write_btn">
-						<button type="submit" id="btnSave" onClick='fnInsert()' class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button type="submit" id="btnReg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></button>
 						<a href="${pageContext.request.contextPath}/cmnCd/cmn_cd" class="btnTxt btnTxt_normal btnTxt_gray"><span>목록</span></a>
 				</div> <!-- //boardType01_write_btn -->
 				</form>

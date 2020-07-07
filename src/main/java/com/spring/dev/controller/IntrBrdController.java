@@ -54,45 +54,54 @@ public class IntrBrdController {
 	
     // 게시판 상세 페이지
     @RequestMapping(value = {"/intr_brd_noti_dtl"})
-    public String view(String brdCd, int hit) {
-    	logger.info("IntrBrdController intr_brd_noti_dtl>>>{}", hit);
+    public String dtl(Model model, String brdCd, int hit) {
+    	logger.info("IntrBrdController intr_brd_noti_dtl");
     	String tblNm = "tb_intr_brd_noti";
     	
+    	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
+    	// dtl 세팅
+    	model.addAttribute("dtl", service.dtl(brdCd));
     	
     	return "intrBrd/intr_brd_noti_dtl.page";
     }
-	
-	
-	
     
-    @RequestMapping(value = {"/intr_brd_brd_reg"})
-	public String reg(HttpServletRequest request, Model model, IntrBrd intrBrd) {
-    	logger.info("IntrBrdController intr_brd_brd_reg");
-		return "intrBrd/intr_brd_brd_reg.page";
-	}
+    // 게시판 저장
+    @RequestMapping(value = {"/save"})
+    public String update(IntrBrd intrBrd) {
+    	logger.info("IntrBrdController save");
+    	service.update(intrBrd);
+    	return "redirect:/intrBrd/intr_brd_noti";
+    }
     
-    @RequestMapping(value = {"/intr_brd_brd_insert"})
-	public String insert(HttpServletRequest request, Model model, IntrBrd intrBrd) {
-    	logger.info("IntrBrdController intr_brd_brd_insert");
+    // 게시판 삭제
+    @RequestMapping(value = {"/del"})
+   	public String delete(String brdCd) {
+       	logger.info("IntrBrdController del");
+       	service.delete(brdCd);
+   		return "redirect:/intrBrd/intr_brd_noti";
+   	}
+    
+    // 게시판 등록 페이지
+    @RequestMapping(value = {"/intr_brd_noti_reg"})
+    public String reg() {
+    	logger.info("IntrBrdController intr_brd_noti_reg");
+    	return "intrBrd/intr_brd_noti_reg.page";
+    }
+
+    // 게시판 등록
+    @RequestMapping(value = {"/insert"})
+    public String insert(IntrBrd intrBrd) {
+    	logger.info("IntrBrdController insert");
     	intrBrd.setBrdCd(service.boardCdMax()+1);
     	service.insert(intrBrd);
-		return "redirect:/intrBrd/intr_brd_brd";
-	}
+    	return "redirect:/intrBrd/intr_brd_noti";
+    }
+	
+	
     
-    @RequestMapping(value = {"/intr_brd_brd_del"})
-   	public String delete(HttpServletRequest request, Model model, int boardCd) {
-       	logger.info("IntrBrdController intr_brd_brd_del");
-       	service.delete(boardCd);
-   		return "redirect:/intrBrd/intr_brd_brd";
-   	}
     
-    @RequestMapping(value = {"/intr_brd_brd_save"})
-   	public String update(HttpServletRequest request, Model model, IntrBrd intrBrd) {
-       	logger.info("IntrBrdController intr_brd_brd_save");
-       	service.update(intrBrd);
-   		return "redirect:/intrBrd/intr_brd_brd";
-   	}
+    
     /**************************** 공 통 게 시 판 (FAQ)*******************************************/
 //    @RequestMapping(value = {"/intr_brd_faq"})
 //	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {

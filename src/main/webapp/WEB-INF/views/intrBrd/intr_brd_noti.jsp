@@ -5,8 +5,8 @@
 
 <script>
 /* brdType 1:공지, 2:필독, 3:일반게시물 */
-$(document).ready(function() {
-	if(${notiChk} == true) {
+$(document).ready(function(){
+	if(${notiChk} == true){
 		$("input:checkbox[id='notiChk']").prop("checked", true);
 	}
 	
@@ -166,7 +166,7 @@ function submit(service){
 					</div>
 	
 					<div class="boardType01_list_btn">
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

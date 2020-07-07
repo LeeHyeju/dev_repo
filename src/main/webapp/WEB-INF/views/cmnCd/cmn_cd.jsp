@@ -87,14 +87,16 @@ function fnEdit(edit, rNum){
 }
 /*삭제*/
 function fnDel(rNum){
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const param = urlParams.get('groCd');
-    document.getElementById("keyGroCd").value = param;
-    
-	document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
+	if(confirm("삭제하시겠습니까?") == true){
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const param = urlParams.get('groCd');
+	    document.getElementById("keyGroCd").value = param;
+	    
+		document.getElementById("keyCmnCd").value = document.getElementById("cmnCd["+rNum+"]").value;
 	
-	submit('del');
+		submit('del');
+	}
 }
 /*submit*/
 function submit(service){

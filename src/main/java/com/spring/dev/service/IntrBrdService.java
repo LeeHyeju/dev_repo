@@ -32,6 +32,22 @@ public class IntrBrdService {
 		mapper.brdHit(tblNm, brdCd, hit);
 	}
 	
+	public IntrBrd dtl(String brdCd) {
+		return mapper.dtl(brdCd);
+	}
+	
+	public void update(IntrBrd intrBrd) {
+		mapper.update(intrBrd);
+	}
+	
+	public void delete(String brdCd) {
+		mapper.delete(brdCd);
+	}
+	
+	
+	
+	
+	
 	
 	
 //	public List<IntrBrd> top10(SearchCriteria scri) {
@@ -48,11 +64,6 @@ public class IntrBrdService {
 	
 	public int listCount3() {
 		return mapper.listCount3();
-	}
-	
-	
-	public IntrBrd dtl(String boardCd) {
-		return mapper.dtl(boardCd);
 	}
 	
 	public IntrFaq dtl2(String brdCd, int hit) {
@@ -76,13 +87,7 @@ public class IntrBrdService {
 		return mapper.brdCdMax();
 	}
 	
-	public void delete(int boardCd) {
-		mapper.delete(boardCd);
-	}
-	
-	public void update(IntrBrd intrBrd) {
-		mapper.update(intrBrd);
-	}
+
 	
 	public void delete2(int brdCd) {
 		mapper.delete2(brdCd);

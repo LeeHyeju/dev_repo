@@ -24,6 +24,17 @@ public interface IntrBrdMapper {
 	// 게시물 조회수
 	public void brdHit(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd, @Param("hit")int hit);
 	
+	// 상세 게시물
+	public IntrBrd dtl(String brdCd);
+	
+	// 게시물 업데이트
+	public void update(IntrBrd intrBrd);
+
+	// 게시물 삭제
+	public void delete(String brdCd);
+	
+	
+	
 	
 	
 	
@@ -43,8 +54,6 @@ public interface IntrBrdMapper {
 	// 게시물 검색
 	public List<IntrBrd> search(@Param("intrBrd")IntrBrd intrBrd, @Param("cri")Criteria cri);
 	
-	// 상세 게시물
-	public IntrBrd dtl(String boardCd);
 	
 	// 상세 게시물
 	public IntrFaq dtl2(String brdCd);
@@ -61,11 +70,6 @@ public interface IntrBrdMapper {
 	// boardCd Max
 	public int brdCdMax();
 	
-	// 게시물 삭제
-	public void delete(int boardCd);
-	
-	// 게시물 업데이트
-	public void update(IntrBrd intrBrd);
 	
 	// 게시물 삭제
 	public void delete2(int brdCd);
