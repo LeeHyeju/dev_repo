@@ -39,7 +39,7 @@ $(document).ready(function(){
         submitHandler: function(form) {
         	if(confirm("등록하시겠습니까?") == true){
 	        	// 등록
-	        	submit('insert');
+	        	fnInsert();
         	}
         },
        	// jquery validate 로 사용하기 힘든 validation 체크
@@ -69,7 +69,7 @@ function fnInsert(){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (게시판형)</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subboard_title_wrap -->
 				
 				<div class="boardType01_wrap">
@@ -153,9 +153,4 @@ function fnInsert(){
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->
 	</div> <!-- //subcontent_wrap -->
-	
 </div> <!-- //content -->
-
-
-
-

@@ -10,7 +10,7 @@ function fnReg(){
 }
 
 function submit(service){
-	var form = document.getElementById("writeFrm");
+	var form = document.getElementById("writeForm");
     form.method = "get";
     form.action = "<c:url value='/intrBrd/" + service + "'/>";
     form.submit();
@@ -30,13 +30,13 @@ function submit(service){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (질문형)</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subboard_title_wrap -->
 				
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post">
+					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}"/>
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">

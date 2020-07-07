@@ -16,6 +16,7 @@ public class IntrBrdService {
 	@Autowired
 	IntrBrdMapper mapper;
 	
+	// 게시판
 	public List<IntrBrd> postList(SearchKey searchKey, Criteria cri) {
 		return mapper.postList(searchKey, cri);
 	}
@@ -36,6 +37,10 @@ public class IntrBrdService {
 		return mapper.dtl(brdCd);
 	}
 	
+	public void insert(IntrBrd intrBrd) {
+		mapper.insert(intrBrd);
+	}
+	
 	public void update(IntrBrd intrBrd) {
 		mapper.update(intrBrd);
 	}
@@ -44,60 +49,36 @@ public class IntrBrdService {
 		mapper.delete(brdCd);
 	}
 	
-	
-	
-	
-	
-	
-	
-//	public List<IntrBrd> top10(SearchCriteria scri) {
-//		return mapper.top10(scri);
-//	}
-//	
-//	public List<IntrFaq> getFaq(SearchCriteria scri) {
-//		return mapper.getFaq(scri);
-//	}
-	
-	public int listCount2(IntrBrd intrBrd) {
-		return mapper.listCount2(intrBrd);
+	public int brdCdMax(String tblNm) {
+		return mapper.brdCdMax(tblNm);
 	}
 	
-	public int listCount3() {
-		return mapper.listCount3();
+	// FAQ
+	public List<IntrFaq> listFaq(Criteria cri, String srch) {
+		return mapper.getFaq(cri, srch);
 	}
-	
-	public IntrFaq dtl2(String brdCd, int hit) {
-		mapper.boardHit(brdCd, hit);
-		return mapper.dtl2(brdCd);
-	}
-	
-	public void insert(IntrBrd intrBrd) {
-		mapper.insert(intrBrd);
-	}
-	
-	public void insert2(IntrFaq intrFaq) {
-		mapper.insert2(intrFaq);
-	}
-	
-	public int boardCdMax() {
-		return mapper.boardCdMax();
-	}
-	
-	public int brdCdMax() {
-		return mapper.brdCdMax();
-	}
-	
 
-	
-	public void delete2(int brdCd) {
-		mapper.delete2(brdCd);
+	public List<IntrFaq> top10(Criteria cri) {
+		return mapper.top10(cri);
 	}
 	
-	public void update2(IntrFaq intrFaq) {
-		mapper.update2(intrFaq);
+	public int listCount(String tblNm, String srch) {
+		return mapper.listCount(tblNm, srch);
 	}
 	
-	public void boardHit(String brdCd, int hit) {
-		mapper.boardHit(brdCd, hit);
+	public void faqUpdate(IntrFaq intrFaq) {
+		mapper.faqUpdate(intrFaq);
+	}
+	
+	public void faqDelete(int brdCd) {
+		mapper.faqDelete(brdCd);
+	}
+	
+	public List<IntrFaq> faqDtl(String brdCd) {
+		return mapper.faqDtl(brdCd);
+	}
+	
+	public void faqInsert(IntrFaq intrFaq) {
+		mapper.faqInsert(intrFaq);
 	}
 }

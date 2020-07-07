@@ -6,15 +6,15 @@
 <script>
 /*저장*/
 function fnSave(){
-	 submit('intr_brd_faq_save');
+	 submit('faqSave');
 }
 /*삭제*/
 function fnDel(){
-	 submit('intr_brd_faq_del');
+	 submit('faqDel');
 }
-
+/*submit*/
 function submit(service){
-	var form = document.getElementById("writeFrm");
+	var form = document.getElementById("writeForm");
     form.method = "get";
     form.action = "<c:url value='/intrBrd/" + service + "'/>";
     form.submit();
@@ -34,22 +34,22 @@ function submit(service){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (질문형)</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subboard_title_wrap -->
 				
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post">
+					<form name="writeForm" id="writeForm" method="post">
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
 					<div class="boardType01_write">
-						<table cellspacing="0" class="boardType01_tbl">
+						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;" />
 							</colgroup>
 							<tbody>
-									<tr> 
+								<tr> 
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
@@ -58,7 +58,9 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdType" id="brdType" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdType}"/>
+											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
+												<option value="${dtl.brdType}">${dtl.brdType}</option>
+											</select>
 										</div>
 									</td>
 								</tr>
@@ -85,20 +87,20 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdCont}"/>
+											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="300" value="${dtl.brdCont}"/>
 										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
-					</form>
 						
 					<div class="boardType01_write_btn">
 						<button id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
+					</form>
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->

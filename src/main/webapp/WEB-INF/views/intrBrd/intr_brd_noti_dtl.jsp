@@ -31,9 +31,14 @@ function fnSave() {
         },
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
-        	if(confirm("저장하시겠습니까?") == true){
-	        	// 저장
-	        	submit('save');
+        	var regId = ${dtl.regId};
+        	if(regId == "마스터관리자"){
+	        	if(confirm("저장하시겠습니까?") == true){
+		        	// 저장
+		        	submit('save');
+	        	}
+        	}else{
+        		alert("권한이 없습니다.");
         	}
         },
        	// jquery validate 로 사용하기 힘든 validation 체크

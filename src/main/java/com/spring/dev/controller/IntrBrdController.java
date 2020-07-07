@@ -1,7 +1,5 @@
 package com.spring.dev.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +23,17 @@ public class IntrBrdController {
 	IntrBrdService service;
 	
 	/**************************** 공 통 게 시 판 ************************************************/
+	// 공통 게시판 페이지
     @RequestMapping(value = {"/intr_brd"})
-	public String getInfo() {
+	public String listBrd() {
     	logger.info("IntrBrdController intr_brd");
 		return "intrBrd/intr_brd.page";
 	}
-    /**************************** 공 통 게 시 판 (공지)*******************************************/
+
+    /**************************** 공 통 게 시 판 (공지) *******************************************/
     // 게시판 페이지 & 검색 (List 세팅)
     @RequestMapping(value = {"/intr_brd_noti"})
-	public String list(Model model, SearchKey searchKey, Criteria cri) {
+	public String listNoti(Model model, SearchKey searchKey, Criteria cri) {
     	logger.info("IntrBrdController intr_brd_noti");
     	int count = service.postListCount(searchKey);
 
@@ -54,7 +54,7 @@ public class IntrBrdController {
 	
     // 게시판 상세 페이지
     @RequestMapping(value = {"/intr_brd_noti_dtl"})
-    public String dtl(Model model, String brdCd, int hit) {
+    public String dtlNoti(Model model, String brdCd, int hit) {
     	logger.info("IntrBrdController intr_brd_noti_dtl");
     	String tblNm = "tb_intr_brd_noti";
     	
@@ -68,7 +68,7 @@ public class IntrBrdController {
     
     // 게시판 저장
     @RequestMapping(value = {"/save"})
-    public String update(IntrBrd intrBrd) {
+    public String updateNoti(IntrBrd intrBrd) {
     	logger.info("IntrBrdController save");
     	service.update(intrBrd);
     	return "redirect:/intrBrd/intr_brd_noti";
@@ -76,7 +76,7 @@ public class IntrBrdController {
     
     // 게시판 삭제
     @RequestMapping(value = {"/del"})
-   	public String delete(String brdCd) {
+   	public String deleteNoti(String brdCd) {
        	logger.info("IntrBrdController del");
        	service.delete(brdCd);
    		return "redirect:/intrBrd/intr_brd_noti";
@@ -84,78 +84,95 @@ public class IntrBrdController {
     
     // 게시판 등록 페이지
     @RequestMapping(value = {"/intr_brd_noti_reg"})
-    public String reg() {
+    public String regNoti() {
     	logger.info("IntrBrdController intr_brd_noti_reg");
     	return "intrBrd/intr_brd_noti_reg.page";
     }
 
     // 게시판 등록
     @RequestMapping(value = {"/insert"})
-    public String insert(IntrBrd intrBrd) {
+    public String insertNoti(IntrBrd intrBrd) {
     	logger.info("IntrBrdController insert");
-    	intrBrd.setBrdCd(service.boardCdMax()+1);
+    	
+    	String tblNm = "tb_intr_brd_noti";
+    	intrBrd.setBrdCd(service.brdCdMax(tblNm)+1);
+    	
     	service.insert(intrBrd);
     	return "redirect:/intrBrd/intr_brd_noti";
     }
 	
-	
-    
-    
-    
-    /**************************** 공 통 게 시 판 (FAQ)*******************************************/
-//    @RequestMapping(value = {"/intr_brd_faq"})
-//	public String getFaq(HttpServletRequest request,  Model model, SearchCriteria scri) {
-//    	logger.info("IntrBrdController getFaq");
-//    	model.addAttribute("list", service.getFaq(scri));
-//    	
-//    	model.addAttribute("list1", service.top10(scri));
-//    	
-//		PageMaker pageMaker = new PageMaker();
-//		pageMaker.setCri(scri);
-//		pageMaker.setTotalCount(service.listCount3());
-//		model.addAttribute("count", service.listCount3());
-//		model.addAttribute("pageMaker", pageMaker);
-//		return "intrBrd/intr_brd_faq.page";
-//	}
-    
-    @RequestMapping(value = {"/intr_brd_faq_reg"})
-	public String reg(HttpServletRequest request,  Model model) {
-    	logger.info("IntrBrdController intr_brd_faq_reg");
-		return "intrBrd/intr_brd_faq_reg.page";
+    /**************************** 공 통 게 시 판 (FAQ) *******************************************/
+    // FAQ 페이지 & 검색 (List 세팅)
+    @RequestMapping(value = {"/intr_brd_faq"})
+	public String listFaq(Model model, String srch, Criteria cri) {
+    	logger.info("IntrBrdController intr_brd_faq");
+    	String tblNm = "tb_brd_faq";
+    	int count = service.listCount(tblNm, srch);
+    	
+    	model.addAttribute("faqList", service.listFaq(cri, srch));
+    	model.addAttribute("top10List", service.top10(cri));
+    	model.addAttribute("count", count);
+    	
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "intrBrd/intr_brd_faq.page";
 	}
     
-    @RequestMapping(value = {"/intr_brd_faq_insert"})
-	public String insert2(HttpServletRequest request, Model model, IntrFaq intrFaq) {
+    // FAQ 등록 페이지
+    @RequestMapping(value = {"/intr_brd_faq_reg"})
+    public String regFaq() {
+    	logger.info("IntrBrdController intr_brd_faq_reg");
+    	return "intrBrd/intr_brd_faq_reg.page";
+    }
+    
+    // FAQ 저장
+    @RequestMapping(value = {"/faqSave"})
+    public String updateFaq(IntrFaq intrFaq) {
+    	logger.info("IntrBrdController faqSave");
+    	service.faqUpdate(intrFaq);
+    	return "redirect:/intrBrd/intr_brd_faq";
+    }
+    
+    // FAQ 삭제
+    @RequestMapping(value = {"/faqDel"})
+   	public String deleteFaq(int brdCd) {
+       	logger.info("IntrBrdController faqDel");
+       	service.faqDelete(brdCd);
+   		return "redirect:/intrBrd/intr_brd_faq";
+   	}
+    
+    // FAQ 상세 페이지
+    @RequestMapping(value = {"/intr_brd_faq_dtl"})
+    public String dtlFaq(Model model, String brdCd, int hit) {
+    	logger.info("IntrBrdController intr_brd_faq_dtl");
+    	String tblNm = "tb_brd_faq";
+    	
+    	// 조회수 증가
+    	service.brdHit(tblNm, brdCd, hit);
+    	model.addAttribute("dtl", service.faqDtl(brdCd));
+    	
+    	return "intrBrd/intr_brd_faq_dtl.page";
+    }
+    
+    // FAQ 등록
+    @RequestMapping(value = {"/faqInsert"})
+	public String insertFaq(Model model, IntrFaq intrFaq) {
     	logger.info("IntrBrdController intr_brd_brd_insert");
-    	intrFaq.setBrdCd(service.brdCdMax()+1);
-    	service.insert2(intrFaq);
+    	String tblNm = "tb_brd_faq";
+    	intrFaq.setBrdCd(service.brdCdMax(tblNm)+1);
+    	
+    	service.faqInsert(intrFaq);
 		return "redirect:/intrBrd/intr_brd_faq";
 	}
     
-    @RequestMapping(value = {"/intr_brd_faq_dtl"})
-	public String view2(HttpServletRequest request, String brdCd, Model model, int hit) {
-    	logger.info("IntrBrdController intr_brd_faq_dtl");
-    	model.addAttribute("dtl", service.dtl2(brdCd, hit));
-		return "intrBrd/intr_brd_faq_dtl.page";
-	}
-    
-    @RequestMapping(value = {"/intr_brd_faq_del"})
-   	public String delete2(HttpServletRequest request, Model model, int brdCd) {
-       	logger.info("IntrBrdController intr_brd_faq_del");
-       	service.delete2(brdCd);
-   		return "redirect:/intrBrd/intr_brd_faq";
-   	}
-    
-    @RequestMapping(value = {"/intr_brd_faq_save"})
-   	public String update2(HttpServletRequest request, Model model, IntrFaq intrFaq) {
-       	logger.info("IntrBrdController intr_brd_faq_save");
-       	service.update2(intrFaq);
-   		return "redirect:/intrBrd/intr_brd_faq";
-   	}
-    /**************************** 공 통 게 시 판 (Gallery)*******************************************/
+    /**************************** 공 통 게 시 판 (Gallery) *******************************************/
+    // 갤러리 페이지
     @RequestMapping(value = {"/intr_brd_gal"})
-	public String getGal(HttpServletRequest request,  Model model) {
-    	logger.info("IntrBrdController getGal");
+	public String listGal() {
+    	logger.info("IntrBrdController intr_brd_gal");
 		return "intrBrd/intr_brd_gal.page";
 	}
 }
