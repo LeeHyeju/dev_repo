@@ -21,9 +21,7 @@ selectById
 
  -->
  
- 
- 
-	<select id="getList" resultType="Admin">
+	<select id="getList" resultType="com.spring.dev.domain.Admin">
 		<![CDATA[
 		SELECT
 				admId
@@ -68,7 +66,7 @@ selectById
 		  ]]>
 	</select>
 	
-	<select id="view"  resultType="Admin">
+	<select id="view"  resultType="com.spring.dev.domain.Admin">
 		SELECT
 				admId
 			    ,pw

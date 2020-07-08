@@ -6,8 +6,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
 
-$(".datepicker").datepicker();
-
 $(function() {
     //input을 datepicker로 선언
     $(".datepicker").datepicker({
@@ -28,6 +26,8 @@ $(function() {
         ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
         ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
     });                    
+    $('#startDate').datepicker();
+    $('#endDate').datepicker();
     
     //초기값을 오늘 날짜로 설정
     $('.datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
@@ -87,9 +87,9 @@ function fn_delete(){
 									<td>
 										<div class="input_adj">
 											<select name="popTp" id="popTp" style="width:200px;" class="form-control" >
-												<option value="main">메인</option>
-												<option value="side">사이드</option>
-												<option value="contents">컨텐츠</option>
+												<option value="main" <c:if test="${view.popTp eq 'main'}">selected</c:if>>메인</option>
+												<option value="side"<c:if test="${view.popTp eq 'side'}">selected</c:if>>사이드</option>
+												<option value="contents" <c:if test="${view.popTp eq 'contents'}">selected</c:if>>컨텐츠</option>
 											</select>
 										</div>
 									</td>

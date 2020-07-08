@@ -4,10 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<script>
-
-</script>
-
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/admin/list"><span>관리자관리</span></a><span>관리자관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
@@ -72,7 +68,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="admin" items="${list}" varStatus="loop">
-								<tr>
+								<tr class="hover">
 									<td><a href="/admin/view?admId=${admin.admId}">${admin.admId}</a></td>
 									<td>${admin.nm}</td>
 									<td>${admin.authCd}</td>

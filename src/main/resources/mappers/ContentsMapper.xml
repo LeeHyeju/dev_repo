@@ -103,7 +103,10 @@
 				    ,regDt
 			FROM
 			  	 	tb_contents_history
-			WHERE contCd = #{contCd}
+			WHERE 
+					contCd = #{contCd}
+			ORDER BY 
+					regDt desc 
 	</select>
 	
 	<insert id="insertContents" >

@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<script>
-
-</script>
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -68,7 +65,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="contents" items="${list}" varStatus="loop">
-								<tr>
+								<tr class="hover">
 									<td>${contents.contIdx}</td>
 									<td>${contents.contCd}</td>
 									<td><a href="/contents/view?contIdx=${contents.contIdx}">${contents.contNm}</a></td>

@@ -5,7 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
-
+$(document).ready(function() {
+	$('#boardTable tr').on('click', function() {
+		var currentRow = $(this).closest('tr');
+		var col1 = currentRow.find('td:eq(1)').text();
+		alert("tr",tr);
+		var td = tr.children();
+		alert("td",td);
+	});
+	
+});
 </script>
 
 <div id="contentarea" class="l-content">
@@ -28,7 +37,7 @@
 							<div class="boardType01_search">
 								<select name="searchType" id="searchType" class="boardType01_search_select">
 							      <option value="all"<c:out value="${searchType == all ? 'selected' : ''}"/>>---전체---</option>
-							      <option value="popTp"<c:out value="${searchType eq 'popTp' ? 'selected' : ''}"/>>팝업타입</option>
+							      <option value="popTp"<c:out value="${searchType eq 'popTp' ? 'selected' : ''}"/>>팝업종류</option>
 							      <option value="popNm"<c:out value="${searchType eq 'popNm' ? 'selected' : ''}"/>>팝업이름</option>
 							      <option value="popState"<c:out value="${searchType eq 'popState' ? 'selected' : ''}"/>>팝업상태</option>
 							    </select>
@@ -58,7 +67,7 @@
 						<thead>
 							<tr>
 								<th>No.</th>
-								<th>타입</th>
+								<th>종류</th>
 								<th>명칭</th>
 								<th>시작일</th>
 								<th>종료일</th>
@@ -71,13 +80,13 @@
 						</thead>
 						<tbody>
 							<c:forEach var="popup" items="${list}">
-								<tr>
+								<tr class="hover">
 									<td>${popup.popIdx}</td>
 									<td>${popup.popTp}</td>
 									<td><a href="/popup/view?popIdx=${popup.popIdx}">${popup.popNm}</a></td>
 									<td><fmt:formatDate value="${popup.startDt}" pattern="yyyy.MM.dd"/></td>
 									<td><fmt:formatDate value="${popup.endDt}" pattern="yyyy.MM.dd"/></td>
-									<td>${popup.popState}</td>
+									<td id="state">${popup.popState}</td>
 									<td>${popup.popUrl}</td>
 									<td>${popup.useYn}</td>
 									<td class="t-gray">${popup.regId}</td>

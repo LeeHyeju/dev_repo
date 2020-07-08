@@ -61,9 +61,9 @@
 						</thead>
 						<tbody>
 							<c:forEach var="auth" items="${list}">
-								<tr>
-									<td><a href="/auth/view?admId=${auth.authCd}">${auth.authCd}</a></td>
-									<td>${auth.authNm}</td>
+								<tr class="hover">
+									<td>${auth.authCd}</td>
+									<td><a href="/auth/view?admId=${auth.authCd}">${auth.authNm}</a></td>
 									<td class="t-gray">${auth.regId}</td>
 									<td><fmt:formatDate value="${auth.regDt}" pattern="yyyy.MM.dd"/></td>
 								</tr>
