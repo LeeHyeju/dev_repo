@@ -31,14 +31,9 @@ function fnSave() {
         },
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
-        	var regId = ${dtl.regId};
-        	if(regId == "마스터관리자"){
-	        	if(confirm("저장하시겠습니까?") == true){
-		        	// 저장
-		        	submit('save');
-	        	}
-        	}else{
-        		alert("권한이 없습니다.");
+        	if(confirm("저장하시겠습니까?") == true){
+	        	// 저장
+	        	submit('save');
         	}
         },
        	// jquery validate 로 사용하기 힘든 validation 체크
@@ -75,6 +70,7 @@ function submit(service){
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">통 합 게 시 판 (게시판형)</h3>
 					<p class="subcontent_desc"></p>
+					
 				</div> <!-- //subboard_title_wrap -->
 				
 				<div class="boardType01_wrap">
@@ -83,6 +79,7 @@ function submit(service){
 					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="hit" id="hit" value="${dtl.hit}"/>
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
+<%-- 					<input type="hidden" name="authCd" id="authCd" value="${authCd}"/> --%>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
@@ -98,8 +95,16 @@ function submit(service){
 										</span>
 									</th>
 									<td>
-										<div class="input_adj">
-											<input type="text" name="brdType" id="brdType" class="input_textN" disabled style="width:200px;" maxlength="50" value="${dtl.brdType == '3' ? '일반 게시물' : (dtl.brdType == '1' ? '공지' : '필독')}"/>
+										<div class="input_adj" style="display:${dtl.brdType == '3' || authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? 'none' : ''};">
+											<input type="text" name="brdType" id="brdType" class="input_textN" disabled style="width:200px;" value="${dtl.brdTypeNm}"/>
+										</div>
+										<div class="input_adj" style="display:${dtl.brdType == '3' || authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};">
+											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
+												<option value="${dtl.brdType}">${dtl.brdTypeNm}</option>
+											      <c:forEach var="type" items="${type}">
+											         <option value="${type.brdType}">${type.brdTypeNm}</option>
+											      </c:forEach>
+											</select>
 										</div>
 									</td>
 								</tr>
@@ -126,6 +131,22 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdCont}" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="useYn" id="useYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.useYn}">${dtl.useYn}</option>
+												<option value="${dtl.useYn=='Y'?'N':'Y'}">${dtl.useYn=='Y'?'N':'Y'}</option>
+											</select>
 										</div>
 									</td>
 								</tr>
@@ -202,12 +223,26 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">작성일</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
+											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">작성자</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled maxlength="50" value="${dtl.regId}"/>
+											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
 										</div>
 									</td>
 								</tr>
@@ -216,8 +251,8 @@ function submit(service){
 					</div> <!-- //boardType01_write -->
 						
 					<div class="boardType01_write_btn">
-						<button type="submit" id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
-						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
+						<button type="submit" id="btnSave" onClick="fnSave()" style="display:${dtl.brdType == '3' || authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button id="btnDel" onClick="fnDel()" style="display:${dtl.brdType == '3' || authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 					</form>

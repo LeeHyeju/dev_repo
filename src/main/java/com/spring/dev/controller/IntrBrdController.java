@@ -1,5 +1,7 @@
 package com.spring.dev.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchKey;
+import com.spring.dev.service.AdminService;
 import com.spring.dev.service.IntrBrdService;
 
 @Controller
@@ -21,6 +24,9 @@ public class IntrBrdController {
 	
 	@Autowired
 	IntrBrdService service;
+	
+	@Autowired
+	AdminService adminService;	
 	
 	/**************************** 공 통 게 시 판 ************************************************/
 	// 공통 게시판 페이지
@@ -54,14 +60,22 @@ public class IntrBrdController {
 	
     // 게시판 상세 페이지
     @RequestMapping(value = {"/intr_brd_noti_dtl"})
-    public String dtlNoti(Model model, String brdCd, int hit) {
+    public String dtlNoti(Model model, String brdCd, int hit, String regId) {
     	logger.info("IntrBrdController intr_brd_noti_dtl");
     	String tblNm = "tb_intr_brd_noti";
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
+    	
     	// dtl 세팅
-    	model.addAttribute("dtl", service.dtl(brdCd));
+    	IntrBrd dtl = service.dtl(brdCd);
+    	List<IntrBrd> type = service.getBrdType();
+    	type.remove(dtl.getBrdType()-1);
+    	model.addAttribute("dtl", dtl);
+    	model.addAttribute("type", type);
+    	
+    	// authCd 가져오기
+    	model.addAttribute("authCd", adminService.selectAuthCd(regId));
     	
     	return "intrBrd/intr_brd_noti_dtl.page";
     }
@@ -84,15 +98,19 @@ public class IntrBrdController {
     
     // 게시판 등록 페이지
     @RequestMapping(value = {"/intr_brd_noti_reg"})
-    public String regNoti() {
+    public String regNoti(Model model, String regId) {
     	logger.info("IntrBrdController intr_brd_noti_reg");
+    	
+    	// authCd 가져오기
+    	model.addAttribute("authCd", adminService.selectAuthCd(regId));
+    	
     	return "intrBrd/intr_brd_noti_reg.page";
     }
 
     // 게시판 등록
     @RequestMapping(value = {"/insert"})
     public String insertNoti(IntrBrd intrBrd) {
-    	logger.info("IntrBrdController insert");
+    	logger.info("IntrBrdController insert>>>>>>>>{}",intrBrd);
     	
     	String tblNm = "tb_intr_brd_noti";
     	intrBrd.setBrdCd(service.brdCdMax(tblNm)+1);

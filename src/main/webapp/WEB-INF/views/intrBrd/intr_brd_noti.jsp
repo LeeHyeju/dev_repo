@@ -14,7 +14,7 @@ $(document).ready(function(){
 	var perPageNum = ${perPageNum};
 	$("#perPageNum").val(perPageNum).prop("selected", true);
 });
-/*검색*/
+/*검색 & 게시물 보여지는 개수 선택*/
 function fnSrch(){
 	var form = document.getElementById("srchForm");
     form.method = "get";
@@ -82,7 +82,7 @@ function fnNotiClick(length) {
 						<div style="float:right;">
 							<input type="checkbox" name="notiChk" id="notiChk" onClick="fnNotiClick(${fn:length(notiList)})"/>
 	  						<label for="notiChk" style="padding-right: 15px">공지 숨기기</label>
-	  						<select name="perPageNum" id="perPageNum" class="boardType01_search_select">
+	  						<select name="perPageNum" id="perPageNum" onChange='fnSrch()' class="boardType01_search_select">
 								<option value="5">5개씩</option>
 								<option value="10">10개씩</option>
 								<option value="15">15개씩</option>
@@ -96,17 +96,19 @@ function fnNotiClick(length) {
 						<colgroup>
 							<col style="width:2%"/>
 							<col style="width:15%"/>
+							<col style="width:10%"/>
+							<col style="width:5%"/>
+							<col style="width:5%"/>
 							<col style="width:7%"/>
 							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
+							<col style="width:5%"/>
 						</colgroup>
 						<thead>
 						<tr>
 							<th></th>
 							<th>제목</th>
 							<th>내용</th>
+							<th>사용여부</th>
 							<th>공지옵션</th>
 							<th>작성자</th>
 							<th>작성일</th>
@@ -115,22 +117,24 @@ function fnNotiClick(length) {
 						</thead>
 						<tbody>
 						<c:forEach var="noti" items="${notiList}">
-						<tr id="trNoti[${noti.rNum}]" style="display: ${notiChk == false ? '' : 'none'}">
-							<td>${noti.brdType == 1 ? '공지' : '필독'}</td>
-							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}">${noti.brdTl}</a></td>
-							<td>${noti.brdCont}</td>
-							<td>${noti.ancmOptnYn}</td>
-							<td class="t-gray">${noti.regId}</td>
-							<td><fmt:formatDate value="${noti.regDt}" pattern="yyyy.MM.dd"/></td>
-							<td>${noti.hit}</td>
-						</tr>
+							<tr id="trNoti[${noti.rNum}]" style="display: ${notiChk == false ? '' : 'none'}">
+								<td>${noti.brdTypeNm}</td>
+								<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}&regId=${noti.regId}">${noti.brdTl}</a></td>
+								<td>${noti.brdCont}</td>
+								<td>${noti.useYn}</td>
+								<td>${noti.ancmOptnYn}</td>
+								<td class="t-gray">${noti.regId}</td>
+								<td><fmt:formatDate value="${noti.regDt}" pattern="yyyy.MM.dd"/></td>
+								<td>${noti.hit}</td>
+							</tr>
 				     	</c:forEach>
 						
 						<c:forEach var="post" items="${postList}">
 						<tr>
 							<td>${post.rNum}</td>
-							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}">${post.brdTl}</a></td>
+							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}&regId=${post.regId}">${post.brdTl}</a></td>
 							<td>${post.brdCont}</td>
+							<td>${post.useYn}</td>
 							<td>${post.ancmOptnYn}</td>
 							<td class="t-gray">${post.regId}</td>
 							<td><fmt:formatDate value="${post.regDt}" pattern="yyyy.MM.dd"/></td>
@@ -160,7 +164,7 @@ function fnNotiClick(length) {
 					</div>
 	
 					<div class="boardType01_list_btn">
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti_reg?regId=${sessionScope.admin.admId}" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 				</div> <!-- //boardType01_wrap -->
 				

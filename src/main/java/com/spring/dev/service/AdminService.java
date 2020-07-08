@@ -51,4 +51,8 @@ public class AdminService {
 		System.out.println("admin 서비스");
 		return mapper.checkPw(admId, pw);
 	}
+	
+	public String selectAuthCd(String regId) {
+		return mapper.selectAuthCd(regId);
+	}
 }

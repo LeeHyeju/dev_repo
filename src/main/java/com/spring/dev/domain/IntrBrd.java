@@ -7,6 +7,7 @@ public class IntrBrd {
 	private String brdIdx;
 	private int brdCd;
 	private int brdType;
+	private String brdTypeNm;
 	private String brdTl;
 	private String brdCont;
 	private String regId;
@@ -42,6 +43,12 @@ public class IntrBrd {
 	}
 	public void setBrdType(int brdType) {
 		this.brdType = brdType;
+	}
+	public String getBrdTypeNm() {
+		return brdTypeNm;
+	}
+	public void setBrdTypeNm(String brdTypeNm) {
+		this.brdTypeNm = brdTypeNm;
 	}
 	public String getBrdTl() {
 		return brdTl;
@@ -96,8 +103,8 @@ public class IntrBrd {
 	}
 	@Override
 	public String toString() {
-		return "IntrBrd [brdIdx=" + brdIdx + ", brdCd=" + brdCd + ", brdType=" + brdType + ", brdTl=" + brdTl
-				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", hit=" + hit + ", useYn=" + useYn
-				+ ", fileYn=" + fileYn + ", ancmOptnYn=" + ancmOptnYn + ", rNum=" + rNum + "]";
+		return "IntrBrd [brdIdx=" + brdIdx + ", brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm
+				+ ", brdTl=" + brdTl + ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", hit=" + hit
+				+ ", ancmOptnYn=" + ancmOptnYn + ", useYn=" + useYn + ", fileYn=" + fileYn + ", rNum=" + rNum + "]";
 	}
 }

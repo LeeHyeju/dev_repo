@@ -37,7 +37,10 @@ public interface IntrBrdMapper {
 	public void delete(String brdCd);
 	
 	// brdCd Max
-	public int brdCdMax(String tblNm);
+	public int brdCdMax(@Param("tblNm")String tblNm);
+	
+	// 게시물 유형 List 조회
+	public List<IntrBrd> getBrdType();
 	
 	// FAQ List 조회
 	public List<IntrFaq> getFaq(@Param("cri")Criteria cri, @Param("srch")String srch);

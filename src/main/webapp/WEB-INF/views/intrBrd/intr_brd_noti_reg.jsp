@@ -13,13 +13,16 @@ $(document).ready(function(){
                  required 	: true
                 ,maxlength 	: 100
             }
-    		,ancmOptnYn: {
-    			 required 	: true
-             }
     		,brdCont: {
     			required 	: true
                ,maxlength 	: 300
             }
+		    ,useYn: {
+		    	required 	: true
+		    }
+    		,ancmOptnYn: {
+    			 required 	: true
+             }
         },
         //규칙체크 실패시 출력될 메시지
         messages : {
@@ -27,13 +30,24 @@ $(document).ready(function(){
                  required 	: "필수로입력하세요"
                 ,maxlength 	: "최대 {100}글자까지 입력하세요"
             }
-	        ,ancmOptnYn: {
-	        	required 	: "필수로선택하세요"
-	        }
 	        ,brdCont: {
 	        	required 	: "필수로입력하세요"
                ,maxlength 	: "최대 {300}글자까지 입력하세요"
 	        }
+	        ,useYn: {
+	        	required 	: "필수로선택하세요"
+	        }
+	        ,ancmOptnYn: {
+	        	required 	: "필수로선택하세요"
+	        }
+        },
+     	// error 표시 위치 변경
+        errorPlacement : function(error, element) {
+        	if(element.is(":radio")) {
+        		element.parent().after(error);
+        	}else{
+        		element.after(error);
+        	}
         },
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
@@ -49,6 +63,18 @@ $(document).ready(function(){
 });
 /*등록*/
 function fnInsert(){
+	var authCd = ${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? true : false};
+	var brdType = document.getElementById("brdType").value;
+	var brdTypeSel = document.getElementById("brdTypeSel").value
+	
+	if(authCd){
+		document.getElementById("brdType").value = brdTypeSel;
+		document.getElementById("brdTypeNm").value = (brdTypeSel == '1' ? "공지" : "필독");
+	}else{
+		document.getElementById("brdType").value = "3";
+		document.getElementById("brdTypeNm").value = "일반 게시물";
+	}
+	
 	var form = document.getElementById("writeForm");
     form.method = "get";
     form.action = "<c:url value='/intrBrd/insert'/>";
@@ -77,6 +103,7 @@ function fnInsert(){
 					
 					<form name="writeForm" id="writeForm" method="post">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}"/>
+					<input type="hidden" name="brdTypeNm" id="brdTypeNm"/>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
@@ -88,12 +115,45 @@ function fnInsert(){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">유형</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="brdType" id="brdType" readOnly style="width:200px; display:${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? 'none' : ''};" value="일반 게시물" class="input_textN"/>
+											<select name="brdTypeSel" id="brdTypeSel" class="input_selectN" style="width:200px; display:${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};">
+												<option value="1">공지</option>
+											    <option value="2">필독</option>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">제목</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardTitle}"/>
+											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50"/>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="radio" name="useYn" id="useY" class="input_group" style="width:50px;" value="Y">
+											<label for="useYn">사용</label>
+											<input type="radio" name="useYn" id="useN" class="input_group" style="width:50px;" value="N">
+											<label for="useYn">미사용</label>
 										</div>
 									</td>
 								</tr>
@@ -106,9 +166,9 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="radio" name="ancmOptnYn" id="ancmOptnY" class="input_group" style="width:50px;" maxlength="50" value="Y">
+											<input type="radio" name="ancmOptnYn" id="ancmOptnY" class="input_group" style="width:50px;" value="Y">
 											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="ancmOptnYn" id="ancmOptnN" class="input_group" style="width:50px;" maxlength="50" value="N">
+											<input type="radio" name="ancmOptnYn" id="ancmOptnN" class="input_group" style="width:50px;" value="N">
 											<label for="ancmOptnYn">미사용</label>
 										</div>
 									</td>

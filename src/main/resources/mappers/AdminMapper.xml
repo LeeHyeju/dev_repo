@@ -21,7 +21,9 @@ selectById
 
  -->
  
-	<select id="getList" resultType="com.spring.dev.domain.Admin">
+ 
+ 
+	<select id="getList" resultType="Admin">
 		<![CDATA[
 		SELECT
 				admId
@@ -66,7 +68,7 @@ selectById
 		  ]]>
 	</select>
 	
-	<select id="view"  resultType="com.spring.dev.domain.Admin">
+	<select id="view"  resultType="Admin">
 		SELECT
 				admId
 			    ,pw
@@ -188,5 +190,14 @@ selectById
 			tb_admin
 		WHERE 											
 			admId = #{admId} AND pw = password(#{pw})
+	</select>
+	
+	<select id="selectAuthCd" parameterType="String" resultType="String">
+		SELECT 
+			authCd
+		FROM 
+			tb_admin
+		WHERE 
+			admId = #{regId, jdbcType=VARCHAR}	 	
 	</select>
 </mapper>

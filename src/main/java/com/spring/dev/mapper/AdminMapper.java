@@ -29,5 +29,7 @@ public interface AdminMapper {
 	public int listCount(@Param("searchType")String searchType, @Param("keyword") String keyword);
 	
 	public int checkPw(@Param("admId")String admId, @Param("pw")String pw);
+	
+	public String selectAuthCd(String regId);
 
 }

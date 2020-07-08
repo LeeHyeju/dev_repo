@@ -191,4 +191,13 @@ selectById
 		WHERE 											
 			admId = #{admId} AND pw = password(#{pw})
 	</select>
+	
+	<select id="selectAuthCd" parameterType="String" resultType="String">
+		SELECT 
+			authCd
+		FROM 
+			tb_admin
+		WHERE 
+			admId = #{regId, jdbcType=VARCHAR}	 	
+	</select>
 </mapper>

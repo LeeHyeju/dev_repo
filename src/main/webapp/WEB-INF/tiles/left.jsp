@@ -18,7 +18,7 @@
 		</ul>
 	<h2 class="lnb_title"><span>게시판관리</span></h2>
 		<ul id="lnb">
-			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/info') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/info">통합게시판관리</a></li>
+			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd">통합게시판관리</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_noti') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti">통합게시판(게시판형)</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_faq') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq">통합게시판(질문형)</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_gal') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal">통합게시판(갤러리형)</a></li>

@@ -52,6 +52,10 @@ public class IntrBrdService {
 	public int brdCdMax(String tblNm) {
 		return mapper.brdCdMax(tblNm);
 	}
+
+	public List<IntrBrd> getBrdType() {
+		return mapper.getBrdType();
+	}
 	
 	// FAQ
 	public List<IntrFaq> listFaq(Criteria cri, String srch) {

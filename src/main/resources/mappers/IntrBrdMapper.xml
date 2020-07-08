@@ -92,21 +92,27 @@
 		INSERT INTO 
 			tb_intr_brd_noti (
 				 brdCd
+				,brdType
+				,brdTypeNm
 				,brdTl
 				,brdCont
 				,regId
 				,regDt
 				,fileYn
 				,ancmOptnYn
+				,hit
 			)
 		VALUES (
 				 #{brdCd}
+				,#{brdType}
+				,#{brdTypeNm}
 				,#{brdTl}
 				,#{brdCont}
 				,#{regId}
 				,now()
 				,#{fileYn}
 				,#{ancmOptnYn}
+				,'0'
 		)
 	</insert>
 	
@@ -132,6 +138,11 @@
 	
 	<select id="brdCdMax" resultType="int" parameterType="String">
 		SELECT MAX(brdCd) FROM ${tblNm}
+	</select>
+	
+	<select id="getBrdType" resultType="IntrBrd">
+		SELECT DISTINCT brdType, brdTypeNm
+		FROM tb_intr_brd_noti
 	</select>
 	
 	<select id="listFaq" resultType="IntrFaq">
