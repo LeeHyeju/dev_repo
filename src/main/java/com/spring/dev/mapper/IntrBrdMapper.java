@@ -24,55 +24,39 @@ public interface IntrBrdMapper {
 	// 게시물 조회수
 	public void brdHit(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd, @Param("hit")int hit);
 	
-	
-	
-	
-	
-	// 게시물 List top10 조회
-	public List<IntrBrd> top10(Criteria cri);
-	
-	// 게시물 목록 조회
-	public List<IntrFaq> getFaq(Criteria cri);
-	
-	// 게시물 총 갯수
-	public int listCount2(IntrBrd intrBrd);
-	
-	// 게시물 총 갯수
-	public int listCount3();
-
-	// 게시물 검색
-	public List<IntrBrd> search(@Param("intrBrd")IntrBrd intrBrd, @Param("cri")Criteria cri);
-	
 	// 상세 게시물
-	public IntrBrd dtl(String boardCd);
-	
-	// 상세 게시물
-	public IntrFaq dtl2(String brdCd);
+	public IntrBrd dtl(String brdCd);
 	
 	// 게시물 등록
 	public void insert(IntrBrd intrBrd);
 	
-	// boardCd Max
-	public int boardCdMax();
-	
-	// 게시물 등록
-	public void insert2(IntrFaq intrFaq);
-	
-	// boardCd Max
-	public int brdCdMax();
-	
-	// 게시물 삭제
-	public void delete(int boardCd);
-	
 	// 게시물 업데이트
 	public void update(IntrBrd intrBrd);
-	
+
 	// 게시물 삭제
-	public void delete2(int brdCd);
+	public void delete(String brdCd);
 	
-	// 게시물 업데이트
-	public void update2(IntrFaq intrFaq);
+	// brdCd Max
+	public int brdCdMax(String tblNm);
 	
-	// 게시물 조회수
-	public void boardHit(@Param("brdCd")String brdCd, @Param("hit")int hit);
+	// FAQ List 조회
+	public List<IntrFaq> getFaq(@Param("cri")Criteria cri, @Param("srch")String srch);
+	
+	// FAQ top10 조회
+	public List<IntrFaq> top10(Criteria cri);
+	
+	// FAQ List 개수
+	public int listCount(@Param("tblNm")String tblNm, @Param("srch")String srch);
+	
+	// FAQ 업데이트
+	public void faqUpdate(IntrFaq intrFaq);
+	
+	// FAQ 삭제
+	public void faqDelete(int brdCd);
+	
+	// FAQ 상세 페이지
+	public List<IntrFaq> faqDtl(String brdCd);
+	
+	// FAQ 등록
+	public void faqInsert(IntrFaq intrFaq);
 }

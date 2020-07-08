@@ -87,61 +87,22 @@
     		hit = ${hit}+1
     	WHERE brdCd = ${brdCd}
     </update>
-
-	
-	
-	
-	<select id="top10" resultType="IntrBrd" parameterType="Criteria">
-			SELECT   tb_board_notice.*
-		FROM(
-			SELECT   tb_board_notice.*
-   				,ROW_NUMBER() OVER(ORDER BY tb_board_notice.boardCd ASC) AS rNum
-			FROM tb_board_notice
-		) tb_board_notice
-		WHERE (rNum BETWEEN 1 AND 10)  AND hit > 0
-		ORDER BY tb_board_notice.hit DESC
-	</select>
-	
-
-	
-	<select id="listCount2" resultType="int">
-	    SELECT COUNT(*)
-	    FROM tb_board_notice
-	</select>
-	
-	<select id="listCount3" resultType="int">
-	    SELECT COUNT(*)
-	    FROM tb_board_faq
-	</select>
-	
-	
-	<select id="dtl" resultType="IntrBrd" parameterType="String">
-	    SELECT *
-	    FROM tb_board_notice
-	    WHERE boardCd = #{boardCd}
-	</select>
-	
-	<select id="dtl2" resultType="IntrFaq" parameterType="String">
-	    SELECT *
-	    FROM tb_board_faq
-	    WHERE brdCd = #{brdCd}
-	</select>
-	
-	<insert id="insert">
+    
+    <insert id="insert" parameterType="IntrBrd">
 		INSERT INTO 
-			tb_board_notice (
-				 boardCd
-				,boardTitle
-				,boardContent
+			tb_intr_brd_noti (
+				 brdCd
+				,brdTl
+				,brdCont
 				,regId
 				,regDt
 				,fileYn
 				,ancmOptnYn
 			)
 		VALUES (
-				 #{boardCd}
-				,#{boardTitle}
-				,#{boardContent}
+				 #{brdCd}
+				,#{brdTl}
+				,#{brdCont}
 				,#{regId}
 				,now()
 				,#{fileYn}
@@ -149,9 +110,81 @@
 		)
 	</insert>
 	
-	<insert id="insert2">
+	<select id="dtl" resultType="IntrBrd" parameterType="String">
+	    SELECT *
+	    FROM tb_intr_brd_noti
+	    WHERE brdCd = #{brdCd}
+	</select>
+		
+	<update id="update" parameterType="IntrBrd">
+		UPDATE tb_intr_brd_noti
+		SET	 brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,ancmOptnYn = #{ancmOptnYn}
+		WHERE brdCd = #{brdCd}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		DELETE 
+		FROM tb_intr_brd_noti
+		WHERE brdCd = #{brdCd}
+	</delete>
+	
+	<select id="brdCdMax" resultType="int" parameterType="String">
+		SELECT MAX(brdCd) FROM ${tblNm}
+	</select>
+	
+	<select id="listFaq" resultType="IntrFaq">
+		SELECT   faq.*
+		FROM(
+			SELECT   tb_brd_faq.*
+   					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.brdCd ASC) AS rNum
+			FROM tb_brd_faq
+			WHERE brdTl = ${srch} OR brdCont = ${srch} OR regId = ${srch}
+		) faq
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	</select>
+	
+	<select id="top10" resultType="IntrFaq" parameterType="Criteria">
+			SELECT   faq.*
+		FROM(
+			SELECT   tb_brd_faq.*
+   					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.hit DESC) AS rNum
+			FROM tb_brd_faq
+		) faq
+		WHERE (rNum BETWEEN 1 AND 10)  AND hit > 0
+	</select>
+	
+	<select id="listCount" resultType="int">
+		SELECT COUNT(*)
+		FROM ${tblNm}
+		WHERE brdTl = ${srch} OR brdCont = ${srch} OR regId = ${srch}
+	</select>
+	
+	<update id="faqUpdate" parameterType="IntrFaq">
+		UPDATE tb_brd_faq
+		SET	 brdType = #{brdType}
+			,brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,useYn = #{useYn}
+		WHERE brdCd = #{brdCd}
+	</update>
+	
+	<delete id="faqDelete" parameterType="int">
+		DELETE 
+		FROM tb_brd_faq
+		WHERE brdCd = #{brdCd}
+	</delete>
+
+	<select id="faqDtl" resultType="IntrFaq" parameterType="String">
+	    SELECT *
+	    FROM tb_brd_faq
+	    WHERE brdCd = #{brdCd}
+	</select>
+	
+	<insert id="faqInsert" parameterType="IntrFaq">
 		INSERT INTO 
-			tb_board_faq (
+			tb_brd_faq (
 				 brdCd
 				,brdType
 				,brdTl
@@ -170,64 +203,4 @@
 				,#{useYn}
 		)
 	</insert>
-	
-	<select id="brdCdMax" resultType="int">
-		SELECT MAX(brdCd) FROM tb_board_faq
-	</select>
-	
-	<select id="boardCdMax" resultType="int">
-		SELECT MAX(boardCd) FROM tb_board_notice
-	</select>
-	
-	<delete id="delete" parameterType="int">
-		DELETE 
-		FROM tb_board_notice
-		WHERE boardCd = #{boardCd}
-	</delete>
-	
-	<update id="update" parameterType="IntrBrd">
-		UPDATE tb_board_notice
-		SET	
-			 boardTitle = #{boardTitle}
-			,boardContent = #{boardContent}
-			,fileYn = #{fileYn}
-			,ancmOptnYn = #{ancmOptnYn}
-		WHERE boardCd = #{boardCd}
-	</update>
-	
-	<delete id="delete2" parameterType="int">
-		DELETE 
-		FROM tb_board_faq
-		WHERE brdCd = #{brdCd}
-	</delete>
-	
-	<update id="update2" parameterType="IntrFaq">
-		UPDATE tb_board_faq
-		SET	
-			 brdType = #{brdType}
-			,brdTl = #{brdTl}
-			,brdCont = #{brdCont}
-			,useYn = #{useYn}
-		WHERE brdCd = #{brdCd}
-	</update>
-	
-	<select id="getFaq" resultType="IntrFaq" parameterType="Criteria">
-		SELECT   faq.*
-		FROM(
-			SELECT   tb_board_faq.*
-   				,ROW_NUMBER() OVER(ORDER BY tb_board_faq.brdCd ASC) AS rNum
-			FROM tb_board_faq
-		) faq
-		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY faq.brdCd ASC
-	</select>
-		
-	<!-- 게시판 조회수 -->
-    <update id="boardHit" parameterType="int">
-    	UPDATE 
-			tb_board_faq
-		SET	
-    		hit = ${hit}+1
-    	WHERE brdCd = ${brdCd}
-    </update>
 </mapper>

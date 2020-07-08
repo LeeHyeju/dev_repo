@@ -5,20 +5,21 @@
 
 <script>
 /* brdType 1:공지, 2:필독, 3:일반게시물 */
-$(document).ready(function() {
-	if(${notiChk} == true) {
+$(document).ready(function(){
+	var notiChk = ${notiChk};
+	if(notiChk == true){
 		$("input:checkbox[id='notiChk']").prop("checked", true);
 	}
 	
-	$("#perPageNum").val(${perPageNum}).prop("selected", true);
+	var perPageNum = ${perPageNum};
+	$("#perPageNum").val(perPageNum).prop("selected", true);
 });
 /*검색*/
 function fnSrch(){
-	submit('intr_brd_noti');
-}
-/*등록*/
-function fnReg(){
-	 submit('intr_brd_brd_reg');
+	var form = document.getElementById("srchForm");
+    form.method = "get";
+    form.action = "<c:url value='/intrBrd/intr_brd_noti'/>";
+    form.submit();
 }
 /*공지 숨기기 선택*/
 function fnNotiClick(length) {
@@ -32,13 +33,6 @@ function fnNotiClick(length) {
 	for(i=1;i<=length;i++){
 		document.getElementById("trNoti["+i+"]").style.display = style;
 	}
-}
-/*submit*/
-function submit(service){
-	var form = document.getElementById("srchForm");
-    form.method = "get";
-    form.action = "<c:url value='/intrBrd/" + service + "'/>";
-    form.submit();
 }
 </script>
 <style type="text/css">
@@ -166,7 +160,7 @@ function submit(service){
 					</div>
 	
 					<div class="boardType01_list_btn">
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_brd_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 				</div> <!-- //boardType01_wrap -->
 				
