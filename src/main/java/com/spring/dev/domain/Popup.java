@@ -2,17 +2,28 @@ package com.spring.dev.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Popup {
 	
 	private int popIdx;
 	private String popTp;
 	private String popNm;
+	private String popImg;
+	private String popTxt;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date StartDt; 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDt;
-	private String popState;
 	private String popUrl;
 	private String useYn;
+	private int popHeight;
+	private int popWidth;
+	private int popX;
+	private int popY;
+	private String popTarget;
 	private String regId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDt;
 	
 	
@@ -34,6 +45,18 @@ public class Popup {
 	public void setPopNm(String popNm) {
 		this.popNm = popNm;
 	}
+	public String getPopImg() {
+		return popImg;
+	}
+	public void setPopImg(String popImg) {
+		this.popImg = popImg;
+	}
+	public String getPopTxt() {
+		return popTxt;
+	}
+	public void setPopTxt(String popTxt) {
+		this.popTxt = popTxt;
+	}
 	public Date getStartDt() {
 		return StartDt;
 	}
@@ -45,12 +68,6 @@ public class Popup {
 	}
 	public void setEndDt(Date endDt) {
 		this.endDt = endDt;
-	}
-	public String getPopState() {
-		return popState;
-	}
-	public void setPopState(String popState) {
-		this.popState = popState;
 	}
 	public String getPopUrl() {
 		return popUrl;
@@ -64,6 +81,36 @@ public class Popup {
 	public void setUseYn(String useYn) {
 		this.useYn = useYn;
 	}
+	public int getPopHeight() {
+		return popHeight;
+	}
+	public void setPopHeight(int popHeight) {
+		this.popHeight = popHeight;
+	}
+	public int getPopWidth() {
+		return popWidth;
+	}
+	public void setPopWidth(int popWidth) {
+		this.popWidth = popWidth;
+	}
+	public int getPopX() {
+		return popX;
+	}
+	public void setPopX(int popX) {
+		this.popX = popX;
+	}
+	public int getPopY() {
+		return popY;
+	}
+	public void setPopY(int popY) {
+		this.popY = popY;
+	}
+	public String getPopTarget() {
+		return popTarget;
+	}
+	public void setPopTarget(String popTarget) {
+		this.popTarget = popTarget;
+	}
 	public String getRegId() {
 		return regId;
 	}
@@ -76,11 +123,13 @@ public class Popup {
 	public void setRegDt(Date regDt) {
 		this.regDt = regDt;
 	}
-
+	
+	
 	@Override
 	public String toString() {
-		return "Popup [popIdx=" + popIdx + ", popTp=" + popTp + ", popNm=" + popNm + ", StartDt=" + StartDt + ", endDt="
-				+ endDt + ", popState=" + popState + ", popUrl=" + popUrl + ", useYn=" + useYn + ", regId=" + regId
-				+ ", regDt=" + regDt + "]";
+		return "Popup [popIdx=" + popIdx + ", popTp=" + popTp + ", popNm=" + popNm + ", popImg=" + popImg + ", popTxt="
+				+ popTxt + ", StartDt=" + StartDt + ", endDt=" + endDt + ", popUrl=" + popUrl + ", useYn=" + useYn
+				+ ", popHeight=" + popHeight + ", popWidth=" + popWidth + ", popX=" + popX + ", popY=" + popY
+				+ ", popTarget=" + popTarget + ", regId=" + regId + ", regDt=" + regDt + "]";
 	}
 }

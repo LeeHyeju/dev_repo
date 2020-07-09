@@ -23,9 +23,10 @@
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_faq') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq">통합게시판(질문형)</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_gal') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal">통합게시판(갤러리형)</a></li>
 		</ul>
-	<h2 class="lnb_title"><span>컨텐츠관리</span></h2>
+	<h2 class="lnb_title"><span>화면관리</span></h2>
 		<ul id="lnb">
 			<li  class="current <c:if test="${fn:indexOf(uri, '/contents/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/contents/list">컨텐츠관리</a></li>
 			<li  class="current <c:if test="${fn:indexOf(uri, '/popup/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/popup/list">팝업관리</a></li>
+			<li  class="current <c:if test="${fn:indexOf(uri, '/menu/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/menu/list">메뉴관리</a></li>
 		</ul>	
 </div> <!-- //aside -->

@@ -1,5 +1,7 @@
 package com.spring.dev.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -9,8 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.dev.domain.Admin;
 import com.spring.dev.domain.PageMaker;
+import com.spring.dev.domain.Popup;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.service.PopupService;
 
@@ -46,10 +51,37 @@ public class PopupController {
     
     @RequestMapping(value = {"/view"})
 	public String view(HttpServletRequest request, int popIdx, Model model) {
-    	logger.info("AuthController view");
+    	logger.info("PopupController view");
     	model.addAttribute("view", service.popupView(popIdx));
 		return "popup/view.page";
 	}
     
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.GET)
+   	public String insert(HttpServletRequest request, Popup popup, Model model) throws UnsupportedEncodingException {
+       	logger.info("PopupController insert");
+   		return "popup/insert.page";
+   	}
+       
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
+   	public String insertProcess(HttpServletRequest request, Popup popup, Model model) throws UnsupportedEncodingException {
+       	logger.info("PopupController insertProcess");
+       	System.out.println("인서트"+popup.toString());
+       	service.insertPopup(popup);
+   		return "redirect:/popup/list";
+   	}
+       
+    @RequestMapping(value = {"/update"}, method = RequestMethod.POST)
+   	public String update(HttpServletRequest request, Popup popup,  Model model) {
+       	logger.info("PopupController update");
+   		service.updatePopup(popup);
+   		return "redirect:/popup/list";
+   	}
+
+    @RequestMapping(value = {"/delete"}, method = RequestMethod.POST)
+   	public String delete(HttpServletRequest request, int popIdx,  Model model) {
+       	logger.info("PopupController delete");
+       	service.deletePopup(popIdx);
+   		return "redirect:/popup/list";
+   	}
     
 }

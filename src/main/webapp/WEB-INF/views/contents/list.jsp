@@ -7,7 +7,7 @@
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
-		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/contents/list"><span>컨텐츠관리</span></a><span>컨텐츠관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/contents/list"><span>컨텐츠관리</span></a><span>컨텐츠관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
 		<div class="subcontent_inner">
@@ -15,7 +15,7 @@
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">컨 텐 츠 관 리</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
@@ -69,8 +69,8 @@
 									<td>${contents.contIdx}</td>
 									<td>${contents.contCd}</td>
 									<td><a href="/contents/view?contIdx=${contents.contIdx}">${contents.contNm}</a></td>
-									<td>${empty contents.contStyle? 'N' : 'Y'}</td>
-									<td>${empty contents.contScript? 'N' : 'Y'}</td>
+									<td>${empty contents.contStyle? '없음' : '있음'}</td>
+									<td>${empty contents.contScript? '없음' : '있음'}</td>
 									<td style="text-overflow : ellipsis;overflow : hidden;"><nobr>${contents.contents}</nobr></td>
 									<td class="t-gray">${contents.regId}</td>
 									<td><fmt:formatDate value="${contents.regDt}" pattern="yyyy.MM.dd"/></td>

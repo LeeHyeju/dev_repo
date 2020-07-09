@@ -5,7 +5,6 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
-
 $(function() {
     //input을 datepicker로 선언
     $(".datepicker").datepicker({
@@ -23,14 +22,15 @@ $(function() {
         ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
         ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
         ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-        ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-        ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
+        ,minDate: "-0D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+        ,maxDate: "+1Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
     });                    
     $('#startDate').datepicker();
     $('#endDate').datepicker();
     
     //초기값을 오늘 날짜로 설정
-    $('.datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+	$( "#datepicker" ).datepicker( "getDate" );
+    //    $('.datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
 });
 
 /*수정*/
@@ -87,9 +87,8 @@ function fn_delete(){
 									<td>
 										<div class="input_adj">
 											<select name="popTp" id="popTp" style="width:200px;" class="form-control" >
-												<option value="main" <c:if test="${view.popTp eq 'main'}">selected</c:if>>메인</option>
-												<option value="side"<c:if test="${view.popTp eq 'side'}">selected</c:if>>사이드</option>
-												<option value="contents" <c:if test="${view.popTp eq 'contents'}">selected</c:if>>컨텐츠</option>
+												<option value="layer" <c:if test="${view.popTp eq 'layer'}">selected</c:if>>레이어팝업</option>
+												<option value="window"<c:if test="${view.popTp eq 'window'}">selected</c:if>>윈도우팝업</option>
 											</select>
 										</div>
 									</td>
@@ -110,12 +109,35 @@ function fn_delete(){
 								<tr> 
 									<th>
 										<span class="th_wrap">
-											<label for="">시작일</label>
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">팝업이미지</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="startDt" id="startDt" class="datepicker" style="width:200px;" maxlength="50" value="${view.startDt }" />
+											<input type="file" name="popImg" id="popImg" class="input_textN" style="width:200px;" maxlength="50" value="${view.popImg }" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">팝업내용</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<textarea name="popTxt" id="popTxt" class="input_textN" style="width:550px;height:150px;resize: none;">${view.popTxt }</textarea>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">시작일</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">	
+											<input type="text" name="startDt" id="startDt" class="datepicker" style="width:200px;" maxlength="50" value="<fmt:formatDate value="${view.startDt }" pattern="yyyy-MM-dd"/>" />
 										</div>
 									</td>
 								</tr>
@@ -127,23 +149,7 @@ function fn_delete(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="endDt" id="endDt" class="datepicker" style="width:200px;" maxlength="50" value="${view.endDt }" />
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">팝업상태</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<select name="popState" class="form-control input-sm" style="width:100px;display: inline-block;"> 
-												<option value="${view.popState}">${view.popState}</option>
-												<option value="${view.popState=='Y'?'게시중':'종료'}">${view.popState=='Y'?'게시중':'종료'}</option>
-											</select>
+											<input type="text" name="endDt" id="endDt" class="datepicker" style="width:200px;" maxlength="50" value="<fmt:formatDate value="${view.endDt }" pattern="yyyy-MM-dd"/>" />
 										</div>
 									</td>
 								</tr>
@@ -161,9 +167,7 @@ function fn_delete(){
 								</tr>
 								<tr> 
 									<th>
-										<span class="th_wrap">
-											사용여부
-										</span>
+										<span class="th_wrap">사용여부</span>
 									</th>
 									<td>
 										<div class="input_adj">
@@ -196,7 +200,7 @@ function fn_delete(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<fmt:formatDate value="${view.regDt}" pattern="yyyy.MM.dd"/>
+											<fmt:formatDate value="${view.regDt}" pattern="yyyy-MM-dd"/>
 										</div>
 									</td>
 								</tr>

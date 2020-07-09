@@ -11,9 +11,8 @@
 				,popNm 
 				,startDt 
 				,endDt 
-				,popState
 				,popUrl 
-				,useYn 
+				,useYn
 				,regId  
 				,regDt 
 		FROM
@@ -24,7 +23,7 @@
             <if test="cri.searchType == 'all'.toString()">
                 and ( popTp like CONCAT('%', #{cri.keyword}, '%')
                 OR popNm like CONCAT('%', #{cri.keyword}, '%')
-                OR popState like CONCAT('%', #{cri.keyword}, '%') )
+                OR popTxt like CONCAT('%', #{cri.keyword}, '%') )
             </if>
             <if test="cri.searchType == 'popTp'.toString()">
                 and popTp like CONCAT('%', #{cri.keyword}, '%')
@@ -32,8 +31,8 @@
             <if test="cri.searchType == 'popNm'.toString()">
                 and popNm like CONCAT('%', #{cri.keyword}, '%')
             </if>
-            <if test="cri.searchType == 'popState'.toString()">
-                and popState like CONCAT('%', #{cri.keyword}, '%') 
+            <if test="cri.searchType == 'popTxt'.toString()">
+                and popTxt like CONCAT('%', #{cri.keyword}, '%') 
             </if>
         </if>
 		 <![CDATA[
@@ -53,7 +52,7 @@
             <if test="searchType == 'all'.toString()">
                 and (popTp like CONCAT('%', #{keyword}, '%')
                 OR popNm like CONCAT('%', #{keyword}, '%')
-                OR popState like CONCAT('%', #{keyword}, '%') )
+                OR popTxt like CONCAT('%', #{keyword}, '%') )
             </if>
             <if test="searchType == 'popTp'.toString()">
                 and popTp like CONCAT('%', #{keyword}, '%')
@@ -61,8 +60,8 @@
             <if test="searchType == 'popNm'.toString()">
                 and popNm like CONCAT('%', #{keyword}, '%')
             </if>
-            <if test="searchType == 'popState'.toString()">
-                and popState like CONCAT('%', #{keyword}, '%') 
+            <if test="searchType == 'popTxt'.toString()">
+                and popTxt like CONCAT('%', #{keyword}, '%') 
             </if>
         </if>
 	</select>
@@ -72,16 +71,110 @@
 				popIdx
 				,popTp 
 				,popNm 
+				,popImg
+				,popTxt
 				,startDt 
 				,endDt 
-				,popState
 				,popUrl 
-				,useYn 
+				,popHeight
+				,popWidth
+				,popX
+				,popY
+				,useYn
+				,popTarget 
 				,regId  
 				,regDt 
 		FROM
 		  	 	tb_popup 
 		WHERE  
 				popIdx = #{popIdx} 
+	</select>
+	
+	<insert id="insertPopup" >
+		INSERT INTO 
+			tb_popup
+				(
+				,popTp 
+				,popNm 
+				,popImg
+				,popTxt
+				,startDt 
+				,endDt 
+				,popUrl 
+				,popHeight
+				,popWidth
+				,popX
+				,popY
+				,useYn
+				,popTarget 
+				,regId  
+				,regDt 
+				 )
+		VALUES
+				(
+				#{popTp}
+				,#{popNm}
+				,#{popImg}
+				,#{popTxt}
+				,#{startDt, jdbcType=DATE}
+				,#{endDt, jdbcType=DATE}
+				,#{popUrl}
+				,#{popHeight}
+				,#{popWidth}
+				,#{popX}
+				,#{popY}
+				,#{useYn}
+				,#{popTarget}
+				,#{regId}
+				,now()
+				)
+	</insert>
+	
+	<update id="updatePopup" parameterType="Popup">
+		UPDATE 
+			tb_popup
+		SET	
+			popTp = #{popTp}
+			,popNm = #{popNm}
+			,popImg = #{popImg}
+			,popTxt = #{popTxt}
+			,startDt = #{startDt}
+			,endDt = #{endDt}
+			,popUrl = #{popUrl}
+			,popHeight = #{popHeight}
+			,popWidth = #{popWidth}
+			,popX = #{popX}
+			,popY = #{popY}
+			,useYn = #{useYn}
+			,popTarget = #{popTarget}
+		WHERE 
+			popIdx = #{popIdx}
+	</update>
+	
+	<delete id="deletePopup" parameterType="int">
+		DELETE 
+		FROM 
+			tb_popup
+		WHERE 
+			popIdx = #{popIdx}
+	</delete>
+	
+	<select id="getPopup"  resultType="Popup">
+	 <![CDATA[
+		SELECT
+				popIdx 
+				,popTp 
+				,popNm 
+				,startDt 
+				,endDt 
+				,popUrl 
+				,useYn 
+		FROM
+		  	 	tb_popup
+		WHERE  
+				useYn = 'Y'
+			AND #{startDt} <= NOW() 
+			AND	NOW() <= #{endDt}  
+	]]>
 	</select>
 </mapper>

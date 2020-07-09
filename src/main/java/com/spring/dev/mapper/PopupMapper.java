@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.spring.dev.domain.Auth;
 import com.spring.dev.domain.Popup;
 import com.spring.dev.domain.SearchCriteria;
 
@@ -17,5 +16,11 @@ public interface PopupMapper {
 	public int listCount(@Param("searchType")String searchType, @Param("keyword") String keyword);
 	
 	public Popup popupView(int popIdx);
+	
+	public int insertPopup(Popup popup);
+	
+	public void updatePopup(Popup popup);
+	
+	public void deletePopup(int popIdx);
 
 }

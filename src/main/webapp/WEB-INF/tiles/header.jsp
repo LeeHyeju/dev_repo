@@ -7,7 +7,8 @@
 
 <div id="header">
 	<div class="inner l-base">
-		<h1 class="logo"><a href="${pageContext.request.contextPath}/main" target="_blank"><img src="#" alt="로고" /></a></h1>
+		<h1 class="logo"><a href="${pageContext.request.contextPath}/" target="_self">
+		<img src="${pageContext.request.contextPath}/resources/admin/img/common/logo4.png" style="width:100px;height:40px"alt="로고" /></a></h1>
 		
 		<div class="topmenu">
 			<ul class="utility clearfix">
@@ -29,8 +30,7 @@
 				<li class="<c:if test="${fn:indexOf(uri, '/admin/') > -1 || fn:indexOf(uri, '/auth/') > -1 }">active</c:if>"><a href="${pageContext.request.contextPath}/admin/list">관리자관리</a></li>
 				<li class="<c:if test="${fn:indexOf(uri, '/cmnCd/') > -1 }">active</c:if>"><a href="${pageContext.request.contextPath}/cmnCd/cmn_cd">공통관리</a></li>
 				<li class="<c:if test="${fn:indexOf(uri, '/intrBrd/') > -1 }">active</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti">게시판관리</a></li>
-				<li class="<c:if test="${fn:indexOf(uri, '/contents/') > -1 }">active</c:if>"><a href="${pageContext.request.contextPath}/contents/list">컨텐츠관리</a></li>
-				<li><a href="${pageContext.request.contextPath}/member/">메뉴관리</a></li>
+				<li class="<c:if test="${fn:indexOf(uri, '/contents/') > -1 }">active</c:if>"><a href="${pageContext.request.contextPath}/contents/list">화면관리</a></li>
 			</ul> <!-- //gnb -->
 		</div> <!-- //nav -->
 	</div> <!-- //inner -->

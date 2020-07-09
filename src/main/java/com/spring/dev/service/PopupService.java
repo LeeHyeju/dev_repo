@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.dev.domain.Auth;
 import com.spring.dev.domain.Popup;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.PopupMapper;
@@ -27,4 +26,17 @@ public class PopupService {
 	public Popup popupView(int popIdx) {
 		return mapper.popupView(popIdx);
 	}
+	
+	public int insertPopup(Popup popup) {
+		return mapper.insertPopup(popup);
+	}
+	
+	public void updatePopup(Popup popup) {
+		mapper.updatePopup(popup);
+	}
+
+	public void deletePopup(int popIdx) {
+		mapper.deletePopup(popIdx);
+	}
+
 }

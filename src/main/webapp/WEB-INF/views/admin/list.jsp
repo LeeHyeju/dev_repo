@@ -6,7 +6,7 @@
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
-		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/admin/list"><span>관리자관리</span></a><span>관리자관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/admin/list"><span>관리자관리</span></a><span>관리자관리 리스트</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
 		<div class="subcontent_inner">
@@ -14,7 +14,7 @@
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">관 리 자 관 리</h3>
-					<p class="subcontent_desc">.</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
@@ -76,8 +76,8 @@
 									<td>${admin.email}</td>
 									<td class="t-gray">${admin.regId}</td>
 									<td><fmt:formatDate value="${admin.regDt}" pattern="yyyy.MM.dd"/></td>
-									<td>${admin.useYn}</td>
-									<td>${admin.delYn}</td>
+									<td>${admin.useYn == 'Y' ? '사용' : '미사용'}</td>
+									<td>${admin.delYn == 'Y' ? '사용' : '미사용'}</td>
 								</tr>
 					     	</c:forEach>
 					     	<c:if test="${empty list}">
