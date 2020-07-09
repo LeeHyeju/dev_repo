@@ -146,14 +146,25 @@
 	</select>
 	
 	<select id="listFaq" resultType="IntrFaq">
+	<![CDATA[
 		SELECT   faq.*
 		FROM(
 			SELECT   tb_brd_faq.*
    					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.brdCd ASC) AS rNum
 			FROM tb_brd_faq
-			WHERE brdTl = ${srch} OR brdCont = ${srch} OR regId = ${srch}
+			WHERE 1=1
+	]]>
+			<if test="srch != null">
+            	<if test="srch == 'all'.toString()">
+					OR brdTl = like CONCAT('%', #{srch}, '%')
+					OR brdCont = like CONCAT('%', #{srch}, '%')
+					OR regId = like CONCAT('%', #{srch}, '%')
+				</if>
+			</if>
+	<![CDATA[
 		) faq
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	]]>
 	</select>
 	
 	<select id="top10" resultType="IntrFaq" parameterType="Criteria">
@@ -167,9 +178,18 @@
 	</select>
 	
 	<select id="listCount" resultType="int">
+		<![CDATA[
 		SELECT COUNT(*)
 		FROM ${tblNm}
-		WHERE brdTl = ${srch} OR brdCont = ${srch} OR regId = ${srch}
+		WHERE 1=1
+		]]>
+		<if test="srch != null">
+            <if test="srch == 'all'.toString()">
+				OR brdTl = like CONCAT('%', #{srch}, '%')
+				OR brdCont = like CONCAT('%', #{srch}, '%')
+				OR regId = like CONCAT('%', #{srch}, '%')
+			</if>
+		</if>
 	</select>
 	
 	<update id="faqUpdate" parameterType="IntrFaq">

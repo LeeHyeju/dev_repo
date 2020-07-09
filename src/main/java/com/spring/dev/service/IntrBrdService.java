@@ -59,7 +59,7 @@ public class IntrBrdService {
 	
 	// FAQ
 	public List<IntrFaq> listFaq(Criteria cri, String srch) {
-		return mapper.getFaq(cri, srch);
+		return mapper.listFaq(cri, srch);
 	}
 
 	public List<IntrFaq> top10(Criteria cri) {

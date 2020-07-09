@@ -69,7 +69,7 @@ function fnInsert(){
 	
 	if(authCd){
 		document.getElementById("brdType").value = brdTypeSel;
-		document.getElementById("brdTypeNm").value = (brdTypeSel == '1' ? "공지" : "필독");
+		document.getElementById("brdTypeNm").value = brdTypeSel == '3' ? "일반 게시물" : (brdTypeSel == '1' ? "공지" : "필독");
 	}else{
 		document.getElementById("brdType").value = "3";
 		document.getElementById("brdTypeNm").value = "일반 게시물";
@@ -124,6 +124,7 @@ function fnInsert(){
 											<select name="brdTypeSel" id="brdTypeSel" class="input_selectN" style="width:200px; display:${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};">
 												<option value="1">공지</option>
 											    <option value="2">필독</option>
+											    <option value="3">일반 게시물</option>
 											</select>
 										</div>
 									</td>

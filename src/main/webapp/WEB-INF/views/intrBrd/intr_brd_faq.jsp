@@ -13,7 +13,7 @@ function fnSrch(){
 function fnTab(tabNum) {
 	var tabCont = document.getElementsByClassName("tab-content");
 	var tab = document.getElementsByClassName("tab-link");
-	for(i = 1; i <= tabCont.length; i++){
+	for(i = 0; i < tabCont.length; i++){
 		tabCont[i].style.display = "none";
 		tab[i].style.background = "none";
 	}
@@ -35,7 +35,7 @@ function submit(service){
 	ul.tabs{margin: 0px; padding: 0px; list-style: none;}
 	ul.tabs li{background: none;color: #222;display: inline-block;padding: 10px 15px;cursor: pointer;}
 	ul.tabs li.current{background: #ededed;color: #222;}
-	.tab-content{display: none;background: #ededed;padding: 15px;}
+	.tab-content{display: none;background: #ededed;padding: 13px;}
 	.tab-content.current{display: inherit;}
 </style>
 <div id="contentarea" class="l-content">
@@ -74,8 +74,8 @@ function submit(service){
 					</div>
 
 					<ul class="tabs">
-						<li class="tab-link current" onClick="fnTab('1')" data-tab="tab-1">TOP10</li>
-						<li class="tab-link" onClick="fnTab('2')" data-tab="tab-2">전체</li>
+						<li class="tab-link current" onClick="fnTab('0')" data-tab="tab-1">TOP10</li>
+						<li class="tab-link" onClick="fnTab('1')" data-tab="tab-2">전체</li>
 					</ul>
 					
 					<div id="tab-1" class="tab-content current">
@@ -84,11 +84,11 @@ function submit(service){
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
+								<col style="width:15%"/>
+								<col style="width:15%"/>
+								<col style="width:5%"/>
+								<col style="width:5%"/>
+								<col style="width:5%"/>
 							</colgroup>
 							<thead>
 							<tr>
@@ -111,7 +111,7 @@ function submit(service){
 									<td>${top10.hit}</td>
 							</tr>
 					     	</c:forEach>
-					     	<c:if test="${empty list1}">
+					     	<c:if test="${empty top10List}">
 							<tr>
 								<td colspan="10" class="no-data">게시물이 없습니다.</td>
 							</tr>
@@ -144,11 +144,11 @@ function submit(service){
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
-								<col style="width:7%"/>
+								<col style="width:15%"/>
+								<col style="width:15%"/>
+								<col style="width:5%"/>
+								<col style="width:5%"/>
+								<col style="width:5%"/>
 							</colgroup>
 							<thead>
 							<tr>

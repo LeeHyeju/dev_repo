@@ -110,7 +110,7 @@ public class IntrBrdController {
     // 게시판 등록
     @RequestMapping(value = {"/insert"})
     public String insertNoti(IntrBrd intrBrd) {
-    	logger.info("IntrBrdController insert>>>>>>>>{}",intrBrd);
+    	logger.info("IntrBrdController insert");
     	
     	String tblNm = "tb_intr_brd_noti";
     	intrBrd.setBrdCd(service.brdCdMax(tblNm)+1);
@@ -125,6 +125,7 @@ public class IntrBrdController {
 	public String listFaq(Model model, String srch, Criteria cri) {
     	logger.info("IntrBrdController intr_brd_faq");
     	String tblNm = "tb_brd_faq";
+    	srch = (srch == "" ? "" : srch);
     	int count = service.listCount(tblNm, srch);
     	
     	model.addAttribute("faqList", service.listFaq(cri, srch));

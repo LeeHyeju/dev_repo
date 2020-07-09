@@ -43,7 +43,7 @@ public interface IntrBrdMapper {
 	public List<IntrBrd> getBrdType();
 	
 	// FAQ List 조회
-	public List<IntrFaq> getFaq(@Param("cri")Criteria cri, @Param("srch")String srch);
+	public List<IntrFaq> listFaq(@Param("cri")Criteria cri, @Param("srch")String srch);
 	
 	// FAQ top10 조회
 	public List<IntrFaq> top10(Criteria cri);
