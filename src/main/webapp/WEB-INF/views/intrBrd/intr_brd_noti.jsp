@@ -36,7 +36,8 @@ function fnNotiClick(length) {
 }
 </script>
 <style type="text/css">
-	.li {list-style: none; float: left; padding: 6px;}
+	.li {list-style:none; float:left; padding:6px;}
+	.notiTr {text-overflow:ellipsis; overflow:hidden;}
 </style>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -55,8 +56,7 @@ function fnNotiClick(length) {
 						
 				<div class="boardType01_wrap">
 					<form id="srchForm" name="srchForm">
-						<fieldset>
-							<legend>게시판 검색폼</legend>
+						<fieldset> <legend>게시판 검색폼</legend>
 							<div class="boardType01_search">
 								<select name="srchPeriod" id="srchPeriod" class="boardType01_search_select">
 									<option value="0">전체기간</option>
@@ -91,10 +91,10 @@ function fnNotiClick(length) {
 						</div>
 					</form>
 					<c:set var="cols" value="6"/>
-					<table id="boardTable2" class="boardType01_tblList">
+					<table id="boardTable2" class="boardType01_tblList" style=TABLE-layout:fixed>
 						<caption><span class="t-hidden">필독/공지</span></caption>
 						<colgroup>
-							<col style="width:2%"/>
+							<col style="width:4%"/>
 							<col style="width:15%"/>
 							<col style="width:10%"/>
 							<col style="width:5%"/>
@@ -117,10 +117,10 @@ function fnNotiClick(length) {
 						</thead>
 						<tbody>
 						<c:forEach var="noti" items="${notiList}">
-							<tr id="trNoti[${noti.rNum}]" style="display: ${notiChk == false ? '' : 'none'}">
+							<tr id="trNoti[${noti.rNum}]" class="hover" style="display:${notiChk == false ? '' : 'none'};">
 								<td>${noti.brdTypeNm}</td>
-								<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}&regId=${noti.regId}">${noti.brdTl}</a></td>
-								<td>${noti.brdCont}</td>
+								<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}&regId=${noti.regId}"><nobr>${noti.brdTl}</nobr></a></td>
+								<td style="text-overflow : ellipsis;overflow : hidden;"><nobr>${noti.brdCont}</nobr></td>
 								<td>${noti.useYn}</td>
 								<td>${noti.ancmOptnYn}</td>
 								<td class="t-gray">${noti.regId}</td>
@@ -130,16 +130,16 @@ function fnNotiClick(length) {
 				     	</c:forEach>
 						
 						<c:forEach var="post" items="${postList}">
-						<tr>
-							<td>${post.rNum}</td>
-							<td><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}&regId=${post.regId}">${post.brdTl}</a></td>
-							<td>${post.brdCont}</td>
-							<td>${post.useYn}</td>
-							<td>${post.ancmOptnYn}</td>
-							<td class="t-gray">${post.regId}</td>
-							<td><fmt:formatDate value="${post.regDt}" pattern="yyyy.MM.dd"/></td>
-							<td>${post.hit}</td>
-						</tr>
+							<tr class="hover">
+								<td>${post.rNum}</td>
+								<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}&regId=${post.regId}"><nobr>${post.brdTl}</nobr></a></td>
+								<td style="text-overflow : ellipsis;overflow : hidden;"><nobr>${post.brdCont}</nobr></td>
+								<td>${post.useYn}</td>
+								<td>${post.ancmOptnYn}</td>
+								<td class="t-gray">${post.regId}</td>
+								<td><fmt:formatDate value="${post.regDt}" pattern="yyyy.MM.dd"/></td>
+								<td>${post.hit}</td>
+							</tr>
 				     	</c:forEach>
 				     	<c:if test="${empty postList}">
 						<tr>

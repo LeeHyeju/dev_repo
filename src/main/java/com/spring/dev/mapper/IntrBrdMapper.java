@@ -58,7 +58,7 @@ public interface IntrBrdMapper {
 	public void faqDelete(int brdCd);
 	
 	// FAQ 상세 페이지
-	public List<IntrFaq> faqDtl(String brdCd);
+	public IntrFaq faqDtl(String brdCd);
 	
 	// FAQ 등록
 	public void faqInsert(IntrFaq intrFaq);

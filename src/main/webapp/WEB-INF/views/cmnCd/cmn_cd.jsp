@@ -109,7 +109,7 @@ function submit(service){
 
 <style type="text/css">
 	.li {list-style: none; float: left; padding: 6px;}
-	.hover:hover {background-color:#f5f5f5;}
+/* 	.hover:hover {background-color:#f5f5f5;} */
 	.border {border-style: hidden};
 </style>
 <div id="contentarea" class="l-content">

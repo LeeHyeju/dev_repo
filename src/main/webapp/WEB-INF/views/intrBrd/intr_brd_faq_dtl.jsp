@@ -40,7 +40,7 @@ function submit(service){
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeForm" id="writeForm" method="post">
+					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
@@ -87,7 +87,50 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="300" value="${dtl.brdCont}"/>
+											<textarea name="brdCont" id="brdCont" class="input_textN" style="width:300px; height:100px;" maxlength="300">${dtl.brdCont}</textarea>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="useYn" id="useYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.useYn}">${dtl.useYn}</option>
+												<option value="${dtl.useYn=='Y'?'N':'Y'}">${dtl.useYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">작성일</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
+											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">작성자</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
 										</div>
 									</td>
 								</tr>
@@ -96,7 +139,7 @@ function submit(service){
 					</div> <!-- //boardType01_write -->
 						
 					<div class="boardType01_write_btn">
-						<button id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
+						<button type="submit" id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->

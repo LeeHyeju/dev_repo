@@ -125,7 +125,6 @@ public class IntrBrdController {
 	public String listFaq(Model model, String srch, Criteria cri) {
     	logger.info("IntrBrdController intr_brd_faq");
     	String tblNm = "tb_brd_faq";
-    	srch = (srch == "" ? "" : srch);
     	int count = service.listCount(tblNm, srch);
     	
     	model.addAttribute("faqList", service.listFaq(cri, srch));
@@ -139,6 +138,19 @@ public class IntrBrdController {
 		
 		return "intrBrd/intr_brd_faq.page";
 	}
+    
+    // FAQ 상세 페이지
+    @RequestMapping(value = {"/intr_brd_faq_dtl"})
+    public String dtlFaq(Model model, String brdCd, int hit) {
+    	logger.info("IntrBrdController intr_brd_faq_dtl");
+    	String tblNm = "tb_brd_faq";
+    	
+    	// 조회수 증가
+    	service.brdHit(tblNm, brdCd, hit);
+    	model.addAttribute("dtl", service.faqDtl(brdCd));
+    	
+    	return "intrBrd/intr_brd_faq_dtl.page";
+    }
     
     // FAQ 등록 페이지
     @RequestMapping(value = {"/intr_brd_faq_reg"})
@@ -162,19 +174,6 @@ public class IntrBrdController {
        	service.faqDelete(brdCd);
    		return "redirect:/intrBrd/intr_brd_faq";
    	}
-    
-    // FAQ 상세 페이지
-    @RequestMapping(value = {"/intr_brd_faq_dtl"})
-    public String dtlFaq(Model model, String brdCd, int hit) {
-    	logger.info("IntrBrdController intr_brd_faq_dtl");
-    	String tblNm = "tb_brd_faq";
-    	
-    	// 조회수 증가
-    	service.brdHit(tblNm, brdCd, hit);
-    	model.addAttribute("dtl", service.faqDtl(brdCd));
-    	
-    	return "intrBrd/intr_brd_faq_dtl.page";
-    }
     
     // FAQ 등록
     @RequestMapping(value = {"/faqInsert"})

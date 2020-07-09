@@ -78,7 +78,7 @@ public class IntrBrdService {
 		mapper.faqDelete(brdCd);
 	}
 	
-	public List<IntrFaq> faqDtl(String brdCd) {
+	public IntrFaq faqDtl(String brdCd) {
 		return mapper.faqDtl(brdCd);
 	}
 	

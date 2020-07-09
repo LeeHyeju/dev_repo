@@ -35,7 +35,7 @@ function submit(service){
 	ul.tabs{margin: 0px; padding: 0px; list-style: none;}
 	ul.tabs li{background: none;color: #222;display: inline-block;padding: 10px 15px;cursor: pointer;}
 	ul.tabs li.current{background: #ededed;color: #222;}
-	.tab-content{display: none;background: #ededed;padding: 13px;}
+	.tab-content{display: none;background: #ededed;padding: 8px 10px 10px 10px;}
 	.tab-content.current{display: inherit;}
 </style>
 <div id="contentarea" class="l-content">
@@ -58,18 +58,18 @@ function submit(service){
 					<table id="boardTable1" class="boardType01_tblList">
 						<caption><span class="t-hidden">검색</span></caption>
 						<colgroup>
-							<col style="width:10%"/>
+							<col style="width:5%"/>
 							<col style="width:10%"/>
 						</colgroup>
 						<tbody>
 						<tr>
 							<th>검색어</th>
-							<td><input type="text" id="srch" name="srch"></td>
+							<td><input type="text" id="srch" name="srch" style="width:600px"></td>
 						</tr>
 						</tbody>
 					</table>
 					
-					<div class="boardType01_write_btn">
+					<div style="margin-top:10px; text-align:right;">
 						<button type="button" id="btnSrch" onClick="fnSrch()" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 					</div>
 
@@ -80,7 +80,7 @@ function submit(service){
 					
 					<div id="tab-1" class="tab-content current">
 						<c:set var="cols" value="6"/>
-						<table id="boardTable2" class="boardType01_tblList">
+						<table id="boardTable1" class="boardType01_tblList">
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
@@ -118,22 +118,6 @@ function submit(service){
 							</c:if>
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
-						
-						<div class="pagination">
-						  <ul>
-						    <c:if test="${pageMaker.prev}">
-						    	<li class="li"><a href="intr_brd_faq${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
-						    </c:if> 
-						
-						    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						    	<li class="li"><a href="intr_brd_faq${pageMaker.makeQuery(idx)}">${idx}</a></li>
-						    </c:forEach>
-						
-						    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						    	<li class="li"><a href="intr_brd_faq${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
-						    </c:if> 
-						  </ul>
-						</div>
 					</div>
 					
 					<div id="tab-2" class="tab-content">
@@ -178,8 +162,7 @@ function submit(service){
 							</c:if>
 							</tbody>
 						</table> <!-- //boardType01_tblList -->
-						
-						<div class="pagination">
+						<div style="position:relative; padding: 1px; display:block; text-align:center;">
 						  <ul>
 						    <c:if test="${pageMaker.prev}">
 						    	<li class="li"><a href="intr_brd_faq${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
@@ -196,7 +179,7 @@ function submit(service){
 						</div>
 					</div>
 		
-					<div class="boardType01_list_btn">
+					<div style="margin-top:10px; text-align:right;">
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 					</form>	
