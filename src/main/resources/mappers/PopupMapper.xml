@@ -94,7 +94,7 @@
 		INSERT INTO 
 			tb_popup
 				(
-				,popTp 
+				popTp 
 				,popNm 
 				,popImg
 				,popTxt
@@ -159,22 +159,31 @@
 			popIdx = #{popIdx}
 	</delete>
 	
-	<select id="getPopup"  resultType="Popup">
+	<select id="getMainPopup"  resultType="Popup">
 	 <![CDATA[
 		SELECT
-				popIdx 
+				popIdx
 				,popTp 
 				,popNm 
+				,popImg
+				,popTxt
 				,startDt 
 				,endDt 
 				,popUrl 
-				,useYn 
+				,popHeight
+				,popWidth
+				,popX
+				,popY
+				,useYn
+				,popTarget 
+				,regId  
+				,regDt 
 		FROM
-		  	 	tb_popup
+	  	 		tb_popup
 		WHERE  
 				useYn = 'Y'
-			AND #{startDt} <= NOW() 
-			AND	NOW() <= #{endDt}  
+			AND startDt <= NOW() 
+			AND	NOW() <= endDt  
 	]]>
 	</select>
 </mapper>

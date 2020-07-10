@@ -3,62 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<style>
-*{ margin: 0;padding: 0;}
-.pop-layer .pop-container {padding: 20px 25px;}
-.pop-layer p.ctxt {color: #666; line-height: 25px;}
-.pop-layer .btn-r {width: 100%; margin: 10px 0 20px; padding-top: 10px; border-top: 1px solid #DDD; text-align:right;}
-.pop-layer {display: none; position: absolute; top: 50%; left: 50%; width: 410px;height: auto;background-color: #fff; border: 5px solid #3571B5; z-index: 10;}
-.dim-layer {display: none; position: fixed;_position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 100;}
-.dim-layer .dimBg {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: #000; opacity: .5;filter: alpha(opacity=50);}
-.dim-layer .pop-layer {display: block;}
-a.btn-layerClose {display: inline-block;height: 25px;padding: 0 14px 0;border: 1px solid #304a8a;background-color: #3f5a9d;font-size: 13px;color: #fff;line-height: 25px;}
-a.btn-layerClose:hover {border: 1px solid #091940;background-color: #1f326a;color: #fff;}
-.inner-text-color-red *{color:#ff0000 !important}
-</style>
-<script>
-$(document).ready(function() {
-    layer_popup('#layer2', 0, 100);
-  
-    function layer_popup(el, t, l){
-        var $el = $(el);		//레이어의 id를 $el 변수에 저장
-        var point = {top: 0, left: 0};
-        var defaultPoint = true;
-        if (typeof t != 'undefined' && typeof l != 'undefined') {
-        	point = {top: t, left: l};
-        	defaultPoint = false;
-        }
-        var isDim = $el.prev().hasClass('dimBg');	//dimmed 레이어를 감지하기 위한 boolean 변수
-
-        isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
-
-        var $elWidth = ~~($el.outerWidth()),
-            $elHeight = ~~($el.outerHeight()),
-            docWidth = $(document).width(),
-            docHeight = $(document).height();
-
-        // 화면의 중앙에 레이어를 띄운다.
-        if (defaultPoint && ($elHeight < docHeight || $elWidth < docWidth)){
-            $el.css({
-                marginTop: -$elHeight,//-$elHeight /2,
-                marginLeft: -$elWidth/2
-            })
-        } else {
-            $el.css(point);
-        }
-
-        $el.find('a.btn-layerClose').click(function(){
-            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-            return false;
-        });
-
-        $('.layer .dimBg').click(function(){
-            $('.dim-layer').fadeOut();
-            return false;
-        });
-    }
-});       
-</script>
 
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
@@ -165,29 +109,3 @@ $(document).ready(function() {
 		</div> <!-- //subcontent_inner -->
 	</div> <!-- //subcontent_wrap -->
 </div> <!-- //content -->
-
-<div style="height: 300px;"></div>
-	<div class="dim-layer">
-	    <div class="dimBg"></div>
-	    <div id="layer2" class="pop-layer">
-	        <div class="pop-container">
-	            <div class="pop-conts">
-	                <!--content //-->
-	                <p class="ctxt mb20"> 	                
-	                	<dl>
-	                		<dt>할 일</dt>
-	                		<dd>1.레이어 팝업 화면 새로고침 시 띄우기</dd>
-	                		<dd>2.팝업 상태 종료이면 테이블 행 색깔 회색으로 변경 </dd>
-	                	</dl>
-	                </p>
-					<!-- ul/li 태그 : 일반적인 열거형 리스트 
-						ol/li 태그 : 리스트에 번호가 매겨져야 하는 경우 
-						dl/dt/dd 태그 : 리스트에 제목이 들어가야 하는 경우 -->
-	                <div class="btn-r">
-	                    <a href="#" class="btn-layerClose">Close</a>
-	                </div>
-	                <!--// content-->
-	            </div>
-	        </div>
-	    </div>
-	</div>
