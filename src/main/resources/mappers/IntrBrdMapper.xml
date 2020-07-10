@@ -140,7 +140,7 @@
 		SELECT MAX(brdCd) FROM ${tblNm}
 	</select>
 	
-	<select id="getBrdType" resultType="IntrBrd">
+	<select id="getBrdTypeBrd" resultType="IntrBrd">
 		SELECT DISTINCT brdType, brdTypeNm
 		FROM tb_intr_brd_noti
 	</select>
@@ -150,7 +150,7 @@
 		SELECT   faq.*
 		FROM(
 			SELECT   tb_brd_faq.*
-   					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.brdCd ASC) AS rNum
+   					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.regDt DESC) AS rNum
 			FROM tb_brd_faq
 			WHERE 1=1
 	]]>
@@ -160,6 +160,15 @@
 					OR brdCont = like CONCAT('%', #{srch}, '%')
 					OR regId = like CONCAT('%', #{srch}, '%')
 				</if>
+				<if test="srch == 'brdTl'.toString()">
+	                OR brdTl = like CONCAT('%', #{srch}, '%')
+	            </if>
+	            <if test="srch == 'brdCont'.toString()">
+	                OR brdCont = like CONCAT('%', #{srch}, '%')
+	            </if>
+	            <if test="srch == 'regId'.toString()">
+	                OR regId = like CONCAT('%', #{srch}, '%')
+	            </if>
 			</if>
 	<![CDATA[
 		) faq
@@ -189,6 +198,15 @@
 				OR brdCont = like CONCAT('%', #{srch}, '%')
 				OR regId = like CONCAT('%', #{srch}, '%')
 			</if>
+			<if test="srch == 'brdTl'.toString()">
+                OR brdTl = like CONCAT('%', #{srch}, '%')
+            </if>
+            <if test="srch == 'brdCont'.toString()">
+                OR brdCont = like CONCAT('%', #{srch}, '%')
+            </if>
+            <if test="srch == 'regId'.toString()">
+                OR regId = like CONCAT('%', #{srch}, '%')
+            </if>
 		</if>
 	</select>
 	
@@ -213,25 +231,34 @@
 	    WHERE brdCd = #{brdCd}
 	</select>
 	
+	<select id="getBrdTypeFaq" resultType="IntrFaq">
+		SELECT DISTINCT brdType, brdTypeNm
+		FROM tb_brd_faq
+	</select>
+	
 	<insert id="faqInsert" parameterType="IntrFaq">
 		INSERT INTO 
 			tb_brd_faq (
 				 brdCd
 				,brdType
+				,brdTypeNm
 				,brdTl
 				,brdCont
 				,regId
 				,regDt
 				,useYn
+				,hit
 			)
 		VALUES (
 				 #{brdCd}
 				,#{brdType}
+				,#{brdTypeNm}
 				,#{brdTl}
 				,#{brdCont}
 				,#{regId}
 				,now()
 				,#{useYn}
+				,'0'
 		)
 	</insert>
 </mapper>

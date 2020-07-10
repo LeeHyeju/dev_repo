@@ -67,12 +67,14 @@ public class IntrBrdController {
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
     	
-    	// dtl 세팅
+    	// 유형 세팅
     	IntrBrd dtl = service.dtl(brdCd);
-    	List<IntrBrd> type = service.getBrdType();
+    	List<IntrBrd> type = service.getBrdTypeBrd();
     	type.remove(dtl.getBrdType()-1);
-    	model.addAttribute("dtl", dtl);
     	model.addAttribute("type", type);
+
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
     	
     	// authCd 가져오기
     	model.addAttribute("authCd", adminService.selectAuthCd(regId));
@@ -147,7 +149,15 @@ public class IntrBrdController {
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
-    	model.addAttribute("dtl", service.faqDtl(brdCd));
+
+    	// 유형 세팅
+    	IntrFaq dtl = service.faqDtl(brdCd);
+    	List<IntrFaq> type = service.getBrdTypeFaq();
+    	type.remove(dtl.getBrdType()-1);
+    	model.addAttribute("type", type);
+    	
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
     	
     	return "intrBrd/intr_brd_faq_dtl.page";
     }

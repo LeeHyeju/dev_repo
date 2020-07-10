@@ -40,7 +40,7 @@ public interface IntrBrdMapper {
 	public int brdCdMax(@Param("tblNm")String tblNm);
 	
 	// 게시물 유형 List 조회
-	public List<IntrBrd> getBrdType();
+	public List<IntrBrd> getBrdTypeBrd();
 	
 	// FAQ List 조회
 	public List<IntrFaq> listFaq(@Param("cri")Criteria cri, @Param("srch")String srch);
@@ -59,6 +59,9 @@ public interface IntrBrdMapper {
 	
 	// FAQ 상세 페이지
 	public IntrFaq faqDtl(String brdCd);
+
+	// 게시물 유형 List 조회
+	public List<IntrFaq> getBrdTypeFaq();
 	
 	// FAQ 등록
 	public void faqInsert(IntrFaq intrFaq);

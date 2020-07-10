@@ -53,8 +53,8 @@ public class IntrBrdService {
 		return mapper.brdCdMax(tblNm);
 	}
 
-	public List<IntrBrd> getBrdType() {
-		return mapper.getBrdType();
+	public List<IntrBrd> getBrdTypeBrd() {
+		return mapper.getBrdTypeBrd();
 	}
 	
 	// FAQ
@@ -80,6 +80,10 @@ public class IntrBrdService {
 	
 	public IntrFaq faqDtl(String brdCd) {
 		return mapper.faqDtl(brdCd);
+	}
+	
+	public List<IntrFaq> getBrdTypeFaq() {
+		return mapper.getBrdTypeFaq();
 	}
 	
 	public void faqInsert(IntrFaq intrFaq) {

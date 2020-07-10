@@ -41,12 +41,13 @@ function submit(service){
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
 					<form name="writeForm" id="writeForm">
+					<input type="hidden" name="hit" id="hit" value="${dtl.hit}"/>
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
-								<col style="width:20%;" />
+								<col style="width:20%;"/>
 							</colgroup>
 							<tbody>
 								<tr> 
@@ -59,7 +60,10 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<option value="${dtl.brdType}">${dtl.brdType}</option>
+												<option value="${dtl.brdType}">${dtl.brdTypeNm}</option>
+											      <c:forEach var="type" items="${type}">
+											         <option value="${type.brdType}">${type.brdTypeNm}</option>
+											      </c:forEach>
 											</select>
 										</div>
 									</td>

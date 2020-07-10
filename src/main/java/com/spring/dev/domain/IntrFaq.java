@@ -4,7 +4,8 @@ import java.util.Date;
 
 public class IntrFaq {
 	private int brdCd;
-	private String brdType;
+	private int brdType;
+	private String brdTypeNm;
 	private String brdTl;
 	private String brdCont;
 	private String regId;
@@ -26,11 +27,17 @@ public class IntrFaq {
 	public void setBrdCd(int brdCd) {
 		this.brdCd = brdCd;
 	}
-	public String getBrdType() {
+	public int getBrdType() {
 		return brdType;
 	}
-	public void setBrdType(String brdType) {
+	public void setBrdType(int brdType) {
 		this.brdType = brdType;
+	}
+	public String getBrdTypeNm() {
+		return brdTypeNm;
+	}
+	public void setBrdTypeNm(String brdTypeNm) {
+		this.brdTypeNm = brdTypeNm;
 	}
 	public String getBrdTl() {
 		return brdTl;
@@ -70,8 +77,8 @@ public class IntrFaq {
 	}
 	@Override
 	public String toString() {
-		return "IntrFaq [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTl=" + brdTl + ", brdCont=" + brdCont
-				+ ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", hit=" + hit + ", rNum=" + rNum
-				+ "]";
+		return "IntrFaq [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm + ", brdTl=" + brdTl
+				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", hit=" + hit
+				+ ", rNum=" + rNum + "]";
 	}
 }

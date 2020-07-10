@@ -84,8 +84,8 @@ function submit(service){
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:15%"/>
-								<col style="width:15%"/>
+								<col style="width:8%"/>
+								<col style="width:20%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
@@ -104,7 +104,7 @@ function submit(service){
 							<c:forEach var="top10" items="${top10List}">
 							<tr>
 									<td>${top10.rNum}</td>
-									<td>${top10.brdType}</td>
+									<td>${top10.brdTypeNm}</td>
 									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${top10.brdCd}&hit=${top10.hit}">${top10.brdTl}</a></td>
 									<td><fmt:formatDate value="${top10.regDt}" pattern="yyyy.MM.dd"/></td>
 									<td class="t-gray">${top10.regId}</td>
@@ -128,8 +128,8 @@ function submit(service){
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:15%"/>
-								<col style="width:15%"/>
+								<col style="width:8%"/>
+								<col style="width:20%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
@@ -148,7 +148,7 @@ function submit(service){
 							<c:forEach var="faq" items="${faqList}">
 							<tr>
 									<td>${faq.rNum}</td>
-									<td>${faq.brdType}</td>
+									<td>${faq.brdTypeNm}</td>
 									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${faq.brdCd}&hit=${faq.hit}">${faq.brdTl}</a></td>
 									<td><fmt:formatDate value="${faq.regDt}" pattern="yyyy.MM.dd"/></td>
 									<td class="t-gray">${faq.regId}</td>
