@@ -6,11 +6,47 @@
 <script>
 /*저장*/
 function fnSave(){
-	 submit('faqSave');
+	 $("#writeForm").validate({
+	        //규칙
+	        rules: {
+	        	brdTl: {
+	                 required 	: true
+	                ,maxlength 	: 100
+	            }
+	    		,brdCont: {
+	    			required 	: true
+	               ,maxlength 	: 300
+	            }
+	        },
+	        //규칙체크 실패시 출력될 메시지
+	        messages : {
+	        	brdTl: {
+	                 required 	: "필수로입력하세요"
+	                ,maxlength 	: "최대 {100}글자까지 입력하세요"
+	            }
+		        ,brdCont: {
+		        	required 	: "필수로입력하세요"
+	               ,maxlength 	: "최대 {300}글자까지 입력하세요"
+		        }
+	        },
+	        // validation이 끝난 이후의 submit 직전 추가 작업할 부분
+	        submitHandler: function(form) {
+	        	if(confirm("저장하시겠습니까?") == true){
+		        	// 저장
+	        		submit('faqSave');
+	        	}
+	        },
+	       	// jquery validate 로 사용하기 힘든 validation 체크
+	        invalidHandler: function(form, validator) {
+	        }
+	    });
 }
 /*삭제*/
 function fnDel(){
-	 submit('faqDel');
+	if(confirm("삭제하시겠습니까?") == true){
+    	// 삭제
+		submit('faqDel');
+	}
 }
 /*submit*/
 function submit(service){

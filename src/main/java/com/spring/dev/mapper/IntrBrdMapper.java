@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
+import com.spring.dev.domain.IntrGal;
 import com.spring.dev.domain.SearchKey;
 
 @Repository(value = "IntrBrdMapper")
@@ -65,4 +66,13 @@ public interface IntrBrdMapper {
 	
 	// FAQ 등록
 	public void faqInsert(IntrFaq intrFaq);
+	
+	// 갤러리 List 조회
+	public List<IntrGal> listGal(@Param("cri")Criteria cri, @Param("srch")String srch);
+	
+	// 갤러리 유형 List 조회
+	public List<IntrGal> getBrdTypeGal();
+	
+	// 갤러리 등록
+	public void galInsert(IntrGal intrGal);
 }

@@ -261,4 +261,68 @@
 				,'0'
 		)
 	</insert>
+	
+	<select id="listGal" resultType="IntrGal">
+	<![CDATA[
+		SELECT   gal.*
+		FROM(
+			SELECT   tb_brd_gal.*
+   					,ROW_NUMBER() OVER(ORDER BY tb_brd_gal.regDt DESC) AS rNum
+			FROM tb_brd_gal
+			WHERE 1=1
+	]]>
+			<if test="srch != null">
+            	<if test="srch == 'all'.toString()">
+					OR brdTl = like CONCAT('%', #{srch}, '%')
+					OR brdCont = like CONCAT('%', #{srch}, '%')
+					OR regId = like CONCAT('%', #{srch}, '%')
+				</if>
+				<if test="srch == 'brdTl'.toString()">
+	                OR brdTl = like CONCAT('%', #{srch}, '%')
+	            </if>
+	            <if test="srch == 'brdCont'.toString()">
+	                OR brdCont = like CONCAT('%', #{srch}, '%')
+	            </if>
+	            <if test="srch == 'regId'.toString()">
+	                OR regId = like CONCAT('%', #{srch}, '%')
+	            </if>
+			</if>
+	<![CDATA[
+		) gal
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	]]>
+	</select>
+	
+	<select id="getBrdTypeGal" resultType="IntrGal">
+		SELECT DISTINCT brdType, brdTypeNm
+		FROM tb_brd_gal
+	</select>
+	
+	<insert id="galInsert" parameterType="IntrGal">
+		INSERT INTO 
+			tb_brd_gal (
+				 brdCd
+				,brdType
+				,brdTypeNm
+				,brdTl
+				,brdCont
+				,regId
+				,regDt
+				,useYn
+				,hit
+				,img
+			)
+		VALUES (
+				 #{brdCd}
+				,#{brdType}
+				,#{brdTypeNm}
+				,#{brdTl}
+				,#{brdCont}
+				,#{regId}
+				,now()
+				,#{useYn}
+				,'0'
+				,#{img}
+		)
+	</insert>
 </mapper>
