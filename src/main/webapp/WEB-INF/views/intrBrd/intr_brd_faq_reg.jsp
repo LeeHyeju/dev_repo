@@ -4,15 +4,66 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script>
+//validation 체크 & 등록
+$(document).ready(function(){
+    $("#writeForm").validate({
+        //규칙
+        rules: {
+        	brdTl: {
+                 required 	: true
+                ,maxlength 	: 100
+            }
+    		,brdCont: {
+    			required 	: true
+               ,maxlength 	: 300
+            }
+		    ,useYn: {
+		    	required 	: true
+		    }
+        },
+        //규칙체크 실패시 출력될 메시지
+        messages : {
+        	brdTl: {
+                 required 	: "필수로입력하세요"
+                ,maxlength 	: "최대 {100}글자까지 입력하세요"
+            }
+	        ,brdCont: {
+	        	required 	: "필수로입력하세요"
+               ,maxlength 	: "최대 {300}글자까지 입력하세요"
+	        }
+	        ,useYn: {
+	        	required 	: "필수로선택하세요"
+	        }
+        },
+     	// error 표시 위치 변경
+        errorPlacement : function(error, element) {
+        	if(element.is(":radio")) {
+        		element.parent().after(error);
+        	}else{
+        		element.after(error);
+        	}
+        },
+        // validation이 끝난 이후의 submit 직전 추가 작업할 부분
+        submitHandler: function(form) {
+        	if(confirm("등록하시겠습니까?") == true){
+	        	// 등록
+        		fnInsert();
+        	}
+        },
+       	// jquery validate 로 사용하기 힘든 validation 체크
+        invalidHandler: function(form, validator) {
+        }
+    });
+});
 /*등록*/
-function fnReg(){
-	 submit('intr_brd_faq_insert');
-}
-
-function submit(service){
+function fnInsert() {
+	var brdType = document.getElementById("brdType").value;
+	var brdTypeNm = brdType == '1' ? '대출' : (brdType == '2' ? '서비스' : '기타');
+	document.getElementById("brdTypeNm").value = brdTypeNm;
+	
 	var form = document.getElementById("writeForm");
     form.method = "get";
-    form.action = "<c:url value='/intrBrd/" + service + "'/>";
+    form.action = "<c:url value='/intrBrd/faqInsert'/>";
     form.submit();
 }
 </script>
@@ -38,8 +89,9 @@ function submit(service){
 					
 					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}"/>
+					<input type="hidden" name="brdTypeNm" id="brdTypeNm"/>
 					<div class="boardType01_write">
-						<table cellspacing="0" class="boardType01_tbl">
+						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;"/>
@@ -49,12 +101,16 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">질문유형</label>
+											<label for="">유형</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdType" id="brdType" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardTitle}"/>
+											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
+												<option value="1">대출</option>
+											    <option value="2">서비스</option>
+											    <option value="3">기타</option>
+											</select>
 										</div>
 									</td>
 								</tr>
@@ -67,7 +123,23 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardTitle}"/>
+											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="100" value="${dtl.boardTitle}"/>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="radio" name="useYn" id="useY" class="input_group" style="width:50px;" value="Y">
+											<label for="useYn">사용</label>
+											<input type="radio" name="useYn" id="useN" class="input_group" style="width:50px;" value="N">
+											<label for="useYn">미사용</label>
 										</div>
 									</td>
 								</tr>
@@ -80,19 +152,19 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdCont" id="brdCont" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.boardContent}" />
+											<textarea name="brdCont" id="brdCont" class="input_textN" style="width:300px; height:100px;" maxlength="300"></textarea>
 										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
-					</form>
 						
 					<div class="boardType01_write_btn">
-						<button id="btnReg" onClick="fnReg()" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></button>
+						<button type="submit" id="btnReg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq" class="btnTxt btnTxt_normal btnTxt_dark"><span>취소</span></a>
 					</div> <!-- //boardType01_write_btn -->
+					</form>
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->

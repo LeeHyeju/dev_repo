@@ -5,6 +5,34 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
+$(document).ready(function(){
+	// 현재 URL
+    var url = document.location.href;
+    // 파라미터가 담길 배열
+    var param = new Array();
+    
+    if(url.indexOf('?') != -1){
+	    // url에서 '?' 문자 이후의 파라미터 문자열까지 자르기
+	    var params = url.substring(url.indexOf('?')+1, url.length);
+	    // 파라미터 구분자("&") 로 분리
+	    params = params.split("&");
+	    // params 배열을 다시 "=" 구분자로 분리하여 param 배열에 key = value 로 담는다.
+	    var key, value;
+	    var tabCont = document.getElementsByClassName("tab-content");
+		var tab = document.getElementsByClassName("tab-link")
+	    for(var i=0 ; i < params.length ; i++) {
+	        key = params[i].split("=")[0];
+	        value = params[i].split("=")[1];
+	   
+	        if(key == 'page' || (key == 'srch' && value != "")){
+	        	tabCont[0].style.display = "none";
+	    		tab[0].style.background = "none";
+	        	tabCont[1].style.display = "inherit";
+	        	tab[1].style.background = "#ededed";
+	        }
+	    }
+    }
+});
 /*검색어 찾기*/
 function fnSrch(){
 	submit('intr_brd_faq');
@@ -84,8 +112,8 @@ function submit(service){
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:15%"/>
-								<col style="width:15%"/>
+								<col style="width:8%"/>
+								<col style="width:20%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
@@ -102,9 +130,9 @@ function submit(service){
 							</thead>
 							<tbody>
 							<c:forEach var="top10" items="${top10List}">
-							<tr>
+							<tr class="hover">
 									<td>${top10.rNum}</td>
-									<td>${top10.brdType}</td>
+									<td>${top10.brdTypeNm}</td>
 									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${top10.brdCd}&hit=${top10.hit}">${top10.brdTl}</a></td>
 									<td><fmt:formatDate value="${top10.regDt}" pattern="yyyy.MM.dd"/></td>
 									<td class="t-gray">${top10.regId}</td>
@@ -122,14 +150,13 @@ function submit(service){
 					
 					<div id="tab-2" class="tab-content">
 						<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
-						
 						<c:set var="cols" value="6"/>
 						<table id="boardTable2" class="boardType01_tblList">
 							<caption><span class="t-hidden">질문형</span></caption>
 							<colgroup>
 								<col style="width:2%"/>
-								<col style="width:15%"/>
-								<col style="width:15%"/>
+								<col style="width:8%"/>
+								<col style="width:20%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
 								<col style="width:5%"/>
@@ -146,9 +173,9 @@ function submit(service){
 							</thead>
 							<tbody>
 							<c:forEach var="faq" items="${faqList}">
-							<tr>
+							<tr class="hover">
 									<td>${faq.rNum}</td>
-									<td>${faq.brdType}</td>
+									<td>${faq.brdTypeNm}</td>
 									<td><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${faq.brdCd}&hit=${faq.hit}">${faq.brdTl}</a></td>
 									<td><fmt:formatDate value="${faq.regDt}" pattern="yyyy.MM.dd"/></td>
 									<td class="t-gray">${faq.regId}</td>

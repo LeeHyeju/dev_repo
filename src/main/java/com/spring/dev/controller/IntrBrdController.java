@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
+import com.spring.dev.domain.IntrGal;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchKey;
 import com.spring.dev.service.AdminService;
@@ -67,12 +68,14 @@ public class IntrBrdController {
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
     	
-    	// dtl 세팅
+    	// 유형 세팅
     	IntrBrd dtl = service.dtl(brdCd);
-    	List<IntrBrd> type = service.getBrdType();
+    	List<IntrBrd> type = service.getBrdTypeBrd();
     	type.remove(dtl.getBrdType()-1);
-    	model.addAttribute("dtl", dtl);
     	model.addAttribute("type", type);
+
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
     	
     	// authCd 가져오기
     	model.addAttribute("authCd", adminService.selectAuthCd(regId));
@@ -147,7 +150,15 @@ public class IntrBrdController {
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
-    	model.addAttribute("dtl", service.faqDtl(brdCd));
+
+    	// 유형 세팅
+    	IntrFaq dtl = service.faqDtl(brdCd);
+    	List<IntrFaq> type = service.getBrdTypeFaq();
+    	type.remove(dtl.getBrdType()-1);
+    	model.addAttribute("type", type);
+    	
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
     	
     	return "intrBrd/intr_brd_faq_dtl.page";
     }
@@ -178,7 +189,7 @@ public class IntrBrdController {
     // FAQ 등록
     @RequestMapping(value = {"/faqInsert"})
 	public String insertFaq(Model model, IntrFaq intrFaq) {
-    	logger.info("IntrBrdController intr_brd_brd_insert");
+    	logger.info("IntrBrdController faqInsert");
     	String tblNm = "tb_brd_faq";
     	intrFaq.setBrdCd(service.brdCdMax(tblNm)+1);
     	
@@ -187,10 +198,60 @@ public class IntrBrdController {
 	}
     
     /**************************** 공 통 게 시 판 (Gallery) *******************************************/
-    // 갤러리 페이지
+    // 갤러리 페이지 (List 셋팅)
     @RequestMapping(value = {"/intr_brd_gal"})
-	public String listGal() {
+	public String listGal(Model model, String srch, Criteria cri) {
     	logger.info("IntrBrdController intr_brd_gal");
+    	String tblNm = "tb_brd_gal";
+    	int count = service.listCount(tblNm, srch);
+    	
+    	model.addAttribute("list", service.listGal(cri, srch));
+    	model.addAttribute("count", count);
+    	
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "intrBrd/intr_brd_gal.page";
+	}
+    
+    // 갤러리 상세 페이지
+    @RequestMapping(value = {"/intr_brd_gal_dtl"})
+    public String dtlGal(Model model, String brdCd, int hit) {
+    	logger.info("IntrBrdController intr_brd_gal_dtl");
+    	String tblNm = "tb_brd_gal";
+    	
+    	// 조회수 증가
+    	service.brdHit(tblNm, brdCd, hit);
+
+    	// 유형 세팅
+    	IntrFaq dtl = service.faqDtl(brdCd);
+    	List<IntrGal> type = service.getBrdTypeGal();
+    	type.remove(dtl.getBrdType()-1);
+    	model.addAttribute("type", type);
+    	
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
+    	
+    	return "intrBrd/intr_brd_gal_dtl.page";
+    }
+    
+    // 갤러리 등록 페이지
+    @RequestMapping(value = {"/intr_brd_gal_reg"})
+	public String regGal() {
+    	logger.info("IntrBrdController intr_brd_gal_reg");
+		return "intrBrd/intr_brd_gal_reg.page";
+	}
+    
+    // 갤러리 등록
+    @RequestMapping(value = {"/galInsert"})
+	public String insertGal(Model model, IntrGal intrGal) {
+    	logger.info("IntrBrdController galInsert");
+    	String tblNm = "tb_brd_gal";
+    	intrGal.setBrdCd(service.brdCdMax(tblNm)+1);
+    	
+    	service.galInsert(intrGal);
+		return "redirect:/intrBrd/intr_brd_gal";
 	}
 }

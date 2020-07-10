@@ -2,7 +2,7 @@ package com.spring.dev.domain;
 
 import java.util.Date;
 
-public class IntrFaq {
+public class IntrGal {
 	private int brdCd;
 	private int brdType;
 	private String brdTypeNm;
@@ -12,6 +12,7 @@ public class IntrFaq {
 	private Date regDt;
 	private String useYn;
 	private int hit;
+	private String img;
 	
 	private String rNum;
 	public String getrNum() {
@@ -75,10 +76,16 @@ public class IntrFaq {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
 	@Override
 	public String toString() {
-		return "IntrFaq [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm + ", brdTl=" + brdTl
+		return "IntrGal [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm + ", brdTl=" + brdTl
 				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", hit=" + hit
-				+ ", rNum=" + rNum + "]";
+				+ ", img=" + img + ", rNum=" + rNum + "]";
 	}
 }

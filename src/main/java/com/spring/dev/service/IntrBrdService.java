@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
+import com.spring.dev.domain.IntrGal;
 import com.spring.dev.domain.SearchKey;
 import com.spring.dev.mapper.IntrBrdMapper;
 
@@ -53,8 +54,8 @@ public class IntrBrdService {
 		return mapper.brdCdMax(tblNm);
 	}
 
-	public List<IntrBrd> getBrdType() {
-		return mapper.getBrdType();
+	public List<IntrBrd> getBrdTypeBrd() {
+		return mapper.getBrdTypeBrd();
 	}
 	
 	// FAQ
@@ -82,7 +83,24 @@ public class IntrBrdService {
 		return mapper.faqDtl(brdCd);
 	}
 	
+	public List<IntrFaq> getBrdTypeFaq() {
+		return mapper.getBrdTypeFaq();
+	}
+	
 	public void faqInsert(IntrFaq intrFaq) {
 		mapper.faqInsert(intrFaq);
+	}
+	
+	// 갤러리
+	public List<IntrGal> listGal(Criteria cri, String srch) {
+		return mapper.listGal(cri, srch);
+	}
+	
+	public List<IntrGal> getBrdTypeGal() {
+		return mapper.getBrdTypeGal();
+	}
+	
+	public void galInsert(IntrGal intrGal) {
+		mapper.galInsert(intrGal);
 	}
 }
