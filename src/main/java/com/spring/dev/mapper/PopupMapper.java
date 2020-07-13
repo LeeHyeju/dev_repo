@@ -1,5 +1,6 @@
 package com.spring.dev.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -22,5 +23,7 @@ public interface PopupMapper {
 	public void updatePopup(Popup popup);
 	
 	public void deletePopup(int popIdx);
+	
+	public List<Popup> getMainPopup();
 
 }

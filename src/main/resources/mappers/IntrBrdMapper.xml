@@ -124,7 +124,9 @@
 		
 	<update id="update" parameterType="IntrBrd">
 		UPDATE tb_intr_brd_noti
-		SET	 brdTl = #{brdTl}
+		SET	 brdType = #{brdType}
+			,brdTypeNm = #{brdTypeNm}
+			,brdTl = #{brdTl}
 			,brdCont = #{brdCont}
 			,ancmOptnYn = #{ancmOptnYn}
 		WHERE brdCd = #{brdCd}
@@ -213,6 +215,7 @@
 	<update id="faqUpdate" parameterType="IntrFaq">
 		UPDATE tb_brd_faq
 		SET	 brdType = #{brdType}
+			,brdTypeNm = #{brdTypeNm}
 			,brdTl = #{brdTl}
 			,brdCont = #{brdCont}
 			,useYn = #{useYn}
@@ -292,6 +295,29 @@
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
 	]]>
 	</select>
+	
+	<select id="galDtl" resultType="IntrGal" parameterType="String">
+	    SELECT *
+	    FROM tb_brd_gal
+	    WHERE brdCd = #{brdCd}
+	</select>
+	
+	<update id="updateGal" parameterType="IntrGal">
+		UPDATE tb_brd_gal
+		SET	 brdType = #{brdType}
+			,brdTypeNm = #{brdTypeNm}
+			,brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,useYn = #{useYn}
+			,img = #{img}
+		WHERE brdCd = #{brdCd}
+	</update>
+	
+	<delete id="deleteGal" parameterType="int">
+		DELETE 
+		FROM tb_brd_gal
+		WHERE brdCd = #{brdCd}
+	</delete>
 	
 	<select id="getBrdTypeGal" resultType="IntrGal">
 		SELECT DISTINCT brdType, brdTypeNm

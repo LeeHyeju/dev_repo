@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class Popup {
+public class Popup extends ModelObject {
 	
 	private int popIdx;
 	private String popTp;
@@ -25,7 +25,6 @@ public class Popup {
 	private String regId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDt;
-	
 	
 	public int getPopIdx() {
 		return popIdx;
@@ -124,12 +123,4 @@ public class Popup {
 		this.regDt = regDt;
 	}
 	
-	
-	@Override
-	public String toString() {
-		return "Popup [popIdx=" + popIdx + ", popTp=" + popTp + ", popNm=" + popNm + ", popImg=" + popImg + ", popTxt="
-				+ popTxt + ", StartDt=" + StartDt + ", endDt=" + endDt + ", popUrl=" + popUrl + ", useYn=" + useYn
-				+ ", popHeight=" + popHeight + ", popWidth=" + popWidth + ", popX=" + popX + ", popY=" + popY
-				+ ", popTarget=" + popTarget + ", regId=" + regId + ", regDt=" + regDt + "]";
-	}
 }

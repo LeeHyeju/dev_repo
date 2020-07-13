@@ -31,7 +31,6 @@
 							    </select>
 								<input type="text" name="keyword" id="keyword" class="boardType01_search_input" value="${keyword}"/><button type="submit">
 								<img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
-								 
 							</div> <!-- //boardType01_search -->
 						</fieldset>
 					</form>

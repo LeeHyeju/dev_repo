@@ -70,6 +70,15 @@ public interface IntrBrdMapper {
 	// 갤러리 List 조회
 	public List<IntrGal> listGal(@Param("cri")Criteria cri, @Param("srch")String srch);
 	
+	// 갤러리 상세 페이지
+	public IntrGal galDtl(String brdCd);
+	
+	// 갤러리 업데이트
+	public void updateGal(IntrGal intrGal);
+	
+	// 갤러리 삭제
+	public void deleteGal(int brdCd);
+	
 	// 갤러리 유형 List 조회
 	public List<IntrGal> getBrdTypeGal();
 	

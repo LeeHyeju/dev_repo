@@ -46,25 +46,52 @@ $(document).ready(function() {
 					<table id="boardTable2" class="boardType01_tblList">
 						<caption><span class="t-hidden">갤러리형</span></caption>
 						<colgroup>
-							<col style="width:2%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
-							<col style="width:7%"/>
+							<col style="width:10%"/>
+							<col style="width:10%"/>
+							<col style="width:10%"/>
 						</colgroup>
 						<thead>
 						<tr>
 							<th>IMAGE</th>
+							<th></th>
+							<th></th>
 						</tr>
 						</thead>
 						<tbody>
+						<%
+							int newLine = 0;
+							int cnt = 0;
+						%>
 						<c:forEach var="gal" items="${list}">
-							<tr>
-								<td><a href="/intrBrd/intr_brd_gal_dtl?brdCd=${gal.brdCd}&hit=${gal.hit}">${gal.img}</a></td>
-							</tr>
+						<%
+							if(newLine==0){
+								out.print("<tr>");
+							}
+							newLine++;
+							cnt++;
+						%>
+								<td><a href="/intrBrd/intr_brd_gal_dtl?brdCd=${gal.brdCd}&hit=${gal.hit}"><img src="${pageContext.request.contextPath}/webapp/WEB-INF/views/intrBrd/kogi.gif" alt="${gal.img}"/>
+								<br>${gal.img}</a></td>
+				     	<%
+							if(newLine==3){
+								out.print("</tr>");
+								newLine = 0;
+							}
+						%>
 				     	</c:forEach>
+				     	<%
+				     		cnt = cnt%3;
+				     	
+							for(int i=0; i<=cnt; i++){
+								out.print("<td>");
+								out.print("</td>");
+							}
+							
+					     	if(newLine!=3){
+								out.print("</tr>");
+								newLine = 0;
+							}
+						%>
 				     	<c:if test="${empty list}">
 						<tr>
 							<td colspan="10" class="no-data">게시물이 없습니다.</td>

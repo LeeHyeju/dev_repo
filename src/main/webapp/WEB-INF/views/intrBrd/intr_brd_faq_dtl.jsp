@@ -32,6 +32,10 @@ function fnSave(){
 	        // validation이 끝난 이후의 submit 직전 추가 작업할 부분
 	        submitHandler: function(form) {
 	        	if(confirm("저장하시겠습니까?") == true){
+	        		var brdType = document.getElementById("brdType").value;
+		        	var brdTypeNm = brdType == '1' ? '대출' : (brdType == '2' ? '서비스' : '기타');
+		        	document.getElementById("brdTypeNm").value = brdTypeNm;
+	        	
 		        	// 저장
 	        		submit('faqSave');
 	        	}
@@ -79,6 +83,7 @@ function submit(service){
 					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="hit" id="hit" value="${dtl.hit}"/>
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
+					<input type="hidden" name="brdTypeNm" id="brdTypeNm" value="${dtl.brdTypeNm}"/>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>

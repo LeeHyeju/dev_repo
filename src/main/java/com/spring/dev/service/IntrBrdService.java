@@ -96,6 +96,18 @@ public class IntrBrdService {
 		return mapper.listGal(cri, srch);
 	}
 	
+	public IntrGal galDtl(String brdCd) {
+		return mapper.galDtl(brdCd);
+	}
+	
+	public void updateGal(IntrGal intrGal) {
+		mapper.updateGal(intrGal);
+	}
+	
+	public void deleteGal(int brdCd) {
+		mapper.deleteGal(brdCd);
+	}
+	
 	public List<IntrGal> getBrdTypeGal() {
 		return mapper.getBrdTypeGal();
 	}

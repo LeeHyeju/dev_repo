@@ -32,8 +32,12 @@ function fnSave(){
 	        // validation이 끝난 이후의 submit 직전 추가 작업할 부분
 	        submitHandler: function(form) {
 	        	if(confirm("저장하시겠습니까?") == true){
+		        	var brdType = document.getElementById("brdType").value;
+		        	var brdTypeNm = brdType == '1' ? '대출' : (brdType == '2' ? '서비스' : '기타');
+		        	document.getElementById("brdTypeNm").value = brdTypeNm;
+	        	
 		        	// 저장
-	        		submit('faqSave');
+	        		submit('galSave');
 	        	}
 	        },
 	       	// jquery validate 로 사용하기 힘든 validation 체크
@@ -45,7 +49,7 @@ function fnSave(){
 function fnDel(){
 	if(confirm("삭제하시겠습니까?") == true){
     	// 삭제
-		submit('faqDel');
+		submit('galDel');
 	}
 }
 /*submit*/
@@ -79,6 +83,7 @@ function submit(service){
 					<form name="writeForm" id="writeForm">
 					<input type="hidden" name="hit" id="hit" value="${dtl.hit}"/>
 					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
+					<input type="hidden" name="brdTypeNm" id="brdTypeNm" value="${dtl.brdTypeNm}"/>
 					<div class="boardType01_write">
 						<table class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
@@ -194,7 +199,7 @@ function submit(service){
 					<div class="boardType01_write_btn">
 						<button type="submit" id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
+						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 					</form>
 				</div> <!-- //boardType01_wrap -->

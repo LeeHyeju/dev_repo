@@ -226,7 +226,7 @@ public class IntrBrdController {
     	service.brdHit(tblNm, brdCd, hit);
 
     	// 유형 세팅
-    	IntrFaq dtl = service.faqDtl(brdCd);
+    	IntrGal dtl = service.galDtl(brdCd);
     	List<IntrGal> type = service.getBrdTypeGal();
     	type.remove(dtl.getBrdType()-1);
     	model.addAttribute("type", type);
@@ -236,6 +236,22 @@ public class IntrBrdController {
     	
     	return "intrBrd/intr_brd_gal_dtl.page";
     }
+    
+    // 갤러리 저장
+    @RequestMapping(value = {"/galSave"})
+    public String updateGal(IntrGal intrGal) {
+    	logger.info("IntrBrdController galSave");
+    	service.updateGal(intrGal);
+    	return "redirect:/intrBrd/intr_brd_gal";
+    }
+    
+    // 갤러리 삭제
+    @RequestMapping(value = {"/galDel"})
+   	public String deleteGal(int brdCd) {
+       	logger.info("IntrBrdController galDel");
+       	service.deleteGal(brdCd);
+   		return "redirect:/intrBrd/intr_brd_gal";
+   	}
     
     // 갤러리 등록 페이지
     @RequestMapping(value = {"/intr_brd_gal_reg"})
