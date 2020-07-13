@@ -3,7 +3,7 @@ package com.spring.dev.domain;
 import java.util.Date;
 
 public class IntrGal {
-	private int brdCd;
+	private int brdCd; 
 	private int brdType;
 	private String brdTypeNm;
 	private String brdTl;
