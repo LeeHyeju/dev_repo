@@ -80,6 +80,10 @@ public class IntrBrdController {
     	// authCd 가져오기
     	model.addAttribute("authCd", adminService.selectAuthCd(regId));
     	
+    	// 이전글 다음글 가져오기
+    	model.addAttribute("pri", service.getPriBrdTl(tblNm, brdCd));
+    	model.addAttribute("next", service.getNextBrdTl(tblNm, brdCd));
+    	
     	return "intrBrd/intr_brd_noti_dtl.page";
     }
     
@@ -160,6 +164,10 @@ public class IntrBrdController {
     	// dtl 세팅
     	model.addAttribute("dtl", dtl);
     	
+    	// 이전글 다음글 가져오기
+    	model.addAttribute("pri", service.getPriBrdTl(tblNm, brdCd));
+    	model.addAttribute("next", service.getNextBrdTl(tblNm, brdCd));
+    	
     	return "intrBrd/intr_brd_faq_dtl.page";
     }
     
@@ -233,6 +241,10 @@ public class IntrBrdController {
     	
     	// dtl 세팅
     	model.addAttribute("dtl", dtl);
+    	
+    	// 이전글 다음글 가져오기
+    	model.addAttribute("pri", service.getPriBrdTl(tblNm, brdCd));
+    	model.addAttribute("next", service.getNextBrdTl(tblNm, brdCd));
     	
     	return "intrBrd/intr_brd_gal_dtl.page";
     }

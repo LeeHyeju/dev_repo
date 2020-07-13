@@ -91,7 +91,7 @@ function fnNotiClick(length) {
 						</div>
 					</form>
 					<c:set var="cols" value="6"/>
-					<table id="boardTable2" class="boardType01_tblList" style=TABLE-layout:fixed>
+					<table id="boardTable1" class="boardType01_tblList" style=TABLE-layout:fixed>
 						<caption><span class="t-hidden">필독/공지</span></caption>
 						<colgroup>
 							<col style="width:4%"/>

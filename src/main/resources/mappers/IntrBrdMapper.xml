@@ -351,4 +351,20 @@
 				,#{img}
 		)
 	</insert>
+	
+	<select id="getPriBrdTl" resultType="IntrGal">
+		SELECT * FROM ${tblNm}
+		WHERE brdCd = (
+			SELECT MIN(brdCd) FROM ${tblNm}
+			WHERE brdCd <![CDATA[ > ]]>	 ${brdCd}
+		)
+	</select>
+	
+	<select id="getNextBrdTl" resultType="IntrGal">
+		SELECT * FROM ${tblNm}
+		WHERE brdCd = (
+			SELECT MAX(brdCd) FROM ${tblNm}
+			WHERE brdCd <![CDATA[ < ]]>	 ${brdCd}
+		)
+	</select>
 </mapper>

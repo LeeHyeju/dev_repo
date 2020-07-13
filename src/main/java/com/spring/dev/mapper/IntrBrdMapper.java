@@ -84,4 +84,10 @@ public interface IntrBrdMapper {
 	
 	// 갤러리 등록
 	public void galInsert(IntrGal intrGal);
+	
+	// 이전글 가져오기
+	public IntrGal getPriBrdTl(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd);
+	
+	// 다음글 가져오기
+	public IntrGal getNextBrdTl(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd);
 }

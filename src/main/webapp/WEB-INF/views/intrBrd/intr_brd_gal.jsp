@@ -70,7 +70,7 @@ $(document).ready(function() {
 							newLine++;
 							cnt++;
 						%>
-								<td><a href="/intrBrd/intr_brd_gal_dtl?brdCd=${gal.brdCd}&hit=${gal.hit}"><img src="${pageContext.request.contextPath}/webapp/WEB-INF/views/intrBrd/kogi.gif" alt="${gal.img}"/>
+								<td><a href="/intrBrd/intr_brd_gal_dtl?brdCd=${gal.brdCd}&hit=${gal.hit}"><img src="${pageContext.request.contextPath}/resources/admin/img/intr/kogi.gif" alt="${gal.img}"/>
 								<br>${gal.img}</a></td>
 				     	<%
 							if(newLine==3){

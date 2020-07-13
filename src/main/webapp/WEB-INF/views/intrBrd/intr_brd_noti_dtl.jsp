@@ -86,7 +86,7 @@ function submit(service){
 					<input type="hidden" name="brdTypeNm" id="brdTypeNm" value="${dtl.brdTypeNm}"/>
 <%-- 					<input type="hidden" name="authCd" id="authCd" value="${authCd}"/> --%>
 					<div class="boardType01_write">
-						<table class="boardType01_tbl">
+						<table id="boardTable1" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
 								<col style="width:20%;"/>
@@ -260,6 +260,38 @@ function submit(service){
 						<button id="btnDel" onClick="fnDel()" style="display:${dtl.brdType == '3' || authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
+					
+					<table id="boardTable2" class="boardType01_tblList">
+						<caption><span class="t-hidden">검색</span></caption>
+						<colgroup>
+							<col style="width:5%"/>
+							<col style="width:20%"/>
+						</colgroup>
+						<tbody>
+							<tr class="hover">
+								<c:if test="${not empty pri}">
+									<td>이전글</td>
+									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${pri.brdCd}&hit=${pri.hit}&regId=${pri.regId}"><nobr>${pri.brdTl}</nobr></a></td>
+								</c:if>
+							</tr>
+					     	<c:if test="${empty pri}">
+							<tr style="border-top: 1px solid;">
+								<td colspan="2" class="no-data"><strong>이전 글이 존재하지 않습니다.</strong></td>
+							</tr>
+							</c:if>
+							<tr class="hover">
+								<c:if test="${not empty next}">
+									<td>다음글</td>
+									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${next.brdCd}&hit=${next.hit}&regId=${next.regId}"><nobr>${next.brdTl}</nobr></a></td>
+								</c:if>
+							</tr>
+					     	<c:if test="${empty next}">
+							<tr>
+								<td colspan="2" class="no-data"><strong>다음 글이 존재하지 않습니다.</strong></td>
+							</tr>
+							</c:if>
+					</tbody>
+					</table>
 					</form>
 				</div> <!-- //boardType01_wrap -->
 				

@@ -115,4 +115,12 @@ public class IntrBrdService {
 	public void galInsert(IntrGal intrGal) {
 		mapper.galInsert(intrGal);
 	}
+	
+	public IntrGal getPriBrdTl(String tblNm, String brdCd) {
+		return mapper.getPriBrdTl(tblNm, brdCd);
+	}
+	
+	public IntrGal getNextBrdTl(String tblNm, String brdCd) {
+		return mapper.getNextBrdTl(tblNm, brdCd);
+	}
 }
