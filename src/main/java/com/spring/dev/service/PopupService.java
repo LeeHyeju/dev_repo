@@ -1,17 +1,24 @@
 package com.spring.dev.service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.dev.common.FileUtils;
 import com.spring.dev.domain.Popup;
 import com.spring.dev.domain.SearchCriteria;
 import com.spring.dev.mapper.PopupMapper;
 
 @Service
 public class PopupService {
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
 	
 	@Autowired
 	PopupMapper mapper;
@@ -28,8 +35,13 @@ public class PopupService {
 		return mapper.popupView(popIdx);
 	}
 	
-	public int insertPopup(Popup popup) {
-		return mapper.insertPopup(popup);
+	public void insertPopup( Popup popup, MultipartHttpServletRequest mpRequest) throws Exception {
+		mapper.insertPopup(popup);
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(popup, "tb_popup", "팝업테이블", mpRequest); 
+		for(int i=0, size = list.size(); i<size; i++){ 
+			mapper.insertFile(list.get(i)); 
+		}
 	}
 	
 	public void updatePopup(Popup popup) {
@@ -43,4 +55,9 @@ public class PopupService {
 	public List<Popup> getMainPopup() {
 		return mapper.getMainPopup();
 	}
+	
+	public Popup winPop(int popIdx) {
+		return mapper.winPop(popIdx);
+	}
+	
 }

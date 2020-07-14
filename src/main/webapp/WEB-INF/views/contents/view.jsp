@@ -230,7 +230,7 @@ function fn_delete(){
 						<div class="boardType01_write_btn">
 						<!-- 히스토리 체크박스 만들기 // 체크하면 히스토리 저장되게 -->
 							<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray" onClick="fn_update()"><span>수정</span></button>
-							<button type="submit" id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray" onClick="fn_delete()"><span>삭제</span></button>
+							<button type="submit" id="btn_del" class="btnTxt btnTxt_normal btnTxt_gray" onClick="fn_delete()"><span>삭제</span></button>
 							<a href="${pageContext.request.contextPath}/contents/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 						</div> <!-- //boardType01_write_btn -->
 					</form>

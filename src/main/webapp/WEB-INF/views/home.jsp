@@ -11,6 +11,7 @@
 	.pop-layer {display: none; position: absolute; top: 50%; left: 50%; width: 410px;height: auto;background-color: #fff; border: 5px solid #3571B5; z-index: 10;}
 	.pop-layer .pop-container {position:relative;}
 	.pop-layer .pop-container .pop-conts {margin: 5px 5px 61px 5px;}
+	.pop-layer .pop-container .pop-conts img {width:100%}
 	.pop-layer .pop-header {height: 28px; background: #3571B5;}
 	.pop-layer .pop-header p.ctxt {color: #666; line-height: 28px; color: #fff; font-weight: bold; font-size: 16px}
 	.pop-layer .pop-header .btn-header-close {position: absolute; top: 5px; right: 5px; color: #fff}
@@ -23,6 +24,8 @@
 	.inner-text-color-red *{color:#ff0000 !important}
 </style>
 <script>
+$(document).ready(function() {
+
 function pop(opts) {
 	var defaultOptions = {
 			title: '',
@@ -38,6 +41,8 @@ function pop(opts) {
 	
 	var options = $.extend({}, defaultOptions, opts);
 	
+	console.log('options', options);
+	
 	var $dimLayer = $('div.dim-layer').length > 0 ? $('div.dim-layer') : $('<div class="dim-layer"></div>');
 	var $popLayer = $('<div class="pop-layer"><div class="pop-header"><p class="ctxt"></p><a class="btn-header-close" href="#">X</a></div><div class="pop-container"></div><div class="btn-r"><a href="#" class="btn-layer-close">Close</a></div></div>');
 	var $popConts = $('<div class="pop-conts"></div>');
@@ -46,7 +51,7 @@ function pop(opts) {
 	$dimLayer.data('zindex', zIndex);
 
 	if (options.title) {
-		$('p.ctxt').html(options.title);
+		$popLayer.find( 'p.ctxt').html(options.title);
 	} else {
 		$popLayer.find('.pop-header').hide();
 	}
@@ -58,6 +63,9 @@ function pop(opts) {
 	}
 	
 	$popConts.html(options.content);
+	if (options.img) {
+		$popConts.append('<img src="${pageContext.request.contextPath}/resources/files/' + options.img + '" />');
+	}
 	$popLayer.find('div.pop-container').append($popConts);
 	$dimLayer.append($popLayer);
 	
@@ -68,15 +76,13 @@ function pop(opts) {
 		$popLayer.css({zIndex: zIndex2 + 1});
 		$dimLayer.data('zindex', zIndex2 + 1);
 	});
+	
 	$popLayer.find('a.btn-layer-close,a.btn-header-close').click(function(){
 		if ($dimLayer.find('div.pop-layer').length > 1) {
-			
 		} else {
 			$dimLayer.fadeOut();
 		}
-		
 		$popLayer.remove();
-		
         return false;
     });
 	
@@ -84,52 +90,51 @@ function pop(opts) {
 		$('body').append($dimLayer);
 		$dimLayer.fadeIn();
 	}
-}
+} 
 
-
-$(document).ready(function() {
+	function init() {
 	//model에서 보낸 값을 json형태로 받는다.
-	var list = new Array(); 
 	<c:forEach items="${mainPopup}" var="item">
-		list.push(JSON.parse('${item}'));
-	</c:forEach>
+		var popIdx = "${item.popIdx}";
+		var popTp = "${item.popTp}";
+		var popNm = "${item.popNm}";
+		var popTxt = "${item.popTxt}";
+		var popUrl = "${item.popUrl}";
+		var popWidth = "${item.popWidth}";
+		var popHeight = "${item.popHeight}";
+		var popTarget = "${item.popTarget}";
+		var popX = "${item.popX}";
+		var popY = "${item.popY}";
+		var popImg = "${item.saveFile}";
+		
+		if(popTp == "layer" ) {
+			var opts = {
+					title: popNm,
+					content: popTxt,
+					w: popWidth,
+					h: popHeight,
+					t: popX,
+					l: popY,
+					dimed: true,
+					target: '_'+popTarget,
+					url: popUrl
+			};
 
-	//console.log('zzz', '${mainPopup}');
-	console.log('list: ', list);
-	for (var i = 0; i < list.length; i++) {
-		var popTp = list[i].popTp;
-		var popNm = list[i].popNm;
-		var popTxt = list[i].popTxt;
-		var popUrl = list[i].popUrl;
-		var popWidth = list[i].popWidth;
-		var popHeight = list[i].popHeight;
-		var popTarget = list[i].popTarget;
-		var popX = list[i].popX;
-		var popY = list[i].popY;
-		if(popTp == "layer" || true) {
-			pop({
-				title: popNm,
-				content: popTxt,
-				w: popWidth,
-				h: popHeight,
-				t: popX,
-				l: popY,
-				dimed: true,
-				target: '_'+popTarget,
-				url: popUrl
-			});
-	
-		}else {
-			//alert(list[i]);
-			window.open(popUrl, "_"+popTarget, popNm, "width ="+ popWidth +"px", ",height =" + popHeight+"px", "menubar=no, status=no, toolbar=no");
+			if (popImg) {
+				opts.img = popImg;
+			}
+			pop(opts);
+			
+		} else {
+			// window.open(연결주소, 팝업이름, 팝업옵션);
+			var popWin = window.open(popUrl+"?popIdx="+popIdx, popNm, "menubar=no, status=no, toolbar=no, width="+ popWidth +", height=" + popHeight);
+			if (!popWin) {
+				alert('브라우저 팝업설정을 허용해주세요.');
+			}
 		}
+	</c:forEach>
 	}
 	
-	
-	
-	
-    //layer_popup('#layer2', 0, 100);
-  
     function layer_popup(el, t, l){
         var $el = $(el);		//레이어의 id를 $el 변수에 저장
         var point = {top: 0, left: 0};
@@ -167,6 +172,8 @@ $(document).ready(function() {
             return false;
         });
     }
+    
+    init();
 });       
 </script>
 <div id="contentarea" class="l-content">

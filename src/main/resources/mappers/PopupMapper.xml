@@ -6,17 +6,26 @@
 <select id="getPopupList" resultType="Popup">
 		<![CDATA[
 		SELECT
-				popIdx
-				,popTp 
-				,popNm 
-				,startDt 
-				,endDt 
-				,popUrl 
-				,useYn
-				,regId  
-				,regDt 
+				p.popIdx
+				,p.popTp 
+				,p.popNm 
+				,p.popTxt
+				,p.startDt 
+				,p.endDt 
+				,p.popUrl 
+				,p.popHeight
+				,p.popWidth
+				,p.popX
+				,p.popY
+				,p.useYn
+				,p.popTarget 
+				,p.regId  
+				,p.regDt 
+				,f.saveFile
+				,f.filePath
 		FROM
-		  	 	tb_popup
+		  	 	tb_popup p
+		  	 	LEFT OUTER JOIN tb_file f ON p.popIdx = f.tblIdx
 		WHERE 1=1
 		 ]]>
 		  <if test="cri.searchType != null">
@@ -68,35 +77,36 @@
 	
 	<select id="popupView"  resultType="Popup">
 		SELECT
-				popIdx
-				,popTp 
-				,popNm 
-				,popImg
-				,popTxt
-				,startDt 
-				,endDt 
-				,popUrl 
-				,popHeight
-				,popWidth
-				,popX
-				,popY
-				,useYn
-				,popTarget 
-				,regId  
-				,regDt 
+				p.popIdx
+				,p.popTp 
+				,p.popNm 
+				,p.popTxt
+				,p.startDt 
+				,p.endDt 
+				,p.popUrl 
+				,p.popHeight
+				,p.popWidth
+				,p.popX
+				,p.popY
+				,p.useYn
+				,p.popTarget 
+				,p.regId  
+				,p.regDt 
+				,f.saveFile
+				,f.filePath
 		FROM
-		  	 	tb_popup 
+		  	 	tb_popup p
+		  	 	LEFT OUTER JOIN tb_file f ON p.popIdx = f.tblIdx
 		WHERE  
-				popIdx = #{popIdx} 
+				popIdx = #{popIdx}		
 	</select>
 	
-	<insert id="insertPopup" >
+	<insert id="insertPopup" parameterType="Popup" useGeneratedKeys="true" keyProperty="popIdx">
 		INSERT INTO 
 			tb_popup
 				(
 				popTp 
 				,popNm 
-				,popImg
 				,popTxt
 				,startDt 
 				,endDt 
@@ -114,7 +124,6 @@
 				(
 				#{popTp}
 				,#{popNm}
-				,#{popImg}
 				,#{popTxt}
 				,#{startDt, jdbcType=DATE}
 				,#{endDt, jdbcType=DATE}
@@ -130,22 +139,51 @@
 				)
 	</insert>
 	
+	<insert id="insertFile" parameterType="hashmap"> 
+	<![CDATA[ 
+		INSERT INTO 
+			tb_file 
+				(
+				 fileIdx
+				,tblCd
+				,tblIdx
+				,tblNm
+				,orgnFile
+				,saveFile
+				,fileSize
+				,fileExp
+				,filePath
+				  ) 
+		VALUES 
+				(
+				#{fileIdx}
+				,#{tblCd, jdbcType=VARCHAR}
+				,#{tblIdx}
+				,#{tblNm, jdbcType=VARCHAR}
+				,#{orgnFile}
+				,#{saveFile}
+				,#{fileSize}
+				,#{fileExp}
+				,#{filePath}
+				)
+		 ]]> 
+	</insert>
+	
 	<update id="updatePopup" parameterType="Popup">
 		UPDATE 
 			tb_popup
 		SET	
 			popTp = #{popTp}
 			,popNm = #{popNm}
-			,popImg = #{popImg}
 			,popTxt = #{popTxt}
 			,startDt = #{startDt}
 			,endDt = #{endDt}
 			,popUrl = #{popUrl}
+			,useYn = #{useYn}
 			,popHeight = #{popHeight}
 			,popWidth = #{popWidth}
 			,popX = #{popX}
 			,popY = #{popY}
-			,useYn = #{useYn}
 			,popTarget = #{popTarget}
 		WHERE 
 			popIdx = #{popIdx}
@@ -153,37 +191,54 @@
 	
 	<delete id="deletePopup" parameterType="int">
 		DELETE 
-		FROM 
-			tb_popup
-		WHERE 
-			popIdx = #{popIdx}
+			FROM 
+				tb_popup
+			WHERE 
+				popIdx = #{popIdx}
 	</delete>
 	
 	<select id="getMainPopup"  resultType="Popup">
 	 <![CDATA[
 		SELECT
-				popIdx
-				,popTp 
-				,popNm 
-				,popImg
-				,popTxt
-				,startDt 
-				,endDt 
-				,popUrl 
-				,popHeight
-				,popWidth
-				,popX
-				,popY
-				,useYn
-				,popTarget 
-				,regId  
-				,regDt 
+				p.popIdx
+				,p.popTp 
+				,p.popNm 
+				,p.popTxt
+				,p.startDt 
+				,p.endDt 
+				,p.popUrl 
+				,p.popHeight
+				,p.popWidth
+				,p.popX
+				,p.popY
+				,p.useYn
+				,p.popTarget 
+				,p.regId  
+				,p.regDt 
+				,f.saveFile
+				,f.filePath
 		FROM
-	  	 		tb_popup
+		  	 	tb_popup p
+		  	 	LEFT OUTER JOIN tb_file f ON p.popIdx = f.tblIdx
 		WHERE  
 				useYn = 'Y'
 			AND startDt <= NOW() 
 			AND	NOW() <= endDt  
 	]]>
+	</select>
+	
+	<select id="winPop"  resultType="Popup">
+		SELECT
+				p.popIdx
+				,p.popNm 
+				,p.popTxt
+				,p.popUrl 
+				,f.saveFile
+				,f.filePath
+		FROM
+		  	 	tb_popup p
+		  	 	LEFT OUTER JOIN tb_file f ON p.popIdx = f.tblIdx
+		WHERE  
+				popIdx = #{popIdx}		
 	</select>
 </mapper>

@@ -6,10 +6,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class Popup extends ModelObject {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int popIdx;
 	private String popTp;
 	private String popNm;
-	private String popImg;
 	private String popTxt;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date StartDt; 
@@ -25,6 +26,8 @@ public class Popup extends ModelObject {
 	private String regId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDt;
+	private String saveFile;
+	private String filePath;
 	
 	public int getPopIdx() {
 		return popIdx;
@@ -43,12 +46,6 @@ public class Popup extends ModelObject {
 	}
 	public void setPopNm(String popNm) {
 		this.popNm = popNm;
-	}
-	public String getPopImg() {
-		return popImg;
-	}
-	public void setPopImg(String popImg) {
-		this.popImg = popImg;
 	}
 	public String getPopTxt() {
 		return popTxt;
@@ -121,6 +118,18 @@ public class Popup extends ModelObject {
 	}
 	public void setRegDt(Date regDt) {
 		this.regDt = regDt;
+	}
+	public String getSaveFile() {
+		return saveFile;
+	}
+	public void setSaveFile(String saveFile) {
+		this.saveFile = saveFile;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	
 }
