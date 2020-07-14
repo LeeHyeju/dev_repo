@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.Intr;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.IntrGal;
@@ -13,6 +14,24 @@ import com.spring.dev.domain.SearchKey;
 
 @Repository(value = "IntrBrdMapper")
 public interface IntrBrdMapper {
+	// 생성관리자 List 조회
+	public List<Intr> list(@Param("searchKey")SearchKey searchKey, @Param("cri")Criteria cri);
+	
+	// 생성관리자 List 개수
+	public int mngmListCount(SearchKey searchKey);
+	
+	// 생성관리자 상세 페이지
+	public Intr dtlBrd(String brdCd);
+	
+	// 생성관리자 등록
+	public void insertBrd(Intr intr);
+	
+	// 생성관리자 업데이트
+	public void brdUpdate(Intr intr);
+	
+	// 생성관리자 삭제
+	public void brdDelete(int brdCd);
+	
 	// 게시물 List 조회
 	public List<IntrBrd> postList(@Param("searchKey")SearchKey searchKey, @Param("cri")Criteria cri);
 	

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.Intr;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.IntrGal;
@@ -30,12 +31,72 @@ public class IntrBrdController {
 	AdminService adminService;	
 	
 	/**************************** 공 통 게 시 판 ************************************************/
-	// 공통 게시판 페이지
+	// 공통 게시판 페이지 & 검색
     @RequestMapping(value = {"/intr_brd"})
-	public String listBrd() {
+	public String listBrd(Model model, SearchKey searchKey, Criteria cri) {
     	logger.info("IntrBrdController intr_brd");
+    	int count = service.mngmListCount(searchKey);
+
+    	// List 세팅
+    	model.addAttribute("list", service.list(searchKey, cri));
+    	model.addAttribute("count", count);
+		
+    	PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(count);
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "intrBrd/intr_brd.page";
 	}
+    
+    // 공통 게시판 상세 페이지
+    @RequestMapping(value = {"/intr_brd_dtl"})
+	public String dtlBrd(Model model, String brdCd) {
+    	logger.info("IntrBrdController intr_brd_dtl");
+    	
+    	// 유형 세팅
+    	Intr dtl = service.dtlBrd(brdCd);
+
+    	// dtl 세팅
+    	model.addAttribute("dtl", dtl);
+    	
+		return "intrBrd/intr_brd_dtl.page";
+	}
+    
+    // 공통 게시판 저장
+    @RequestMapping(value = {"/brdSave"})
+    public String brdUpdate(Intr intr) {
+    	logger.info("IntrBrdController brdSave");
+    	service.brdUpdate(intr);
+    	return "redirect:/intrBrd/intr_brd";
+    }
+    
+    // 공통 게시판 삭제
+    @RequestMapping(value = {"/brdDel"})
+   	public String brdDelete(int brdCd) {
+       	logger.info("IntrBrdController brdDel");
+       	service.brdDelete(brdCd);
+   		return "redirect:/intrBrd/intr_brd";
+   	}
+    
+    // 공통 게시판 등록 페이지
+    @RequestMapping(value = {"/intr_brd_reg"})
+	public String regBrd() {
+    	logger.info("IntrBrdController intr_brd_reg");
+		return "intrBrd/intr_brd_reg.page";
+	}
+	
+	// 공통 게시판 등록
+    @RequestMapping(value = {"/insertBrd"})
+    public String insertBrd(Intr intr) {
+    	logger.info("IntrBrdController insertBrd");
+    	String tblNm = "tb_brd_manage";
+    	intr.setBrdCd(service.brdCdMax(tblNm)+1);
+    	
+    	service.insertBrd(intr);
+    	
+    	return "redirect:/intrBrd/intr_brd";
+    }
 
     /**************************** 공 통 게 시 판 (공지) *******************************************/
     // 게시판 페이지 & 검색 (List 세팅)

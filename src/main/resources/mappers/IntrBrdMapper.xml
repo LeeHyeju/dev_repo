@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.IntrBrdMapper">
+	<select id="list" resultType="Intr">
+		SELECT   noti.*
+ 		FROM (
+			SELECT   noti.*
+			    	,ROW_NUMBER() OVER(ORDER BY noti.brdCd ASC) AS rNum
+	 		FROM (	
+				SELECT * FROM tb_brd_manage
+				WHERE (CASE 
+					WHEN #{searchKey.srchKey} = 'type' 	THEN brdType
+					WHEN #{searchKey.srchKey} = 'nm'  	THEN brdNM
+					WHEN #{searchKey.srchKey} = 'cd'  	THEN brdCd
+					ELSE brdType
+				END) LIKE '%${searchKey.srchCont}%'
+			)noti
+		)noti
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	</select>
+	
+	<select id="mngmListCount" resultType="int" parameterType="SearchKey">
+			SELECT COUNT(*) FROM tb_brd_manage
+			WHERE (CASE 
+				WHEN #{srchKey} = 'type' THEN brdType
+				WHEN #{srchKey} = 'nm'  THEN brdNM
+				WHEN #{srchKey} = 'cd'  THEN brdCd
+				ELSE brdType
+			END) LIKE '%${srchCont}%'
+	</select>
+	
+	<select id="dtlBrd" resultType="Intr" parameterType="String">
+	    SELECT *
+	    FROM tb_brd_manage
+	    WHERE brdCd = #{brdCd}
+	</select>
+	
+	<insert id="insertBrd" parameterType="Intr">
+		INSERT INTO 
+			tb_brd_manage (
+				 brdCd
+			 	,brdNm
+				,brdType
+				,brdPage
+				,regId
+				,regDt
+				,fileYn
+				,notiYn
+				,replyYn
+				,cmtYn
+				,useYn
+				,delYn
+			)
+		VALUES (
+				 #{brdCd}
+				,#{brdNm}
+				,#{brdType}
+				,#{brdPage}
+				,#{regId}
+				,now()
+				,#{fileYn}
+				,#{notiYn}
+				,#{replyYn}
+				,#{cmtYn}
+				,#{useYn}
+				,#{delYn}
+		)
+	</insert>
+	
+	<update id="brdUpdate" parameterType="Intr">
+		UPDATE tb_brd_manage
+		SET	 brdType = #{brdType}
+			,brdNm = #{brdNm}
+			,brdPage = #{brdPage}
+			,fileYn = #{fileYn}
+			,notiYn = #{notiYn}
+			,replyYn = #{replyYn}
+			,cmtYn = #{cmtYn}
+			,useYn = #{useYn}
+			,delYn = #{delYn}
+		WHERE brdCd = #{brdCd}
+	</update>
+	
+	<delete id="brdDelete" parameterType="int">
+		DELETE 
+		FROM tb_brd_manage
+		WHERE brdCd = #{brdCd}
+	</delete>
+	
 	<select id="postList" resultType="IntrBrd">
 		SELECT   noti.*
   		FROM(

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.dev.domain.Criteria;
+import com.spring.dev.domain.Intr;
 import com.spring.dev.domain.IntrBrd;
 import com.spring.dev.domain.IntrFaq;
 import com.spring.dev.domain.IntrGal;
@@ -16,6 +17,31 @@ import com.spring.dev.mapper.IntrBrdMapper;
 public class IntrBrdService {
 	@Autowired
 	IntrBrdMapper mapper;
+	
+	// 생성관리자
+	public List<Intr> list(SearchKey searchKey, Criteria cri) {
+		return mapper.list(searchKey, cri);
+	}
+	
+	public int mngmListCount(SearchKey searchKey) {
+		return mapper.mngmListCount(searchKey);
+	}
+	
+	public Intr dtlBrd(String brdCd) {
+		return mapper.dtlBrd(brdCd);
+	}
+	
+	public void insertBrd(Intr intr) {
+		mapper.insertBrd(intr);
+	}
+	
+	public void brdUpdate(Intr intr) {
+		mapper.brdUpdate(intr);
+	}
+	
+	public void brdDelete(int brdCd) {
+		mapper.brdDelete(brdCd);
+	}
 	
 	// 게시판
 	public List<IntrBrd> postList(SearchKey searchKey, Criteria cri) {
