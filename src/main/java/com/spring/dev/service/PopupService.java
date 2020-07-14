@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.dev.common.FileUtils;
@@ -44,8 +45,15 @@ public class PopupService {
 		}
 	}
 	
-	public void updatePopup(Popup popup) {
+	@Transactional()
+	public void updatePopup(Popup popup, MultipartHttpServletRequest mpRequest) throws Exception {
 		mapper.updatePopup(popup);
+
+		mapper.deleteImg(popup.getPopIdx());
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(popup, "tb_popup", "팝업테이블", mpRequest); 
+		for(int i=0, size = list.size(); i<size; i++){ 
+			mapper.insertFile(list.get(i)); 
+		}
 	}
 
 	public void deletePopup(int popIdx) {
@@ -58,6 +66,10 @@ public class PopupService {
 	
 	public Popup winPop(int popIdx) {
 		return mapper.winPop(popIdx);
+	}
+	
+	public void deleteImg(int popIdx) {
+		mapper.deleteImg(popIdx);
 	}
 	
 }

@@ -161,7 +161,9 @@ function fn_delete(){
 									<td>
 										<div class="input_adj">
 											<input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="${view.saveFile}" />
+											<span><strong>${view.orgnFile}</strong></span>
 										</div>
+										
 										<img src="${pageContext.request.contextPath}/resources/files/${view.saveFile}" width="70%"  align="middle" style="margin-top: 10px"/>
 									</td>
 								</tr>

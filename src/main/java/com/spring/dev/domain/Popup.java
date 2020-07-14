@@ -26,6 +26,7 @@ public class Popup extends ModelObject {
 	private String regId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regDt;
+	private String orgnFile;
 	private String saveFile;
 	private String filePath;
 	
@@ -118,6 +119,12 @@ public class Popup extends ModelObject {
 	}
 	public void setRegDt(Date regDt) {
 		this.regDt = regDt;
+	}
+	public String getOrgnFile() {
+		return orgnFile;
+	}
+	public void setOrgnFile(String orgnFile) {
+		this.orgnFile = orgnFile;
 	}
 	public String getSaveFile() {
 		return saveFile;

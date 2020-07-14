@@ -29,4 +29,6 @@ public interface PopupMapper {
 	public void insertFile(Map<String, Object> map) throws Exception;
 
 	public Popup winPop(int popIdx);
+	
+	public int deleteImg(int popIdx);
 }

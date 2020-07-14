@@ -92,6 +92,7 @@
 				,p.popTarget 
 				,p.regId  
 				,p.regDt 
+				,f.orgnFile
 				,f.saveFile
 				,f.filePath
 		FROM
@@ -241,4 +242,10 @@
 		WHERE  
 				popIdx = #{popIdx}		
 	</select>
+	
+	<delete id="deleteImg" parameterType="int">
+		DELETE FROM tb_file 
+			WHERE tblIdx= #{tblIdx}
+	</delete>
+	
 </mapper>

@@ -59,7 +59,22 @@ public class PopupController {
        	logger.info("PopupController insert");
    		return "popup/insert.page";
    	}
-       
+    /**
+     * 서버에서 이미지 가져오는 법
+		1. Stream 가져오는 법
+		1.1 FileInputStream(new File(filePath  + / + saveFile));
+		    // 파일에대한 속성지정. 이름 사이즈 타입 등
+		    Response.setContent 
+		    Response.write 파일 쓰기
+		- 장점 : 보안에 강하다. (권한체크 가능)
+		- 단점 : 서버 자원
+		
+		2. 파일 직접 링크
+		2.1 업로드 경로와 이미지를 다운시켜줄 경로를 cmd 창에서 미러링(심볼릭링크)
+		C:\dev_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\dev\resources
+		(경로는 이클립스에서 생성할때 컴파일된 소스 작업 경로,, 로컬에서 서버로 업로드하면 meta에 server.core 안에 있음! )
+     */
+    
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
    	public String insertProcess(HttpServletRequest request, Popup popup, MultipartHttpServletRequest mpRequest, Model model) throws Exception  {
        	logger.info("PopupController insertProcess");
@@ -69,9 +84,10 @@ public class PopupController {
    	}
        
     @RequestMapping(value = {"/update"}, method = RequestMethod.POST)
-   	public String update(HttpServletRequest request, Popup popup,  Model model) {
-       	logger.info("PopupController update");
-   		service.updatePopup(popup);
+   	public String update(HttpServletRequest request, Popup popup, int popIdx, MultipartHttpServletRequest mpRequest,  Model model) throws Exception {
+       	logger.info("PopupController update__img Delete__");
+    	logger.info("PopupController update");
+   		service.updatePopup(popup, mpRequest);
    		return "redirect:/popup/list";
    	}
 
