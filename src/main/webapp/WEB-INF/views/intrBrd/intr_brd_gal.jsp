@@ -46,14 +46,14 @@ $(document).ready(function() {
 					<table id="boardTable2" class="boardType01_tblList">
 						<caption><span class="t-hidden">갤러리형</span></caption>
 						<colgroup>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
-							<col style="width:10%"/>
+							<col style="width:20%"/>
+							<col style="width:20%"/>
+							<col style="width:20%"/>
 						</colgroup>
 						<thead>
 						<tr>
-							<th>IMAGE</th>
 							<th></th>
+							<th>IMAGE</th>
 							<th></th>
 						</tr>
 						</thead>
@@ -82,7 +82,7 @@ $(document).ready(function() {
 				     	<%
 				     		cnt = cnt%3;
 				     	
-							for(int i=0; i<=cnt; i++){
+							for(int i=0; i<cnt-1; i++){
 								out.print("<td>");
 								out.print("</td>");
 							}
