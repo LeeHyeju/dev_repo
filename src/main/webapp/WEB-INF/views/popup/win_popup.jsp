@@ -29,7 +29,7 @@ table.type07 td {
 }
 </style>
 <body>
-	<h2 class="h2">${winPop }</h2>
+	<h2 class="h2"></h2>
 	<table class="type07">
 		<colgroup>
 			<col style="width:10%"/>
@@ -37,34 +37,20 @@ table.type07 td {
 		</colgroup> 
 		<thead>
 			<tr>
-				<th scope="cols">항목</th>
-				<th scope="cols">내용</th>
+				<th scope="cols">${winPop.popNm}</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<th scope="row"><strong>버전</strong></th>
-				<td style="width:100px;height:50px;">${winPop.popIdx}</td>
-			</tr>
-			<tr>
-				<th><strong>컨텐츠스타일</strong></th>
-				<td style="width:100px;height:150px;">${winPop.popNm}</td>
-			</tr>
-			<!-- 
-			<tr>
-				<th><strong>컨텐츠스크립트</strong></th>
-				<td style="width:100px;height:150px;">${view.contScript}</td>
-			</tr>
-			<tr>
-				<th><strong>컨텐츠내용</strong></th>
-				<td style="width:100px;height:150px;">${view.contents}</td>
-			</tr>
-			 -->
-	     	<c:if test="${empty winPop}">
-			<tr>
-				<td colspan="6" class="no-data"><strong>팝업이 존재하지 않습니다.</strong></td>
-			</tr>
+			<c:if test="${!empty winPop.saveFile}">
+				<tr>
+					<td style="width:100px;height:150px;"><img src="${pageContext.request.contextPath}/resources/files/${winPop.saveFile}" width="100%"  align="middle"/></td>
+				</tr>
 			</c:if>
+			<c:if test="${!empty winPop.popTxt}">
+			<tr>
+				<td style="width:100px;height:150px;">${winPop.popTxt}</td>
+			</tr>
+			 </c:if>
 		</tbody>
 	</table>	
 </body>

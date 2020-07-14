@@ -9,7 +9,7 @@
 $(function(){
 	//숫자 영어만 사용 
 	$.validator.addMethod("url", function (value, element) {
-		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value);
+		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value) || "popup/winPop";
 	});
 	
   $("#viewFrm").validate({
@@ -96,7 +96,6 @@ function fn_delete(){
 	}
 }
 </script>
-
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/popup/list"><span>팝업정보관리</span></a><span>팝업정보관리 조회</span><span class="path_current">${boardManage.boardName}</span>
@@ -161,8 +160,9 @@ function fn_delete(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											<input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="${view.saveFile}" />
 										</div>
+										<img src="${pageContext.request.contextPath}/resources/files/${view.saveFile}" width="70%"  align="middle" style="margin-top: 10px"/>
 									</td>
 								</tr>
 								<tr> 

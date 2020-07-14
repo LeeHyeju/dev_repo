@@ -8,7 +8,7 @@
 $(function(){
 	//숫자 영어만 사용 
 	$.validator.addMethod("url", function (value, element) {
-		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value);
+		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value) || "popup/winPop";
 	});
 	
   $("#writeFrm").validate({
@@ -40,7 +40,6 @@ $(function(){
       },
       //validation이 끝난 이후의 submit 직전 추가 작업할 부분
       submitHandler: function(form){
-    	  alert("11");
       	// $.ajax();
       	form.submit();
       },
@@ -78,7 +77,18 @@ $(function() {
     //초기값을 오늘 날짜로 설정
 	$( "#datepicker" ).datepicker( "getDate" );
     //    $('.datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+	});
+
+$(document).ready(function() {
+	
+	$("#popTp").on("click", function() {
+		var popTp = $("#popTp option:selected").val();
+		if(popTp == 'window') {
+			$("#popUrl").val('popup/winPop');
+		}
+	});
 });
+
 </script>
 
 <div id="contentarea" class="l-content">
