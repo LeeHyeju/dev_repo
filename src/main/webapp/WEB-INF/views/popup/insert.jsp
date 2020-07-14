@@ -4,12 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
-
 //validation 체크 
 $(function(){
 	//숫자 영어만 사용 
-	$.validator.addMethod("eng_number", function (value, element) {
-		return this.optional(element) || /^[a-zA-Z\d]+$/.test(value);
+	$.validator.addMethod("url", function (value, element) {
+		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value) || "popup/winPop";
 	});
 	
   $("#writeFrm").validate({
@@ -22,11 +21,8 @@ $(function(){
               required : true,
               minlength : 3
           },
-          state: {
-              required : true
-          },
           popUrl: {
-          	eng_number : true
+        	  url : true
           }
       },
       //규칙체크 실패시 출력될 메시지
@@ -38,16 +34,12 @@ $(function(){
               required : "필수로입력하세요",
               minlength : "최소 {3}글자이상 입력하세요"
           },
-          state: {
-              required : "필수로입력하세요"
-          },
           popUrl: {
-              eng_number: "영문과 숫자만 입력하세요"
+        	  url: "url 주소를 정확히 입력하세요"
           }
       },
       //validation이 끝난 이후의 submit 직전 추가 작업할 부분
       submitHandler: function(form){
-    	  alert("11");
       	// $.ajax();
       	form.submit();
       },
@@ -85,7 +77,18 @@ $(function() {
     //초기값을 오늘 날짜로 설정
 	$( "#datepicker" ).datepicker( "getDate" );
     //    $('.datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+	});
+
+$(document).ready(function() {
+	
+	$("#popTp").on("click", function() {
+		var popTp = $("#popTp option:selected").val();
+		if(popTp == 'window') {
+			$("#popUrl").val('popup/winPop');
+		}
+	});
 });
+
 </script>
 
 <div id="contentarea" class="l-content">
@@ -105,7 +108,7 @@ $(function() {
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="writeFrm" id="writeFrm" method="post" action="/popup/insert">
+					<form name="writeFrm" id="writeFrm" method="post" action="/popup/insert" enctype="multipart/form-data">
 					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId }" />
 						<div class="boardType01_write">
 							<table cellspacing="0" class="boardType01_tbl">
@@ -125,9 +128,8 @@ $(function() {
 										<td>
 											<div class="input_adj">
 												<select name="popTp" id="popTp" style="width:200px;" class="form-control" >
-													<option value="main">메인</option>
-													<option value="side">사이드</option>
-													<option value="contents">컨텐츠</option>
+													<option value="layer">레이어팝업</option>
+													<option value="window">윈도우팝업</option>
 												</select>
 											</div>
 										</td>
@@ -142,6 +144,29 @@ $(function() {
 										<td>
 											<div class="input_adj">
 												<input type="text" name="popNm" id="popNm" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">
+												<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+												<label for="">팝업이미지</label>
+											</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">팝업내용</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<textarea name="popTxt" id="popTxt" class="input_textN" style="width:550px;height:150px;resize: none;"></textarea>
 											</div>
 										</td>
 									</tr>
@@ -172,22 +197,6 @@ $(function() {
 									<tr> 
 										<th>
 											<span class="th_wrap">
-												<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-												<label for="">팝업상태</label>
-											</span>
-										</th>
-										<td>
-											<div class="input_adj">
-												<select name="popState" class="form-control input-sm" style="width:100px;display: inline-block;"> 
-													<option value="Y">게시중</option>
-													<option value="N">종료</option>
-												</select>
-											</div>
-										</td>
-									</tr>
-									<tr> 
-										<th>
-											<span class="th_wrap">
 												<label for="">팝업URL</label>
 											</span>
 										</th>
@@ -200,8 +209,67 @@ $(function() {
 									<tr> 
 										<th>
 											<span class="th_wrap">
-												사용여부
+												<label for="">팝업높이</label>
 											</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="text" name="popHeight" id="popHeight" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">
+												<label for="">팝업너비</label>
+											</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="text" name="popWidth" id="popWidth" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">
+												<label for="">팝업X좌표값</label>
+											</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="text" name="popX" id="popX" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">
+												<label for="">팝업Y좌표값</label>
+											</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="text" name="popY" id="popY" class="input_textN" style="width:200px;" maxlength="50" value="" />
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">새 창</span>
+										</th>
+										<td>
+											<div class="input_adj">
+												<input type="radio" name="popTarget" id="blank" class="input_group" style="width:30px;" value="blank">
+												<label for="blank">사용</label>
+												<input type="radio" name="popTarget" id="self" class="input_group" style="width:30px;" value="self">
+												<label for="self">미사용</label>
+											</div>
+										</td>
+									</tr>
+									<tr> 
+										<th>
+											<span class="th_wrap">사용여부</span>
 										</th>
 										<td>
 											<div class="input_adj">

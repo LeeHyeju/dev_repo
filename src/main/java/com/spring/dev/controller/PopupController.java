@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.Popup;
@@ -60,10 +61,10 @@ public class PopupController {
    	}
        
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
-   	public String insertProcess(HttpServletRequest request, Popup popup, Model model)  {
+   	public String insertProcess(HttpServletRequest request, Popup popup, MultipartHttpServletRequest mpRequest, Model model) throws Exception  {
        	logger.info("PopupController insertProcess");
        	System.out.println("인서트"+popup.toString());
-       	service.insertPopup(popup);
+       	service.insertPopup(popup, mpRequest);
    		return "redirect:/popup/list";
    	}
        
@@ -80,4 +81,11 @@ public class PopupController {
        	service.deletePopup(popIdx);
    		return "redirect:/popup/list";
    	}
+    
+    @RequestMapping(value = {"/winPop"})
+	public String winPop(HttpServletRequest request, int popIdx, Model model) {
+    	logger.info("PopupController winPop");
+    	model.addAttribute("winPop", service.winPop(popIdx));
+		return "popup/win_popup.part";
+	}
 }

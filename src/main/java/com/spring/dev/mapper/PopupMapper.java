@@ -1,7 +1,7 @@
 package com.spring.dev.mapper;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -20,10 +20,13 @@ public interface PopupMapper {
 	
 	public int insertPopup(Popup popup);
 	
-	public void updatePopup(Popup popup);
+	public int updatePopup(Popup popup);
 	
-	public void deletePopup(int popIdx);
+	public int deletePopup(int popIdx);
 	
 	public List<Popup> getMainPopup();
+	
+	public void insertFile(Map<String, Object> map) throws Exception;
 
+	public Popup winPop(int popIdx);
 }

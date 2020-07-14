@@ -2,9 +2,55 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
+
+//validation 체크 
+$(function(){
+	//숫자 영어만 사용 
+	$.validator.addMethod("url", function (value, element) {
+		return this.optional(element) ||  /^(http\:\/\/)?((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\w*))*$/i.test(value) || "popup/winPop";
+	});
+	
+  $("#viewFrm").validate({
+      //규칙
+	rules: {
+			popTp: {
+				required : true
+			},
+			popNm: {
+				required : true,
+				minlength : 3
+	        },
+			popUrl: {
+				url : true
+	        }
+      },
+      //규칙체크 실패시 출력될 메시지
+	messages : {
+			popTp: {
+				required : "필수로입력하세요"
+			},
+			popNm: {
+				required : "필수로입력하세요",
+				minlength : "최소 {3}글자이상 입력하세요"
+			},
+			popUrl: {
+				url: "url 주소를 정확히 입력하세요"
+			}
+	},
+      //validation이 끝난 이후의 submit 직전 추가 작업할 부분
+      submitHandler: function(form){
+    	  form.method = "post";
+		  form.action = "<c:url value='/popup/update'/>";
+		  form.submit();
+      },
+      invalidHandler: function(form, validator) {
+      	// jquery validate 로 사용하기 힘든 validation 체크
+        //  alert('invalidHandler');
+      }
+  });
+});
 $(function() {
     //input을 datepicker로 선언
     $(".datepicker").datepicker({
@@ -35,21 +81,21 @@ $(function() {
 
 /*수정*/
 function fn_update(){
-	    var form = document.getElementById("viewFrm");
-	    form.method = "post";
-	    form.action = "<c:url value='/popup/update'/>";
-	    form.submit();
+	if (confirm("수정하시겠습니까?")) {		    
+	    $("#viewFrm").submit();
+	}
 }
 
 /*삭제*/
 function fn_delete(){
-    var form = document.getElementById("viewFrm");
-    form.method = "post";
-    form.action = "<c:url value='/popup/delete'/>";
-    form.submit();
+	if (confirm("삭제하시겠습니까?")) {
+	    var form = document.getElementById("viewFrm");
+	    form.method = "post";
+	    form.action = "<c:url value='/popup/delete'/>";
+	    form.submit();
+	}
 }
 </script>
-
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a><a href="${pageContext.request.contextPath}/popup/list"><span>팝업정보관리</span></a><span>팝업정보관리 조회</span><span class="path_current">${boardManage.boardName}</span>
@@ -67,7 +113,7 @@ function fn_delete(){
 				<div class="boardType01_wrap">
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
-					<form name="viewFrm" id="viewFrm">
+					<form name="viewFrm" id="viewFrm" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="popIdx" id="popIdx" value="${view.popIdx }" />
 					<div class="boardType01_write">
 						<table cellspacing="0" class="boardType01_tbl">
@@ -109,14 +155,14 @@ function fn_delete(){
 								<tr> 
 									<th>
 										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">팝업이미지</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="file" name="popImg" id="popImg" class="input_textN" style="width:200px;" maxlength="50" value="${view.popImg }" />
+											<input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="${view.saveFile}" />
 										</div>
+										<img src="${pageContext.request.contextPath}/resources/files/${view.saveFile}" width="70%"  align="middle" style="margin-top: 10px"/>
 									</td>
 								</tr>
 								<tr> 
@@ -167,6 +213,67 @@ function fn_delete(){
 								</tr>
 								<tr> 
 									<th>
+										<span class="th_wrap">
+											<label for="">팝업높이</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="popHeight" id="popHeight" class="input_textN" style="width:200px;" maxlength="50" value="${view.popHeight }" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">팝업너비</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="popWidth" id="popWidth" class="input_textN" style="width:200px;" maxlength="50" value="${view.popWidth }" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">팝업X좌표값</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="popX" id="popX" class="input_textN" style="width:200px;" maxlength="50" value="${view.popX }" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">팝업Y좌표값</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<input type="text" name="popY" id="popY" class="input_textN" style="width:200px;" maxlength="50" value="${view.popY }" />
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">새 창</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="popTarget" class="form-control input-sm" style="width:100px;display: inline-block;"> 
+												<option value="${view.popTarget}">${view.popTarget}</option>
+												<option value="${view.popTarget=='blank'?'self':'blank'}">${view.popTarget=='blank'?'self':'blank'}</option>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
 										<span class="th_wrap">사용여부</span>
 									</th>
 									<td>
@@ -186,9 +293,7 @@ function fn_delete(){
 										</span>
 									</th>
 									<td>
-										<div class="input_adj">
-											${view.regId }
-										</div>
+										<div class="input_adj">${view.regId }</div>
 									</td>
 								</tr>
 								<tr> 
@@ -207,13 +312,13 @@ function fn_delete(){
 							</tbody>
 						</table>
 					</div> <!-- //boardType01_write -->
-					</form>
 						
 					<div class="boardType01_write_btn">
 						<button type="button" id="btn_write" class="btnTxt btnTxt_normal btnTxt_gray" onClick='fn_update()' ><span>수정</span></button>
-						<button type="submit" id="boardDel" class="btnTxt btnTxt_normal btnTxt_gray" onClick='fn_delete()'><span>삭제</span></button>
+						<button type="submit" id="btn_delete" class="btnTxt btnTxt_normal btnTxt_gray" onClick='fn_delete();'><span>삭제</span></button>
 						<a href="${pageContext.request.contextPath}/popup/list" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
+				</form>
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->

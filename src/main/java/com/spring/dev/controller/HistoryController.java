@@ -27,7 +27,7 @@ public class HistoryController {
        	
    		model.addAttribute("view",service.viewHistory(history));
    		
-   		return "/history/historyPopup.part";
+   		return "/history/history_popup.part";
    	}
 	
 }
