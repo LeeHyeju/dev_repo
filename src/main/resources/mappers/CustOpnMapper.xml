@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dev.mapper.CustOpnMapper">
+	<select id="list" resultType="CustOpn">
+		SELECT	custOpn.*
+			FROM(
+				SELECT	 custOpn.*
+	   					,ROW_NUMBER() OVER(ORDER BY custOpn.regNo DESC) AS rNum
+				FROM (SELECT * FROM tb_cust_opn
+					  WHERE		regNo LIKE '%${custOpn.regNo}%' 
+					 		AND brdType LIKE '%${custOpn.brdType}%' 
+					 		AND brdTl LIKE '%${custOpn.brdTl}%' 
+					 		AND brdCont LIKE '%${custOpn.brdCont}%' 
+					 		AND stsCd LIKE '%${custOpn.stsCd}%' 
+					 		AND mbrYn LIKE '%${custOpn.mbrYn}%' 
+					 		AND regChnl LIKE '%${custOpn.regChnl}%' 
+					 		AND regNm LIKE '%${custOpn.regNm}%' 
+					 		AND (mngmNm LIKE '%${custOpn.mngmNm}%' OR mngmNm IS NULL)
+				) custOpn
+			) custOpn
+			WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	</select>
+	
+	<select id="listCount" resultType="int" parameterType="CustOpn">
+		SELECT COUNT(*) FROM tb_cust_opn
+		  WHERE		regNo LIKE '%${regNo}%' 
+		 		AND brdType LIKE '%${brdType}%' 
+		 		AND brdTl LIKE '%${brdTl}%' 
+		 		AND brdCont LIKE '%${brdCont}%' 
+		 		AND stsCd LIKE '%${stsCd}%' 
+		 		AND mbrYn LIKE '%${mbrYn}%' 
+		 		AND regChnl LIKE '%${regChnl}%' 
+		 		AND regNm LIKE '%${regNm}%' 
+		 		AND (mngmNm LIKE '%${mngmNm}%' OR mngmNm IS NULL)
+	</select>
+	
+	<select id="dtl" resultType="CustOpn" parameterType="String">
+		SELECT * FROM tb_cust_opn
+		WHERE regNo = #{regNo}
+	</select>
+	
+	<update id="update" parameterType="CustOpn">
+		UPDATE 
+			tb_cust_opn
+		SET	
+			 brdType = #{brdType}
+			,brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,emadr = #{emadr}
+			,tel = #{tel}
+			,stsCd = #{stsCd}
+			,mbrYn = #{mbrYn}
+			,regChnl = #{regChnl}
+			,regNm = #{regNm}
+		WHERE regNo = #{regNo}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM tb_cust_opn
+		WHERE regNo = #{regNo}
+	</delete>
+	
+	<select id="regNoMax" resultType="String">
+		SELECT MAX(regNo)+1 AS regNo
+		FROM tb_cust_opn
+	</select>
+	
+	<insert id="insert" parameterType="CustOpn">
+		INSERT INTO tb_cust_opn(
+			 regNo
+			,brdType
+			,brdTl
+			,brdCont
+			,emadr
+			,tel
+			,stsCd
+			,mbrYn
+			,regChnl
+			,regNm
+			,regId
+			,regDt
+		) VALUES (
+			 #{regNo}
+			,#{brdType}
+			,#{brdTl}
+			,#{brdCont}
+			,#{emadr}
+			,#{tel}
+			,#{stsCd}
+			,#{mbrYn}
+			,#{regChnl}
+			,#{regNm}
+			,#{regId}
+			,now()
+		)
+	</insert>
+</mapper>

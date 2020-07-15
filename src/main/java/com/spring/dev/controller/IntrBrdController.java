@@ -22,7 +22,7 @@ import com.spring.dev.service.IntrBrdService;
 @Controller
 @RequestMapping("/intrBrd")
 public class IntrBrdController {
-	private static final Logger logger = LoggerFactory.getLogger(CmnCdController.class);
+	private static final Logger logger = LoggerFactory.getLogger(IntrBrdController.class);
 	
 	@Autowired
 	IntrBrdService service;

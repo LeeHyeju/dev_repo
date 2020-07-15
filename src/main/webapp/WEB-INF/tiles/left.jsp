@@ -22,6 +22,7 @@
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_noti') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti">통합게시판(게시판형)</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_faq') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq">통합게시판(질문형)</a></li>
 			<li class="current <c:if test="${fn:indexOf(uri, '/intrBrd/intr_brd_gal') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal">통합게시판(갤러리형)</a></li>
+			<li class="current <c:if test="${fn:indexOf(uri, '/custOpn/cust_opn') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/custOpn/cust_opn">고객문의</a></li>
 		</ul>
 	<h2 class="lnb_title"><span>화면관리</span></h2>
 		<ul id="lnb">
