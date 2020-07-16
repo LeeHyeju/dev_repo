@@ -133,17 +133,17 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="1">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="제안">
 												<label for="brdType">제안</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="2">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="칭찬">
 												<label for="brdType">칭찬</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="3">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="불만">
 												<label for="brdType">불만</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="4">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="문의">
 												<label for="brdType">문의</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="5">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="요청">
 												<label for="brdType">요청</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="6">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="기타">
 												<label for="brdType">기타</label>
 										</div>
 									</td>

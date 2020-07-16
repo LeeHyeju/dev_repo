@@ -18,13 +18,9 @@ function fnReset(){
 }
 /*검색*/
 function fnSrch(){
-	submit('cust_opn');
-}
-/*submit*/
-function submit(service){
 	var form = document.getElementById("writeForm");
     form.method = "get";
-    form.action = "<c:url value='/custOpn/" + service + "'/>";
+    form.action = "<c:url value='/custOpn/cust_opn'/>";
     form.submit();
 }
 </script>
@@ -63,21 +59,21 @@ function submit(service){
 							<td>
 								<select id="brdType" name="brdType" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="1">제안</option>
-								    <option value="2">칭찬</option>
-								    <option value="3">불만</option>
-								    <option value="4">문의</option>
-								    <option value="5">요청</option>
-								    <option value="6">기타</option>
+								    <option value="제안">제안</option>
+								    <option value="칭찬">칭찬</option>
+								    <option value="불만">불만</option>
+								    <option value="문의">문의</option>
+								    <option value="요청">요청</option>
+								    <option value="기타">기타</option>
 								</select>
 							</td>
 							<th>상태</th>
 							<td>
 								<select id="stsCd" name="stsCd" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="1">대기중</option>
-								    <option value="2">검토중</option>
-								    <option value="3">답변완료</option>
+								    <option value="대기중">대기중</option>
+								    <option value="검토중">검토중</option>
+								    <option value="답변완료">답변완료</option>
 								</select>
 							</td>
 						</tr>
@@ -98,23 +94,23 @@ function submit(service){
 							<td>
 								<select id="regChnl" name="regChnl" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="1">홈페이지</option>
-								    <option value="2">모바일웹</option>
-								    <option value="3">모바일앱</option>
+								    <option value="HOM">홈페이지</option>
+								    <option value="WEB">모바일웹</option>
+								    <option value="APP">모바일앱</option>
 								</select>
 							</td>
 							<th>처리자</th>
 							<td>
 								<select id="mngmNm" name="mngmNm" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="1">주관부서</option>
-								    <option value="2">처리부서</option>
+								    <option value="주관부서">주관부서</option>
+								    <option value="처리부서">처리부서</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<th>등록일</th>
-							<td colspan="3"><input type="text" id="regDt" name="regDt" style="width:500px;"></td>
+							<td colspan="3">regDt</td>
 						</tr>
 						</tbody>
 					</table> <!-- //boardType01_tblList -->
@@ -123,7 +119,7 @@ function submit(service){
 						<button type="button" onClick='fnReset()' id="btnReset" class="btnTxt btnTxt_normal btnTxt_gray">초기화</button>
 						<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 					</div>
-				</form>
+				
 					
 					<c:set var="cols" value="6"/>
 					<table id="boardTable1" class="boardType01_tblList" style=TABLE-layout:fixed>
@@ -194,8 +190,8 @@ function submit(service){
 					<div class="boardType01_list_btn">
 						<a href="${pageContext.request.contextPath}/custOpn/cust_opn_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
+				</form>
 				</div> <!-- //boardType01_wrap -->
-				
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->
 	</div> <!-- //subcontent_wrap -->
