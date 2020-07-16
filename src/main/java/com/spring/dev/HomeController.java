@@ -37,4 +37,10 @@ public class HomeController {
 		return "home.page";
 	}
 	
+	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	public String memo(Locale locale, Model model, @ModelAttribute("cri") SearchCriteria cri) {
+		logger.info("memo");
+		//테스트용 커밋
+		return "memo.part";
+	}
 }
