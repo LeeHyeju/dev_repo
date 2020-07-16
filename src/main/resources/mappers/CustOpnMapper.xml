@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.dev.mapper.CustOpnMapper">
 	<select id="list" resultType="CustOpn">
+		<![CDATA[
 		SELECT	custOpn.*
 			FROM(
 				SELECT	 custOpn.*
@@ -14,11 +15,19 @@
 					 		AND stsCd LIKE '%${custOpn.stsCd}%' 
 					 		AND mbrYn LIKE '%${custOpn.mbrYn}%' 
 					 		AND regChnl LIKE '%${custOpn.regChnl}%' 
-					 		AND regNm LIKE '%${custOpn.regNm}%' 
-					 		AND (mngmNm LIKE '%${custOpn.mngmNm}%' OR mngmNm IS NULL)
+					 		AND regNm LIKE '%${custOpn.regNm}%'
+					 		]]>
+					 		<if test="custOpn.mngmNm != null">
+					 			AND mngmNm LIKE '%${custOpn.mngmNm}%'
+					 		</if>
+					 		<if test="custOpn.startDt != null || custOpn.endDt != null">
+					 			AND regDt BETWEEN ${custOpn.startDt} AND ${custOpn.endDt} + INTERVAL 1 DAY
+					 		</if>
+					 		<![CDATA[
 				) custOpn
 			) custOpn
 			WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+			]]>
 	</select>
 	
 	<select id="listCount" resultType="int" parameterType="CustOpn">

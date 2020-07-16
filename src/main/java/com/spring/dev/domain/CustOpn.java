@@ -20,11 +20,25 @@ public class CustOpn {
 	private String replCont;
 	
 	private String rNum;
+	private String startDt;
+	private String endDt;
 	public String getrNum() {
 		return rNum;
 	}
 	public void setrNum(String rNum) {
 		this.rNum = rNum;
+	}
+	public String getStartDt() {
+		return startDt;
+	}
+	public void setStartDt(String startDt) {
+		this.startDt = startDt;
+	}
+	public String getEndDt() {
+		return endDt;
+	}
+	public void setEndDt(String endDt) {
+		this.endDt = endDt;
 	}
 	
 	public String getRegNo() {
@@ -122,6 +136,7 @@ public class CustOpn {
 		return "CustOpn [regNo=" + regNo + ", brdType=" + brdType + ", brdTl=" + brdTl + ", brdCont=" + brdCont
 				+ ", emadr=" + emadr + ", tel=" + tel + ", stsCd=" + stsCd + ", mbrYn=" + mbrYn + ", regChnl=" + regChnl
 				+ ", regNm=" + regNm + ", regId=" + regId + ", regDt=" + regDt + ", mngmNm=" + mngmNm + ", mngmDt="
-				+ mngmDt + ", replCont=" + replCont + ", rNum=" + rNum + "]";
+				+ mngmDt + ", replCont=" + replCont + ", rNum=" + rNum + ", startDt=" + startDt + ", endDt=" + endDt
+				+ "]";
 	}
 }
