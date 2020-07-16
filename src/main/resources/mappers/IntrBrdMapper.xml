@@ -234,34 +234,16 @@
 	</select>
 	
 	<select id="listFaq" resultType="IntrFaq">
-	<![CDATA[
 		SELECT   faq.*
 		FROM(
 			SELECT   tb_brd_faq.*
    					,ROW_NUMBER() OVER(ORDER BY tb_brd_faq.regDt DESC) AS rNum
 			FROM tb_brd_faq
-			WHERE 1=1
-	]]>
-			<if test="srch != null">
-            	<if test="srch == 'all'.toString()">
-					OR brdTl = like CONCAT('%', #{srch}, '%')
-					OR brdCont = like CONCAT('%', #{srch}, '%')
-					OR regId = like CONCAT('%', #{srch}, '%')
-				</if>
-				<if test="srch == 'brdTl'.toString()">
-	                OR brdTl = like CONCAT('%', #{srch}, '%')
-	            </if>
-	            <if test="srch == 'brdCont'.toString()">
-	                OR brdCont = like CONCAT('%', #{srch}, '%')
-	            </if>
-	            <if test="srch == 'regId'.toString()">
-	                OR regId = like CONCAT('%', #{srch}, '%')
-	            </if>
-			</if>
-	<![CDATA[
+			WHERE brdTl LIKE '%${srch}%'
+			   OR brdCont LIKE '%${srch}%'
+			   OR regId LIKE '%${srch}%'
 		) faq
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-	]]>
 	</select>
 	
 	<select id="top10" resultType="IntrFaq" parameterType="Criteria">
@@ -275,27 +257,11 @@
 	</select>
 	
 	<select id="listCount" resultType="int">
-		<![CDATA[
 		SELECT COUNT(*)
 		FROM ${tblNm}
-		WHERE 1=1
-		]]>
-		<if test="srch != null">
-            <if test="srch == 'all'.toString()">
-				OR brdTl = like CONCAT('%', #{srch}, '%')
-				OR brdCont = like CONCAT('%', #{srch}, '%')
-				OR regId = like CONCAT('%', #{srch}, '%')
-			</if>
-			<if test="srch == 'brdTl'.toString()">
-                OR brdTl = like CONCAT('%', #{srch}, '%')
-            </if>
-            <if test="srch == 'brdCont'.toString()">
-                OR brdCont = like CONCAT('%', #{srch}, '%')
-            </if>
-            <if test="srch == 'regId'.toString()">
-                OR regId = like CONCAT('%', #{srch}, '%')
-            </if>
-		</if>
+		WHERE brdTl LIKE '%${srch}%'
+		   OR brdCont LIKE '%${srch}%'
+		   OR regId LIKE '%${srch}%'
 	</select>
 	
 	<update id="faqUpdate" parameterType="IntrFaq">
@@ -352,34 +318,16 @@
 	</insert>
 	
 	<select id="listGal" resultType="IntrGal">
-	<![CDATA[
 		SELECT   gal.*
 		FROM(
 			SELECT   tb_brd_gal.*
    					,ROW_NUMBER() OVER(ORDER BY tb_brd_gal.regDt DESC) AS rNum
 			FROM tb_brd_gal
-			WHERE 1=1
-	]]>
-			<if test="srch != null">
-            	<if test="srch == 'all'.toString()">
-					OR brdTl = like CONCAT('%', #{srch}, '%')
-					OR brdCont = like CONCAT('%', #{srch}, '%')
-					OR regId = like CONCAT('%', #{srch}, '%')
-				</if>
-				<if test="srch == 'brdTl'.toString()">
-	                OR brdTl = like CONCAT('%', #{srch}, '%')
-	            </if>
-	            <if test="srch == 'brdCont'.toString()">
-	                OR brdCont = like CONCAT('%', #{srch}, '%')
-	            </if>
-	            <if test="srch == 'regId'.toString()">
-	                OR regId = like CONCAT('%', #{srch}, '%')
-	            </if>
-			</if>
-	<![CDATA[
+			WHERE brdTl LIKE '%${srch}%'
+			   OR brdCont LIKE '%${srch}%'
+			   OR regId LIKE '%${srch}%'
 		) gal
 		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
-	]]>
 	</select>
 	
 	<select id="galDtl" resultType="IntrGal" parameterType="String">

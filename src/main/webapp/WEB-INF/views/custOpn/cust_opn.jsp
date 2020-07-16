@@ -155,7 +155,7 @@ $(document).ready(function(){
 						<button type="submit" onClick='fnSrch()' id="btnSrch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button>
 					</div>
 				
-					
+					<span class="boardType01_info_top">총 <strong>${count}</strong>개의 게시물이 있습니다.</span>
 					<c:set var="cols" value="6"/>
 					<table id="boardTable1" class="boardType01_tblList" style=TABLE-layout:fixed>
 						<caption><span class="t-hidden">필독/공지</span></caption>

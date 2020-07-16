@@ -197,23 +197,23 @@ function submit(service){
 						</colgroup>
 						<tbody>
 							<tr class="hover">
-								<c:if test="${not empty pri}">
+								<c:if test="${not empty next}">
 									<td>이전글</td>
-									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${pri.brdCd}&hit=${pri.hit}&regId=${pri.regId}"><nobr>${pri.brdTl}</nobr></a></td>
+									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${next.brdCd}&hit=${next.hit}&regId=${next.regId}"><nobr>${next.brdTl}</nobr></a></td>
 								</c:if>
 							</tr>
-					     	<c:if test="${empty pri}">
+					     	<c:if test="${empty next}">
 							<tr style="border-top: 1px solid;">
 								<td colspan="2" class="no-data"><strong>이전 글이 존재하지 않습니다.</strong></td>
 							</tr>
 							</c:if>
 							<tr class="hover">
-								<c:if test="${not empty next}">
+								<c:if test="${not empty pri}">
 									<td>다음글</td>
-									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${next.brdCd}&hit=${next.hit}&regId=${next.regId}"><nobr>${next.brdTl}</nobr></a></td>
+									<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_faq_dtl?brdCd=${pri.brdCd}&hit=${pri.hit}&regId=${pri.regId}"><nobr>${pri.brdTl}</nobr></a></td>
 								</c:if>
 							</tr>
-					     	<c:if test="${empty next}">
+					     	<c:if test="${empty pri}">
 							<tr>
 								<td colspan="2" class="no-data"><strong>다음 글이 존재하지 않습니다.</strong></td>
 							</tr>

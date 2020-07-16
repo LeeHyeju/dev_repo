@@ -66,6 +66,11 @@ function fnSave(){
         },
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
+        	// 답변 작성시
+			if(document.getElementById("replCont").value != ""){
+				document.getElementById("mngmNm").value = document.getElementById("regId").value;
+			}
+			
         	if(confirm("저장하시겠습니까?") == true){
 	        	// 등록
 	        	submit('save');
@@ -112,6 +117,7 @@ function submit(service){
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
 					<form name="writeForm" id="writeForm">
+					<input type="hidden" name="regId" id="regId" value="${sessionScope.admin.admId}"/>
 					<div class="boardType01_write">
 						<table id="boardTable1" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>

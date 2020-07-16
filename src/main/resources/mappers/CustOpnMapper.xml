@@ -16,12 +16,10 @@
 					 		AND mbrYn LIKE '%${custOpn.mbrYn}%' 
 					 		AND regChnl LIKE '%${custOpn.regChnl}%' 
 					 		AND regNm LIKE '%${custOpn.regNm}%'
+				 			AND (mngmNm LIKE '%${custOpn.mngmNm}%' OR mngmNm IS NULL)
 					 		]]>
-					 		<if test="custOpn.mngmNm != null">
-					 			AND mngmNm LIKE '%${custOpn.mngmNm}%'
-					 		</if>
-					 		<if test="custOpn.startDt != null || custOpn.endDt != null">
-					 			AND regDt BETWEEN ${custOpn.startDt} AND ${custOpn.endDt} + INTERVAL 1 DAY
+					 		<if test="custOpn.startDt != null || custOpn.endDt != null || custOpn.startDt != '' || custOpn.endDt != ''">
+					 			AND regDt BETWEEN #{custOpn.startDt} AND #{custOpn.endDt} + INTERVAL 1 DAY
 					 		</if>
 					 		<![CDATA[
 				) custOpn
@@ -31,6 +29,7 @@
 	</select>
 	
 	<select id="listCount" resultType="int" parameterType="CustOpn">
+	<![CDATA[
 		SELECT COUNT(*) FROM tb_cust_opn
 		  WHERE		regNo LIKE '%${regNo}%' 
 		 		AND brdType LIKE '%${brdType}%' 
@@ -41,6 +40,10 @@
 		 		AND regChnl LIKE '%${regChnl}%' 
 		 		AND regNm LIKE '%${regNm}%' 
 		 		AND (mngmNm LIKE '%${mngmNm}%' OR mngmNm IS NULL)
+		 		]]>
+		 		<if test="startDt != null || endDt != null || startDt != '' || endDt != ''">
+		 			AND regDt BETWEEN #{startDt} AND #{endDt} + INTERVAL 1 DAY
+		 		</if>
 	</select>
 	
 	<select id="dtl" resultType="CustOpn" parameterType="String">
@@ -49,6 +52,7 @@
 	</select>
 	
 	<update id="update" parameterType="CustOpn">
+	<![CDATA[
 		UPDATE 
 			tb_cust_opn
 		SET	
@@ -61,7 +65,16 @@
 			,mbrYn = #{mbrYn}
 			,regChnl = #{regChnl}
 			,regNm = #{regNm}
+			]]>
+	 		<if test="mngmNm != null">
+	 			,mngmNm = #{mngmNm}
+				,mngmDt = now()
+				,replCont = #{replCont}
+				,stsCd = '답변완료'
+	 		</if>
+	 		<![CDATA[
 		WHERE regNo = #{regNo}
+		]]>
 	</update>
 	
 	<delete id="delete" parameterType="String">

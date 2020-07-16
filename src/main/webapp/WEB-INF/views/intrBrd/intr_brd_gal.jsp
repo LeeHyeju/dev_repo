@@ -5,9 +5,17 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
-$(document).ready(function() {
-
-});
+/*검색어 찾기*/
+function fnSrch(){
+	submit('intr_brd_gal');
+}
+/*submit*/
+function submit(service){
+	var form = document.getElementById("searchForm");
+    form.method = "get";
+    form.action = "<c:url value='/intrBrd/" + service + "'/>";
+    form.submit();
+}
 </script>
 
 <div id="contentarea" class="l-content">
@@ -26,6 +34,7 @@ $(document).ready(function() {
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
+					<form id="searchForm" name="searchForm">
 					<table id="boardTable1" class="boardType01_tblList">
 						<caption><span class="t-hidden">검색</span></caption>
 						<colgroup>
@@ -35,7 +44,7 @@ $(document).ready(function() {
 						<tbody>
 						<tr>
 							<td><input type="text" id="srch" name="srch" style="width: 600px"></td>
-							<td><button type="button" id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button></td>
+							<td><button type="button" onClick="fnSrch()" id="btn_srch" class="btnTxt btnTxt_normal btnTxt_gray">검색</button></td>
 						</tr>
 						</tbody>
 					</table>
@@ -80,14 +89,13 @@ $(document).ready(function() {
 						%>
 				     	</c:forEach>
 				     	<%
-				     		cnt = cnt%3;
-				     	
-							for(int i=0; i<cnt-1; i++){
+				     		cnt = 3 - (cnt%3==0 ? 3 : cnt%3);
+							for(int i=0; i<cnt; i++){
 								out.print("<td>");
 								out.print("</td>");
 							}
 							
-					     	if(newLine!=3){
+					     	if(newLine!=3 && newLine!=0){
 								out.print("</tr>");
 								newLine = 0;
 							}
@@ -119,6 +127,7 @@ $(document).ready(function() {
 					<div style="margin-top:10px; text-align:right;">
 						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_gal_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
+				</form>
 				</div> <!-- //boardType01_wrap -->
 				
 			</div> <!-- //subcontent -->
