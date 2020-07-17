@@ -103,7 +103,7 @@
             }
   		
             //이동 
-            this.moveTo = function() {
+            this.moveTo = function(add) {
                 currDate.setMonth(currDate.getMonth()+ add);
                 that.make();
             }
