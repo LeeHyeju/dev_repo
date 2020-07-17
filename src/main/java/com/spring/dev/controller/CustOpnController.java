@@ -1,5 +1,8 @@
 package com.spring.dev.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,14 @@ public class CustOpnController {
     @RequestMapping(value = {"/cust_opn"})
 	public String list(Model model, CustOpn custOpn, Criteria cri) {
     	logger.info("CustOpnController cust_opn");
+    	if(custOpn.getEndDt() == "") {
+    		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+    		Date date = new Date();
+    		String time = format.format(date);
+    		
+    		custOpn.setEndDt(time);
+    		logger.info("CustOpnController time");
+    	}
     	int count = service.listCount(custOpn);
     	
     	model.addAttribute("list", service.list(custOpn, cri));
@@ -41,9 +52,7 @@ public class CustOpnController {
     @RequestMapping(value = {"/cust_opn_dtl"})
 	public String dtl(Model model, String regNo) {
     	logger.info("CustOpnController cust_opn_dtl");
-    	
     	model.addAttribute("dtl", service.dtl(regNo));
-    	
     	return "custOpn/cust_opn_dtl.page";
     }
     
@@ -51,9 +60,7 @@ public class CustOpnController {
     @RequestMapping(value = {"/save"})
 	public String save(CustOpn custOpn) {
     	logger.info("CustOpnController save>>>{}",custOpn);
-    	
     	service.update(custOpn);
-    	
     	return "redirect:/custOpn/cust_opn";
     }
     
@@ -61,9 +68,7 @@ public class CustOpnController {
     @RequestMapping(value = {"/del"})
 	public String del(String regNo) {
     	logger.info("CustOpnController del");
-    	
     	service.delete(regNo);
-    	
     	return "redirect:/custOpn/cust_opn";
     }
      
@@ -74,7 +79,7 @@ public class CustOpnController {
     	return "custOpn/cust_opn_reg.page";
     }
     
-    // 고객문의 등록 페이지
+    // 고객문의 등록
     @RequestMapping(value = {"/insert"})
 	public String insert(CustOpn custOpn) {
     	logger.info("CustOpnController insert");

@@ -18,7 +18,7 @@
 					 		AND regNm LIKE '%${custOpn.regNm}%'
 				 			AND (mngmNm LIKE '%${custOpn.mngmNm}%' OR mngmNm IS NULL)
 					 		]]>
-					 		<if test="custOpn.startDt != null || custOpn.endDt != null || custOpn.startDt != '' || custOpn.endDt != ''">
+					 		<if test="custOpn.startDt != null || custOpn.endDt != null">
 					 			AND regDt BETWEEN #{custOpn.startDt} AND #{custOpn.endDt} + INTERVAL 1 DAY
 					 		</if>
 					 		<![CDATA[
@@ -41,8 +41,8 @@
 		 		AND regNm LIKE '%${regNm}%' 
 		 		AND (mngmNm LIKE '%${mngmNm}%' OR mngmNm IS NULL)
 		 		]]>
-		 		<if test="startDt != null || endDt != null || startDt != '' || endDt != ''">
-		 			AND regDt BETWEEN #{startDt} AND #{endDt} + INTERVAL 1 DAY
+		 		<if test="startDt != null || endDt != null">
+		 			AND regDt BETWEEN '${startDt}' AND '${endDt}' + INTERVAL 1 DAY
 		 		</if>
 	</select>
 	

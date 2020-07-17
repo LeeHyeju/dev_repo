@@ -69,7 +69,7 @@ $(document).ready(function(){
 				
 				<div class="subcontent_title_wrap">
 					<h3 class="subcontent_title">고 객 문 의</h3>
-					<p class="subcontent_desc">123456</p>
+					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
 				<div class="boardType01_wrap">
