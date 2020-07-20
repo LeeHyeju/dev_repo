@@ -138,5 +138,87 @@
 					</ul>
 				</div>	
 		</fieldset>
+		<fieldset>
+			<legend>file add & remove</legend>
+				<script>
+					$(document).ready(function(){
+					//7번 첨부파일
+                        var files= {
+                            $container: $('#q4_1_2'),
+                            min: 1,
+                            max: 5, 
+                            add: function() {
+                                var count = files.$container.find('li').length;
+                                if(count >= files.max) return;
+                                var $li = $('<li><input type="file" /><button data-id="add2">추가</button><button type="button" data-id="del2">삭제</button></li>');
+                                files.$container.append($li);
+
+                                $li.find('button[data-id=add2]').on('click', function(e) { //추가
+                                    files.add();
+                                });
+                                $li.find('button[data-id=del2]').on('click', function(e) {//삭제
+                                    files.del($li);
+                                });
+
+                                files.addBtnVisible();
+                            },
+                            del: function($li){
+                                var count = files.$container.find('li').length;
+                                if(count <= files.min) return;
+                                $li.remove();
+                                files.addBtnVisible();
+                            },
+                            addBtnVisible: function() {
+                                var lastIndex = files.$container.find('li').find('button[data-id=add2]').length-1;
+                                files.$container.find('li').find('button[data-id=add2]').hide();
+                                files.$container.find('li').find('button[data-id=add2]').eq(lastIndex).show();
+                            }
+                        };
+                        files.add();
+
+                        $('button[data-id=add]').on('click', function() { //추가버튼 
+                            var length = $('#q4_1_1 li').length;
+
+                            if(length <5){
+                                $('#q4_1_1').append('<li><input type="file" /><button type="button" data-id="del">삭제</button></li>');
+                            } else if(length == 5) {
+                                $(this).hide();
+                            } 
+                        });
+
+                        $('#q4_1_1').on('click','button[data-id=del]', function(){ //삭제버튼
+                            var length = $('#q4_1_1 li').length;
+                            
+                            if (length <=5 && length >1) { //2~5개 있을 때 삭제버튼 
+                                $('#q4_1_1 li').remove();
+                            } else if(length ==1) {
+                                $(this).hide();
+                            }
+                        });
+					});	
+				</script>
+				<div>
+                    <ul>
+                        <li id="q4_1"><h3>첨부파일 추가 삭제</h3>
+                            <!-- 첨부파일 설정
+                                1.max 5개까지(5개일 때, 추가버튼 비활성)
+                                2.min 1개(1개일 때, 삭제버튼 비활성)
+                                [              ][찾아보기][-]
+                                [              ][찾아보기][-]
+                                [              ][찾아보기][+][-]
+                                -->
+                            <div>
+                                 <ul id="q4_1_1">
+                                    <li><input type="file" /><button type="button" data-id="add">추가</button><button type="button" data-id="del">삭제</button></li>
+                                </ul>
+                                --------------------------------------------
+                                <ul id="q4_1_2">
+                                </ul>
+                            </div>
+                        </li>
+                     </ul>
+				</div>	
+		</fieldset>
+		
  </body>
 </html>
