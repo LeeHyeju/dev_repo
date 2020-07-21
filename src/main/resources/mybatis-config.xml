@@ -16,6 +16,7 @@
             <typeAlias type="com.spring.dev.domain.IntrFaq" alias="IntrFaq"/>
             <typeAlias type="com.spring.dev.domain.IntrGal" alias="IntrGal"/>
             <typeAlias type="com.spring.dev.domain.CustOpn" alias="CustOpn"/>
+            <typeAlias type="com.spring.dev.domain.Benner" alias="Benner"/>
             <typeAlias type="com.spring.dev.domain.Criteria" alias="Criteria"/>
             <typeAlias type="com.spring.dev.domain.SearchKey" alias="SearchKey"/>
      </typeAliases>

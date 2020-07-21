@@ -21,7 +21,7 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/"><span>게시판관리</span></a>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
 		<span>통합게시판(갤러리형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">

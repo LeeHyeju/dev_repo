@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dev.mapper.BennerMapper">
+	<select id="list" resultType="Benner">
+		SELECT * FROM (
+			SELECT 	 * 
+					,ROW_NUMBER() OVER(ORDER BY tb_benner.regDt DESC) AS rNum
+			FROM tb_benner
+			WHERE 
+			 (CASE 
+				 WHEN #{searchKey.srchKey} = 'tl' THEN brdTl
+				 WHEN #{searchKey.srchKey} = 'type' THEN brdType
+				 WHEN #{searchKey.srchKey} = 'kind' THEN brdKind
+				 ELSE brdTl
+			 END) LIKE '%${searchKey.srchCont}%'
+		) bnr
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	</select>
+	
+	<select id="count" resultType="int" parameterType="SearchKey">
+		SELECT COUNT(*) FROM tb_benner
+		WHERE 
+		 (CASE 
+			 WHEN #{srchKey} = 'tl' THEN brdTl
+			 WHEN #{srchKey} = 'type' THEN brdType
+			 WHEN #{srchKey} = 'kind' THEN brdKind
+			 ELSE brdTl
+		 END) LIKE '%${srchCont}%'
+	</select>
+	
+	<select id="dtl" resultType="Benner" parameterType="String">
+		SELECT * FROM tb_benner
+		WHERE brdCd = #{brdCd}
+	</select>
+	
+	<update id="update" parameterType="Benner">
+		UPDATE tb_benner 
+		SET
+			 brdType = #{brdType}
+			,brdKind = #{brdKind}
+			,brdTl = #{brdTl}
+			,brdCont = #{brdCont}
+			,brdExpl = #{brdExpl}
+			,useYn = #{useYn}
+			,img = #{img}
+			,link = #{link}
+		WHERE brdCd = #{brdCd}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM tb_benner
+		WHERE brdCd = #{brdCd}
+	</delete>
+	
+	<insert id="insert" parameterType="Benner">
+		INSERT INTO tb_benner (
+			 brdCd
+			,brdType
+			,brdKind
+			,brdTl
+			,brdCont
+			,brdExpl
+			,useYn
+			,img
+			,link
+			,regId
+			,regDt
+		) VALUES (
+			 #{brdCd}
+			,#{brdType}
+			,#{brdKind}
+			,#{brdTl}
+			,#{brdCont}
+			,#{brdExpl}
+			,#{useYn}
+			,#{img}
+			,#{link}
+			,#{regId}
+			,now()
+		)
+	</insert>
+</mapper>

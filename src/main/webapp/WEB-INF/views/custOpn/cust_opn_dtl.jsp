@@ -6,6 +6,19 @@
 <script>
 /*저장*/
 function fnSave(){
+	//유효성 체크
+	$.validator.addMethod("telnum", function(value, element){
+	  var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+	  if(!pattern.test(value)){
+	    return this.optional(element)||false;
+	  }
+	  return true;
+	});
+	//숫자 영어만 사용 
+	$.validator.addMethod("eng_number", function (value, element) {
+		return this.optional(element) || /^[a-zA-Z\d]+$/.test(value);
+	});
+	
     $("#writeForm").validate({
         //규칙
         rules: {
@@ -30,9 +43,9 @@ function fnSave(){
                ,maxlength 	: 100
             }
     		,tel: {
-                required 	: true
-               ,maxlength 	: 100
-            }
+    			telnum : true
+    		   ,maxlength : 13
+           }
         },
         //규칙체크 실패시 출력될 메시지
         messages : {
@@ -57,8 +70,8 @@ function fnSave(){
 	           ,maxlength 	: "최대 {100}글자까지 입력하세요"
 	       	}
 	        ,tel: {
-	            required 	: "필수로입력하세요"
-	           ,maxlength 	: "최대 {100}글자까지 입력하세요"
+	        	telnum : "올바른 형식으로 입력하세요"
+	           ,maxlength : "최대 {13}글자이하이어야 합니다"
 	       	}
         },
      	// error 표시 위치 변경
@@ -95,6 +108,12 @@ function submit(service){
     form.action = "<c:url value='/custOpn/" + service + "'/>";
     form.submit();
 }
+//연락처 하이픈 자동생성
+$(document).on("keyup", "#tel", function() { 
+	$(this).val( $(this).val().replace(/[^0-9]/g, "")
+			.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+			.replace("--", "-") ); 
+});
 </script>
 
 <div id="contentarea" class="l-content">

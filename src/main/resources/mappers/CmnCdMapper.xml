@@ -98,4 +98,11 @@
 		WHERE 
 			groCd = #{groCd} AND cmnCd = #{cmnCd};	 	
 	</select>
+	
+	<select id="getCmnCd" resultType="CmnCd">
+		SELECT cmnCd, cmnNm
+		FROM tb_cmn_cd
+		WHERE groCd = #{groCd} AND useYn = 'Y'
+		ORDER BY arayOrde ASC
+	</select>
 </mapper>

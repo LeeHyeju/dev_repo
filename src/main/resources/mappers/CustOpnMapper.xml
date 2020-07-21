@@ -66,11 +66,14 @@
 			,regChnl = #{regChnl}
 			,regNm = #{regNm}
 			]]>
-	 		<if test="mngmNm != null">
+	 		<if test="mngmNm == null">
 	 			,mngmNm = #{mngmNm}
 				,mngmDt = now()
 				,replCont = #{replCont}
 				,stsCd = '답변완료'
+	 		</if>
+	 		<if test="mngmNm != null">
+				,replCont = #{replCont}
 	 		</if>
 	 		<![CDATA[
 		WHERE regNo = #{regNo}

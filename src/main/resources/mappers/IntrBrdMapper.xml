@@ -24,7 +24,6 @@
 			WHERE (CASE 
 				WHEN #{srchKey} = 'type' THEN brdType
 				WHEN #{srchKey} = 'nm'  THEN brdNM
-				WHEN #{srchKey} = 'cd'  THEN brdCd
 				ELSE brdType
 			END) LIKE '%${srchCont}%'
 	</select>
@@ -96,7 +95,7 @@
  					SELECT noti.* 
  					FROM (
  						SELECT * FROM tb_intr_brd_noti
-						WHERE brdType = '3'
+						WHERE brdType = '0003'
 						AND
 						(CASE 
 				 		 	WHEN #{searchKey.srchPeriod} = '1d'
@@ -131,7 +130,7 @@
 	    SELECT COUNT(*)
 	    FROM (
 			SELECT * FROM tb_intr_brd_noti
-			WHERE brdType = '3'
+			WHERE brdType = '0003'
 			AND
 			(CASE 
 	 		 	WHEN #{srchPeriod} = '1d'
@@ -163,7 +162,7 @@
 		SELECT  tb_intr_brd_noti.* 
 			   ,ROW_NUMBER() OVER(ORDER BY tb_intr_brd_noti.brdType ASC) AS rNum
 		FROM tb_intr_brd_noti
- 		WHERE brdType = '1' OR brdType = '2'
+ 		WHERE brdType = '0001' OR brdType = '0002'
 	</select>
 	
     <update id="brdHit">
