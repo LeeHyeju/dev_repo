@@ -3,8 +3,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page import="javax.servlet.http.HttpServletRequest" %>
 
 <script>
+$(document).ready(function(){
+	// 현재 URL
+    var url = document.location.href;
+    
+    if(url.indexOf('groCd') != -1){
+	    // url에서 '?' 문자 이후의 파라미터 문자열까지 자르기
+	    var params = url.substring(url.indexOf('groCd')+6, url.length);
+		if(params != "") {
+			document.getElementById(params).style.background = "#eaeaea";
+		}
+    }
+});
 /*초기화*/
 function fnReset(){
 	document.getElementById("keyGroCd").value = "";
@@ -200,7 +213,7 @@ function submit(service){
 									</thead>
 									<tbody>
 									<c:forEach var="cmnCd" items="${list}">
-									<tr class="hover" onClick='fnClick("${cmnCd.groCd}")'>
+									<tr class="hover" onClick='fnClick("${cmnCd.groCd}")' id="${cmnCd.groCd}">
 											<td>${cmnCd.rNum}</td>
 											<td>${cmnCd.groCd}</td>
 											<td>${cmnCd.groNm}</td>

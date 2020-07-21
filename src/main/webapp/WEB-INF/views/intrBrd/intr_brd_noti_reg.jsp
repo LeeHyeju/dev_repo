@@ -68,10 +68,10 @@ function fnInsert(){
 	var brdTypeSel = document.getElementById("brdTypeSel").value
 	
 	if(authCd){
-		document.getElementById("brdType").value = brdTypeSel;
-		document.getElementById("brdTypeNm").value = brdTypeSel == '3' ? "일반 게시물" : (brdTypeSel == '1' ? "공지" : "필독");
+		document.getElementById("brdType").value = document.getElementById("brdTypeSel").value;
+		document.getElementById("brdTypeNm").value = brdTypeSel == '0003' ? "일반 게시물" : (brdTypeSel == '0001' ? "공지" : "필독");
 	}else{
-		document.getElementById("brdType").value = "3";
+		document.getElementById("brdType").value = "0003";
 		document.getElementById("brdTypeNm").value = "일반 게시물";
 	}
 	
@@ -85,8 +85,8 @@ function fnInsert(){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti"><span>게시판관리</span></a><span>통합게시판(게시판형)</span>
-		<span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
+		<span>통합게시판(게시판형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
 	<div class="subcontent_wrap">
@@ -122,9 +122,9 @@ function fnInsert(){
 										<div class="input_adj">
 											<input type="text" name="brdType" id="brdType" readOnly style="width:200px; display:${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? 'none' : ''};" value="일반 게시물" class="input_textN"/>
 											<select name="brdTypeSel" id="brdTypeSel" class="input_selectN" style="width:200px; display:${authCd == 'ADM01' || authCd == 'BRD01' || authCd == 'A0001' ? '' : 'none'};">
-												<option value="1">공지</option>
-											    <option value="2">필독</option>
-											    <option value="3">일반 게시물</option>
+												<c:forEach var="type" items="${type}">
+													<option value="${type.cmnCd}">${type.cmnNm}</option>
+										     	</c:forEach>
 											</select>
 										</div>
 									</td>

@@ -6,6 +6,19 @@
 <script>
 //validation 체크 & 등록
 $(document).ready(function(){
+	//유효성 체크
+	$.validator.addMethod("telnum", function(value, element){
+	  var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
+	  if(!pattern.test(value)){
+	    return this.optional(element)||false;
+	  }
+	  return true;
+	});
+	//숫자 영어만 사용 
+	$.validator.addMethod("eng_number", function (value, element) {
+		return this.optional(element) || /^[a-zA-Z\d]+$/.test(value);
+	});
+	
     $("#writeForm").validate({
         //규칙
         rules: {
@@ -20,13 +33,13 @@ $(document).ready(function(){
                  required 	: true
                 ,maxlength 	: 100
             }
-    		,emadr: {
-                required 	: true
-               ,maxlength 	: 100
+    		,emailId: {
+    			 minlength : 5
+                ,eng_number: true
            }
     		,tel: {
-                required 	: true
-               ,maxlength 	: 100
+    			telnum : true
+    	       ,maxlength : 13
            }
     		,brdCont: {
                 required 	: true
@@ -49,13 +62,13 @@ $(document).ready(function(){
 	            required 	: "필수로입력하세요"
 	           ,maxlength 	: "최대 {100}글자까지 입력하세요"
 	       	}
-	        ,emadr: {
-	            required 	: "필수로입력하세요"
-	           ,maxlength 	: "최대 {100}글자까지 입력하세요"
+	        ,emailId: {
+	        	minlength : "최소 {5}글자이상이어야 합니다"
+               ,eng_number: "영문과 숫자만 입력하세요"
 	       	}
 	        ,tel: {
-	            required 	: "필수로입력하세요"
-	           ,maxlength 	: "최대 {100}글자까지 입력하세요"
+	        	telnum : "올바른 형식으로 입력하세요"
+	           ,maxlength : "최대 {13}글자이하이어야 합니다"
 	       	}
 	        ,brdCont: {
 	            required 	: "필수로입력하세요"
@@ -76,6 +89,8 @@ $(document).ready(function(){
         // validation이 끝난 이후의 submit 직전 추가 작업할 부분
         submitHandler: function(form) {
         	if(confirm("등록하시겠습니까?") == true){
+        		var emadr = document.getElementById("emailId").value + "@" + document.getElementById("emailDomain").value;
+        		document.getElementById("emadr").value = emadr;
 	        	// 등록
 	        	fnInsert();
         	}
@@ -91,6 +106,25 @@ function fnInsert(){
     form.method = "get";
     form.action = "<c:url value='/custOpn/insert'/>";
     form.submit();
+}
+//연락처 하이픈 자동생성
+$(document).on("keyup", "#tel", function() { 
+	$(this).val( $(this).val().replace(/[^0-9]/g, "")
+			.replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3")
+			.replace("--", "-") ); 
+});
+/*이메일 도메인 선택*/
+function selectEmail(ele){ 
+	var $ele = $(ele); 
+	var $emailDomain = $('input[name=emailDomain]'); // '1'인 경우 직접입력 
+	
+	if($ele.val() == "1"){ 
+		$emailDomain.attr('readonly', false); 
+		$emailDomain.val(''); 
+	} else { 
+		$emailDomain.attr('readonly', true); 
+		$emailDomain.val($ele.val()); 
+	} 
 }
 </script>
 
@@ -133,18 +167,10 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="제안">
-												<label for="brdType">제안</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="칭찬">
-												<label for="brdType">칭찬</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="불만">
-												<label for="brdType">불만</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="문의">
-												<label for="brdType">문의</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="요청">
-												<label for="brdType">요청</label>
-												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="기타">
-												<label for="brdType">기타</label>
+											<c:forEach var="type" items="${type}">
+												<input type="radio" name="brdType" id="brdType" class="input_group" style="width:50px;" value="${type.cmnNm}">
+												<label for="brdType">${type.cmnNm}</label>
+								     		</c:forEach>
 										</div>
 									</td>
 								</tr>
@@ -196,7 +222,15 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="emadr" id="emadr" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="hidden" name="emadr" id="emadr"/>
+											<input type="text" name="emailId" id="emailId" class="input_textN" style="width:200px;" maxlength="50"/>@ <input type="text" name="emailDomain" id="emailDomain" value="">
+											<select name="select_email" onChange="selectEmail(this)" class="form-control input-sm" style="width:100px;display: inline-block;"> 
+												<option value="">선택하세요</option> 
+												<c:forEach var="email" items="${email}">
+													<option value="${email.cmnNm}">${email.cmnNm}</option>
+										     	</c:forEach>
+												<option value="1">직접입력</option>
+											</select>
 										</div>
 									</td>
 								</tr>

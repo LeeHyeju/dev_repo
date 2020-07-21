@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dev.mapper.BnrMapper">
+	<select id="list" resultType="Bnr">
+		SELECT * FROM (
+			SELECT 	 * 
+					,ROW_NUMBER() OVER(ORDER BY tb_bnr.regDt DESC) AS rNum
+			FROM tb_bnr
+			WHERE 
+			 (CASE 
+				 WHEN #{searchKey.srchKey} = 'tl' THEN bnrNm
+				 WHEN #{searchKey.srchKey} = 'type' THEN bnrType
+				 WHEN #{searchKey.srchKey} = 'kind' THEN bnrKind
+				 ELSE bnrNm
+			 END) LIKE '%${searchKey.srchCont}%'
+		) bnr
+		WHERE rNum BETWEEN #{cri.rowStart} AND #{cri.rowEnd}
+	</select>
+	
+	<select id="count" resultType="int" parameterType="SearchKey">
+		SELECT COUNT(*) FROM tb_bnr
+		WHERE 
+		 (CASE 
+			 WHEN #{srchKey} = 'tl' THEN bnrNm
+			 WHEN #{srchKey} = 'type' THEN bnrType
+			 WHEN #{srchKey} = 'kind' THEN bnrKind
+			 ELSE bnrNm
+		 END) LIKE '%${srchCont}%'
+	</select>
+	
+	<select id="dtl" resultType="Bnr" parameterType="String">
+		SELECT * FROM tb_bnr
+		WHERE bnrCd = #{bnrCd}
+	</select>
+	
+	<update id="update" parameterType="Bnr">
+		UPDATE tb_bnr 
+		SET
+			 bnrType = #{bnrType}
+			,bnrKind = #{bnrKind}
+			,bnrNm = #{bnrNm}
+			,bnrCont = #{bnrCont}
+			,bnrExpl = #{bnrExpl}
+			,useYn = #{useYn}
+			,img = #{img}
+			,link = #{link}
+		WHERE bnrCd = #{bnrCd}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM tb_bnr
+		WHERE bnrCd = #{bnrCd}
+	</delete>
+	
+	<insert id="insert" parameterType="Bnr">
+		INSERT INTO tb_bnr (
+			 bnrCd
+			,bnrType
+			,bnrKind
+			,bnrNm
+			,bnrCont
+			,bnrExpl
+			,useYn
+			,img
+			,link
+			,regId
+			,regDt
+		) VALUES (
+			 #{bnrCd}
+			,#{bnrType}
+			,#{bnrKind}
+			,#{bnrNm}
+			,#{bnrCont}
+			,#{bnrExpl}
+			,#{useYn}
+			,#{img}
+			,#{link}
+			,#{regId}
+			,now()
+		)
+	</insert>
+</mapper>

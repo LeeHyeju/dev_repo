@@ -60,8 +60,8 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq"><span>게시판관리</span></a><span>통합게시판(질문형)</span>
-		<span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
+		<span>통합게시판관리</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
 	<div class="subcontent_wrap">
@@ -69,7 +69,7 @@ function submit(service){
 			<div class="subcontent">
 				
 				<div class="subcontent_title_wrap">
-					<h3 class="subcontent_title">통 합 게 시 판 (질문형)</h3>
+					<h3 class="subcontent_title">통 합 게 시 판 관 리</h3>
 					<p class="subcontent_desc"></p>
 				</div> <!-- //subboard_title_wrap -->
 				
@@ -95,7 +95,9 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<option value="${dtl.brdType}">${dtl.brdType}</option>
+												<c:forEach var="cmnCd" items="${cmnCd}">
+													<option value="${cmnCd.cmnNm}">${cmnCd.cmnNm}</option>
+										     	</c:forEach>
 											</select>
 										</div>
 									</td>
@@ -194,7 +196,7 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">생성자여부</label>
+											<label for="">사용여부</label>
 										</span>
 									</th>
 									<td>
@@ -232,7 +234,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
-											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+											${fmtDate}
 										</div>
 									</td>
 								</tr>
@@ -245,7 +247,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
+											${dtl.regId}
 										</div>
 									</td>
 								</tr>

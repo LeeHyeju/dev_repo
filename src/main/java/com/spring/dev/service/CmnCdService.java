@@ -1,6 +1,7 @@
 package com.spring.dev.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,9 @@ public class CmnCdService {
 	
 	public int cdChk(String groCd, String cmnCd) {
 		return mapper.cdChk(groCd, cmnCd);
+	}
+	
+	public List<CmnCd> getCmnCd(String groCd) {
+		return mapper.getCmnCd(groCd);
 	}
 }

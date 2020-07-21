@@ -63,8 +63,8 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_noti"><span>게시판관리</span></a><span>통합게시판(게시판형)</span>
-		<span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
+		<span>통합게시판(게시판형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
 	<div class="subcontent_wrap">
@@ -234,7 +234,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
-											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+											${fmtDate}
 										</div>
 									</td>
 								</tr>
@@ -247,7 +247,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
+											${dtl.regId}
 										</div>
 									</td>
 								</tr>

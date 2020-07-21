@@ -71,8 +71,8 @@ function fnInsert() {
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq"><span>게시판관리</span></a><span>통합게시판(질문형)</span>
-		<span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
+		<span>통합게시판(질문형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
 	<div class="subcontent_wrap">
@@ -107,9 +107,9 @@ function fnInsert() {
 									<td>
 										<div class="input_adj">
 											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<option value="1">대출</option>
-											    <option value="2">서비스</option>
-											    <option value="3">기타</option>
+												<c:forEach var="cmnCd" items="${cmnCd}">
+													<option value="${cmnCd.cmnCd}">${cmnCd.cmnNm}</option>
+										     	</c:forEach>
 											</select>
 										</div>
 									</td>

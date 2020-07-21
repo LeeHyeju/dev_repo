@@ -2,6 +2,7 @@ package com.spring.dev.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.CustOpn;
 import com.spring.dev.domain.PageMaker;
+import com.spring.dev.service.CmnCdService;
 import com.spring.dev.service.CustOpnService;
 
 @Controller
@@ -22,6 +25,9 @@ public class CustOpnController {
 	
 	@Autowired
 	CustOpnService service;
+	
+	@Autowired
+	CmnCdService cmnCdService;
 	
 	// 고객문의 페이지 & 검색
     @RequestMapping(value = {"/cust_opn"})
@@ -39,6 +45,12 @@ public class CustOpnController {
     	
     	model.addAttribute("list", service.list(custOpn, cri));
     	model.addAttribute("count", count);
+    	
+    	// 공통코드 세팅
+    	model.addAttribute("type", cmnCdService.getCmnCd("C0001"));
+    	model.addAttribute("chnl", cmnCdService.getCmnCd("C0004"));
+    	model.addAttribute("stsCd", cmnCdService.getCmnCd("C0005"));
+    	model.addAttribute("mngm", cmnCdService.getCmnCd("C0006"));
     	
     	PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -74,8 +86,10 @@ public class CustOpnController {
      
     // 고객문의 등록 페이지
     @RequestMapping(value = {"/cust_opn_reg"})
-	public String reg() {
+	public String reg(Model model) {
     	logger.info("CustOpnController cust_opn_reg");
+    	model.addAttribute("type", cmnCdService.getCmnCd("C0001"));
+    	model.addAttribute("email", cmnCdService.getCmnCd("C0009"));
     	return "custOpn/cust_opn_reg.page";
     }
     

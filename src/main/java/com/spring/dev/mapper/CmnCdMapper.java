@@ -37,4 +37,7 @@ public interface CmnCdMapper {
 	
 	// 코드 중복확인
 	public int cdChk(@Param("groCd")String groCd, @Param("cmnCd")String cmnCd);
+	
+	// 공통코드 조회
+	public List<CmnCd> getCmnCd(String groCd);
 }

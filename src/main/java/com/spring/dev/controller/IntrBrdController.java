@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.Intr;
 import com.spring.dev.domain.IntrBrd;
@@ -17,6 +18,7 @@ import com.spring.dev.domain.IntrGal;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchKey;
 import com.spring.dev.service.AdminService;
+import com.spring.dev.service.CmnCdService;
 import com.spring.dev.service.IntrBrdService;
 
 @Controller
@@ -29,6 +31,9 @@ public class IntrBrdController {
 	
 	@Autowired
 	AdminService adminService;	
+	
+	@Autowired
+	CmnCdService cmnCdService;	
 	
 	/**************************** 공 통 게 시 판 ************************************************/
 	// 공통 게시판 페이지 & 검색
@@ -56,6 +61,11 @@ public class IntrBrdController {
     	
     	// 유형 세팅
     	Intr dtl = service.dtlBrd(brdCd);
+    	
+    	// 공통코드 세팅
+    	String cmnCd = "C0002";
+    	List<CmnCd> cmnCdList = cmnCdService.getCmnCd(cmnCd);
+    	model.addAttribute("cmnCd", cmnCdList);
 
     	// dtl 세팅
     	model.addAttribute("dtl", dtl);
@@ -81,8 +91,13 @@ public class IntrBrdController {
     
     // 공통 게시판 등록 페이지
     @RequestMapping(value = {"/intr_brd_reg"})
-	public String regBrd() {
+	public String regBrd(Model model) {
     	logger.info("IntrBrdController intr_brd_reg");
+    	
+    	// 공통코드 세팅
+    	String cmnCd = "C0002";
+    	model.addAttribute("type", cmnCdService.getCmnCd(cmnCd));
+    	
 		return "intrBrd/intr_brd_reg.page";
 	}
 	
@@ -90,7 +105,7 @@ public class IntrBrdController {
     @RequestMapping(value = {"/insertBrd"})
     public String insertBrd(Intr intr) {
     	logger.info("IntrBrdController insertBrd");
-    	String tblNm = "tb_brd_manage";
+    	String tblNm = "tb_brd_mngm";
     	intr.setBrdCd(service.brdCdMax(tblNm)+1);
     	
     	service.insertBrd(intr);
@@ -124,7 +139,7 @@ public class IntrBrdController {
     @RequestMapping(value = {"/intr_brd_noti_dtl"})
     public String dtlNoti(Model model, String brdCd, int hit, String regId) {
     	logger.info("IntrBrdController intr_brd_noti_dtl");
-    	String tblNm = "tb_intr_brd_noti";
+    	String tblNm = "tb_brd_noti";
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
@@ -172,6 +187,9 @@ public class IntrBrdController {
     	// authCd 가져오기
     	model.addAttribute("authCd", adminService.selectAuthCd(regId));
     	
+    	// 공통코드 세팅
+    	model.addAttribute("type", cmnCdService.getCmnCd("C0010"));
+    	
     	return "intrBrd/intr_brd_noti_reg.page";
     }
 
@@ -180,7 +198,7 @@ public class IntrBrdController {
     public String insertNoti(IntrBrd intrBrd) {
     	logger.info("IntrBrdController insert");
     	
-    	String tblNm = "tb_intr_brd_noti";
+    	String tblNm = "tb_brd_noti";
     	intrBrd.setBrdCd(service.brdCdMax(tblNm)+1);
     	
     	service.insert(intrBrd);
@@ -215,14 +233,14 @@ public class IntrBrdController {
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
-
-    	// 유형 세팅
-    	IntrFaq dtl = service.faqDtl(brdCd);
-    	List<IntrFaq> type = service.getBrdTypeFaq();
-    	type.remove(dtl.getBrdType()-1);
-    	model.addAttribute("type", type);
+    	
+    	// 공통코드 세팅
+    	String cmnCd = "C0003";
+    	List<CmnCd> cmnCdList = cmnCdService.getCmnCd(cmnCd);
+    	model.addAttribute("cmnCd", cmnCdList);
     	
     	// dtl 세팅
+    	IntrFaq dtl = service.faqDtl(brdCd);
     	model.addAttribute("dtl", dtl);
     	
     	// 이전글 다음글 가져오기
@@ -234,8 +252,11 @@ public class IntrBrdController {
     
     // FAQ 등록 페이지
     @RequestMapping(value = {"/intr_brd_faq_reg"})
-    public String regFaq() {
+    public String regFaq(Model model) {
     	logger.info("IntrBrdController intr_brd_faq_reg");
+    	// 공통코드 세팅
+    	String cmnCd = "C0003";
+    	model.addAttribute("cmnCd", cmnCdService.getCmnCd(cmnCd));
     	return "intrBrd/intr_brd_faq_reg.page";
     }
     

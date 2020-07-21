@@ -64,8 +64,8 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq"><span>게시판관리</span></a><span>통합게시판(질문형)</span>
-		<span class="path_current">${boardManage.boardName}</span>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
+		<span>통합게시판(질문형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
 	<div class="subcontent_wrap">
@@ -101,10 +101,9 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<option value="${dtl.brdType}">${dtl.brdTypeNm}</option>
-											      <c:forEach var="type" items="${type}">
-											         <option value="${type.brdType}">${type.brdTypeNm}</option>
-											      </c:forEach>
+												<c:forEach var="cmnCd" items="${cmnCd}">
+													<option value="${cmnCd.cmnCd}">${cmnCd.cmnNm}</option>
+										     	</c:forEach>
 											</select>
 										</div>
 									</td>
@@ -162,7 +161,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
-											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+											${fmtDate}
 										</div>
 									</td>
 								</tr>
@@ -175,7 +174,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
+											${dtl.regId}
 										</div>
 									</td>
 								</tr>

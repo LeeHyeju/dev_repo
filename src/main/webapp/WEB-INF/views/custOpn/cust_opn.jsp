@@ -88,21 +88,18 @@ $(document).ready(function(){
 							<td>
 								<select id="brdType" name="brdType" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="제안">제안</option>
-								    <option value="칭찬">칭찬</option>
-								    <option value="불만">불만</option>
-								    <option value="문의">문의</option>
-								    <option value="요청">요청</option>
-								    <option value="기타">기타</option>
+									<c:forEach var="type" items="${type}">
+										<option value="${type.cmnCd}">${type.cmnNm}</option>
+							     	</c:forEach>
 								</select>
 							</td>
 							<th>상태</th>
 							<td>
 								<select id="stsCd" name="stsCd" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="대기중">대기중</option>
-								    <option value="검토중">검토중</option>
-								    <option value="답변완료">답변완료</option>
+									<c:forEach var="stsCd" items="${stsCd}">
+										<option value="${stsCd.cmnCd}">${stsCd.cmnNm}</option>
+							     	</c:forEach>
 								</select>
 							</td>
 						</tr>
@@ -123,17 +120,18 @@ $(document).ready(function(){
 							<td>
 								<select id="regChnl" name="regChnl" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="HOM">홈페이지</option>
-								    <option value="WEB">모바일웹</option>
-								    <option value="APP">모바일앱</option>
+									<c:forEach var="chnl" items="${chnl}">
+										<option value="${chnl.cmnCd}">${chnl.cmnNm}</option>
+							     	</c:forEach>
 								</select>
 							</td>
 							<th>처리자</th>
 							<td>
 								<select id="mngmNm" name="mngmNm" style="width:100px;">
 									<option value="">전체</option>
-								    <option value="주관부서">주관부서</option>
-								    <option value="처리부서">처리부서</option>
+									<c:forEach var="mngm" items="${mngm}">
+										<option value="${mngm.cmnCd}">${mngm.cmnNm}</option>
+							     	</c:forEach>
 								</select>
 							</td>
 						</tr>

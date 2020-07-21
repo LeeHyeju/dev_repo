@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
-/* brdType 1:공지, 2:필독, 3:일반게시물 */
 $(document).ready(function(){
 	var notiChk = ${notiChk};
 	if(notiChk == true){
@@ -42,7 +41,7 @@ function fnNotiClick(length) {
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/"><span>게시판관리</span></a>
+		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
 		<span>통합게시판(게시판형)</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
