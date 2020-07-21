@@ -9,15 +9,15 @@ $(document).ready(function(){
     $("#writeForm").validate({
         //규칙
         rules: {
-	       	brdExpl: {
+	       	bnrExpl: {
                 required 	: true
                ,maxlength 	: 100
            	}
-	   		,brdCont: {
+	   		,bnrCont: {
 	   			required 	: true
 	           ,maxlength 	: 300
 	        }
-	   		,brdTl: {
+	   		,bnrNm: {
 	   			required 	: true
 	           ,maxlength 	: 300
 	        }
@@ -28,15 +28,15 @@ $(document).ready(function(){
        },
        //규칙체크 실패시 출력될 메시지
        messages : {
-	       	brdExpl: {
+	       	bnrExpl: {
                 required 	: "필수로입력하세요"
                ,maxlength 	: "최대 {100}글자까지 입력하세요"
             }
-	        ,brdCont: {
+	        ,bnrCont: {
 	        	required 	: "필수로입력하세요"
 	            ,maxlength 	: "최대 {300}글자까지 입력하세요"
 	        }
-	        ,brdTl: {
+	        ,bnrNm: {
                 required 	: "필수로입력하세요"
                ,maxlength 	: "최대 {100}글자까지 입력하세요"
             }
@@ -111,9 +111,9 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<c:forEach var="brdType" items="${brdType}">
-													<option value="${brdType.cmnCd}">${brdType.cmnNm}</option>
+											<select name="bnrType" id="bnrType" class="input_selectN" style="width:200px;">
+												<c:forEach var="bnrType" items="${bnrType}">
+													<option value="${bnrType.cmnCd}">${bnrType.cmnNm}</option>
 										     	</c:forEach>
 											</select>
 										</div>
@@ -128,9 +128,9 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="brdKind" id="brdKind" class="input_selectN" style="width:200px;">
-												<c:forEach var="brdKind" items="${brdKind}">
-													<option value="${brdKind.cmnCd}">${brdKind.cmnNm}</option>
+											<select name="bnrKind" id="bnrKind" class="input_selectN" style="width:200px;">
+												<c:forEach var="bnrKind" items="${bnrKind}">
+													<option value="${bnrKind.cmnCd}">${bnrKind.cmnNm}</option>
 										     	</c:forEach>
 											</select>
 										</div>
@@ -145,7 +145,7 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdExpl" id="brdExpl" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="bnrExpl" id="bnrExpl" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -174,7 +174,7 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<textarea name="brdCont" id="brdCont" class="input_textN" style="width:300px; height:100px;" maxlength="300"></textarea>
+											<textarea name="bnrCont" id="bnrCont" class="input_textN" style="width:300px; height:100px;" maxlength="300"></textarea>
 										</div>
 									</td>
 								</tr>
@@ -187,7 +187,7 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50"/>
+											<input type="text" name="bnrNm" id="bnrNm" class="input_textN" style="width:200px;" maxlength="50"/>
 										</div>
 									</td>
 								</tr>
@@ -205,7 +205,6 @@ function fnInsert(){
 									</td>
 								</tr>
 								<tr> 
-									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">링크</label>
@@ -223,7 +222,7 @@ function fnInsert(){
 						
 					<div class="boardType01_write_btn">
 						<button id="btnInsert" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></button>
-						<a href="${pageContext.request.contextPath}/intrBrd/intr_brd" class="btnTxt btnTxt_normal btnTxt_dark"><span>취소</span></a>
+						<a href="${pageContext.request.contextPath}/intrbnr/intr_bnr" class="btnTxt btnTxt_normal btnTxt_dark"><span>취소</span></a>
 					</div> <!-- //boardType01_write_btn -->
 					</form>
 				</div> <!-- //boardType01_wrap -->

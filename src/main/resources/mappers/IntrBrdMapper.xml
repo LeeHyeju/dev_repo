@@ -7,7 +7,7 @@
 			SELECT   noti.*
 			    	,ROW_NUMBER() OVER(ORDER BY noti.brdCd ASC) AS rNum
 	 		FROM (	
-				SELECT * FROM tb_brd_manage
+				SELECT * FROM tb_brd_mngm
 				WHERE (CASE 
 					WHEN #{searchKey.srchKey} = 'type' 	THEN brdType
 					WHEN #{searchKey.srchKey} = 'nm'  	THEN brdNM
@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="mngmListCount" resultType="int" parameterType="SearchKey">
-			SELECT COUNT(*) FROM tb_brd_manage
+			SELECT COUNT(*) FROM tb_brd_mngm
 			WHERE (CASE 
 				WHEN #{srchKey} = 'type' THEN brdType
 				WHEN #{srchKey} = 'nm'  THEN brdNM
@@ -30,13 +30,13 @@
 	
 	<select id="dtlBrd" resultType="Intr" parameterType="String">
 	    SELECT *
-	    FROM tb_brd_manage
+	    FROM tb_brd_mngm
 	    WHERE brdCd = #{brdCd}
 	</select>
 	
 	<insert id="insertBrd" parameterType="Intr">
 		INSERT INTO 
-			tb_brd_manage (
+			tb_brd_mngm (
 				 brdCd
 			 	,brdNm
 				,brdType
@@ -67,7 +67,7 @@
 	</insert>
 	
 	<update id="brdUpdate" parameterType="Intr">
-		UPDATE tb_brd_manage
+		UPDATE tb_brd_mngm
 		SET	 brdType = #{brdType}
 			,brdNm = #{brdNm}
 			,brdPage = #{brdPage}
@@ -82,7 +82,7 @@
 	
 	<delete id="brdDelete" parameterType="int">
 		DELETE 
-		FROM tb_brd_manage
+		FROM tb_brd_mngm
 		WHERE brdCd = #{brdCd}
 	</delete>
 	
@@ -94,7 +94,7 @@
  				FROM (	
  					SELECT noti.* 
  					FROM (
- 						SELECT * FROM tb_intr_brd_noti
+ 						SELECT * FROM tb_brd_noti
 						WHERE brdType = '0003'
 						AND
 						(CASE 
@@ -129,7 +129,7 @@
 	<select id="postListCount" resultType="int" parameterType="SearchKey">
 	    SELECT COUNT(*)
 	    FROM (
-			SELECT * FROM tb_intr_brd_noti
+			SELECT * FROM tb_brd_noti
 			WHERE brdType = '0003'
 			AND
 			(CASE 
@@ -159,9 +159,9 @@
 	</select>
 	
 	<select id="notiList" resultType="IntrBrd">
-		SELECT  tb_intr_brd_noti.* 
-			   ,ROW_NUMBER() OVER(ORDER BY tb_intr_brd_noti.brdType ASC) AS rNum
-		FROM tb_intr_brd_noti
+		SELECT  tb_brd_noti.* 
+			   ,ROW_NUMBER() OVER(ORDER BY tb_brd_noti.brdType ASC) AS rNum
+		FROM tb_brd_noti
  		WHERE brdType = '0001' OR brdType = '0002'
 	</select>
 	
@@ -175,7 +175,7 @@
     
     <insert id="insert" parameterType="IntrBrd">
 		INSERT INTO 
-			tb_intr_brd_noti (
+			tb_brd_noti (
 				 brdCd
 				,brdType
 				,brdTypeNm
@@ -203,12 +203,12 @@
 	
 	<select id="dtl" resultType="IntrBrd" parameterType="String">
 	    SELECT *
-	    FROM tb_intr_brd_noti
+	    FROM tb_brd_noti
 	    WHERE brdCd = #{brdCd}
 	</select>
 		
 	<update id="update" parameterType="IntrBrd">
-		UPDATE tb_intr_brd_noti
+		UPDATE tb_brd_noti
 		SET	 brdType = #{brdType}
 			,brdTypeNm = #{brdTypeNm}
 			,brdTl = #{brdTl}
@@ -219,7 +219,7 @@
 
 	<delete id="delete" parameterType="String">
 		DELETE 
-		FROM tb_intr_brd_noti
+		FROM tb_brd_noti
 		WHERE brdCd = #{brdCd}
 	</delete>
 	
@@ -229,7 +229,7 @@
 	
 	<select id="getBrdTypeBrd" resultType="IntrBrd">
 		SELECT DISTINCT brdType, brdTypeNm
-		FROM tb_intr_brd_noti
+		FROM tb_brd_noti
 	</select>
 	
 	<select id="listFaq" resultType="IntrFaq">

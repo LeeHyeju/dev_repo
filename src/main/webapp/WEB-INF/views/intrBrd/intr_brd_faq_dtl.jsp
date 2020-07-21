@@ -161,7 +161,7 @@ function submit(service){
 									<td>
 										<div class="input_adj">
 											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
-											<input type="text" name="regDt" disabled value="${fmtDate}"/>
+											${fmtDate}
 										</div>
 									</td>
 								</tr>
@@ -174,7 +174,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="regId" id="regId" class="input_textN" style="width:200px;" disabled value="${dtl.regId}"/>
+											${dtl.regId}
 										</div>
 									</td>
 								</tr>

@@ -9,15 +9,15 @@ function fnSave(){
 	 $("#writeForm").validate({
 	        //규칙
 	        rules: {
-	        	brdExpl: {
+	        	bnrExpl: {
 	                 required 	: true
 	                ,maxlength 	: 100
 	            }
-	    		,brdCont: {
+	    		,bnrCont: {
 	    			required 	: true
 	               ,maxlength 	: 300
 	            }
-	    		,brdTl: {
+	    		,bnrNm: {
 	    			required 	: true
 	               ,maxlength 	: 300
 	            }
@@ -28,15 +28,15 @@ function fnSave(){
 	        },
 	        //규칙체크 실패시 출력될 메시지
 	        messages : {
-	        	brdExpl: {
+	        	bnrExpl: {
 	                 required 	: "필수로입력하세요"
 	                ,maxlength 	: "최대 {100}글자까지 입력하세요"
 	            }
-		        ,brdCont: {
+		        ,bnrCont: {
 		        	required 	: "필수로입력하세요"
 	               ,maxlength 	: "최대 {300}글자까지 입력하세요"
 		        }
-		        ,brdTl: {
+		        ,bnrNm: {
 	                 required 	: "필수로입력하세요"
 	                ,maxlength 	: "최대 {100}글자까지 입력하세요"
 	            }
@@ -76,7 +76,7 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd_faq"><span>게시판관리</span></a><span>베너관리</span>
+		<a href="${pageContext.request.contextPath}/intrbnr/intr_bnr_faq"><span>게시판관리</span></a><span>베너관리</span>
 		<span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
@@ -93,7 +93,7 @@ function submit(service){
 					<span class="boardType01_info_top"><strong>*</strong> 필수입력사항입니다.</span>
 					
 					<form name="writeForm" id="writeForm">
-					<input type="hidden" name="brdCd" id="brdCd" value="${dtl.brdCd}"/>
+					<input type="hidden" name="bnrCd" id="bnrCd" value="${dtl.bnrCd}"/>
 					<div class="boardType01_write">
 						<table id="boardTable1" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
@@ -110,8 +110,8 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
-												<option value="${dtl.brdType}">${dtl.brdType}</option>
+											<select name="bnrType" id="bnrType" class="input_selectN" style="width:200px;">
+												<option value="${dtl.bnrType}">${dtl.bnrType}</option>
 											</select>
 										</div>
 									</td>
@@ -125,9 +125,9 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="brdKind" id="brdKind" class="input_selectN" style="width:200px;">
-												<option value="${dtl.brdKind}">${dtl.brdKind}</option>
-												<option value="${dtl.brdKind=='Y'?'N':'Y'}">${dtl.brdKind=='Y'?'N':'Y'}</option>
+											<select name="bnrKind" id="bnrKind" class="input_selectN" style="width:200px;">
+												<option value="${dtl.bnrKind}">${dtl.bnrKind}</option>
+												<option value="${dtl.bnrKind=='Y'?'N':'Y'}">${dtl.bnrKind=='Y'?'N':'Y'}</option>
 											</select>
 										</div>
 									</td>
@@ -141,7 +141,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdExpl" id="brdExpl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdExpl}"/>
+											<input type="text" name="bnrExpl" id="bnrExpl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.bnrExpl}"/>
 										</div>
 									</td>
 								</tr>
@@ -170,7 +170,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<textarea name="brdCont" id="brdCont" class="input_textN" style="width:300px; height:100px;" maxlength="300">${dtl.brdCont}</textarea>
+											<textarea name="bnrCont" id="bnrCont" class="input_textN" style="width:300px; height:100px;" maxlength="300">${dtl.bnrCont}</textarea>
 										</div>
 									</td>
 								</tr>
@@ -183,7 +183,7 @@ function submit(service){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="text" name="brdTl" id="brdTl" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdTl}"/>
+											<input type="text" name="bnrNm" id="bnrNm" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.bnrNm}"/>
 										</div>
 									</td>
 								</tr>

@@ -8,28 +8,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.dev.domain.Benner;
+import com.spring.dev.domain.Bnr;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.PageMaker;
 import com.spring.dev.domain.SearchKey;
-import com.spring.dev.service.BennerService;
+import com.spring.dev.service.BnrService;
 import com.spring.dev.service.CmnCdService;
 
 @Controller
-@RequestMapping("/benner")
-public class BennerController {
-	private static final Logger logger = LoggerFactory.getLogger(BennerController.class);
+@RequestMapping("/bnr")
+public class BnrController {
+	private static final Logger logger = LoggerFactory.getLogger(BnrController.class);
 	
 	@Autowired
-	BennerService service;
+	BnrService service;
 	
 	@Autowired
 	CmnCdService cmnCdService;
 	
 	// 베너 페이지 & 검색
-    @RequestMapping(value = {"/benner"})
+    @RequestMapping(value = {"/bnr"})
 	public String list(Model model, SearchKey searchKey, Criteria cri) {
-    	logger.info("BennerController benner");
+    	logger.info("bnrController bnr");
     	int count = service.count(searchKey);
     	
     	// List 세팅
@@ -41,50 +41,50 @@ public class BennerController {
 		pageMaker.setTotalCount(count);
 		model.addAttribute("pageMaker", pageMaker);
     	
-    	return "benner/benner.page";
+    	return "bnr/bnr.page";
     }
     
     // 베너 상세 페이지
-    @RequestMapping(value = {"/benner_dtl"})
+    @RequestMapping(value = {"/bnr_dtl"})
 	public String dtl(Model model, String brdCd) {
-    	logger.info("BennerController benner_dtl");
+    	logger.info("bnrController bnr_dtl");
     	
     	// dtl 세팅
     	model.addAttribute("dtl", service.dtl(brdCd));
     	
-    	return "benner/benner_dtl.page";
+    	return "bnr/bnr_dtl.page";
     }
     
     // 베너 저장
     @RequestMapping(value = {"/save"})
-	public String update(Model model, Benner benner) {
-    	logger.info("BennerController save");
-    	service.update(benner);
-    	return "redirect:/benner/benner";
+	public String update(Model model, Bnr bnr) {
+    	logger.info("bnrController save");
+    	service.update(bnr);
+    	return "redirect:/bnr/bnr";
     }
     
     // 베너 삭제
     @RequestMapping(value = {"/del"})
 	public String delete(Model model, String brdCd) {
-    	logger.info("BennerController del");
+    	logger.info("bnrController del");
     	service.delete(brdCd);
-    	return "redirect:/benner/benner";
+    	return "redirect:/bnr/bnr";
     }
     
     // 베너 등록 페이지
-    @RequestMapping(value = {"/benner_reg"})
+    @RequestMapping(value = {"/bnr_reg"})
 	public String reg(Model model) {
-    	logger.info("BennerController benner_reg");
+    	logger.info("bnrController bnr_reg");
     	model.addAttribute("brdKind", cmnCdService.getCmnCd("C0007"));
     	model.addAttribute("brdType", cmnCdService.getCmnCd("C0008"));
-    	return "benner/benner_reg.page";
+    	return "bnr/bnr_reg.page";
     }
     
     // 베너 등록
     @RequestMapping(value = {"/insert"})
-	public String insert(Benner benner) {
-    	logger.info("BennerController insert");
-    	service.insert(benner);
-    	return "redirect:/benner/benner";
+	public String insert(Bnr bnr) {
+    	logger.info("bnrController insert");
+    	service.insert(bnr);
+    	return "redirect:/bnr/bnr";
     }
 }

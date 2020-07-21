@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.dev.domain.Benner;
+import com.spring.dev.domain.Bnr;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.SearchKey;
-import com.spring.dev.mapper.BennerMapper;
+import com.spring.dev.mapper.BnrMapper;
 
 @Service
-public class BennerService {
+public class BnrService {
 	@Autowired
-	BennerMapper mapper;
+	BnrMapper mapper;
 	
 	// 베너
-	public List<Benner> list(SearchKey searchKey, Criteria cri) {
+	public List<Bnr> list(SearchKey searchKey, Criteria cri) {
 		return mapper.list(searchKey, cri);
 	}
 	
@@ -24,11 +24,11 @@ public class BennerService {
 		return mapper.count(searchKey);
 	}
 	
-	public Benner dtl(String brdCd) {
+	public Bnr dtl(String brdCd) {
 		return mapper.dtl(brdCd);
 	}
 	
-	public void update(Benner benner) {
+	public void update(Bnr benner) {
 		mapper.update(benner);
 	}
 	
@@ -36,7 +36,7 @@ public class BennerService {
 		mapper.delete(brdCd);
 	}
 	
-	public void insert(Benner benner) {
+	public void insert(Bnr benner) {
 		mapper.insert(benner);
 	}
 }

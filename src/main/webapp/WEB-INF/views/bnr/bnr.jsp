@@ -83,10 +83,10 @@ function fnSrch() {
 							<c:forEach var="bnr" items="${list}">
 								<tr class="hover">
 									<td>${bnr.rNum}</td>
-									<td>${bnr.brdType}</td>
-									<td><a href="/benner/benner_dtl?brdCd=${bnr.brdCd}">${bnr.brdTl}</a></td>
-									<td>${bnr.brdCont}</td>
-									<td>${bnr.brdKind}</td>
+									<td>${bnr.bnrType}</td>
+									<td><a href="/benner/benner_dtl?bnrCd=${bnr.bnrCd}">${bnr.bnrNm}</a></td>
+									<td>${bnr.bnrCont}</td>
+									<td>${bnr.bnrKind}</td>
 									<td>${bnr.useYn}</td>
 									<td>${bnr.regId}</td>
 									<td><fmt:formatDate value="${bnr.regDt}" pattern="yyyy.MM.dd"/></td>

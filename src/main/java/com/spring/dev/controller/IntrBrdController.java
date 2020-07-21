@@ -105,7 +105,7 @@ public class IntrBrdController {
     @RequestMapping(value = {"/insertBrd"})
     public String insertBrd(Intr intr) {
     	logger.info("IntrBrdController insertBrd");
-    	String tblNm = "tb_brd_manage";
+    	String tblNm = "tb_brd_mngm";
     	intr.setBrdCd(service.brdCdMax(tblNm)+1);
     	
     	service.insertBrd(intr);
@@ -139,7 +139,7 @@ public class IntrBrdController {
     @RequestMapping(value = {"/intr_brd_noti_dtl"})
     public String dtlNoti(Model model, String brdCd, int hit, String regId) {
     	logger.info("IntrBrdController intr_brd_noti_dtl");
-    	String tblNm = "tb_intr_brd_noti";
+    	String tblNm = "tb_brd_noti";
     	
     	// 조회수 증가
     	service.brdHit(tblNm, brdCd, hit);
@@ -198,7 +198,7 @@ public class IntrBrdController {
     public String insertNoti(IntrBrd intrBrd) {
     	logger.info("IntrBrdController insert");
     	
-    	String tblNm = "tb_intr_brd_noti";
+    	String tblNm = "tb_brd_noti";
     	intrBrd.setBrdCd(service.brdCdMax(tblNm)+1);
     	
     	service.insert(intrBrd);
