@@ -249,10 +249,10 @@
 					var tx = x + virus.util.distance2Loc[i].x; 
 					var ty = y + virus.util.distance2Loc[i].y; 
 					if (tx > -1 && tx < this.virusBlocks[0].length 
-					&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
-					var block = this.virusBlocks[ty][tx]; 
-					if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
-						block.setHighlight('highlight2');
+					    && ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
+					    var block = this.virusBlocks[ty][tx]; 
+					    if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
+						    block.setHighlight('highlight2');
 					}
 				}
 			}
@@ -285,7 +285,7 @@
 			return _t; 
 		}
  			
-		this.setType = function() {
+		this.setType = function(type) {
 			_t = type;
 			this.draw();
 		}
@@ -311,7 +311,6 @@
 			this.draw();
 		}
 	}
- 		
  	virus.init();
  	</script>
 </html>
