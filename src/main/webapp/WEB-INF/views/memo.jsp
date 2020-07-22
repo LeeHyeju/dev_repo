@@ -5,12 +5,12 @@
   <style>
   		table {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: solid 1px #000; }
   		table td {border: 1px solid #000; width: 80px; height: 80px; text-align: center; font-size: 24px;}
-  		table td .block-player1 {background: red;}
-  		table td .block-player1 .highlight {background: #980000;}
-  		table td .block-player2 {background: blue;}
-  		table td .block-player2 .highlight {background: #050099;}
-  		table td .block .highlight1 {background: #ccc;}
-  		table td .block .highlight2 {background: #eee;}
+  		table td.block-player1 {background: red;}
+  		table td.block-player1.highlight {background: #980000;}
+  		table td.block-player2 {background: blue;}
+  		table td.block-player2.highlight {background: #050099;}
+  		table td.block.highlight1 {background: #ccc;}
+  		table td.block.highlight2 {background: #eee;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
   <title>바이러스 게임</title>
@@ -52,7 +52,7 @@
 	 -->
  </head>
  <body>
-	<div id="div"></div>
+	<div id='div'></div>
  </body>
  	<script>
  		var virus = {
@@ -83,26 +83,26 @@
  				for (var r = 0; r < that.virusBlocks.length; r++) { //rows
 					for (var c = 0; c < that.virusBlocks[r].length; c++) { //cols
 						//row * col만큼 블록 색깔 초기화 
-						score[that.virusBlocks[r][c].getType()] ++; //score에 player별 블록 담기 
+						score[that.virusBlocks[r][c].getType()]++; //score에 player별 블록 담기 
 					}
 				}
  				return score[virus.util.type.BG] == 0; //score에 BG블록이 0개일 때 
  			}, 
  			canMove: function(type) { //이동 여부
  				var that = this; 
- 				var move = false; //이동가능 
+ 				var m = false; //이동가능 
  			
  				for (var r = 0; r < that.virusBlocks.length; r++) { //rows
 					for (var c = 0; c < that.virusBlocks[r].length; c++) { //cols
-						if (that.virusBlocks[r][c].getType ==type) { //player type 일치 여부 
+						if (that.virusBlocks[r][c].getType() ==type) { //player type 일치 여부 
 							if (can(c,r)) { //이동 가능하면 
-								move = true;
+								m = true;
 								break;
 							}
 						}
 					}
 				}
- 				return move;
+ 				return m;
  
  				function can(x,y) {  //감염 가능한 블럭 유무 확인
  					var move = false; 
@@ -111,19 +111,19 @@
  						var ty = y + virus.util.distance1Loc[i].y; 
  						if (tx > -1 && tx < that.virusBlocks[0].length 
 							&& ty > -1 && ty < that.virusBlocks.length) { //좌표값이 유효한지 확인 
-							var blocks = that.virusBlocks[ty][tx]; 
+							var block = that.virusBlocks[ty][tx]; 
 							if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
 								move = true;
 							}
  						}
 					}
  					if (!move) {
- 	 					for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
- 							var tx = x + virus.util.distance1Loc[i].x; 
- 	 						var ty = y + virus.util.distance1Loc[i].y; 
+ 	 					for (var i = 0; i < virus.util.distance2Loc.length; i++) { //연회색블록
+ 							var tx = x + virus.util.distance2Loc[i].x; 
+ 	 						var ty = y + virus.util.distance2Loc[i].y; 
  	 						if (tx > -1 && tx < that.virusBlocks[0].length 
  								&& ty > -1 && ty < that.virusBlocks.length) { //좌표값이 유효한지 확인 
- 								var blocks = that.virusBlocks[ty][tx]; 
+ 								var block = that.virusBlocks[ty][tx]; 
  								if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
  									move = true;
  								}
@@ -133,62 +133,185 @@
 					return move; 					
  				}
  			},
- 			
- 		}
+ 			virusBlock: function(x,y,type) {
+				for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
+					var tx = x + virus.util.distance1Loc[i].x; 
+					var ty = y + virus.util.distance1Loc[i].y; 
+					if (tx > -1 && tx < this.virusBlocks[0].length 
+					&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
+						var block = this.virusBlocks[ty][tx]; 
+						if (block.getType() != virus.util.type.BG 
+							&& block.getType() != type) { 
+							block.setType(type);
+						}
+					}
+				}
+ 			},
+ 			createGame: function() { //게임 생성
+ 				var that = this;
+ 				for (var r = 0; r < this.row; r++) {
+					this.virusBlocks[r] =[];
+					
+					for (var c = 0; c < this.col; c++) { //나머지 칸 BG
+						this.virusBlocks[r][c] = new virus.block (c, r, virus.util.type.BG);
+					}
+				}
+ 				
+ 				for (var c = 0; c < this.col; c++) { //첫번째 줄에 p1 생성
+					this.virusBlocks[0][c] = new virus.block (c, 0, virus.util.type.PLAYER1);
+				}
+ 				
+ 				for (var c = 0; c < this.col; c++) { //첫번째 줄에 p2 생성
+					this.virusBlocks[this.virusBlocks.length -1][c] = new virus.block (c, this.virusBlocks.length -1, virus.util.type.PLAYER2);
+				}
+ 				
+ 				var table = "<table>";
+ 				
+ 				for (var r = 0; r < this.virusBlocks.length; r++) {
+					table += "<tr>";
+					for (var c = 0; c < this.virusBlocks[r].length; c++) {
+						table += "<td>";
+						table += "</td>";
+					}
+					table += "</tr>";
+ 				}
+ 				table += "</table>";
+ 				
+ 				$('#div').html(table); //테이블 생성
+ 				
+ 				$('#div').on('click', 'td.block-player1, td.block-player2', function(e){ //플레이어 1,2 
+ 					var $td = $(e.target);
+ 					var $tr = $td.parent(); 
+ 					
+ 					var x = $tr.find('td').index($td); //선택한 x좌표
+ 					var y = $tr.closest('table').find('tr').index($tr); //선택한 y좌표
+ 					
+ 					var targetBlock = that.virusBlocks[y][x];
+ 					
+ 					if ( (that.tern % 2) + 1 != targetBlock.getType()) {
+						return;
+					}
+ 					
+ 					if (targetBlock.getType() != virus.util.type.BG) { //BG가 아닐때  
+						that.clearBlock();
+ 						targetBlock.setHighlight('highlight');
+						that.visibleShadowBlock(x,y);
+						
+						$('#div').off('click', 'td.block.highlight1, td.block.highlight2').on('click', 'td.block.highlight1, td.block.highlight2', function(e){
+							var distance = $(this).hasClass('highlight1') ? 1 : 2;
+							var $td_ = $(e.target);
+							var $tr_ = $td_.parent(); //$('#div').find('table'')
+
+							var x_ = $tr_.find('td').index($td_);
+							var y_ = $tr_.closest('table').find('tr').index($tr_);
+							var t_ = targetBlock.getType();
+							
+							that.virusBlocks[y_][x_].setType(t_);
+							
+							if (distance == 2) { //연회색 선택 시 해당 블록 BG색상으로 변경
+								targetBlock.setType(virus.util.type.BG); 
+							}
+							that.clearBlock();
+							that.virusBlock(x_,y_,t_);
+							
+							if (!that.confirmFinish()) {
+								that.tern++;
+								if (!that.canMove((that.tern %2) +1)) {
+									alert("End111");
+								} 
+							}else {
+									alert("End222");
+							}
+						});
+					}
+ 				});
+ 			}, 
+ 			draw: function() {
+ 				for (var r = 0; r < this.virusBlocks.length; r++) {
+					for (var c = 0; c < this.virusBlocks[r].length; c++) {
+						this.virusBlocks[r][c].draw($('#div').find('table'));
+					}
+				}
+ 			},
+ 			visibleShadowBlock: function(x,y) {
+				for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
+					var tx = x + virus.util.distance1Loc[i].x; 
+					var ty = y + virus.util.distance1Loc[i].y; 
+					if (tx > -1 && tx < this.virusBlocks[0].length 
+						&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
+						var block = this.virusBlocks[ty][tx]; 
+						if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
+							block.setHighlight('highlight1');
+						}
+					}
+				}
+				for (var i = 0; i < virus.util.distance2Loc.length; i++) { //연회색블록
+					var tx = x + virus.util.distance2Loc[i].x; 
+					var ty = y + virus.util.distance2Loc[i].y; 
+					if (tx > -1 && tx < this.virusBlocks[0].length 
+					&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
+					var block = this.virusBlocks[ty][tx]; 
+					if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
+						block.setHighlight('highlight2');
+					}
+				}
+			}
+		}
+ 	};
 			
-			/////바이러스 유틸 생성 
-		virus.util = {
- 				type: {BG: 0, PLAYER1: 1, PLAYER2: 2},
- 				typeCss : ['block','block-player1','block-player2'],
- 				//위치 좌표(진회색은 -1, 연회색은 -2)
- 				// left&top(x-1, y-1) 	 || center&top (x, y-1)   || right&top (x+1, y-1)
- 				// left&center(x-1, y) 		            	 	     || right&center (x+1, y)
- 				// left&bottom(x-1, y+1)|| center&bottom(x,y+1)|| right&bottom(x+1, y+1)
- 				distance1Loc: [{x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}, {x: -1, y: 0}, {x: 1, y: 0}, {x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1}],
- 				distance2Loc: [{x: -2, y: -2}, {x: 0, y: -2}, {x: 2, y: -2}, {x: -2, y: 0}, {x: 2, y: 0}, {x: -2, y: 2}, {x: 0, y: 2}, {x: 2, y: 2}]
- 		};
+	virus.util = {
+			type: {BG: 0, PLAYER1: 1, PLAYER2: 2},
+			typeCss : ['block','block-player1','block-player2'],
+			//위치 좌표(진회색은 -1, 연회색은 -2)
+			// left&top(x-1, y-1) 	 || center&top (x, y-1)   || right&top (x+1, y-1)
+			// left&center(x-1, y) 		            	 	     || right&center (x+1, y)
+			// left&bottom(x-1, y+1)|| center&bottom(x,y+1)|| right&bottom(x+1, y+1)
+			distance1Loc: [{x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}, {x: -1, y: 0}, {x: 1, y: 0}, {x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1}],
+			distance2Loc: [{x: -2, y: -2}, {x: 0, y: -2}, {x: 2, y: -2}, {x: -2, y: 0}, {x: 2, y: 0}, {x: -2, y: 2}, {x: 0, y: 2}, {x: 2, y: 2}]
+	};
  		
- 		virus.block = function(x, y, type){
- 			var _table;
- 			var _x = x;
- 			var _y = y;
- 			var highlight = '';
+ 	virus.block = function(x, y, type){
+		var _table;
+		var _x = x;
+		var _y = y;
+        var _t = type;
+		var highlight = '';
  			
- 			this.getBlock = function() {
- 				return {x: _x, y: _y};
- 			}
+		this.getBlock = function() {
+			return {x: _x, y: _y};
+		}
  			
- 			this.getType = function() {
- 				return _t; 
- 			}
+		this.getType = function() {
+			return _t; 
+		}
  			
- 			this.setType = function() {
- 				_t = type;
- 				this.draw();
- 			}
+		this.setType = function() {
+			_t = type;
+			this.draw();
+		}
  			
- 			this.getCss = function() {
- 				return virus.util.typeCss[_t];
- 			}
+		this.getCss = function() {
+			return virus.util.typeCss[_t];
+		}
  			
- 			this.draw = function($table) {
- 				if ($table) {
-					_table = $table; 
-				}
- 				var $target = _table.find('tr').eq(_y).find('td').eq(_x); //table에서 x, y 좌표 찾기 
- 				$target.text(_x + ',' + +_y).attr('class', this.getCss());
+		this.draw = function($table) {
+			if ($table) {
+			_table = $table; 
+			}
+			var $target = _table.find('tr').eq(_y).find('td').eq(_x); //table에서 x, y 좌표 찾기 
+			$target.text(_x + ',' + +_y).attr('class', this.getCss());
+		
+			if (!!highlight) { //형타입 bool로 변경 (true/false 유무)
+			    $target.addClass(highlight);
+			}
+		}
  			
- 				if (!!highlight) { //형타입 bool로 변경 (true/false 유무)
-					$target.addClass(highlight);
-				}
- 			}
- 			
- 			this.setHighlight = function(_highlight) {
- 				highlight = _highlight; 
- 				this.draw();
- 			}
- 		}
+		this.setHighlight = function(_highlight) {
+			highlight = _highlight; 
+			this.draw();
+		}
+	}
  		
- 		virus.init();
+ 	virus.init();
  	</script>
 </html>
