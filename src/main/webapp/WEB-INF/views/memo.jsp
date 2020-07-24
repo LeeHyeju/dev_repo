@@ -5,312 +5,246 @@
   <style>
   		table {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: solid 1px #000; }
   		table td {border: 1px solid #000; width: 80px; height: 80px; text-align: center; font-size: 24px;}
-  		table td.block-player1 {background: red;}
-  		table td.block-player1.highlight {background: #980000;}
-  		table td.block-player2 {background: blue;}
-  		table td.block-player2.highlight {background: #050099;}
-  		table td.block.highlight1 {background: #ccc;}
-  		table td.block.highlight2 {background: #eee;}
+  		table td div{width: 100%; height: 100%;}
+  		table td.snake div{background: #00ff00; border-radius: 30px; box-sizing: content-box; border: solid 1px #000;}
+  		table td.snake-head div{background: #ff0000; border-radius: 50px; box-sizing: content-box; border: solid 1px #000;}
+		table td.snake-head div::before{content: '◐_◐';}
+		table td.feed div{background: orange;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-  <title>바이러스 게임</title>
-  	<!-- 바이러스 게임 규칙
-		1. 게임판
-			7×7 게임판을 만든다. 
-			게임판은 2차원배열 사용하고, 게임은 턴제로 운영된다. 
-			*이차원 배열 :  virusBlocks
-			**Type : none, player1, player2
-			**Tern : tern % 2 == 0? red : blue
-			
-		2. 	셀 채우기
-			2-1. 플레이어 
-			player 블럭에 클릭 이벤트 적용(해당 player 턴이 아니면 클릭 불가)
-			player1(red)는 y좌표 0번째 위치의 모든 셀을 채운다. 
-			player2(blue)는 y좌표 마지막 위치의 모든 셀을 채운다. 
-			**virusBlocks[0][player1로 채움]
-			**virusBlocks[virusBlocks.length - 1 ][player2로 채움]
-			
-			2-2. 블럭 선택하기
-			클릭한 위치를 기준으로 상하좌우 1칸, 2칸 선택 가능
-			선택 블럭 기준, 상하좌우 1칸에 해당하는 빈 배열의 색상을 진회색으로 변경 
-			(현재 위치에서 x,y -> x-1, y-1 과 x+1, y-1에 해당)
-		 	선택 블럭 기준, 상하좌우 2칸에 해당하는 빈 배열의 색상을 연회색으로 변경 
-			(현재 위치에서  x,y -> x-2, y-2 와 x+2, y-2에 해당)
-						
-			2-3. 감염시키기
-			상대 블럭이나 빈 블럭을 해당 player 블럭으로 채운다
-			선택된 블럭의 색상을 해당 턴의 player 색상으로 변경.
-			진회색 클릭 시 감염 (회색 -> 파란색)
-			연회색 클릭 시 이동 (흰색 -> 파란색으로 변경. 단, 파란색 -> 흰색으로 변경된 블럭은 클릭되면 안됨)
-			이동된 블럭을 기준으로 상대 블럭이 존재할 시 감염
-		
-		3. 게임 종료 
-			모든 블럭이 채워지거나, 이동 또는 감염시킬 블럭이 존재하지 않으면 게임 종료. 
-			
-		4. 승부
-			종료 시점에 블럭 색깔이 많은 사람이 승자.
+  <title>지렁이 게임</title>
+  	<!-- 지렁이 게임 규칙
+		1. 게임판을 화면에 그린다. (11×11)
+		2. 먹이 
+			2-1. 중복되지 않은 위치에 색칠된 네모칸 그리기
+			2-2. 스테이지가 진행될 수록 먹이의 수가 증가(1단계 : 4 -> 2단계: 6)
+	 	3. 뱀 
+	 		3-1. 시작위치 :  정중앙, 오른쪽으로 이동함  
+	 		3-2. 조작 방법 : 키보드 방향키 사용 
+	 		3-3. 속도 : 스테이지가 증가할 수록 빨라짐  
+	 		3-4. 이동 : 머리만 있을 때, 이동방향(오른쪽)의 반대쪽으로도 이동 가능 
+	 	4. 점수 
+	 		스테이지 * 먹이 수
+	 	5. 게임 종료 : 벽이나 자신의 꼬리에 부딪치면 죽는다.
 	 -->
  </head>
  <body>
 	<div id='div'></div>
  </body>
  	<script>
- 		var virus = {
- 			tern: 0, //턴 수
- 			row: 7,  
- 			col: 7,
- 			virusBlocks: [],
- 			init: function() {
- 				this.createGame(); //게임 생성 
- 				this.draw(); //화면 그리기 
- 			},
- 			clearBlock: function(){ //블록 지우기
- 				var that = this; 
- 				//this는 새 함수를 호출하거나 범위 변경 시 자주 변경되므로 이를 사용하여 원래 값에 액세스 할 수 없음
- 				//이에 대한 별칭(that)을 지정하면 원래 값에 계속 액세스 할 수 있습니다
- 			 	
- 				for (var r = 0; r < that.virusBlocks.length; r++) { //rows
-					for (var c = 0; c < that.virusBlocks[r].length; c++) { //cols
-						//row * col만큼 블록 색깔 초기화 
-						that.virusBlocks[r][c].setHighlight('');
-					}
-				}
- 			},
- 			confirmFinish: function() { //승부 확인
- 				var that = this; 
- 				var score = [0, 0, 0]; //BG, Player1, player2
- 				
- 				for (var r = 0; r < that.virusBlocks.length; r++) { //rows
-					for (var c = 0; c < that.virusBlocks[r].length; c++) { //cols
-						//row * col만큼 블록 색깔 초기화 
-						score[that.virusBlocks[r][c].getType()]++; //score에 player별 블록 담기 
-					}
-				}
- 				return score[virus.util.type.BG] == 0; //score에 BG블록이 0개일 때 
- 			}, 
- 			canMove: function(type) { //이동 여부
- 				var that = this; 
- 				var m = false; //이동가능 
+ 		//게임판 그리기 
+ 		var row = 11;
+ 		var col = 11;
+ 		var stage = 1; //최조 스테이지 
+ 		var feedLoc = []; //먹이 배열
+ 		var snakeLoc = []; //뱀 배열
+ 		var action = 'RIGHT'; //뱀 진행방향
+ 		
+ 		function init() {
+
+ 			feed(); //먹이
+ 			snake(); //뱀
+ 			draw(); //화면 
  			
- 				for (var r = 0; r < that.virusBlocks.length; r++) { //rows
-					for (var c = 0; c < that.virusBlocks[r].length; c++) { //cols
-						if (that.virusBlocks[r][c].getType() ==type) { //player type 일치 여부 
-							if (can(c,r)) { //이동 가능하면 
-								m = true;
-								break;
-							}
-						}
-					}
-				}
- 				return m;
- 
- 				function can(x,y) {  //감염 가능한 블럭 유무 확인
- 					var move = false; 
- 					for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
-						var tx = x + virus.util.distance1Loc[i].x; 
- 						var ty = y + virus.util.distance1Loc[i].y; 
- 						if (tx > -1 && tx < that.virusBlocks[0].length 
-							&& ty > -1 && ty < that.virusBlocks.length) { //좌표값이 유효한지 확인 
-							var block = that.virusBlocks[ty][tx]; 
-							if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
-								move = true;
-							}
- 						}
-					}
- 					if (!move) {
- 	 					for (var i = 0; i < virus.util.distance2Loc.length; i++) { //연회색블록
- 							var tx = x + virus.util.distance2Loc[i].x; 
- 	 						var ty = y + virus.util.distance2Loc[i].y; 
- 	 						if (tx > -1 && tx < that.virusBlocks[0].length 
- 								&& ty > -1 && ty < that.virusBlocks.length) { //좌표값이 유효한지 확인 
- 								var block = that.virusBlocks[ty][tx]; 
- 								if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
- 									move = true;
- 								}
- 	 						}
- 						}
-					}
-					return move; 					
- 				}
- 			},
- 			virusBlock: function(x,y,type) {
-				for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
-					var tx = x + virus.util.distance1Loc[i].x; 
-					var ty = y + virus.util.distance1Loc[i].y; 
-					if (tx > -1 && tx < this.virusBlocks[0].length 
-					&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
-						var block = this.virusBlocks[ty][tx]; 
-						if (block.getType() != virus.util.type.BG 
-							&& block.getType() != type) { 
-							block.setType(type);
-						}
-					}
-				}
- 			},
- 			createGame: function() { //게임 생성
- 				var that = this;
- 				for (var r = 0; r < this.row; r++) {
-					this.virusBlocks[r] =[];
-					
-					for (var c = 0; c < this.col; c++) { //나머지 칸 BG
-						this.virusBlocks[r][c] = new virus.block (c, r, virus.util.type.BG);
-					}
-				}
- 				
- 				for (var c = 0; c < this.col; c++) { //첫번째 줄에 p1 생성
-					this.virusBlocks[0][c] = new virus.block (c, 0, virus.util.type.PLAYER1);
-				}
- 				
- 				for (var c = 0; c < this.col; c++) { //첫번째 줄에 p2 생성
-					this.virusBlocks[this.virusBlocks.length -1][c] = new virus.block (c, this.virusBlocks.length -1, virus.util.type.PLAYER2);
-				}
- 				
- 				var table = "<table>";
- 				
- 				for (var r = 0; r < this.virusBlocks.length; r++) {
-					table += "<tr>";
-					for (var c = 0; c < this.virusBlocks[r].length; c++) {
-						table += "<td>";
-						table += "</td>";
-					}
-					table += "</tr>";
- 				}
- 				table += "</table>";
- 				
- 				$('#div').html(table); //테이블 생성
- 				
- 				$('#div').on('click', 'td.block-player1, td.block-player2', function(e){ //플레이어 1,2 
- 					var $td = $(e.target);
- 					var $tr = $td.parent(); 
- 					
- 					var x = $tr.find('td').index($td); //선택한 x좌표
- 					var y = $tr.closest('table').find('tr').index($tr); //선택한 y좌표
- 					
- 					var targetBlock = that.virusBlocks[y][x];
- 					
- 					if ( (that.tern % 2) + 1 != targetBlock.getType()) {
+ 			//뱀 키보드 이동
+ 			$(document).on('keydown', function(e){
+ 				console.log(e.keyCode);
+ 				//←(37)↑(38)→(39)↓(40)
+ 				if (e.keyCode == 37) {
+ 					//뱀 길이가 1개 이상일 때 반대방향으로 진행하는 것을 막는다.
+					if (action == "RIGHT" && snakeLoc.length > 1) { 
 						return;
 					}
- 					
- 					if (targetBlock.getType() != virus.util.type.BG) { //BG가 아닐때  
-						that.clearBlock();
- 						targetBlock.setHighlight('highlight');
-						that.visibleShadowBlock(x,y);
-						
-						$('#div').off('click', 'td.block.highlight1, td.block.highlight2').on('click', 'td.block.highlight1, td.block.highlight2', function(e){
-							var distance = $(this).hasClass('highlight1') ? 1 : 2;
-							var $td_ = $(e.target);
-							var $tr_ = $td_.parent(); //$('#div').find('table'')
-
-							var x_ = $tr_.find('td').index($td_);
-							var y_ = $tr_.closest('table').find('tr').index($tr_);
-							var t_ = targetBlock.getType();
-							
-							that.virusBlocks[y_][x_].setType(t_);
-							
-							if (distance == 2) { //연회색 선택 시 해당 블록 BG색상으로 변경
-								targetBlock.setType(virus.util.type.BG); 
-							}
-							that.clearBlock();
-							that.virusBlock(x_,y_,t_);
-							
-							if (!that.confirmFinish()) {
-								that.tern++;
-								if (!that.canMove((that.tern %2) +1)) {
-									alert("End111");
-								} 
-							}else {
-									alert("End222");
-							}
-						});
+					action ="LEFT";
+				} else if (e.keyCode == 38) {
+					if (action == "DOWN" && snakeLoc.length > 1) {
+						return;
 					}
- 				});
- 			}, 
- 			draw: function() {
- 				for (var r = 0; r < this.virusBlocks.length; r++) {
-					for (var c = 0; c < this.virusBlocks[r].length; c++) {
-						this.virusBlocks[r][c].draw($('#div').find('table'));
+					action = "UP";
+				} else if (e.keyCode == 39) {
+					if (action == "LEFT" && snakeLoc.length > 1) {
+						return;
 					}
+					action = "RIGHT";
+				} else if (e.keyCode == 40) {
+					if (action == "UP" && snakeLoc.length > 1) {
+						return;
+					}
+					action = "DOWN";
 				}
- 			},
- 			visibleShadowBlock: function(x,y) {
-				for (var i = 0; i < virus.util.distance1Loc.length; i++) { //진회색블록
-					var tx = x + virus.util.distance1Loc[i].x; 
-					var ty = y + virus.util.distance1Loc[i].y; 
-					if (tx > -1 && tx < this.virusBlocks[0].length 
-						&& ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
-						var block = this.virusBlocks[ty][tx]; 
-						if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
-							block.setHighlight('highlight1');
+ 			});
+ 		}
+ 		
+        if (!Array.prototype.insert) {
+            Array.prototype.insert = function(index, obj) {
+                this.splice(index, 0, obj); 
+            }
+        }
+        
+        if (!Array.prototype.removeAt) {
+            Array.prototype.removeAt = function(index) {
+                if (this.length -1 <index) {
+                    throw('index out of bounds');
+                }
+                this.splice(index, 1);
+            }
+        }
+        
+
+ 		//화면 그리기
+ 		function draw() {
+            
+ 			var move = snakeMove(); 
+            
+ 			console.log("action:", action, "move:" , move);
+
+            if (move.state > 0) { //뱀 상태가 이동불가가 아닐때만 
+                snakeLoc.splice(0, 0, {x: move.x , y: move.y}); //0번째에 값 추가
+            
+                if (move.state == 2) { //이동 가능 
+                    snakeLoc.splice(snakeLoc.length-1, 1); //움직이는 라인 없애줌 
+                }else if (move.state == 1) {
+                    feedLoc.splice(move.idx, 1); //인덱스에 값 제거 
+                }
+
+                drawBg();
+                
+                if (feedLoc.length == 0) {
+                    ++stage; //다음 스테이지 
+                    alert(stage + " [" + snakeLoc.length + " ]");
+                    feed(); //먹이 실행 
+                } 
+                setTimeout(function() {
+                    draw();
+                }, 1000 / stage);
+            } else {
+                alert("끝 [" + snakeLoc.length + " 단계]");   
+            }
+ 		}
+ 		
+ 		//뱀 이동시키기
+ 		function snakeMove() {
+ 			//뱀 머리
+ 			var snakeHead = snakeLoc[0]; 
+ 			//뱀 머리 좌표
+ 			var headX = snakeHead.x;
+ 			var headY = snakeHead.y;
+           
+ 			//키보드 방향키 클릭 시 이동할 좌표를 구함
+ 			if (action == "LEFT") {
+				headX -= 1; 
+			} else if (action == "RIGHT") {
+				headX += 1; 
+			} else if (action == "UP") {
+				headY -= 1; 
+			} else if (action == "DOWN") {
+				headY += 1; 
+			}
+ 			
+	 		//이동할 좌표가 화면 안에 존재하는 좌표인지 확인 
+	 		if ( !(0<= headX && headX < col 
+	 			&& 0 <= headY && headY < row)) { //해당 rol와 col 길이를 넘지 않고 0보다는 커야 한다
+				return {state: 0}; // 뱀 이동 불가 
+			}
+	 		
+	 		//이동할 좌표가 뱀인지 확인 
+	 		var isSnake = false;
+	 		for (var i = 1; i < snakeLoc.length; i++) { //snakeHead가 0이므로 1부터 시작
+				console.log(headX, headY, snakeLoc[i].x, snakeLoc[i].y);
+				if (snakeLoc[i].x == headX && snakeLoc[i].y == headY) { //좌표가 같으면 true
+					isSnake = true; 
+					break;
+				}
+	 		}
+	 		if (isSnake) return {stage:0};
+
+	 		//이동할 좌표가 먹이인지 확인
+	 		var isFeed = false;
+	 		var feedIndex = -1; 
+	 		for (var i = 0; i < feedLoc.length; i++) { 
+	 			if (feedLoc[i].x == headX && feedLoc[i].y == headY) { //좌표가 같으면 true
+					isFeed = true; 
+					feedIndex = i;
+					break;
+				}
+			}
+	 		
+			if (isFeed) return {state: 1, x: headX, y: headY, idx: feedIndex} ; 
+			
+			return {state: 2, x: headX, y: headY};			
+ 		}
+			
+		//먹이 
+		function feed() {
+			var feed = 1 + ( 2 * stage ); //스테이지 증가 시 먹이도 증가 
+			feedLoc = [];
+			//먹이는 랜덤으로 자동 생성 
+			for (var i = 0; i < feed; i++) {
+				var feedX = Math.floor(Math.random() * row);
+				var feedY = Math.floor(Math.random() * col);
+				var overlap = false; 
+				
+				//먹이좌표가 중복되는지 유무
+				for (var j = 0; j < feedLoc.length; j++) {
+					if (feedLoc[j].x == feedX && feedLoc[j].y == feedY) {
+						overlap = true; 
+						break; 
+				}
+			}
+				//생성된 먹이와 뱀의 좌표가 중복되는지 유무
+				if (!overlap) { 
+					for (var s = 0; s < snakeLoc.length; s++) {
+						if (snakeLoc[s].x == feedX && snakeLoc[s].y == feedY) {
+							overlap = true; 
+							break;
 						}
 					}
 				}
-				for (var i = 0; i < virus.util.distance2Loc.length; i++) { //연회색블록
-					var tx = x + virus.util.distance2Loc[i].x; 
-					var ty = y + virus.util.distance2Loc[i].y; 
-					if (tx > -1 && tx < this.virusBlocks[0].length 
-					    && ty > -1 && ty < this.virusBlocks.length) { //좌표값이 유효한지 확인 
-					    var block = this.virusBlocks[ty][tx]; 
-					    if (block.getType() == virus.util.type.BG ) { //타입이 배경일때
-						    block.setHighlight('highlight2');
-					}
+			
+				if (!overlap) {
+					feedLoc[i] = {x : feedX, y : feedY}; //좌표에 먹이 그리기
+				} else {
+					i--;
 				}
 			}
 		}
- 	};
-			
-	virus.util = {
-			type: {BG: 0, PLAYER1: 1, PLAYER2: 2},
-			typeCss : ['block','block-player1','block-player2'],
-			//위치 좌표(진회색은 -1, 연회색은 -2)
-			// left&top(x-1, y-1) 	 || center&top (x, y-1)   || right&top (x+1, y-1)
-			// left&center(x-1, y) 		            	 	     || right&center (x+1, y)
-			// left&bottom(x-1, y+1)|| center&bottom(x,y+1)|| right&bottom(x+1, y+1)
-			distance1Loc: [{x: -1, y: -1}, {x: 0, y: -1}, {x: 1, y: -1}, {x: -1, y: 0}, {x: 1, y: 0}, {x: -1, y: 1}, {x: 0, y: 1}, {x: 1, y: 1}],
-			distance2Loc: [{x: -2, y: -2}, {x: 0, y: -2}, {x: 2, y: -2}, {x: -2, y: 0}, {x: 2, y: 0}, {x: -2, y: 2}, {x: 0, y: 2}, {x: 2, y: 2}]
-	};
  		
- 	virus.block = function(x, y, type){
-		var _table;
-		var _x = x;
-		var _y = y;
-        var _t = type;
-		var highlight = '';
- 			
-		this.getBlock = function() {
-			return {x: _x, y: _y};
+		function snake() { //뱀 생성하기
+			var snakeX = 5; 
+			var snakeY = 5; 
+			snakeLoc[0] = {x: snakeX, y:snakeY};
 		}
- 			
-		this.getType = function() {
-			return _t; 
-		}
- 			
-		this.setType = function(type) {
-			_t = type;
-			this.draw();
-		}
- 			
-		this.getCss = function() {
-			return virus.util.typeCss[_t];
-		}
- 			
-		this.draw = function($table) {
-			if ($table) {
-			_table = $table; 
-			}
-			var $target = _table.find('tr').eq(_y).find('td').eq(_x); //table에서 x, y 좌표 찾기 
-			$target.text(_x + ',' + +_y).attr('class', this.getCss());
 		
-			if (!!highlight) { //형타입 bool로 변경 (true/false 유무)
-			    $target.addClass(highlight);
+		//게임판 그리기
+ 		function drawBg() {
+ 			//테이블 생성
+ 			var table = "<table>";
+ 			for (var r = 0; r < row; r++) {
+				table += "<tr>";
+				for (var c = 0; c < col; c++) {
+					table += "<td id='td_"+ c +"_"+ r + "'><div>"; 
+					
+					table += "</div></td>";
+				}
+				table += "</tr>";
 			}
-		}
+ 			table += "</table>";
  			
-		this.setHighlight = function(_highlight) {
-			highlight = _highlight; 
-			this.draw();
-		}
-	}
- 	virus.init();
+ 			$('#div').html(table);
+ 			
+	 			//먹이를 그린다
+	 			for (var j = 0; j < feedLoc.length; j++) {
+	 				var feedX = feedLoc[j].x; 
+	 				var feedY = feedLoc[j].y;
+	 				$('#td_'+ feedX + '_' + feedY).attr('class', 'feed');
+				}
+ 			//뱀을 그린다
+ 				for (var i = 0; i < snakeLoc.length; i++) {
+	 				var snakeX = snakeLoc[i].x; 
+	 				var snakeY = snakeLoc[i].y;
+	 				$('#td_'+ snakeX + '_' + snakeY).attr('class', i == 0? 'snake-head' : 'snake');
+				}
+ 		}
+		init();
  	</script>
 </html>
