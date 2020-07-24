@@ -41,44 +41,85 @@
  		var action = 'RIGHT'; //뱀 진행방향
  		
  		function init() {
+
  			feed(); //먹이
  			snake(); //뱀
  			draw(); //화면 
  			
  			//뱀 키보드 이동
- 			$(document).on('keydown', function(){
+ 			$(document).on('keydown', function(e){
  				console.log(e.keyCode);
  				//←(37)↑(38)→(39)↓(40)
  				if (e.keyCode == 37) {
  					//뱀 길이가 1개 이상일 때 반대방향으로 진행하는 것을 막는다.
-					if (action == "RIGHT" && snake.size > 1) { 
+					if (action == "RIGHT" && snakeLoc.length > 1) { 
 						return;
 					}
-					action =="LEFT";
+					action ="LEFT";
 				} else if (e.keyCode == 38) {
-					if (action == "DOWN" && snake.size > 1) {
+					if (action == "DOWN" && snakeLoc.length > 1) {
 						return;
 					}
-					action == "TOP";
+					action = "UP";
 				} else if (e.keyCode == 39) {
-					if (action == "LEFT" && snake.size > 1) {
+					if (action == "LEFT" && snakeLoc.length > 1) {
 						return;
 					}
-					action == "RIGHT";
+					action = "RIGHT";
 				} else if (e.keyCode == 40) {
-					if (action == "TOP" && snake.size > 1) {
+					if (action == "UP" && snakeLoc.length > 1) {
 						return;
 					}
-					action == "DOWN";
+					action = "DOWN";
 				}
  			});
  		}
  		
+        if (!Array.prototype.insert) {
+            Array.prototype.insert = function(index, obj) {
+                this.splice(index, 0, obj); 
+            }
+        }
+        
+        if (!Array.prototype.removeAt) {
+            Array.prototype.removeAt = function(index) {
+                if (this.length -1 <index) {
+                    throw('index out of bounds');
+                }
+                this.splice(index, 1);
+            }
+        }
+        
+
  		//화면 그리기
  		function draw() {
+            
  			var move = snakeMove(); 
+            
  			console.log("action:", action, "move:" , move);
- 			
+
+            if (move.state > 0) { //뱀 상태가 이동불가가 아닐때만 
+                snakeLoc.splice(0, 0, {x: move.x , y: move.y}); //0번째에 값 추가
+            
+                if (move.state == 2) { //이동 가능 
+                    snakeLoc.splice(snakeLoc.length-1, 1); //움직이는 라인 없애줌 
+                }else if (move.state == 1) {
+                    feedLoc.splice(move.idx, 1); //인덱스에 값 제거 
+                }
+
+                drawBg();
+                
+                if (feedLoc.length == 0) {
+                    ++stage; //다음 스테이지 
+                    alert(stage + " [" + snakeLoc.length + " ]");
+                    feed(); //먹이 실행 
+                } 
+                setTimeout(function() {
+                    draw();
+                }, 1000 / stage);
+            } else {
+                alert("끝 [" + snakeLoc.length + " 단계]");   
+            }
  		}
  		
  		//뱀 이동시키기
@@ -88,12 +129,13 @@
  			//뱀 머리 좌표
  			var headX = snakeHead.x;
  			var headY = snakeHead.y;
+           
  			//키보드 방향키 클릭 시 이동할 좌표를 구함
  			if (action == "LEFT") {
 				headX -= 1; 
 			} else if (action == "RIGHT") {
 				headX += 1; 
-			} else if (action == "TOP") {
+			} else if (action == "UP") {
 				headY -= 1; 
 			} else if (action == "DOWN") {
 				headY += 1; 
@@ -109,7 +151,7 @@
 	 		var isSnake = false;
 	 		for (var i = 1; i < snakeLoc.length; i++) { //snakeHead가 0이므로 1부터 시작
 				console.log(headX, headY, snakeLoc[i].x, snakeLoc[i].y);
-				if (snakeLoc[i],x == headX && snakeLoc[i].y == headY) { //좌표가 같으면 true
+				if (snakeLoc[i].x == headX && snakeLoc[i].y == headY) { //좌표가 같으면 true
 					isSnake = true; 
 					break;
 				}
@@ -144,7 +186,7 @@
 				
 				//먹이좌표가 중복되는지 유무
 				for (var j = 0; j < feedLoc.length; j++) {
-					if (feedLoc[j].x == headX && feedLoc[j].y == headY) {
+					if (feedLoc[j].x == feedX && feedLoc[j].y == feedY) {
 						overlap = true; 
 						break; 
 				}
@@ -180,7 +222,7 @@
  			for (var r = 0; r < row; r++) {
 				table += "<tr>";
 				for (var c = 0; c < col; c++) {
-					table += "<td id='td_"+ c +"_"+ r + "></div>"; 
+					table += "<td id='td_"+ c +"_"+ r + "'><div>"; 
 					
 					table += "</div></td>";
 				}
@@ -188,19 +230,19 @@
 			}
  			table += "</table>";
  			
- 			$('#div'),html(table);
+ 			$('#div').html(table);
  			
 	 			//먹이를 그린다
-	 			for (var i = 0; i < feedLoc.length; i++) {
-	 				var feedX = feedLoc[i].x; 
-	 				var feedY = feedLoc[i].y;
+	 			for (var j = 0; j < feedLoc.length; j++) {
+	 				var feedX = feedLoc[j].x; 
+	 				var feedY = feedLoc[j].y;
 	 				$('#td_'+ feedX + '_' + feedY).attr('class', 'feed');
 				}
  			//뱀을 그린다
- 				for (var j = 0; j < snakeLoc.length; j++) {
-	 				var snakeX = snakeLoc[j].x; 
-	 				var snakeY = snakeLoc[j].y;
-	 				$('#td_'+ snakeX + '_' + snakeY).attr('class', i ==0? 'snake-head' : 'snake');
+ 				for (var i = 0; i < snakeLoc.length; i++) {
+	 				var snakeX = snakeLoc[i].x; 
+	 				var snakeY = snakeLoc[i].y;
+	 				$('#td_'+ snakeX + '_' + snakeY).attr('class', i == 0? 'snake-head' : 'snake');
 				}
  		}
 		init();
