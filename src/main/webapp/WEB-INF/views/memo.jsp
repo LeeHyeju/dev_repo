@@ -108,7 +108,6 @@
                 }
 
                 drawBg();
-                
                 if (feedLoc.length == 0) {
                     ++stage; //다음 스테이지 
                     alert(stage + " [" + snakeLoc.length + " ]");
