@@ -23,7 +23,7 @@ $(document).ready(function(){
 		    ,notiYn: {
 		    	required 	: true
 		    }
-		    ,replyYn: {
+		    ,replYn: {
 		    	required 	: true
 		    }
 		    ,cmtYn: {
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	        ,notiYn: {
 	        	required 	: "필수로선택하세요"
 	        }
-	        ,replyYn: {
+	        ,replYn: {
 	        	required 	: "필수로선택하세요"
 	        }
 	        ,cmtYn: {
@@ -175,25 +175,9 @@ function fnInsert(){
 									<td>
 										<div class="input_adj">
 											<input type="radio" name="fileYn" id="fileY" class="input_group" style="width:50px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
+											<label for="fileYn">사용</label>
 											<input type="radio" name="fileYn" id="fileN" class="input_group" style="width:50px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">공지여부</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<input type="radio" name="notiYn" id="notiY" class="input_group" style="width:50px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="notiYn" id="notiN" class="input_group" style="width:50px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
+											<label for="fileYn">미사용</label>
 										</div>
 									</td>
 								</tr>
@@ -206,10 +190,10 @@ function fnInsert(){
 									</th>
 									<td>
 										<div class="input_adj">
-											<input type="radio" name="replyYn" id="replyY" class="input_group" style="width:50px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="replyYn" id="replyN" class="input_group" style="width:50px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
+											<input type="radio" name="replYn" id="replY" class="input_group" style="width:50px;" value="Y">
+											<label for="replYn">사용</label>
+											<input type="radio" name="replYn" id="replN" class="input_group" style="width:50px;" value="N">
+											<label for="replYn">미사용</label>
 										</div>
 									</td>
 								</tr>
@@ -223,9 +207,9 @@ function fnInsert(){
 									<td>
 										<div class="input_adj">
 											<input type="radio" name="cmtYn" id="cmtY" class="input_group" style="width:50px;" value="Y">
-											<label for="useYn">사용</label>
+											<label for="cmtYn">사용</label>
 											<input type="radio" name="cmtYn" id="cmtN" class="input_group" style="width:50px;" value="N">
-											<label for="useYn">미사용</label>
+											<label for="cmtYn">미사용</label>
 										</div>
 									</td>
 								</tr>
@@ -255,9 +239,9 @@ function fnInsert(){
 									<td>
 										<div class="input_adj">
 											<input type="radio" name="delYn" id="delY" class="input_group" style="width:50px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
+											<label for="delYn">사용</label>
 											<input type="radio" name="delYn" id="delN" class="input_group" style="width:50px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
+											<label for="delYn">미사용</label>
 										</div>
 									</td>
 								</tr>

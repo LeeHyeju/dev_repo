@@ -7,9 +7,16 @@ public class Intr {
 	private String brdType;
 	private String brdNm;
 	private String brdPage;
-	private String fileYn;
+	private String pageYn;
+	private String postPeriYn;
+	private String srchYn;
 	private String notiYn;
-	private String replyYn;
+	private String fileYn;
+	private String vdYn;
+	private String tabYn;
+	private String linkYn;
+	private String imgYn;
+	private String replYn;
 	private String cmtYn;
 	private String useYn;
 	private String delYn;
@@ -48,11 +55,23 @@ public class Intr {
 	public void setBrdPage(String brdPage) {
 		this.brdPage = brdPage;
 	}
-	public String getFileYn() {
-		return fileYn;
+	public String getPageYn() {
+		return pageYn;
 	}
-	public void setFileYn(String fileYn) {
-		this.fileYn = fileYn;
+	public void setPageYn(String pageYn) {
+		this.pageYn = pageYn;
+	}
+	public String getPostPeriYn() {
+		return postPeriYn;
+	}
+	public void setPostPeriYn(String postPeriYn) {
+		this.postPeriYn = postPeriYn;
+	}
+	public String getSrchYn() {
+		return srchYn;
+	}
+	public void setSrchYn(String srchYn) {
+		this.srchYn = srchYn;
 	}
 	public String getNotiYn() {
 		return notiYn;
@@ -60,11 +79,41 @@ public class Intr {
 	public void setNotiYn(String notiYn) {
 		this.notiYn = notiYn;
 	}
-	public String getReplyYn() {
-		return replyYn;
+	public String getFileYn() {
+		return fileYn;
 	}
-	public void setReplyYn(String replyYn) {
-		this.replyYn = replyYn;
+	public void setFileYn(String fileYn) {
+		this.fileYn = fileYn;
+	}
+	public String getVdYn() {
+		return vdYn;
+	}
+	public void setVdYn(String vdYn) {
+		this.vdYn = vdYn;
+	}
+	public String getTabYn() {
+		return tabYn;
+	}
+	public void setTabYn(String tabYn) {
+		this.tabYn = tabYn;
+	}
+	public String getLinkYn() {
+		return linkYn;
+	}
+	public void setLinkYn(String linkYn) {
+		this.linkYn = linkYn;
+	}
+	public String getImgYn() {
+		return imgYn;
+	}
+	public void setImgYn(String imgYn) {
+		this.imgYn = imgYn;
+	}
+	public String getReplYn() {
+		return replYn;
+	}
+	public void setReplYn(String replYn) {
+		this.replYn = replYn;
 	}
 	public String getCmtYn() {
 		return cmtYn;
@@ -99,7 +148,9 @@ public class Intr {
 	@Override
 	public String toString() {
 		return "Intr [brdCd=" + brdCd + ", brdType=" + brdType + ", brdNm=" + brdNm + ", brdPage=" + brdPage
-				+ ", fileYn=" + fileYn + ", notiYn=" + notiYn + ", replyYn=" + replyYn + ", cmtYn=" + cmtYn + ", useYn="
-				+ useYn + ", delYn=" + delYn + ", regId=" + regId + ", regDt=" + regDt + ", rNum=" + rNum + "]";
+				+ ", pageYn=" + pageYn + ", postPeriYn=" + postPeriYn + ", srchYn=" + srchYn + ", notiYn=" + notiYn
+				+ ", fileYn=" + fileYn + ", vdYn=" + vdYn + ", tabYn=" + tabYn + ", linkYn=" + linkYn + ", imgYn="
+				+ imgYn + ", replYn=" + replYn + ", cmtYn=" + cmtYn + ", useYn=" + useYn + ", delYn=" + delYn
+				+ ", regId=" + regId + ", regDt=" + regDt + ", rNum=" + rNum + "]";
 	}
 }

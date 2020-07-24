@@ -8,7 +8,7 @@
 function fnSrch() {
 	var form = document.getElementById("writeForm");
     form.method = "get";
-    form.action = "<c:url value='/benner/benner'/>";
+    form.action = "<c:url value='/bnr/bnr'/>";
     form.submit();
 }
 </script>
@@ -18,7 +18,7 @@ function fnSrch() {
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/benner/"><span>게시판관리</span></a>
+		<a href="${pageContext.request.contextPath}/bnr/"><span>게시판관리</span></a>
 		<span>베너관리</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
@@ -84,7 +84,7 @@ function fnSrch() {
 								<tr class="hover">
 									<td>${bnr.rNum}</td>
 									<td>${bnr.bnrType}</td>
-									<td><a href="/benner/benner_dtl?bnrCd=${bnr.bnrCd}">${bnr.bnrNm}</a></td>
+									<td><a href="/bnr/bnr_dtl?bnrCd=${bnr.bnrCd}">${bnr.bnrNm}</a></td>
 									<td>${bnr.bnrCont}</td>
 									<td>${bnr.bnrKind}</td>
 									<td>${bnr.useYn}</td>
@@ -104,19 +104,19 @@ function fnSrch() {
 						<div class="pagination">
 						  <ul>
 						    <c:if test="${pageMaker.prev}">
-						    	<li class="li"><a href="benner${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+						    	<li class="li"><a href="bnr${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
 						    </c:if> 
 						    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						    	<li class="li"><a href="benner${pageMaker.makeQuery(idx)}">${idx}</a></li>
+						    	<li class="li"><a href="bnr${pageMaker.makeQuery(idx)}">${idx}</a></li>
 						    </c:forEach>
 						    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						    	<li class="li"><a href="benner${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+						    	<li class="li"><a href="bnr${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
 						    </c:if> 
 						  </ul>
 						</div>
 	
 					<div class="boardType01_list_btn">
-						<a href="${pageContext.request.contextPath}/benner/benner_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
+						<a href="${pageContext.request.contextPath}/bnr/bnr_reg" class="btnTxt btnTxt_normal btnTxt_gray"><span>등록</span></a>
 					</div> <!-- //boardType01_list_btn -->
 				</form>
 				</div> <!-- //boardType01_wrap -->

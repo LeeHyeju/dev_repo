@@ -15,13 +15,33 @@ public class IntrGal {
 	private String img;
 	
 	private String rNum;
+	private String orgnFile;
+	private String saveFile;
+	private String filePath;
 	public String getrNum() {
 		return rNum;
 	}
 	public void setrNum(String rNum) {
 		this.rNum = rNum;
 	}
-	
+	public String getOrgnFile() {
+		return orgnFile;
+	}
+	public void setOrgnFile(String orgnFile) {
+		this.orgnFile = orgnFile;
+	}
+	public String getSaveFile() {
+		return saveFile;
+	}
+	public void setSaveFile(String saveFile) {
+		this.saveFile = saveFile;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	public int getBrdCd() {
 		return brdCd;
 	}
@@ -86,6 +106,7 @@ public class IntrGal {
 	public String toString() {
 		return "IntrGal [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm + ", brdTl=" + brdTl
 				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", useYn=" + useYn + ", hit=" + hit
-				+ ", img=" + img + ", rNum=" + rNum + "]";
+				+ ", img=" + img + ", rNum=" + rNum + ", orgnFile=" + orgnFile + ", saveFile=" + saveFile
+				+ ", filePath=" + filePath + "]";
 	}
 }

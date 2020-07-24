@@ -2,9 +2,15 @@ package com.spring.dev.service;
 
 import java.util.List;
 
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.dev.common.FileUtils;
 import com.spring.dev.domain.Criteria;
 import com.spring.dev.domain.Intr;
 import com.spring.dev.domain.IntrBrd;
@@ -15,6 +21,10 @@ import com.spring.dev.mapper.IntrBrdMapper;
 
 @Service
 public class IntrBrdService {
+	
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
+	
 	@Autowired
 	IntrBrdMapper mapper;
 	
@@ -148,5 +158,14 @@ public class IntrBrdService {
 	
 	public IntrGal getNextBrdTl(String tblNm, String brdCd) {
 		return mapper.getNextBrdTl(tblNm, brdCd);
+	}
+	
+	public void insertGal(IntrGal intrGal, MultipartHttpServletRequest mpRequest) throws Exception {
+		mapper.galInsert(intrGal);
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(intrGal, "tb_brd_gal", "갤러리테이블", mpRequest); 
+		for(int i=0, size = list.size(); i<size; i++){ 
+			mapper.insertFile(list.get(i)); 
+		}
 	}
 }

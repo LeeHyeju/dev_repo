@@ -89,7 +89,7 @@ function fnSrch() {
 									<td><a href="/intrBrd/intr_brd_dtl?brdCd=${brd.brdCd}">${brd.brdNm}</a></td>
 									<td>${brd.fileYn}</td>
 									<td>${brd.notiYn}</td>
-									<td>${brd.replyYn}</td>
+									<td>${brd.replYn}</td>
 									<td>${brd.cmtYn}</td>
 									<td>${brd.useYn}</td>
 									<td><a href="${pageContext.request.contextPath}/intrBrd/${brd.brdPage}?regId=${sessionScope.admin.admId}" style="width:50px; height:30px" class="btnTxt btnTxt_small btnTxt_gray">보기</a></td>

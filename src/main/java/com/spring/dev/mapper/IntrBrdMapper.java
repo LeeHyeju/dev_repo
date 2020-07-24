@@ -1,6 +1,7 @@
 package com.spring.dev.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -109,4 +110,7 @@ public interface IntrBrdMapper {
 	
 	// 다음글 가져오기
 	public IntrGal getNextBrdTl(@Param("tblNm")String tblNm, @Param("brdCd")String brdCd);
+	
+	// 파일 등록
+	public void insertFile(Map<String, Object> map) throws Exception;
 }

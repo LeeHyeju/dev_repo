@@ -69,7 +69,7 @@ $(document).ready(function(){
 function fnInsert(){
 	var form = document.getElementById("writeForm");
     form.method = "get";
-    form.action = "<c:url value='/benner/insert'/>";
+    form.action = "<c:url value='/bnr/insert'/>";
     form.submit();
 }
 </script>
@@ -77,7 +77,7 @@ function fnInsert(){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/benner/benner"><span>게시판관리</span></a><span>베너관리</span>
+		<a href="${pageContext.request.contextPath}/bnr/bnr"><span>게시판관리</span></a><span>베너관리</span>
 		<span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
@@ -205,6 +205,7 @@ function fnInsert(){
 									</td>
 								</tr>
 								<tr> 
+									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">링크</label>

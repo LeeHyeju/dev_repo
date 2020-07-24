@@ -82,6 +82,9 @@ function submit(service){
 						<table id="boardTable1" class="boardType01_tbl">
 							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
 							<colgroup>
+								<col style="width:10%;"/>
+								<col style="width:20%;"/>
+								<col style="width:10%;"/>
 								<col style="width:20%;"/>
 							</colgroup>
 							<tbody>
@@ -89,14 +92,28 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">게시판번호</label>
+										</span>
+									</th>
+									<td colspan="3">
+										<div class="input_adj">
+											${dtl.brdCd}
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
 											<label for="">유형</label>
 										</span>
 									</th>
-									<td>
+									<td colspan="3">
 										<div class="input_adj">
 											<select name="brdType" id="brdType" class="input_selectN" style="width:200px;">
+												<option value="${dtl.brdType}">${dtl.brdType}</option>
 												<c:forEach var="cmnCd" items="${cmnCd}">
-													<option value="${cmnCd.cmnNm}">${cmnCd.cmnNm}</option>
+													<option value="${cmnCd.key}">${cmnCd.key}</option>
 										     	</c:forEach>
 											</select>
 										</div>
@@ -109,7 +126,7 @@ function submit(service){
 											<label for="">게시판명</label>
 										</span>
 									</th>
-									<td>
+									<td colspan="3">
 										<div class="input_adj">
 											<input type="text" name="brdNm" id="brdNm" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdNm}"/>
 										</div>
@@ -122,7 +139,7 @@ function submit(service){
 											<label for="">게시판 페이지</label>
 										</span>
 									</th>
-									<td>
+									<td colspan="3">
 										<div class="input_adj">
 											<input type="text" name="brdPage" id="brdPage" class="input_textN" style="width:200px;" maxlength="50" value="${dtl.brdPage}"/>
 										</div>
@@ -132,14 +149,59 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">첨부여부</label>
+											<label for="">사용여부</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="fileYn" id="fileYn" class="input_selectN" style="width:200px;">
-												<option value="${dtl.fileYn}">${dtl.fileYn}</option>
-												<option value="${dtl.fileYn=='Y'?'N':'Y'}">${dtl.fileYn=='Y'?'N':'Y'}</option>
+											<select name="useYn" id="useYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.useYn}">${dtl.useYn}</option>
+												<option value="${dtl.useYn=='Y'?'N':'Y'}">${dtl.useYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">삭제여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="delYn" id="delYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.delYn}">${dtl.delYn}</option>
+												<option value="${dtl.delYn=='Y'?'N':'Y'}">${dtl.delYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr><td colspan="4">목록</td></tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">페이지여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="pageYn" id="pageYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.pageYn}">${dtl.pageYn}</option>
+												<option value="${dtl.pageYn=='Y'?'N':'Y'}">${dtl.pageYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">게시기간여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="postPeriYn" id="postPeriYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.postPeriYn}">${dtl.postPeriYn}</option>
+												<option value="${dtl.postPeriYn=='Y'?'N':'Y'}">${dtl.postPeriYn=='Y'?'N':'Y'}</option>
 											</select>
 										</div>
 									</td>
@@ -148,7 +210,21 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">공지여부</label>
+											<label for="">검색여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="srchYn" id="srchYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.srchYn}">${dtl.srchYn}</option>
+												<option value="${dtl.srchYn=='Y'?'N':'Y'}">${dtl.srchYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">공지옵션여부</label>
 										</span>
 									</th>
 									<td>
@@ -164,19 +240,98 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">답글여부</label>
+											<label for="">탭사용여부</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
-											<select name="replyYn" id="replyYn" class="input_selectN" style="width:200px;">
-												<option value="${dtl.replyYn}">${dtl.replyYn}</option>
-												<option value="${dtl.replyYn=='Y'?'N':'Y'}">${dtl.replyYn=='Y'?'N':'Y'}</option>
+											<select name="tabYn" id="tabYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.tabYn}">${dtl.tabYn}</option>
+												<option value="${dtl.tabYn=='Y'?'N':'Y'}">${dtl.tabYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+									</th>
+									<td>
+									</td>
+								</tr>
+								<tr><td colspan="4">상세</td></tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">파일첨부여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="fileYn" id="fileYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.fileYn}">${dtl.fileYn}</option>
+												<option value="${dtl.fileYn=='Y'?'N':'Y'}">${dtl.fileYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">동영상사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="vdYn" id="vdYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.vdYn}">${dtl.vdYn}</option>
+												<option value="${dtl.vdYn=='Y'?'N':'Y'}">${dtl.vdYn=='Y'?'N':'Y'}</option>
 											</select>
 										</div>
 									</td>
 								</tr>
 								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">링크사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="linkYn" id="linkYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.linkYn}">${dtl.linkYn}</option>
+												<option value="${dtl.linkYn=='Y'?'N':'Y'}">${dtl.linkYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">이미지사용여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="imgYn" id="imgYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.imgYn}">${dtl.imgYn}</option>
+												<option value="${dtl.imgYn=='Y'?'N':'Y'}">${dtl.imgYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
+											<label for="">답글여부</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<select name="replYn" id="replYn" class="input_selectN" style="width:200px;">
+												<option value="${dtl.replYn}">${dtl.replYn}</option>
+												<option value="${dtl.replYn=='Y'?'N':'Y'}">${dtl.replYn=='Y'?'N':'Y'}</option>
+											</select>
+										</div>
+									</td>
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
@@ -196,58 +351,13 @@ function submit(service){
 									<th>
 										<span class="th_wrap">
 											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">사용여부</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<select name="useYn" id="useYn" class="input_selectN" style="width:200px;">
-												<option value="${dtl.useYn}">${dtl.useYn}</option>
-												<option value="${dtl.useYn=='Y'?'N':'Y'}">${dtl.useYn=='Y'?'N':'Y'}</option>
-											</select>
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">삭제여부</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<select name="delYn" id="delYn" class="input_selectN" style="width:200px;">
-												<option value="${dtl.delYn}">${dtl.delYn}</option>
-												<option value="${dtl.delYn=='Y'?'N':'Y'}">${dtl.delYn=='Y'?'N':'Y'}</option>
-											</select>
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">작성일</label>
+											<label for="">작성자 / 작성일</label>
 										</span>
 									</th>
 									<td>
 										<div class="input_adj">
 											<fmt:formatDate var="fmtDate" value="${dtl.regDt}" pattern="yyyy.MM.dd"/>
-											${fmtDate}
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">작성자</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											${dtl.regId}
+											${dtl.regId} / ${fmtDate}
 										</div>
 									</td>
 								</tr>

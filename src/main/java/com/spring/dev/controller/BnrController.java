@@ -46,11 +46,11 @@ public class BnrController {
     
     // 베너 상세 페이지
     @RequestMapping(value = {"/bnr_dtl"})
-	public String dtl(Model model, String brdCd) {
+	public String dtl(Model model, String bnrCd) {
     	logger.info("bnrController bnr_dtl");
     	
     	// dtl 세팅
-    	model.addAttribute("dtl", service.dtl(brdCd));
+    	model.addAttribute("dtl", service.dtl(bnrCd));
     	
     	return "bnr/bnr_dtl.page";
     }
@@ -65,9 +65,9 @@ public class BnrController {
     
     // 베너 삭제
     @RequestMapping(value = {"/del"})
-	public String delete(Model model, String brdCd) {
+	public String delete(Model model, String bnrCd) {
     	logger.info("bnrController del");
-    	service.delete(brdCd);
+    	service.delete(bnrCd);
     	return "redirect:/bnr/bnr";
     }
     
@@ -75,8 +75,8 @@ public class BnrController {
     @RequestMapping(value = {"/bnr_reg"})
 	public String reg(Model model) {
     	logger.info("bnrController bnr_reg");
-    	model.addAttribute("brdKind", cmnCdService.getCmnCd("C0007"));
-    	model.addAttribute("brdType", cmnCdService.getCmnCd("C0008"));
+    	model.addAttribute("bnrKind", cmnCdService.getCmnCd("C0007"));
+    	model.addAttribute("bnrType", cmnCdService.getCmnCd("C0008"));
     	return "bnr/bnr_reg.page";
     }
     

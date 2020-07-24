@@ -68,7 +68,7 @@ function fnDel(){
 function submit(service){
 	var form = document.getElementById("writeForm");
     form.method = "get";
-    form.action = "<c:url value='/benner/" + service + "'/>";
+    form.action = "<c:url value='/bnr/" + service + "'/>";
     form.submit();
 }
 </script>
@@ -76,7 +76,7 @@ function submit(service){
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
-		<a href="${pageContext.request.contextPath}/intrbnr/intr_bnr_faq"><span>게시판관리</span></a><span>베너관리</span>
+		<a href="${pageContext.request.contextPath}/bnr/bnr"><span>게시판관리</span></a><span>베너관리</span>
 		<span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	
@@ -247,7 +247,7 @@ function submit(service){
 					<div class="boardType01_write_btn">
 						<button type="submit" id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_normal btnTxt_gray"><span>저장</span></button>
 						<button id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_normal btnTxt_gray"><span>삭제</span></button>
-						<a href="${pageContext.request.contextPath}/benner/benner" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
+						<a href="${pageContext.request.contextPath}/bnr/bnr" class="btnTxt btnTxt_normal btnTxt_dark"><span>목록</span></a>
 					</div> <!-- //boardType01_write_btn -->
 					
 					</form>

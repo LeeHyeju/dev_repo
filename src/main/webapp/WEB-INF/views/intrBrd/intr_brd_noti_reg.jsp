@@ -20,9 +20,6 @@ $(document).ready(function(){
 		    ,useYn: {
 		    	required 	: true
 		    }
-    		,ancmOptnYn: {
-    			 required 	: true
-             }
         },
         //규칙체크 실패시 출력될 메시지
         messages : {
@@ -35,9 +32,6 @@ $(document).ready(function(){
                ,maxlength 	: "최대 {300}글자까지 입력하세요"
 	        }
 	        ,useYn: {
-	        	required 	: "필수로선택하세요"
-	        }
-	        ,ancmOptnYn: {
 	        	required 	: "필수로선택하세요"
 	        }
         },
@@ -155,22 +149,6 @@ function fnInsert(){
 											<label for="useYn">사용</label>
 											<input type="radio" name="useYn" id="useN" class="input_group" style="width:50px;" value="N">
 											<label for="useYn">미사용</label>
-										</div>
-									</td>
-								</tr>
-								<tr> 
-									<th>
-										<span class="th_wrap">
-											<span class="bullet_required">*<span class="t-hidden">필수</span></span>
-											<label for="">공지옵션</label>
-										</span>
-									</th>
-									<td>
-										<div class="input_adj">
-											<input type="radio" name="ancmOptnYn" id="ancmOptnY" class="input_group" style="width:50px;" value="Y">
-											<label for="ancmOptnYn">사용</label>
-											<input type="radio" name="ancmOptnYn" id="ancmOptnN" class="input_group" style="width:50px;" value="N">
-											<label for="ancmOptnYn">미사용</label>
 										</div>
 									</td>
 								</tr>

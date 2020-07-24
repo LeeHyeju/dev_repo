@@ -1,6 +1,8 @@
 package com.spring.dev.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.dev.domain.CmnCd;
 import com.spring.dev.domain.Criteria;
@@ -65,7 +68,15 @@ public class IntrBrdController {
     	// 공통코드 세팅
     	String cmnCd = "C0002";
     	List<CmnCd> cmnCdList = cmnCdService.getCmnCd(cmnCd);
-    	model.addAttribute("cmnCd", cmnCdList);
+    	
+    	Map<String, String> map = new HashMap<String, String>();
+    	for(int i=0; i<cmnCdList.size(); i++) {
+    		map.put(cmnCdList.get(i).getCmnNm(), cmnCdList.get(i).getCmnCd());
+    	}
+    	map.remove(dtl.getBrdType());
+    	
+//    	model.addAttribute("cmnCd", cmnCdList);
+    	model.addAttribute("cmnCd", map);
 
     	// dtl 세팅
     	model.addAttribute("dtl", dtl);
@@ -126,6 +137,11 @@ public class IntrBrdController {
     	model.addAttribute("notiList", service.notiList());
     	model.addAttribute("notiChk", searchKey.isNotiChk());
     	model.addAttribute("perPageNum", cri.getPerPageNum());
+    	
+    	// 게시판 세팅
+    	String brdCd = "1";
+    	Intr brd = service.dtlBrd(brdCd);
+    	model.addAttribute("brd", brd);
 		
     	PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -155,6 +171,10 @@ public class IntrBrdController {
     	
     	// authCd 가져오기
     	model.addAttribute("authCd", adminService.selectAuthCd(regId));
+    	
+    	// 게시판 세팅
+    	Intr brd = service.dtlBrd("1");
+    	model.addAttribute("brd", brd);
     	
     	// 이전글 다음글 가져오기
     	model.addAttribute("pri", service.getPriBrdTl(tblNm, brdCd));
@@ -356,12 +376,22 @@ public class IntrBrdController {
     
     // 갤러리 등록
     @RequestMapping(value = {"/galInsert"})
-	public String insertGal(Model model, IntrGal intrGal) {
+	public String insertGal(Model model, IntrGal intrGal, MultipartHttpServletRequest mpRequest) {
     	logger.info("IntrBrdController galInsert");
     	String tblNm = "tb_brd_gal";
     	intrGal.setBrdCd(service.brdCdMax(tblNm)+1);
     	
-    	service.galInsert(intrGal);
+//    	service.galInsert(intrGal);
+    	
+    	logger.info("PopupController insertProcess");
+       	System.out.println("인서트"+intrGal.toString()+"req"+mpRequest);
+       	try {
+			service.insertGal(intrGal, mpRequest);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       	
 		return "redirect:/intrBrd/intr_brd_gal";
 	}
 }

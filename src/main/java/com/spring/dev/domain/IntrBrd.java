@@ -3,8 +3,6 @@ package com.spring.dev.domain;
 import java.util.Date;
 
 public class IntrBrd {
-	private static final long serialVersionUID = 1L;
-	private String brdIdx;
 	private int brdCd;
 	private int brdType;
 	private String brdTypeNm;
@@ -13,10 +11,17 @@ public class IntrBrd {
 	private String regId;
 	private Date regDt;
 	private int hit;
-	private String ancmOptnYn;
 	
+	private String notiYn;
+	private String delYn;
+	private String file;
+	private String vd;
+	private String link;
+	private String replCont;
+	private String cmtCont;
 	private String useYn;
 	private String fileYn;
+	private String img;
 
 	private String rNum;
 	public String getrNum() {
@@ -26,12 +31,6 @@ public class IntrBrd {
 		this.rNum = rNum;
 	}
 	
-	public String getBrdIdx() {
-		return brdIdx;
-	}
-	public void setBrdIdx(String brdIdx) {
-		this.brdIdx = brdIdx;
-	}
 	public int getBrdCd() {
 		return brdCd;
 	}
@@ -80,11 +79,47 @@ public class IntrBrd {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public String getAncmOptnYn() {
-		return ancmOptnYn;
+	public String getNotiYn() {
+		return notiYn;
 	}
-	public void setAncmOptnYn(String ancmOptnYn) {
-		this.ancmOptnYn = ancmOptnYn;
+	public void setNotiYn(String notiYn) {
+		this.notiYn = notiYn;
+	}
+	public String getDelYn() {
+		return delYn;
+	}
+	public void setDelYn(String delYn) {
+		this.delYn = delYn;
+	}
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
+	public String getVd() {
+		return vd;
+	}
+	public void setVd(String vd) {
+		this.vd = vd;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	public String getReplCont() {
+		return replCont;
+	}
+	public void setReplCont(String replCont) {
+		this.replCont = replCont;
+	}
+	public String getCmtCont() {
+		return cmtCont;
+	}
+	public void setCmtCont(String cmtCont) {
+		this.cmtCont = cmtCont;
 	}
 	public String getUseYn() {
 		return useYn;
@@ -98,13 +133,18 @@ public class IntrBrd {
 	public void setFileYn(String fileYn) {
 		this.fileYn = fileYn;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	@Override
 	public String toString() {
-		return "IntrBrd [brdIdx=" + brdIdx + ", brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm
-				+ ", brdTl=" + brdTl + ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", hit=" + hit
-				+ ", ancmOptnYn=" + ancmOptnYn + ", useYn=" + useYn + ", fileYn=" + fileYn + ", rNum=" + rNum + "]";
+		return "IntrBrd [brdCd=" + brdCd + ", brdType=" + brdType + ", brdTypeNm=" + brdTypeNm + ", brdTl=" + brdTl
+				+ ", brdCont=" + brdCont + ", regId=" + regId + ", regDt=" + regDt + ", hit=" + hit + ", notiYn="
+				+ notiYn + ", delYn=" + delYn + ", file=" + file + ", vd=" + vd + ", link=" + link + ", replCont="
+				+ replCont + ", cmtCont=" + cmtCont + ", useYn=" + useYn + ", fileYn=" + fileYn + ", img=" + img
+				+ ", rNum=" + rNum + "]";
 	}
 }

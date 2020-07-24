@@ -38,31 +38,46 @@
 		INSERT INTO 
 			tb_brd_mngm (
 				 brdCd
-			 	,brdNm
 				,brdType
+			 	,brdNm
 				,brdPage
-				,regId
-				,regDt
-				,fileYn
+				,pageYn
+				,postPeriYn
+				,srchYn
 				,notiYn
-				,replyYn
+				,fileYn
+				,vdYn
+				,tabYn
+				,linkYn
+				,imgYn
+				,replYn
 				,cmtYn
 				,useYn
 				,delYn
+				,regId
+				,regDt
 			)
 		VALUES (
 				 #{brdCd}
-				,#{brdNm}
 				,#{brdType}
+				,#{brdNm}
 				,#{brdPage}
 				,#{regId}
-				,now()
-				,#{fileYn}
+				,#{pageYn}
+				,#{postPeriYn}
+				,#{srchYn}
 				,#{notiYn}
-				,#{replyYn}
+				,#{fileYn}
+				,#{vdYn}
+				,#{tabYn}
+				,#{linkYn}
+				,#{imgYn}
+				,#{replYn}
 				,#{cmtYn}
 				,#{useYn}
 				,#{delYn}
+				,#{regId}
+				,now()
 		)
 	</insert>
 	
@@ -71,9 +86,16 @@
 		SET	 brdType = #{brdType}
 			,brdNm = #{brdNm}
 			,brdPage = #{brdPage}
-			,fileYn = #{fileYn}
+			,pageYn = #{pageYn}
+			,postPeriYn = #{postPeriYn}
+			,srchYn = #{srchYn}
 			,notiYn = #{notiYn}
-			,replyYn = #{replyYn}
+			,fileYn = #{fileYn}
+			,vdYn = #{vdYn}
+			,tabYn = #{tabYn}
+			,linkYn = #{linkYn}
+			,imgYn = #{imgYn}
+			,replYn = #{replYn}
 			,cmtYn = #{cmtYn}
 			,useYn = #{useYn}
 			,delYn = #{delYn}
@@ -184,7 +206,6 @@
 				,regId
 				,regDt
 				,fileYn
-				,ancmOptnYn
 				,hit
 			)
 		VALUES (
@@ -196,7 +217,6 @@
 				,#{regId}
 				,now()
 				,#{fileYn}
-				,#{ancmOptnYn}
 				,'0'
 		)
 	</insert>
@@ -213,7 +233,6 @@
 			,brdTypeNm = #{brdTypeNm}
 			,brdTl = #{brdTl}
 			,brdCont = #{brdCont}
-			,ancmOptnYn = #{ancmOptnYn}
 		WHERE brdCd = #{brdCd}
 	</update>
 
@@ -400,4 +419,34 @@
 			WHERE brdCd <![CDATA[ < ]]>	 ${brdCd}
 		)
 	</select>
+	
+	<insert id="insertFile" parameterType="hashmap"> 
+	<![CDATA[ 
+		INSERT INTO 
+			tb_file 
+				(
+				 fileIdx
+				,tblCd
+				,tblIdx
+				,tblNm
+				,orgnFile
+				,saveFile
+				,fileSize
+				,fileExp
+				,filePath
+				  ) 
+		VALUES 
+				(
+				#{fileIdx}
+				,#{tblCd, jdbcType=VARCHAR}
+				,#{tblIdx}
+				,#{tblNm, jdbcType=VARCHAR}
+				,#{orgnFile}
+				,#{saveFile}
+				,#{fileSize}
+				,#{fileExp}
+				,#{filePath}
+				)
+		 ]]> 
+	</insert>
 </mapper>

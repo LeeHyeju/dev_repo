@@ -68,6 +68,64 @@ function fnInsert() {
 }
 </script>
 
+
+<script>
+    $(function() {
+        function init() {
+            var appendFiles = [];
+
+            var $dnd = $('#dnd');
+            var xhr = new XMLHttpRequest();
+	        if (xhr.upload) {
+                $dnd.on("dragenter", function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    e.originalEvent.dataTransfer.dropEffect = "copy";
+                    $dnd.css('background-color','#ccc');
+                });
+                $dnd.on("dragleave", function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    $dnd.css('background-color','#fefefe');
+                });
+                $dnd.on("dragover", function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    e.originalEvent.dataTransfer.dropEffect = "copy";
+                    $dnd.css('background-color','#ccc');
+                });
+                $dnd.on("drop", function(e) {
+                    e.preventDefault();
+
+                    $dnd.css('background-color','#fefefe');
+
+                    var files = e.originalEvent.dataTransfer.files;
+                    
+                    appendFiles = appendFiles.concat(files);
+                    $.each(files, function(k, y) {
+                        var reader = new FileReader();
+                        reader.onload = function(r) {
+                        console.log('r', r);
+                        };
+                        reader.readAsDataURL(files[k]);
+                        console.log('drop', files[k]);
+                    });
+                });
+            }
+        }
+        init();
+     //// var formData = new FormData(form);
+     //// formData.append('files', appendFiles);
+
+     /// var $f = $('<input type="file" name="files" multiple="multiple" />');
+     /// $f.files = appendFiles;
+     /// form.append($f);
+
+    });
+  </script>
 <div id="contentarea" class="l-content">
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
@@ -166,7 +224,10 @@ function fnInsert() {
 									<td>
 										<div class="input_adj">
 											<input type="file" name="img" id="img" class="input_textN" style="width:200px;" maxlength="50"/>
+											<span><strong>${view.orgnFile}</strong></span>
 										</div>
+										<img src="${pageContext.request.contextPath}/resources/files/${view.saveFile}" width="70%"  align="middle" style="margin-top: 10px"/>
+											<%-- <input type="file" name="file" id="file" class="input_textN" style="width:200px;" maxlength="50" value="${view.saveFile}" /> --%>
 									</td>
 								</tr>
 							</tbody>

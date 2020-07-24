@@ -42,14 +42,14 @@ function fnNotiClick(length) {
 	<div class="breadcrumb">
 		<a href="${pageContext.request.contextPath}/main"><span class="path_home">Home</span></a>
 		<a href="${pageContext.request.contextPath}/intrBrd/intr_brd"><span>게시판관리</span></a>
-		<span>통합게시판(게시판형)</span><span class="path_current">${boardManage.boardName}</span>
+		<span>${brd.brdNm}</span><span class="path_current">${boardManage.boardName}</span>
 	</div> <!-- //breadcrumb -->
 	<div class="subcontent_wrap">
 		<div class="subcontent_inner">
 			<div class="subcontent">
 				
 				<div class="subcontent_title_wrap">
-					<h3 class="subcontent_title">통 합 게 시 판 (게시판형)</h3>
+					<h3 class="subcontent_title">${brd.brdNm}</h3>
 					<p class="subcontent_desc"></p>
 				</div> <!-- //subcontent_title_wrap -->
 						
@@ -57,6 +57,7 @@ function fnNotiClick(length) {
 					<form id="srchForm" name="srchForm">
 						<fieldset> <legend>게시판 검색폼</legend>
 							<div class="boardType01_search">
+							<c:if test="${brd.srchYn == 'Y'}">
 								<select name="srchPeriod" id="srchPeriod" class="boardType01_search_select">
 									<option value="0">전체기간</option>
 									<option value="1d">1일</option>
@@ -73,23 +74,28 @@ function fnNotiClick(length) {
 								</select>
 								<input type="text" name="srchCont" id="srchCont" class="boardType01_search_input"/>
 								<button type="submit" onClick='fnSrch()'><img src="${pageContext.request.contextPath}/resources/admin/img/common/btn_search_gray.gif" alt="검색" /></button>
+							</c:if>
 							</div> <!-- //boardType01_search -->
 						</fieldset>
 					
 						<span class="boardType01_info_top">총 <strong>${postListCount}</strong>개의 게시물이 있습니다.</span>
 						
 						<div style="float:right;">
-							<input type="checkbox" name="notiChk" id="notiChk" onClick="fnNotiClick(${fn:length(notiList)})"/>
-	  						<label for="notiChk" style="padding-right: 15px">공지 숨기기</label>
-	  						<select name="perPageNum" id="perPageNum" onChange='fnSrch()' class="boardType01_search_select">
-								<option value="5">5개씩</option>
-								<option value="10">10개씩</option>
-								<option value="15">15개씩</option>
-								<option value="20">20개씩</option>
-							</select>
+							<c:if test="${brd.notiYn == 'Y'}">
+								<input type="checkbox" name="notiChk" id="notiChk" onClick="fnNotiClick(${fn:length(notiList)})"/>
+		  						<label for="notiChk" style="padding-right: 15px">공지 숨기기</label>
+	  						</c:if>
+	  						<c:if test="${brd.pageYn == 'Y'}">
+		  						<select name="perPageNum" id="perPageNum" onChange='fnSrch()' class="boardType01_search_select">
+									<option value="5">5개씩</option>
+									<option value="10">10개씩</option>
+									<option value="15">15개씩</option>
+									<option value="20">20개씩</option>
+								</select>
+							</c:if>
 						</div>
 					</form>
-					<c:set var="cols" value="6"/>
+					<c:set var="cols" value="8"/>
 					<table id="boardTable1" class="boardType01_tblList" style=TABLE-layout:fixed>
 						<caption><span class="t-hidden">필독/공지</span></caption>
 						<colgroup>
@@ -99,7 +105,6 @@ function fnNotiClick(length) {
 							<col style="width:5%"/>
 							<col style="width:5%"/>
 							<col style="width:7%"/>
-							<col style="width:7%"/>
 							<col style="width:5%"/>
 						</colgroup>
 						<thead>
@@ -108,7 +113,6 @@ function fnNotiClick(length) {
 							<th>제목</th>
 							<th>내용</th>
 							<th>사용여부</th>
-							<th>공지옵션</th>
 							<th>작성자</th>
 							<th>작성일</th>
 							<th>조회</th>
@@ -121,7 +125,6 @@ function fnNotiClick(length) {
 								<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${noti.brdCd}&hit=${noti.hit}&regId=${noti.regId}"><nobr>${noti.brdTl}</nobr></a></td>
 								<td style="text-overflow : ellipsis;overflow : hidden;"><nobr>${noti.brdCont}</nobr></td>
 								<td>${noti.useYn}</td>
-								<td>${noti.ancmOptnYn}</td>
 								<td class="t-gray">${noti.regId}</td>
 								<td><fmt:formatDate value="${noti.regDt}" pattern="yyyy.MM.dd"/></td>
 								<td>${noti.hit}</td>
@@ -134,7 +137,6 @@ function fnNotiClick(length) {
 								<td style="text-overflow : ellipsis;overflow : hidden;"><a href="/intrBrd/intr_brd_noti_dtl?brdCd=${post.brdCd}&hit=${post.hit}&regId=${post.regId}"><nobr>${post.brdTl}</nobr></a></td>
 								<td style="text-overflow : ellipsis;overflow : hidden;"><nobr>${post.brdCont}</nobr></td>
 								<td>${post.useYn}</td>
-								<td>${post.ancmOptnYn}</td>
 								<td class="t-gray">${post.regId}</td>
 								<td><fmt:formatDate value="${post.regDt}" pattern="yyyy.MM.dd"/></td>
 								<td>${post.hit}</td>
@@ -142,7 +144,7 @@ function fnNotiClick(length) {
 				     	</c:forEach>
 				     	<c:if test="${empty postList}">
 						<tr>
-							<td colspan="10" class="no-data">게시물이 없습니다.</td>
+							<td colspan="8" class="no-data">게시물이 없습니다.</td>
 						</tr>
 						</c:if>
 						</tbody>

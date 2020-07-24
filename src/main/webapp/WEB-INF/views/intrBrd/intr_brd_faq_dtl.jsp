@@ -222,6 +222,55 @@ function submit(service){
 					</form>
 				</div> <!-- //boardType01_wrap -->
 				
+				<div class="boardType01_write" style="margin-top: 50px;">
+						<table id="boardTable1" class="boardType01_tbl">
+							<caption class="boardType01_cpt"><span class="t-hidden">등록</span></caption>
+							<colgroup>
+								<col style="width:5%;"/>
+								<col style="width:20%;"/>
+								<col style="width:8%;"/>
+							</colgroup>
+							<tbody>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">${sessionScope.admin.admId}</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<textarea name="cmtCont" id="cmtCont" class="input_textN" style="width:420px; height:80px;" maxlength="300"></textarea>
+										</div>
+									</td>
+									<td>
+										<div class="input_adj">
+											<button type="submit" id="btnCmt" onClick="fnCmt()" class="btnTxt btnTxt_small btnTxt_gray"><span>답변</span></button>
+											<button type="submit" id="btnSave" onClick="fnSave()" class="btnTxt btnTxt_small btnTxt_gray"><span>수정</span></button>
+											<button type="submit" id="btnDel" onClick="fnDel()" class="btnTxt btnTxt_small btnTxt_gray"><span>삭제</span></button>
+										</div>
+									</td>
+								</tr>
+								<tr> 
+									<th>
+										<span class="th_wrap">
+											<label for="">${sessionScope.admin.admId}</label>
+										</span>
+									</th>
+									<td>
+										<div class="input_adj">
+											<textarea name="cmtCont" id="cmtCont" class="input_textN" style="width:420px; height:80px;" maxlength="300"></textarea>
+										</div>
+									</td>
+									<td>
+										<div class="input_adj">
+											<button type="submit" id="btnInsert" onClick="fnInsert()" class="btnTxt btnTxt_small btnTxt_gray"><span>댓글등록</span></button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->
 	</div> <!-- //subcontent_wrap -->

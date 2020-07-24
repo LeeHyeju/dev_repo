@@ -28,6 +28,6 @@
 		<ul id="lnb">
 			<li  class="current <c:if test="${fn:indexOf(uri, '/contents/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/contents/list">컨텐츠관리</a></li>
 			<li  class="current <c:if test="${fn:indexOf(uri, '/popup/') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/popup/list">팝업관리</a></li>
-			<li class="current <c:if test="${fn:indexOf(uri, '/benner/benner') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/benner/benner">베너관리</a></li>
+			<li class="current <c:if test="${fn:indexOf(uri, '/bnr/bnr') > -1}">opened</c:if>"><a href="${pageContext.request.contextPath}/bnr/bnr">베너관리</a></li>
 		</ul>	
 </div> <!-- //aside -->
