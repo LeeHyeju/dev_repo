@@ -3,247 +3,271 @@
  <head>
   <meta charset="UTF-8">
   <style>
-  		table {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: solid 1px #000; }
-  		table td {border: 1px solid #000; width: 80px; height: 80px; text-align: center; font-size: 24px;}
-  		table td div{width: 100%; height: 100%;}
-  		table td.snake div{background: #00ff00; border-radius: 30px; box-sizing: content-box; border: solid 1px #000;}
-  		table td.snake-head div{background: #ff0000; border-radius: 50px; box-sizing: content-box; border: solid 1px #000;}
-		table td.snake-head div::before{content: '◐_◐';}
-		table td.feed div{background: orange;}
+		* {margin: 0; padding: 0; }
+		table tr td {text-align: center;}
+		table.back-block {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: 1px solid #000;}
+		table.back-block tr td {width: 40px; height: 40px; background-color: gray; border: 1px solid #000;}
+		table.back-block tr td.block {background-color: purple;}
+		table.back-block tr td.block0 {background-color: sliver;}
+		table.back-block tr td.block1 {background-color: yellow;}
+		table.back-block tr td.block2 {background-color: brown;}
+		table.back-block tr td.block3 {background-color: blue;}
+		table.back-block tr td.block4 {background-color: green;}
+		table.back-block tr td.block5 {background-color: red;}
+		table.back-block tr td.block6 {background-color: hotpink;}
+		tatable.back-block tr td.shadow {opacity: 0.6}
+		
+		#preview table {display: none;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-  <title>지렁이 게임</title>
-  	<!-- 지렁이 게임 규칙
-		1. 게임판을 화면에 그린다. (11×11)
-		2. 먹이 
-			2-1. 중복되지 않은 위치에 색칠된 네모칸 그리기
-			2-2. 스테이지가 진행될 수록 먹이의 수가 증가(1단계 : 4 -> 2단계: 6)
-	 	3. 뱀 
-	 		3-1. 시작위치 :  정중앙, 오른쪽으로 이동함  
-	 		3-2. 조작 방법 : 키보드 방향키 사용 
-	 		3-3. 속도 : 스테이지가 증가할 수록 빨라짐  
-	 		3-4. 이동 : 머리만 있을 때, 이동방향(오른쪽)의 반대쪽으로도 이동 가능 
-	 	4. 점수 
-	 		스테이지 * 먹이 수
-	 	5. 게임 종료 : 벽이나 자신의 꼬리에 부딪치면 죽는다.
-	 -->
- </head>
- <body>
-	<div id='div'></div>
- </body>
- 	<script>
- 		//게임판 그리기 
- 		var row = 11;
- 		var col = 11;
- 		var stage = 1; //최조 스테이지 
- 		var feedLoc = []; //먹이 배열
- 		var snakeLoc = []; //뱀 배열
- 		var action = 'RIGHT'; //뱀 진행방향
- 		
- 		function init() {
-
- 			feed(); //먹이
- 			snake(); //뱀
- 			draw(); //화면 
- 			
- 			//뱀 키보드 이동
- 			$(document).on('keydown', function(e){
- 				console.log(e.keyCode);
- 				//←(37)↑(38)→(39)↓(40)
- 				if (e.keyCode == 37) {
- 					//뱀 길이가 1개 이상일 때 반대방향으로 진행하는 것을 막는다.
-					if (action == "RIGHT" && snakeLoc.length > 1) { 
-						return;
-					}
-					action ="LEFT";
-				} else if (e.keyCode == 38) {
-					if (action == "DOWN" && snakeLoc.length > 1) {
-						return;
-					}
-					action = "UP";
-				} else if (e.keyCode == 39) {
-					if (action == "LEFT" && snakeLoc.length > 1) {
-						return;
-					}
-					action = "RIGHT";
-				} else if (e.keyCode == 40) {
-					if (action == "UP" && snakeLoc.length > 1) {
-						return;
-					}
-					action = "DOWN";
-				}
- 			});
- 		}
- 		
-        if (!Array.prototype.insert) {
-            Array.prototype.insert = function(index, obj) {
-                this.splice(index, 0, obj); 
-            }
-        }
-        
-        if (!Array.prototype.removeAt) {
-            Array.prototype.removeAt = function(index) {
-                if (this.length -1 <index) {
-                    throw('index out of bounds');
-                }
-                this.splice(index, 1);
-            }
-        }
-        
-
- 		//화면 그리기
- 		function draw() {
-            
- 			var move = snakeMove(); 
-            
- 			console.log("action:", action, "move:" , move);
-
-            if (move.state > 0) { //뱀 상태가 이동불가가 아닐때만 
-                snakeLoc.splice(0, 0, {x: move.x , y: move.y}); //0번째에 값 추가
-            
-                if (move.state == 2) { //이동 가능 
-                    snakeLoc.splice(snakeLoc.length-1, 1); //움직이는 라인 없애줌 
-                }else if (move.state == 1) {
-                    feedLoc.splice(move.idx, 1); //인덱스에 값 제거 
-                }
-
-                drawBg();
-                if (feedLoc.length == 0) {
-                    ++stage; //다음 스테이지 
-                    alert(stage + " [" + snakeLoc.length + " ]");
-                    feed(); //먹이 실행 
-                } 
-                setTimeout(function() {
-                    draw();
-                }, 1000 / stage);
-            } else {
-                alert("끝 [" + snakeLoc.length + " 단계]");   
-            }
- 		}
- 		
- 		//뱀 이동시키기
- 		function snakeMove() {
- 			//뱀 머리
- 			var snakeHead = snakeLoc[0]; 
- 			//뱀 머리 좌표
- 			var headX = snakeHead.x;
- 			var headY = snakeHead.y;
-           
- 			//키보드 방향키 클릭 시 이동할 좌표를 구함
- 			if (action == "LEFT") {
-				headX -= 1; 
-			} else if (action == "RIGHT") {
-				headX += 1; 
-			} else if (action == "UP") {
-				headY -= 1; 
-			} else if (action == "DOWN") {
-				headY += 1; 
-			}
- 			
-	 		//이동할 좌표가 화면 안에 존재하는 좌표인지 확인 
-	 		if ( !(0<= headX && headX < col 
-	 			&& 0 <= headY && headY < row)) { //해당 rol와 col 길이를 넘지 않고 0보다는 커야 한다
-				return {state: 0}; // 뱀 이동 불가 
-			}
-	 		
-	 		//이동할 좌표가 뱀인지 확인 
-	 		var isSnake = false;
-	 		for (var i = 1; i < snakeLoc.length; i++) { //snakeHead가 0이므로 1부터 시작
-				console.log(headX, headY, snakeLoc[i].x, snakeLoc[i].y);
-				if (snakeLoc[i].x == headX && snakeLoc[i].y == headY) { //좌표가 같으면 true
-					isSnake = true; 
-					break;
-				}
-	 		}
-	 		if (isSnake) return {stage:0};
-
-	 		//이동할 좌표가 먹이인지 확인
-	 		var isFeed = false;
-	 		var feedIndex = -1; 
-	 		for (var i = 0; i < feedLoc.length; i++) { 
-	 			if (feedLoc[i].x == headX && feedLoc[i].y == headY) { //좌표가 같으면 true
-					isFeed = true; 
-					feedIndex = i;
-					break;
-				}
-			}
-	 		
-			if (isFeed) return {state: 1, x: headX, y: headY, idx: feedIndex} ; 
+  <title>테트리스</title>
+	<script>
+		var Gmae = function(layer, canvas) {
+			this.$table = undefined;
+			this.$canvas = undefined;
+			this.size = {x: 10, y: 10};
+			this.blocks = [];
+			this.fps = 1000 / 20;
+			this.interval = -1;
+			this.level = 0;
+			this.score = 0; 
+			this.listener = undefined; 
+			this.pBlock = undefined;
+			this.cBlock = undefined;
+			this.gameMode = Game.Util._play['STOP'];
 			
-			return {state: 2, x: headX, y: headY};			
- 		}
-			
-		//먹이 
-		function feed() {
-			var feed = 1 + ( 2 * stage ); //스테이지 증가 시 먹이도 증가 
-			feedLoc = [];
-			//먹이는 랜덤으로 자동 생성 
-			for (var i = 0; i < feed; i++) {
-				var feedX = Math.floor(Math.random() * row);
-				var feedY = Math.floor(Math.random() * col);
-				var overlap = false; 
+			this.init(layer, canvas, 10, 20);
+		};
+		
+		Game.protoType = {
+			init: function(layer, canvas, sizeX, sizeY){
+				this.$layer = $((typeof layer === 'object') ? layer : '#' + layer);
+				this.$canvas = $((typeof layer === 'object') ? canvas : '#' + canvas); 
+				this.size = {x: sizeX, y: sizeY};
 				
-				//먹이좌표가 중복되는지 유무
-				for (var j = 0; j < feedLoc.length; j++) {
-					if (feedLoc[j].x == feedX && feedLoc[j].y == feedY) {
-						overlap = true; 
-						break; 
-				}
+				
 			}
-				//생성된 먹이와 뱀의 좌표가 중복되는지 유무
-				if (!overlap) { 
-					for (var s = 0; s < snakeLoc.length; s++) {
-						if (snakeLoc[s].x == feedX && snakeLoc[s].y == feedY) {
-							overlap = true; 
-							break;
-						}
-					}
-				}
-			
-				if (!overlap) {
-					feedLoc[i] = {x : feedX, y : feedY}; //좌표에 먹이 그리기
-				} else {
-					i--;
-				}
-			}
-		}
- 		
-		function snake() { //뱀 생성하기
-			var snakeX = 5; 
-			var snakeY = 5; 
-			snakeLoc[0] = {x: snakeX, y:snakeY};
 		}
 		
-		//게임판 그리기
- 		function drawBg() {
- 			//테이블 생성
- 			var table = "<table>";
- 			for (var r = 0; r < row; r++) {
-				table += "<tr>";
-				for (var c = 0; c < col; c++) {
-					table += "<td id='td_"+ c +"_"+ r + "'><div>"; 
-					
-					table += "</div></td>";
-				}
-				table += "</tr>";
+	</script>
+ </head>
+ <body>
+	<div id="draw" style="display: inline-block;"></div>
+	<div style="display: inline-block;"><canvas id="canvas" width="200" height="400" style="display: none;"></canvas></div>
+	<div id="score" style="display: block;"></div>
+	<div>
+		<input type="button" id="button"  onclick="onStop();" value="일시정지">
+	</div>
+	<div id="preview">
+		<table id="preview0">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>X</td>
+				<td>X</td>
+				<td>X</td>
+				<td>X</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview1">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>X</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>X</td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview2">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>X</td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview3">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview4">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview5">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<table id="preview6">
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td>X</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>X</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>													
+	</div>
+	<input type="time" pattern="([1]?[0-9]|2[0-3]):[0-5][0-9]"> <!-- 시간에 대한 정규 표현식 -->
+	<script>
+		var game1 = new Game('draw', 'canvas');
+		game1.start(function(action) {
+			console.log(arguments);
+			if (action == "preview") { 
+				var id = 'preview' + arguments[1].type;
+				
+				$('#preview table').hide();
+				$('#preview table#' + id).show();
 			}
- 			table += "</table>";
- 			
- 			$('#div').html(table);
- 			
-	 			//먹이를 그린다
-	 			for (var j = 0; j < feedLoc.length; j++) {
-	 				var feedX = feedLoc[j].x; 
-	 				var feedY = feedLoc[j].y;
-	 				$('#td_'+ feedX + '_' + feedY).attr('class', 'feed');
-				}
- 			//뱀을 그린다
- 				for (var i = 0; i < snakeLoc.length; i++) {
-	 				var snakeX = snakeLoc[i].x; 
-	 				var snakeY = snakeLoc[i].y;
-	 				$('#td_'+ snakeX + '_' + snakeY).attr('class', i == 0? 'snake-head' : 'snake');
-				}
- 		}
-		init();
- 	</script>
+			if (arguments[1] && arguments[1].game) {
+				$('#score').html('레벨: '+arguments[1].game.level + ' | 점수: ' + arguments[1].game.score);
+			}
+		});
+		
+		function onStop() {
+			var $button = $('#button');
+			if (game1.gameMode == Game.Util._play['START']) {
+				game1.pause();
+				$button.val('재시작');
+			} else {
+				game1.resume();
+				$button.val('일시정지');
+			}
+		}
+	</script>
+ </body>
 </html>
