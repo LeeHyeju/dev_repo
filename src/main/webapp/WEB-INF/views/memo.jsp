@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <style>
-		* {margin: 0; padding: 0; }
+		* {margin: 0; padding: 0;}
 		table tr td {text-align: center;}
 		table.back-block {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: 1px solid #000;}
 		table.back-block tr td {width: 40px; height: 40px; background-color: gray; border: 1px solid #000;}
@@ -32,8 +32,8 @@
 			this.level = 0;
 			this.score = 0; 
 			this.listener = undefined; 
-			this.pBlock = undefined;
-			this.cBlock = undefined;
+			this.pBlock = undefined; //미리보기 블럭 
+			this.cBlock = undefined; //현재 블럭
 			this.gameMode = Game.Util._play['STOP'];
 			
 			this.init(layer, canvas, 10, 20);
@@ -45,7 +45,79 @@
 				this.$canvas = $((typeof layer === 'object') ? canvas : '#' + canvas); 
 				this.size = {x: sizeX, y: sizeY};
 				
+				this.blocks = new Array(this.size.y);
+				for (var y = 0; y < this.size.y; y++) {
+					this.blocks[y] = new Array(this.size.x);
+				}
+			},
+			makeCanvas: function() { //테트리스 화면 그리기 
+				var table = [];
+				table.push('<table class="back-block">');
+				for (var y = 0; y < this.size.y; y++) {
+					table.push('<tr>');
+					for (var x = 0; x < this.size.x; x++) {
+						table.push('<td x="' + x + '" y ="' + y + '"></td>');
+					}
+					table.push('</tr>');
+				}
+				table.push('</table>');
+			
+			this.$layer.html(table.join(''));
+			
+			this.$canvas.css({background: 'gray'}); //canvas css 
+			this.ctx = this.$canvas.get(0).getContext('2d'); //2d 영역을 그리는 canvas rendering contexts
+			},
+			clear: function() { //한 줄 삭제
+				this.$layer.find('table tr td').attr('class', '');
+				//사각형 영역을 지우는 canvas method
+				this.ctx.clearRect(0, 0, this.size.x * 20, this.size.y *20);
+			},
+			draw: function() {
+				this.clear();
 				
+				this.ctx.strokeStyle = "rgb(0,0,0)"; //도형의 윤곽선 색을 설정하는 canvas style
+				this.ctx.fillStyle ="purple"; //도형을 채우는 색을 설정하는 canvas style
+				
+				for (var y = 0; y < this.size.y; y++) {
+					for (var x = 0; x < this.size.x; x++) {
+						if (this.blocks[y][x]) {
+							this.$layer.find('table tr').eq(y).find('td').eq(x).attr('class', 'block');
+							
+							var bounds = this.blocks[y][x].getBounds(); 
+							this.ctx.strokeRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 영역을 그리는 canvas method 
+							this.ctx.filRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 도형의 색을 채우는 canvas method 
+						}
+					}
+				}				
+				
+				if (this.cBlock) this.cBlock.draw(this.$layer, this.ctx); 
+			},
+			round: function() {
+				this.level = 1; 
+				this.speed();
+			},
+			keyEvent: function(key) {
+				if ( this.gameMode != Game.Util._play['START']) return;
+				//게임 시 키 설정 
+				if (key == 'RIGHT') this.cBlock.moveTo(1, 0, 0);	
+				else if (key == 'LEFT') this.cBlock.moveTo(-1, 0, 0);
+				else if (key == 'UP') this.cBlock.moveTo(0, 0, 1);
+				else if (key == 'DOWN') this.cBlock.moveTo(0, 1, 0);
+				else if (key == 'SPACE') {
+					this.cBlock.moveSpace();
+					this.appendBolck();
+				}
+ 			},
+			makeBlock: function() {
+				if (this.pBlock) {
+					this.cBlock = this.pBlock;
+				}
+				this.pBlock = Game.Util.createBlock(this);
+				
+				if (!this.cBlock) {
+					this.makeBlock();
+					return;
+				}
 			}
 		}
 		
