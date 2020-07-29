@@ -108,7 +108,7 @@
 					this.appendBolck();
 				}
  			},
-			makeBlock: function() {
+			makeBlock: function() { //미리보기 블럭을 현재에 생성
 				if (this.pBlock) {
 					this.cBlock = this.pBlock;
 				}
@@ -118,8 +118,136 @@
 					this.makeBlock();
 					return;
 				}
+				
+				if (typeof this.listener == 'function') this.listener('preview', this.pBlock);
+				
+				if (Game.Util.existsTopBlockX(this.blocks)) {
+					this.stop();
+				}
+			},
+			clearBlock: function() {
+				var y = 0;
+				do {
+					var canClear = true;
+					for (var x = 0; x < this.blocks[y].length; x++) {
+						if (!this.blocks[y][x]) {
+							canClear = false; 
+						}
+					}
+					
+					if (canClear) this.blocks.splice(y--, 1);
+					y++;
+				} while (y < this.blocks.length);
+				
+				var clearCount = this.size.y - this.blocks.length; 
+				for (var y = 0; y < clearCount; y++) {
+					this.blocks.splice(0, 0, new Array(this.size.x));
+				}
+				
+				var score = Game.Util.score[clearCount];
+				this.addScore(score);
+			},
+			appendBlock: function() {
+				var currentRects = this.cBlock.getCurrentRects();
+				for (var k in currentRects) {
+					var x = this.cBlock.getX() + currentRects[k].x; 
+					var y = this.cBlock.getY() + currentRects[k].y;
+					
+					this.blocks[y][x] = currentRects[k];
+				}
+				this.clearBlock();
+				this.makeBlock();
+			}, 
+			addScore: function(_score) { //점수가 쌓일때마다 해당 레벨 올라감 
+				this.score += _score;
+				
+				var oldLevel = this.Level;
+				
+				if (this.score > 12000) this.level = 9;
+				else if (this.score > 9500) this.level = 8;
+				else if (this.score > 7000) this.level = 7;
+				else if (this.score > 5000) this.level = 6;
+				else if (this.score > 3500) this.level = 5;
+				else if (this.score > 2000) this.level = 4;
+				else if (this.score > 1000) this.level = 3;
+				else if (this.score > 500) this.level = 2;
+				
+				if (oldLevel < this.level && typeof this.listener === 'function') this.listener('level' + this.level);
+			},
+			speed: function() { 
+				var that = this;
+				setTimeout(function() {
+					if (that.gameMode == Game.Util._play['START']) {
+						if (that.cBlock) {
+							var moveTo = that.cBlock.moveTo(0, 1, 0);
+							if (!moveTo) {
+								that.appendBlock();
+							}
+						}
+					}
+					that.speed();
+				}, 1000 * 3 / (that.level * (3)));
+				//if(typeof this.listener === 'function') this.listener('speed=' + (1000 * 3 / (this.level * (1.3)))); 
+			},
+			start: function(listener) { 
+				this.listener = listener;
+				if (typeof this.listener === 'function') this.listener('start'); 
+				
+				this.gameMode = Game.Util._play['START'];
+				this.makeCanvas();
+				this.makeBlock();
+				this.round();
+				
+				var that = this;
+				this.interval = setInterval(function(){
+					that.draw();
+				}, this.fps);
+				
+				$('#body').off('keydown').on('keydown', function(e){
+					var key = Game.Util.getKey(e);
+					if (key) that.keyEvent(key);
+				}).focus();				
+			}, 
+			stop: function() {
+				clearInterval(this.interval);
+				this.gameMode = Game.Util._play('STOP');
+				if (typeof this.listener === 'function') this.listener('stop'); 
+			},
+			pause: function() {
+				this.gameMode = Game.Util.play('PAUSE');
+				if (typeof this.listener === 'function') this.listener('pause');
+			},
+			resume: function() {
+				this.gameMode = Game.Util.play('RESUME');
+				if (typeof this.listener === 'function') this.listener('resume');
 			}
-		}
+		};
+		
+		Game.Block = function(_game, _type, _x, _y) {
+			this.game = _game;
+			this.rects = [];
+			this.type = 0;
+			this.loc = {x: 0, y: 0};
+			this.rotate = 0; 
+			
+			this.init(_type, _x, _y);
+		};
+		
+		Game.Block.prototype = {
+			init: function(_type, _x, _y) {
+				this.type = _type; 
+				this.loc.x = _x; 
+				this.loc.y = _y;
+				
+				var blockLocations = Game.Util._blocks[this.type];
+				for (var I in blockLocations) {
+					this.rects.push([
+						new Game.Rect(blockLocations[I][0][0], blockLocations[I][0][1], 20, 20), 
+						
+					]);
+				}
+			}		
+		};
 		
 	</script>
  </head>
