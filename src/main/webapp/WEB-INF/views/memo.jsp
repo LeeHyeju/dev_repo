@@ -15,14 +15,14 @@
 		table.back-block tr td.block4 {background-color: green;}
 		table.back-block tr td.block5 {background-color: red;}
 		table.back-block tr td.block6 {background-color: hotpink;}
-		tatable.back-block tr td.shadow {opacity: 0.6}
+		table.back-block tr td.shadow {opacity: 0.6}
 		
 		#preview table {display: none;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
   <title>테트리스</title>
 	<script>
-		var Gmae = function(layer, canvas) {
+		var Game = function(layer, canvas) {
 			this.$table = undefined;
 			this.$canvas = undefined;
 			this.size = {x: 10, y: 10};
@@ -39,7 +39,7 @@
 			this.init(layer, canvas, 10, 20);
 		};
 		
-		Game.protoType = {
+		Game.prototype = {
 			init: function(layer, canvas, sizeX, sizeY){
 				this.$layer = $((typeof layer === 'object') ? layer : '#' + layer);
 				this.$canvas = $((typeof layer === 'object') ? canvas : '#' + canvas); 
@@ -85,7 +85,7 @@
 							
 							var bounds = this.blocks[y][x].getBounds(); 
 							this.ctx.strokeRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 영역을 그리는 canvas method 
-							this.ctx.filRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 도형의 색을 채우는 canvas method 
+							this.ctx.fillRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 도형의 색을 채우는 canvas method 
 						}
 					}
 				}				
@@ -105,7 +105,7 @@
 				else if (key == 'DOWN') this.cBlock.moveTo(0, 1, 0);
 				else if (key == 'SPACE') {
 					this.cBlock.moveSpace();
-					this.appendBolck();
+					this.appendBlock();
 				}
  			},
 			makeBlock: function() { //미리보기 블럭을 현재에 생성
@@ -203,7 +203,8 @@
 					that.draw();
 				}, this.fps);
 				
-				$('#body').off('keydown').on('keydown', function(e){
+				$('body').off('keydown').on('keydown', function(e){
+                    
 					var key = Game.Util.getKey(e);
 					if (key) that.keyEvent(key);
 				}).focus();				
@@ -240,12 +241,12 @@
 				this.loc.y = _y;
 				
 				var blockLocations = Game.Util._blocks[this.type];
-				for (var I in blockLocations) {
+				for (var l in blockLocations) {
 					this.rects.push([
-						new Game.Rect(blockLocations[I][0][0], blockLocations[I][0][1], 20, 20), 
-						new Game.Rect(blockLocations[I][1][0], blockLocations[I][1][1], 20, 20), 
-						new Game.Rect(blockLocations[I][2][0], blockLocations[I][2][1], 20, 20), 
-						new Game.Rect(blockLocations[I][3][0], blockLocations[I][3][1], 20, 20), 
+						new Game.Rect(blockLocations[l][0][0], blockLocations[l][0][1], 20, 20), 
+						new Game.Rect(blockLocations[l][1][0], blockLocations[l][1][1], 20, 20), 
+						new Game.Rect(blockLocations[l][2][0], blockLocations[l][2][1], 20, 20), 
+						new Game.Rect(blockLocations[l][3][0], blockLocations[l][3][1], 20, 20) 
 					]);
 				}
 			},
@@ -261,12 +262,25 @@
 				
 				var shadowY = this.getShadowY();
 				for (var k in currentRects) {
-					$table.find('tr').eq(this.getY() + currentRects[k].y).find('td').eq(this.getX() + currentRects[k].x).attr('class', 'block' + this.type);
+					$table.find('tr').eq(shadowY + currentRects[k].y).find('td').eq(this.getX() + currentRects[k].x).attr('class', 'shadow block' + this.type);
 					
 					var bounds = currentRects[k].getBounds(); //canvas 
 					ctx.strokeRect(x + bounds.x, (shadowY * 20) + bounds.y, bounds.w, bounds.h);  //canvas 
-					ctx.fillRect(x + bounds.x, y + bounds.y, bounds.w, bounds.h); //canvas 
+                    ctx.fillStyle = 'rgba(200, 166, 0, 0.6)'; //canvas
+					ctx.fillRect(x + bounds.x, (shadowY * 20) + bounds.y, bounds.w, bounds.h); //canvas 
 				}
+
+                var colors = ['sliver', 'yellow', 'brown', 'blue', 'red', 'hotpink']; //canvas
+
+                ctx.fillStyle = colors[this.type]; //canvas
+                for (var k in currentRects) {
+                    $table.find('tr').eq(this.getY() + currentRects[k].y).find('td').eq(this.getX() + currentRects[k].x).attr('class', 'block' + this.type);
+                    
+                    var bounds = currentRects[k].getBounds(); //canvas 
+					ctx.strokeRect(x + bounds.x, y + bounds.y, bounds.w, bounds.h);  //canvas 
+					ctx.fillRect(x + bounds.x, (shadowY * 20) + bounds.y, bounds.w, bounds.h); //canvas 
+
+                }
 			},
 			getX: function() {
 				return this.loc.x; 
@@ -293,8 +307,8 @@
 			
 				var currentRects = this.getCurrentRects(rr);
 				if (_r > 0) {
-					var minX = this.game.getCurrentRects(rr);
-					for(var k in currentRects) {
+					var minX = this.game.size.x, maxX = 0; 
+                    for(var k in currentRects) {
 						var rect = currentRects[k];
 						minX = Math.min(minX, xx + rect.x);
 						maxX = Math.max(maxX, xx+ rect.x);
@@ -306,11 +320,11 @@
 				
 				for (var k in currentRects) {
 					var rect = currentRects[k];
-					var use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, xx+ rect.x, yy + rect.y);
+					var use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, xx + rect.x, yy + rect.y);
 					if (!use) {
 						xx = this.getX();
 						yy = this.getY();
-						rr = this.rotate();
+						rr = this.rotate;
 						break;
 					}
 				}
@@ -328,6 +342,11 @@
 				if (_y >0 && cacheY == this.getY()) return false;
 				return true;
 			},
+            moveSpace: function() {
+                while(this.moveTo(0, 1,0)) {
+                    //True / false
+                }
+            },
 			getCurrentRects: function(rotate) {
 				return this.rects[(rotate || this.getRotate()) % this.getRectCount()];
 			},
@@ -335,6 +354,7 @@
 				return this.getCurrentRects(rotate)[index];
 			},
 			getShadowY: function() {
+                console.log('shadow');
 				var x = this.getX();
 				var y = this.getY();
 				var shadowY = y;
@@ -344,11 +364,8 @@
 				do {
 					for (var k in currentRects) {
 						var rect = currentRects[k];
-						use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, xx+ rect.x, yy + rect.y);
+						use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, x + rect.x, shadowY + rect.y);
 						if (!use) {
-							xx = this.getX();
-							yy = this.getY();
-							rr = this.rotate();
 							break;
 						}
 					}
@@ -375,13 +392,39 @@
 		
 		Game.Util = {
 			_blocks: [
-				[[[0,1],[1,1],[2,1],[3,1]],[[1,0],[1,1],[1,2],[1,3]]], // ---- 
-				[[[0,0],[0,1],[1,1],[2,1]],[1,0],[2,0],[1,1],[1,2]],[[0,0],[1,0],[2,0],[2,1]],[[1,0],[1,1],[0,2],[1,2]]], // ㄴ 1
-				[[[2,0],[0,1],[1,1],[2,1]],[[1,0],[1,1],[1,2],[2,2]],[[0,0],[1,0],[2,0],[0,1]],[[1,0],[2,0],[2,1],[2,2]]], //ㄴ 2
-				[[[1,0],[1,1],[2,0],[2,1]]], //ㅁ
-				[[[0,0],[1,0],[1,1],[2,1],[[2,0],[1,1],[2,1],[1,2]]], //ㄹ 1 
-				[[[1,0],[1,1],[2,1],[1,2]],[[1,0],[1,1],[2,1],2,2]]], //ㄹ 2 
-				[[[1,0],[1,1],[2,1],[1,2]],[[0,0],[1,0],[2,0],[1,1]],[[2,0],[1,1],[2,1],[2,2]],[[1,0],[0,1],[1,1],[2,1]]] // ㅏ 
+				[
+                    [[0,1],[1,1],[2,1],[3,1]],
+                    [[1,0],[1,1],[1,2],[1,3]]
+                ], // ---- 
+				[
+                    [[0,0],[0,1],[1,1],[2,1]],
+                    [[1,0],[2,0],[1,1],[1,2]],
+                    [[0,0],[1,0],[2,0],[2,1]],
+                    [[1,0],[1,1],[0,2],[1,2]]
+                ], // ㄴ 1
+				[
+                    [[2,0],[0,1],[1,1],[2,1]],
+                    [[1,0],[1,1],[1,2],[2,2]],
+                    [[0,0],[1,0],[2,0],[0,1]],
+                    [[1,0],[2,0],[2,1],[2,2]]
+                ], //ㄴ 2
+				[
+                    [[1,0],[1,1],[2,0],[2,1]]
+                ], //ㅁ
+				[
+                    [[0,0],[1,0],[1,1],[2,1]],
+                    [[2,0],[1,1],[2,1],[1,2]]
+                ], //ㄹ 1 
+				[
+                    [[1,0],[1,1],[2,1],[1,2]],
+                    [[1,0],[1,1],[2,1],[2,2]]
+                ], //ㄹ 2 
+				[
+                    [[1,0],[1,1],[2,1],[1,2]],
+                    [[0,0],[1,0],[2,0],[1,1]],
+                    [[2,0],[1,1],[2,1],[2,2]],
+                    [[1,0],[0,1],[1,1],[2,1]]
+                ] // ㅏ 
 			], 
 			_play: {START: 1, STOP: 0}, 
 			score: [1, 10, 10 * 2 * 2, 10 * 3 * 5, 10 * 4 * 10],
@@ -391,10 +434,12 @@
 				switch(keyCode) {
 					case 32: keyName = 'SPACE'; break;
 					case 39: keyName = 'RIGHT'; break;
-					case 39: keyName = 'LEFT'; break;
-					case 39: keyName = 'DOWN'; break;
-					case 39: keyName = 'UP'; break;
-				} 
+					case 37: keyName = 'LEFT'; break;
+					case 40: keyName = 'DOWN'; break;
+					case 38: keyName = 'UP'; break;
+                    default: break; 
+				}
+                console.log(keyName);
 				return keyName;
 			},
 			createBlock: function(game) {
