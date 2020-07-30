@@ -243,12 +243,184 @@
 				for (var I in blockLocations) {
 					this.rects.push([
 						new Game.Rect(blockLocations[I][0][0], blockLocations[I][0][1], 20, 20), 
-						
+						new Game.Rect(blockLocations[I][1][0], blockLocations[I][1][1], 20, 20), 
+						new Game.Rect(blockLocations[I][2][0], blockLocations[I][2][1], 20, 20), 
+						new Game.Rect(blockLocations[I][3][0], blockLocations[I][3][1], 20, 20), 
 					]);
 				}
-			}		
+			},
+			getRectCount: function() {
+				return this.rects.length;
+			},
+			draw: function($layer, ctx) {
+				var $table = $layer.find('table');
+				var currentRects = this.getCurrentRects();
+				
+				var x = this.getX() * 20; //canvas 
+				var y = this.getY() * 20; //canvas 
+				
+				var shadowY = this.getShadowY();
+				for (var k in currentRects) {
+					$table.find('tr').eq(this.getY() + currentRects[k].y).find('td').eq(this.getX() + currentRects[k].x).attr('class', 'block' + this.type);
+					
+					var bounds = currentRects[k].getBounds(); //canvas 
+					ctx.strokeRect(x + bounds.x, (shadowY * 20) + bounds.y, bounds.w, bounds.h);  //canvas 
+					ctx.fillRect(x + bounds.x, y + bounds.y, bounds.w, bounds.h); //canvas 
+				}
+			},
+			getX: function() {
+				return this.loc.x; 
+			},
+			setX: function(_x) {
+				this.loc.x = _x; 
+			}, 
+			getY: function() {
+				return this.loc.y; 
+			},
+			setY: function(_y) {
+				this.loc.y = _y;
+			},
+			getRotate: function() {
+				return this.rotate; 
+			}, 
+			setRotate: function(r) {
+				this.rotate = r;
+			},
+			reviseMoveTo: function(_x, _y, _r) {
+				var xx = this.getX() + _x; 
+				var yy = this.getY() + _y; 
+				var rr = this.rotate + _r; 
+			
+				var currentRects = this.getCurrentRects(rr);
+				if (_r > 0) {
+					var minX = this.game.getCurrentRects(rr);
+					for(var k in currentRects) {
+						var rect = currentRects[k];
+						minX = Math.min(minX, xx + rect.x);
+						maxX = Math.max(maxX, xx+ rect.x);
+					}
+					
+					if (minX <0)  xx = 0; 
+					else if (maxX > this.game.size.x - 1) xx = this.game.size.x -1 (maxX - minX);
+				}
+				
+				for (var k in currentRects) {
+					var rect = currentRects[k];
+					var use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, xx+ rect.x, yy + rect.y);
+					if (!use) {
+						xx = this.getX();
+						yy = this.getY();
+						rr = this.rotate();
+						break;
+					}
+				}
+				
+				return {x: xx, y: yy, r: rr};
+			},
+			moveTo: function(_x, _y, _r) {
+				var move = this.reviseMoveTo(_x, _y, _r);
+				var cacheY = this.getY();
+				
+				this.setX(move.x);
+				this.setY(move.y);
+				this.setRotate(move.r);
+				
+				if (_y >0 && cacheY == this.getY()) return false;
+				return true;
+			},
+			getCurrentRects: function(rotate) {
+				return this.rects[(rotate || this.getRotate()) % this.getRectCount()];
+			},
+			getCurrentRect: function(index, rotate) {
+				return this.getCurrentRects(rotate)[index];
+			},
+			getShadowY: function() {
+				var x = this.getX();
+				var y = this.getY();
+				var shadowY = y;
+				
+				var currentRects = this.getCurrentRects(0);
+				var use = true;
+				do {
+					for (var k in currentRects) {
+						var rect = currentRects[k];
+						use = Game.Util.isNullBlock(this.game.blocks, this.game.size.x, this.game.size.y, xx+ rect.x, yy + rect.y);
+						if (!use) {
+							xx = this.getX();
+							yy = this.getY();
+							rr = this.rotate();
+							break;
+						}
+					}
+					if (!use) {
+						break;
+					}
+					shadowY ++;
+				} while (true);
+				
+				return shadowY - 1; 
+			}
 		};
 		
+		Game.Rect = function(_x, _y, _w, _h) {
+			this.x = _x; 
+			this.y = _y; 
+			this.w = _w; 
+			this.h = _h; 
+			
+			this.getBounds = function() {
+				return {x: (this.x * this.w), y: (this.y * this.h), w: this.w, h: this.h};
+			}
+		};
+		
+		Game.Util = {
+			_blocks: [
+				[[[0,1],[1,1],[2,1],[3,1]],[[1,0],[1,1],[1,2],[1,3]]], // ---- 
+				[[[0,0],[0,1],[1,1],[2,1]],[1,0],[2,0],[1,1],[1,2]],[[0,0],[1,0],[2,0],[2,1]],[[1,0],[1,1],[0,2],[1,2]]], // ㄴ 1
+				[[[2,0],[0,1],[1,1],[2,1]],[[1,0],[1,1],[1,2],[2,2]],[[0,0],[1,0],[2,0],[0,1]],[[1,0],[2,0],[2,1],[2,2]]], //ㄴ 2
+				[[[1,0],[1,1],[2,0],[2,1]]], //ㅁ
+				[[[0,0],[1,0],[1,1],[2,1],[[2,0],[1,1],[2,1],[1,2]]], //ㄹ 1 
+				[[[1,0],[1,1],[2,1],[1,2]],[[1,0],[1,1],[2,1],2,2]]], //ㄹ 2 
+				[[[1,0],[1,1],[2,1],[1,2]],[[0,0],[1,0],[2,0],[1,1]],[[2,0],[1,1],[2,1],[2,2]],[[1,0],[0,1],[1,1],[2,1]]] // ㅏ 
+			], 
+			_play: {START: 1, STOP: 0}, 
+			score: [1, 10, 10 * 2 * 2, 10 * 3 * 5, 10 * 4 * 10],
+			getKey: function(e) {
+				var keyCode = e.keyCode;
+				var keyName = null;
+				switch(keyCode) {
+					case 32: keyName = 'SPACE'; break;
+					case 39: keyName = 'RIGHT'; break;
+					case 39: keyName = 'LEFT'; break;
+					case 39: keyName = 'DOWN'; break;
+					case 39: keyName = 'UP'; break;
+				} 
+				return keyName;
+			},
+			createBlock: function(game) {
+				var random = Math.floor( Math.random() * 7);
+				return new Game.Block(game, random, 3, 0);
+			},
+			toNumber: function(val) {
+				return ~~new String(val);
+			}, 
+			isNullBlock: function(blocks, sizeX, sizeY, x, y) {
+				if (y < 0 || y > sizeY -1) return false; 
+				if (x < 0 || x > sizeX -1) return false; 
+				
+				return !blocks[y][x];
+			}, 
+			existsTopBlockX: function(blocks) {
+				var exist = false; 
+				for (var x = 0; x < blocks[0].length; x++) {
+					if (blocks[0][x]) {
+						exist = true;
+						break;
+					}
+				}
+				return exist; 
+			}
+		};
 	</script>
  </head>
  <body>
