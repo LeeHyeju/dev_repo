@@ -8,7 +8,7 @@
 		table.back-block {border-spacing: 0; border-collapse: collapse; box-sizing: content-box; border: 1px solid #000;}
 		table.back-block tr td {width: 40px; height: 40px; background-color: gray; border: 1px solid #000;}
 		table.back-block tr td.block {background-color: purple;}
-		table.back-block tr td.block0 {background-color: sliver;}
+		table.back-block tr td.block0 {background-color: silver;}
 		table.back-block tr td.block1 {background-color: yellow;}
 		table.back-block tr td.block2 {background-color: brown;}
 		table.back-block tr td.block3 {background-color: blue;}
@@ -83,7 +83,7 @@
 						if (this.blocks[y][x]) {
 							this.$layer.find('table tr').eq(y).find('td').eq(x).attr('class', 'block');
 							
-							var bounds = this.blocks[y][x].getBounds(); 
+							var bounds = this.blocks[y][x].getBounds();  //canvas
 							this.ctx.strokeRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 영역을 그리는 canvas method 
 							this.ctx.fillRect((x * 20), (y * 20), bounds.w, bounds.h); //사각형 도형의 색을 채우는 canvas method 
 						}
@@ -92,11 +92,11 @@
 				
 				if (this.cBlock) this.cBlock.draw(this.$layer, this.ctx); 
 			},
-			round: function() {
+			round: function() { 
 				this.level = 1; 
 				this.speed();
 			},
-			keyEvent: function(key) {
+			keyEvent: function(key) { //키보드 자판 누를 때 방향키 설정 
 				if ( this.gameMode != Game.Util._play['START']) return;
 				//게임 시 키 설정 
 				if (key == 'RIGHT') this.cBlock.moveTo(1, 0, 0);	
@@ -125,7 +125,7 @@
 					this.stop();
 				}
 			},
-			clearBlock: function() {
+			clearBlock: function() { 
 				var y = 0;
 				do {
 					var canClear = true;
@@ -174,7 +174,7 @@
 				
 				if (oldLevel < this.level && typeof this.listener === 'function') this.listener('level' + this.level);
 			},
-			speed: function() { 
+			speed: function() { //속도 
 				var that = this;
 				setTimeout(function() {
 					if (that.gameMode == Game.Util._play['START']) {
@@ -211,15 +211,15 @@
 			}, 
 			stop: function() {
 				clearInterval(this.interval);
-				this.gameMode = Game.Util._play('STOP');
+				this.gameMode = Game.Util._play['STOP'];
 				if (typeof this.listener === 'function') this.listener('stop'); 
 			},
 			pause: function() {
-				this.gameMode = Game.Util.play('PAUSE');
+				this.gameMode = Game.Util._play['PAUSE'];
 				if (typeof this.listener === 'function') this.listener('pause');
 			},
 			resume: function() {
-				this.gameMode = Game.Util.play('RESUME');
+				this.gameMode = Game.Util._play['START'];
 				if (typeof this.listener === 'function') this.listener('resume');
 			}
 		};
@@ -270,7 +270,7 @@
 					ctx.fillRect(x + bounds.x, (shadowY * 20) + bounds.y, bounds.w, bounds.h); //canvas 
 				}
 
-                var colors = ['sliver', 'yellow', 'brown', 'blue', 'red', 'hotpink']; //canvas
+                var colors = ['silver', 'yellow', 'brown', 'blue', 'red', 'hotpink']; //canvas
 
                 ctx.fillStyle = colors[this.type]; //canvas
                 for (var k in currentRects) {
@@ -416,7 +416,7 @@
                     [[2,0],[1,1],[2,1],[1,2]]
                 ], //ㄹ 1 
 				[
-                    [[1,0],[1,1],[2,1],[1,2]],
+                    [[1,0],[2,0],[0,1],[1,1]],
                     [[1,0],[1,1],[2,1],[2,2]]
                 ], //ㄹ 2 
 				[
@@ -470,7 +470,7 @@
  </head>
  <body>
 	<div id="draw" style="display: inline-block;"></div>
-	<div style="display: inline-block;"><canvas id="canvas" width="200" height="400" style="display: none;"></canvas></div>
+	<div style="display: inline-block;"><canvas id="canvas" width="200" height="400" ></canvas></div>
 	<div id="score" style="display: block;"></div>
 	<div>
 		<input type="button" id="button"  onclick="onStop();" value="일시정지">
@@ -680,7 +680,7 @@
 			if (game1.gameMode == Game.Util._play['START']) {
 				game1.pause();
 				$button.val('재시작');
-			} else {
+			}else {
 				game1.resume();
 				$button.val('일시정지');
 			}
