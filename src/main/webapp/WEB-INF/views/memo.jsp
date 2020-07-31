@@ -476,7 +476,7 @@
 		<input type="button" id="button"  onclick="onStop();" value="일시정지">
 	</div>
 	<div id="preview">
-		<table id="preview0">
+		<table id="preview0"> 
 			<tr>
 				<td></td>
 				<td></td>
