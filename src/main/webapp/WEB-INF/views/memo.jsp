@@ -20,7 +20,7 @@
 		#preview table {display: none;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-  <title>테트리스 게임</title>
+  <title>테트리스</title>
 	<script>
 		var Game = function(layer, canvas) {
 			this.$table = undefined;
@@ -72,7 +72,7 @@
 				//사각형 영역을 지우는 canvas method
 				this.ctx.clearRect(0, 0, this.size.x * 20, this.size.y *20);
 			},
-			draw: function() {
+			draw: function() { //그리기
 				this.clear();
 				
 				this.ctx.strokeStyle = "rgb(0,0,0)"; //도형의 윤곽선 색을 설정하는 canvas style
@@ -92,7 +92,7 @@
 				
 				if (this.cBlock) this.cBlock.draw(this.$layer, this.ctx); 
 			},
-			round: function() { 
+			round: function() { //난이도&속도
 				this.level = 1; 
 				this.speed();
 			},
@@ -189,7 +189,7 @@
 				}, 1000 * 3 / (that.level * (3)));
 				//if(typeof this.listener === 'function') this.listener('speed=' + (1000 * 3 / (this.level * (1.3)))); 
 			},
-			start: function(listener) { 
+			start: function(listener) { //게임 시작 
 				this.listener = listener;
 				if (typeof this.listener === 'function') this.listener('start'); 
 				
@@ -209,16 +209,16 @@
 					if (key) that.keyEvent(key);
 				}).focus();				
 			}, 
-			stop: function() {
+			stop: function() { //중지
 				clearInterval(this.interval);
 				this.gameMode = Game.Util._play['STOP'];
 				if (typeof this.listener === 'function') this.listener('stop'); 
 			},
-			pause: function() {
+			pause: function() { //일시정지
 				this.gameMode = Game.Util._play['PAUSE'];
 				if (typeof this.listener === 'function') this.listener('pause');
 			},
-			resume: function() {
+			resume: function() { //재시작
 				this.gameMode = Game.Util._play['START'];
 				if (typeof this.listener === 'function') this.listener('resume');
 			}
@@ -476,7 +476,7 @@
 		<input type="button" id="button"  onclick="onStop();" value="일시정지">
 	</div>
 	<div id="preview">
-		<table id="preview0"> 
+		<table id="preview0">
 			<tr>
 				<td></td>
 				<td></td>
