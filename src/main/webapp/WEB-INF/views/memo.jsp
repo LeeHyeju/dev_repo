@@ -108,23 +108,18 @@
 					this.appendBlock();
 				}
  			},
-			makeBlock: function() { //미리보기 블럭을 현재에 생성
-				if (this.pBlock) {
-					this.cBlock = this.pBlock;
+ 			keyEvent: function(key) { //키보드 자판 누를 때 방향키 설정 
+				if ( this.gameMode != Game.Util._play['START']) return;
+				//게임 시 키 설정 
+				if (key == 'RIGHT') this.cBlock.moveTo(1, 0, 0);	
+				else if (key == 'LEFT') this.cBlock.moveTo(-1, 0, 0);
+				else if (key == 'UP') this.cBlock.moveTo(0, 0, 1);
+				else if (key == 'DOWN') this.cBlock.moveTo(0, 1, 0);
+				else if (key == 'SPACE') {
+					this.cBlock.moveSpace();
+					this.appendBlock();
 				}
-				this.pBlock = Game.Util.createBlock(this);
-				
-				if (!this.cBlock) {
-					this.makeBlock();
-					return;
-				}
-				
-				if (typeof this.listener == 'function') this.listener('preview', this.pBlock);
-				
-				if (Game.Util.existsTopBlockX(this.blocks)) {
-					this.stop();
-				}
-			},
+ 			},
 			clearBlock: function() { 
 				var y = 0;
 				do {
@@ -160,7 +155,7 @@
 			}, 
 			addScore: function(_score) { //점수가 쌓일때마다 해당 레벨 올라감 
 				this.score += _score;
-				
+				                            
 				var oldLevel = this.Level;
 				
 				if (this.score > 12000) this.level = 9;
