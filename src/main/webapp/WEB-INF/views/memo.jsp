@@ -248,14 +248,14 @@
 			getRectCount: function() {
 				return this.rects.length;
 			},
-			draw: function($layer, ctx) {
+			draw: function($layer, ctx) { 
 				var $table = $layer.find('table');
 				var currentRects = this.getCurrentRects();
 				
 				var x = this.getX() * 20; //canvas 
 				var y = this.getY() * 20; //canvas 
 				
-				var shadowY = this.getShadowY();
+				var shadowY = this.getShadowY(); //블럭 그림자
 				for (var k in currentRects) {
 					$table.find('tr').eq(shadowY + currentRects[k].y).find('td').eq(this.getX() + currentRects[k].x).attr('class', 'shadow block' + this.type);
 					
