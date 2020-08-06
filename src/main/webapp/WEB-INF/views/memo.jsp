@@ -423,10 +423,10 @@
 			], 
 			_play: {START: 1, STOP: 0}, 
 			score: [1, 10, 10 * 2 * 2, 10 * 3 * 5, 10 * 4 * 10],
-			getKey: function(e) {
+			getKey: function(e) { 
 				var keyCode = e.keyCode;
 				var keyName = null;
-				switch(keyCode) {
+				switch(keyCode) { //입력한 방향키 
 					case 32: keyName = 'SPACE'; break;
 					case 39: keyName = 'RIGHT'; break;
 					case 37: keyName = 'LEFT'; break;
@@ -437,7 +437,7 @@
                 console.log(keyName);
 				return keyName;
 			},
-			createBlock: function(game) {
+			createBlock: function(game) { 
 				var random = Math.floor( Math.random() * 7);
 				return new Game.Block(game, random, 3, 0);
 			},
