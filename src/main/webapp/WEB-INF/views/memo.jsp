@@ -20,7 +20,7 @@
 		#preview table {display: none;}
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-  <title>테트리스</title>
+  <title>테트리스 게임</title>
 	<script>
 		var Game = function(layer, canvas) {
 			this.$table = undefined;
