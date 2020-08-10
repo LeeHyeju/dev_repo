@@ -89,7 +89,7 @@
 						}
 					}
 				}				
-				
+				    
 				if (this.cBlock) this.cBlock.draw(this.$layer, this.ctx); 
 			},
 			round: function() { //난이도&속도
