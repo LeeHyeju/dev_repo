@@ -42,7 +42,7 @@ function pop(opts) {
 	var options = $.extend({}, defaultOptions, opts);
 	
 	console.log('options', options);
-	
+	          
 	var $dimLayer = $('div.dim-layer').length > 0 ? $('div.dim-layer') : $('<div class="dim-layer"></div>');
 	var $popLayer = $('<div class="pop-layer"><div class="pop-header"><p class="ctxt"></p><a class="btn-header-close" href="#">X</a></div><div class="pop-container"></div><div class="btn-r"><a href="#" class="btn-layer-close">Close</a></div></div>');
 	var $popConts = $('<div class="pop-conts"></div>');
