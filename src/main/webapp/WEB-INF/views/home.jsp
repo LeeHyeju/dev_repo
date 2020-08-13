@@ -91,7 +91,7 @@ function pop(opts) {
 		$dimLayer.fadeIn();
 	}
 } 
-
+  //초기화
 	function init() {
 	//model에서 보낸 값을 json형태로 받는다.
 	<c:forEach items="${mainPopup}" var="item">
@@ -152,7 +152,7 @@ function pop(opts) {
             docWidth = $(document).width(),
             docHeight = $(document).height();
 
-        // 화면의 중앙에 레이어를 띄운다.
+        // 화면의 중앙에 레이어를 띄운다
         if (defaultPoint && ($elHeight < docHeight || $elWidth < docWidth)){
             $el.css({
                 marginTop: -$elHeight,//-$elHeight /2,
@@ -163,7 +163,7 @@ function pop(opts) {
         }
 
         $el.find('a.btn-layerClose').click(function(){
-            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다
             return false;
         });
 
