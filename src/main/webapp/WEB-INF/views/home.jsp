@@ -223,7 +223,6 @@ function pop(opts) {
 						</li>
 					</ul>
 				</div>
-				
 			</div> <!-- //subcontent -->
 		</div> <!-- //subcontent_inner -->
 	</div> <!-- //subcontent_wrap -->
