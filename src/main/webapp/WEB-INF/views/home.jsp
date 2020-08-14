@@ -107,6 +107,7 @@ function pop(opts) {
 		var popY = "${item.popY}";
 		var popImg = "${item.saveFile}";
 		
+		//타입이 레이어일때만
 		if(popTp == "layer" ) {
 			var opts = {
 					title: popNm,
@@ -124,7 +125,7 @@ function pop(opts) {
 				opts.img = popImg;
 			}
 			pop(opts);
-			
+		//타입이 윈도우일때만	
 		} else {
 			// window.open(연결주소, 팝업이름, 팝업옵션);
 			var popWin = window.open(popUrl+"?popIdx="+popIdx, popNm, "menubar=no, status=no, toolbar=no, width="+ popWidth +", height=" + popHeight);
