@@ -669,7 +669,7 @@
 				$('#score').html('레벨: '+arguments[1].game.level + ' | 점수: ' + arguments[1].game.score);
 			}
 		});
-		
+		//재시작, 일시정지
 		function onStop() {
 			var $button = $('#button');
 			if (game1.gameMode == Game.Util._play['START']) {
