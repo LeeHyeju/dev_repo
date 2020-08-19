@@ -40,7 +40,6 @@ function pop(opts) {
 	};
 	
 	var options = $.extend({}, defaultOptions, opts);
-	
 	console.log('options', options);
 	          
 	var $dimLayer = $('div.dim-layer').length > 0 ? $('div.dim-layer') : $('<div class="dim-layer"></div>');
