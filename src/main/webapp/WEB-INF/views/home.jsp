@@ -147,7 +147,7 @@ function pop(opts) {
 
         isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
 
-        var $elWidth = ~~($el.outerWidth()),
+        var $elWidth = ~~($el.outerWidth()), 
             $elHeight = ~~($el.outerHeight()),
             docWidth = $(document).width(),
             docHeight = $(document).height();
