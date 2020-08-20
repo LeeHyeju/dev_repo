@@ -172,7 +172,6 @@ function pop(opts) {
             return false;
         });
     }
-    
     init();
 });       
 </script>
