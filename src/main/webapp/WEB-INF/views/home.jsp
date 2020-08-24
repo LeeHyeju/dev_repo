@@ -163,7 +163,7 @@ function pop(opts) {
         }
 
         $el.find('a.btn-layerClose').click(function(){
-            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다
+            isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); //닫기 버튼을 클릭하면 레이어가 닫힘
             return false;
         });
 
