@@ -105,7 +105,7 @@ function pop(opts) {
 		var popY = "${item.popY}";
 		var popImg = "${item.saveFile}";
 		
-		//타입이 레이어일때만
+		//타입이 레이어일때만!! 
 		if(popTp == "layer" ) {
 			var opts = {
 					title: popNm,
